@@ -2,7 +2,7 @@
 > 주제: 전시회 큐레이팅 SNS  
 > 팀명: 2조(B202)  
 
-### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT2-b640d5190a474d3ab2b0446397198f72)
+### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
 
 ## 팀원 역할
 | 팀원   | 역할 | 비고                        |
@@ -25,26 +25,27 @@ gantt
     section 프로젝트 준비
     SubⅢ Jira,Git 생성  :done, 2021-02-01, 6h
     SubⅡ 회고          :done, p2,2021-02-01, 12h
-    UI/UX(전시회,피드3D)   :active,2021-02-01,2d
-    UCC컨셉, 사전조사   :active,after p2,6h
-    Jira,Git,MM연동   :active,after p2,6h
+    UI/UX(전시회)   :crit,2021-02-01,2d
+    UCC컨셉, 사전조사   :done,after p2,6h
+    Jira,Git,MM연동   :done,after p2,6h
     
 
     section Frontend
-    SubⅡ SNS 미완성 보완          :active, 2021-02-01, 2d
-    SubⅡ 반응형 보완          :active, 2021-02-01, 2d
-    지도페이지(카카오맵 API 적용)       :2021-02-03, 4d
+    SubⅡ SNS 미완성 보완          :crit, 2021-02-01, 2d
+    SubⅡ 반응형 보완          :crit, 2021-02-01, 2d
     피드 3D 전시 페이지   :,2021-02-03,6d
-    전시회 페이지   :,2021-02-05,3d
-    스크랩북 페이지   :,2021-02-07,2d
-    소개 페이지   :,2021-02-07,2d
-    메인 페이지 추가기능   :,2021-02-07,2d
+    전시회 페이지   :,2021-02-03,2d
+    스크랩북 페이지   :,2021-02-05,2d
+    지도페이지(카카오맵 API 적용)       :2021-02-07, 4d
+    소개 페이지   :,2021-02-11,2d
+    메인 페이지 추가기능   :,2021-02-11,3d
     
 
     section Backend
-    실시간 알림 기능          :active, 2021-02-01, 2d
-    SNS로그인 연동          :active, 2021-02-01, 2d
+    실시간 알림 기능(웹소켓)          :crit, 2021-02-01, 2d
+    SNS로그인 연동          :crit, 2021-02-01, 2d
     공공데이터API 가져오기/태그 분류          :active, p1, 2021-02-01, 2d
+    전시회 기능   :,2021-02-03,2d
 ```
 
 ## 기능
