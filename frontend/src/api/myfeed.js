@@ -9,9 +9,9 @@ function listMyfeed(userid, success, fail) {
   .catch(fail);
 }
 
-function detailFeed(feedno, success, fail) {
+function detailFeed(feedno,userid, success, fail) {
   instance
-  .get(`api/feed/${feedno}`)
+  .get(`api/feed/${userid}/${feedno}`)
   .then(success)
   .catch(fail);
 }

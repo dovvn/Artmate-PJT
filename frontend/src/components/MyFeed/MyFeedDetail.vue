@@ -2,9 +2,7 @@
   
     
     <div class="feed">
-      <div class="white">
-        
-      </div>
+      <Navi class="detail__navi"/>
       <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
         <div class="pos-check-modal-body">
           <div class="pos-check-title">
@@ -14,45 +12,50 @@
           <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
         </div>
       </b-modal>
+      
       <div class="sticky-top">
-        <Navi class="detail__navi"/>
+        
         <div class="white">
-        <div class="feed__info">
-          <div class="feed__left">
-            <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
-            <span class="feed__location__name"> {{feed.location}}</span>
-          </div>
-          <div class="feed__right">
-            <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
-            <span class="feed__exhibition__name"> 간직해온 마음들</span>
-          </div>
-        </div>
-        <img class="feed__img" :src="feed.feedImg" alt="">
-        <div class="creator__info">
-          <div class="creator__info__left">
-            <img class="creator__info__img" src="../../assets/test_myfeed/profileImg.png" alt="">
-            <div class="creator__info__box">
-              <div class="creator__info__name">{{feed.userName}}</div>
-              <div class="creator__info__date">{{feed.writeDate}}</div>
+          <div class="feed__info">
+            <div class="feed__left">
+              <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
+              <span class="feed__location__name"> {{feed.location}}</span>
+            </div>
+            <div class="feed__right">
+              <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
+              <span class="feed__exhibition__name"> 간직해온 마음들</span>
             </div>
           </div>
-          <div class="creator__info__right">
-            <font-awesome-icon :icon="['far','heart']" class="feed__like__button"/>
-            <span class="feed__like__cnt">{{feed.likeCnt}}</span>
-            <font-awesome-icon class="feed__interactions__bookmark" :icon="['far','bookmark']"/>
-            <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
+          <img class="feed__img" :src="feed.feedImg" alt="">
+          <div class="creator__info">
+            <div class="creator__info__left">
+              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" src="../../assets/person.jpg"/>
+              <img class="creator__info__img" v-else :src="feed.userImg" alt="">
+              <div class="creator__info__box">
+                <div class="creator__info__name">{{feed.userName}}</div>
+                <div class="creator__info__date">{{feed.writeDate}}</div>
+              </div>
+            </div>
+            <div class="creator__info__right">
+              <font-awesome-icon v-if="feed.likemark==0" :icon="['far','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
+              <font-awesome-icon v-if="feed.likemark==1" :icon="['fas','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
+              <span class="feed__like__cnt">{{feed.likeCnt}}</span>
+              <font-awesome-icon v-if="feed.bookmark == 0" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['far','bookmark']"/>
+              <font-awesome-icon v-if="feed.bookmark == 1" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['fas','bookmark']"/>
+
+              <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
+            </div>
           </div>
-        </div>
-        <div class="feed__content">
-          {{feed.feedText}}
-        </div>
-        
-        <div class="feed__btns">
-            <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
-            <span @click="deleteFeed" class="feed__delete__button">[삭제]</span>
-        </div>
-        <div class="dotLine"></div>
-        <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
+          <div class="feed__content">
+            {{feed.feedText}}
+          </div>
+          
+          <div class="feed__btns">
+              <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
+              <span @click="deleteFeed" class="feed__delete__button">[삭제]</span>
+          </div>
+          <div class="dotLine"></div>
+          <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
         </div>
       </div>
       <!-- 댓글 창은 import해서 쓰자 -->
@@ -99,6 +102,7 @@ import Navi from '@/components/Common/Navi.vue';
 import {detailFeed, deleteFeed} from '@/api/myfeed.js';
 import {listMemo, addMemo, modifyMemo, deleteMemo} from '@/api/memo.js';
 import {mapState} from "vuex";
+import http from "@/util/http-common";
 
 export default {
   name: "FeedDetail",
@@ -230,7 +234,59 @@ export default {
         return `${betweenTimeDay}일전`;
       }
       return `%{Math.floor(betweenTimeDay/ 365)}년전`;
-    }
+    },
+    addBookmark:function(bookmark,feedid){
+      this.feed.bookmark = !this.feed.bookmark;
+      if(bookmark == 0) {
+        http
+        .put(`/api/bookmark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }
+      else {
+        http
+        .delete(`/api/bookmark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }
+    },
+    addHeart:function(like, feedid){
+      this.feed.likemark = !this.feed.likemark;
+      if(like == 0){ // 좋아요 안눌린 상태 
+        http
+        .put(`api/likemark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요!❤');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+        })
+        .catch((err) => console.log(err));
+      }else if(like == 1){ // 좋아요 눌린 상태 
+        http
+        .delete(`api/likemark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요 취소..😢');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+        })
+        .catch((err) => console.log(err));
+      }
+      
+    },
   },
   created() {
     this.memoInput.feedId = this.$route.params.feedno;
@@ -238,7 +294,7 @@ export default {
     this.memoInput.userName = this.user.userName;
     this.updateMemos();
     
-    detailFeed(this.$route.params.feedno, (response) => {
+    detailFeed(this.$route.params.feedno,this.user.userId, (response) => {
       console.log(response);
       this.feed = response.data;
       this.feed.writeDate = this.timeForToday(this.feed.writeDate);
@@ -254,20 +310,27 @@ export default {
     const img = document.querySelector('.feed__img');
     // const memoList = document.querySelector('.feed__memo__list')
     const ori_h = img.style.height;
+    // let last_csv = 0;
+    //문제점: 사진이 작아지면 body크기가 작아져서
+    //해결법: body크기를 고정하자
+    //zoom event도 추가하자
     document.addEventListener('scroll', () => {
       const csv = document.documentElement.scrollTop;
-      console.log(csv);
-      if(csv === 0) {
+      // console.log(csv);
+      if(csv === 0)  {
         img.style.height = ori_h;
+        console.log('사진 원래로 변경')
         // memoList.style.marginBottom = "200px";
       } else {
         if(img.style.height === ori_h){
           img.style.height = "200px";
+          console.log('사진 작게 변경')
           // memoList.style.marginBottom = "60px";
         }
+        // last_csv = csv;
       }
-      
-      // console.log(csv);
+      console.log(window.pageYOffset);
+      console.log(csv);
     })
   },
   computed: {
@@ -455,6 +518,7 @@ export default {
     margin-left:0px;
     /* padding-top:55px; */
     padding-bottom:70px;
+    min-height:200px;
   }
 
   .feed__memo__items {
@@ -538,6 +602,7 @@ export default {
   .sticky-top {
     position: sticky;
     top:0px;
+    z-index:1;
     /* padding-top:55px; */
     /* background-color:white; */
     padding-bottom:8px;
