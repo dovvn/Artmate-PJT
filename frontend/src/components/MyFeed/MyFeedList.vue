@@ -1,14 +1,7 @@
 <template>
   <div class="myfeed">
     
-    <!-- <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
-      <button 
-      class="detail__hide__button" 
-      @click="$bvModal.hide('FollowInfo')">
-      x
-      </button>
-      <FollowInfo/>
-    </b-modal> -->
+    
     <Navi class="list__navi"/>
     <div class="writer__info">
       
@@ -27,11 +20,11 @@
           <div class="writer__info__cnt">{{feeds.length}}</div>
           <div class="writer__info__name">게시물</div>
         </div>
-        <div class="writer__info__cntbox" @click="seeFollow('follower')">
+        <div class="writer__info__cntbox" @click="seeFollow('Follower')">
           <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
           <div class="writer__info__name">팔로워</div>
         </div>
-        <div class="writer__info__cntbox"  @click="seeFollow('following')">
+        <div class="writer__info__cntbox"  @click="seeFollow('Following')">
           <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
           <div class="writer__info__name">팔로잉</div>
         </div>
@@ -57,22 +50,31 @@
     <button class="feed__writebutton" @click="goWrite">
       <font-awesome-icon icon="pen-fancy"/>
     </button>
+    <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
+      <button 
+      class="detail__hide__button" 
+      @click="$bvModal.hide('FollowInfo')">
+      x
+      </button>
+      <FollowInfo :clicked="clicked"/>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
-// import FollowInfo from './MyPageFollower_ing_List';
+import FollowInfo from './MyPageFollower_ing_List';
 import {mapState} from "vuex";
 import {listMyfeed} from '@/api/myfeed.js';
 
 export default {
   components: {
-    // FollowInfo,
+    FollowInfo,
     Navi,
   },
   data() {
     return {
+      clicked: '',
       feeds: [],
       myInfo: {
         feedCnt: 0,
@@ -93,10 +95,13 @@ export default {
   },
   methods: {
     seeFollow(choosed) {
-      this.$router.replace({
-        name: "MyFollow",
-        params: {choosed: choosed}
-      });
+      // console.log(choosed);
+      this.clicked = choosed;
+      // this.$router.replace({
+      //   name: "MyFollow",
+      //   params: {choosed: choosed}
+      // });
+      this.$bvModal.show('FollowInfo');
     },
     seeDetail(feedno){
       // console.log(feedno);
@@ -112,7 +117,7 @@ export default {
       });
     },
     imgLocate(){
-      console.log(this.feeds);
+      // console.log(this.feeds);
       const imgs = document.querySelectorAll(".feed__image__container");
       let pos = "left";
       let left_width = 0;
@@ -170,7 +175,7 @@ export default {
   },
   updated() {
     // const imgs = document.querySelectorAll(".feed__image__container");
-        console.log(this.feeds);
+        // console.log(this.feeds);
         // console.log(imgs);
     this.imgLocate();
   }
@@ -224,10 +229,11 @@ export default {
   position: sticky;
   top:0pt;
   padding-top:55px;
+  padding-bottom: 20px;
   text-align:center;
   /* padding-top:20pt; */
   
-  height:330px;
+  /* height:330px; */
   background-color: #FFFFFF;
 }
 .writer__info__feedname {
@@ -257,7 +263,7 @@ export default {
   border-radius:30px;
   border: 1px solid #F5F5F5;
   margin-top:20px;
-  margin-bottom:25px;
+  /* margin-bottom:25px; */
   box-shadow: 0 1px 2px #00000029;
 }
 .writer__info__cntbox {
@@ -345,6 +351,16 @@ export default {
 
 .feed__writebutton > font-awesome-icon {
   line-height:64px;
+}
+
+/deep/ .FollowInfo > .modal-dialog >.modal-content {
+  margin-top:200px;
+  bottom:0px;
+  border-radius: 20px 20px 0px 0px;
+  /* min-height:490px; */
+}
+/deep/ .FollowInfo > .modal-dialog > .modal-content> .modal-body {
+  min-height:498px;
 }
 
 </style>
