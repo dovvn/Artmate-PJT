@@ -30,4 +30,5 @@ public interface UserMapper {
 	int insertMyTag(@Param("userId")String userId, @Param("tag")String tag);
 	int deleteMyTag(String userId);
 	List<String> selectMyTag(String userId);
+	int insertKakao(UserDto user);
 }

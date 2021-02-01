@@ -25,6 +25,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+//카카오 로그인
+window.Kakao.init("8ddb98b2ba952c3a17143df31ebbc92d");
+
 new Vue({
   vuetify,
   store,
