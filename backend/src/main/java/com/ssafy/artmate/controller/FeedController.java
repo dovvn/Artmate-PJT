@@ -66,9 +66,9 @@ public class FeedController {
 	
 	//피드 상세보기
 	@ApiOperation(value="선택한 번호의 상세정보를 반환", notes="피드 반환", response = FeedDto.class)
-	@GetMapping(value="/feed/{id}")
-	public FeedDto selectOneFeed(@ApiParam(value="피드 번호", required=true, example="1") @PathVariable("id") int id) {
-		return feedService.selectOneFeed(id);
+	@GetMapping(value="/feed/{userId}/{id}")
+	public FeedDto selectOneFeed(@ApiParam(value="로그인 된 회원 아이디", required=true, example="hw2621@daum.net") @PathVariable("userId") String userId,@ApiParam(value="피드 번호", required=true, example="43") @PathVariable("id") int id) {
+		return feedService.selectOneFeed(userId, id);
 	}
 	
 	//피드 글 수정
@@ -138,7 +138,7 @@ public class FeedController {
 		if(feedService.selectOneLikemark(userId, feedId)!=null) {
 			return false;
 		}
-		FeedDto feed= feedService.selectOneFeed(feedId);
+		FeedDto feed= feedService.selectOneFeed(userId, feedId);
 		int likeCnt = feed.getLikeCnt();
 		feed.setLikeCnt(likeCnt+1);
 		feedService.modifyLikeCnt(feed);
@@ -150,7 +150,7 @@ public class FeedController {
 	@DeleteMapping(value="/likemark/{userId}/{feedId}")
 	public Boolean deleteLikemark(@ApiParam(value="회원 아이디", required=true, example="aaaa@naver.com")@PathVariable("userId") String userId, @ApiParam(value="피드 번호", required=true, example="1")@PathVariable("feedId") int feedId) {
 		if(feedService.deleteLikemark(userId, feedId)) {
-			FeedDto feed= feedService.selectOneFeed(feedId);
+			FeedDto feed= feedService.selectOneFeed(userId, feedId);
 			int likeCnt = feed.getLikeCnt();
 			feed.setLikeCnt(likeCnt-1);
 			feedService.modifyLikeCnt(feed);
