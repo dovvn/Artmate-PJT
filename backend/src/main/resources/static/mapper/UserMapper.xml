@@ -109,4 +109,8 @@
 		WHERE userId=#{userId}
 		ORDER BY tag;
 	</select>
+	<insert id="insertKakao" parameterType="userDto">
+		INSERT INTO User (userId, userName, accesskey)
+		VALUES (#{userId}, #{userName}, #{accesskey})
+	</insert>
 </mapper>

@@ -48,7 +48,7 @@ public class FeedController {
 			feed.setFeedImg(url);//주소 바꿈
 		}
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentDate = dateFormat.format(new Date());
 		
 		feed.setWriteDate(currentDate);

@@ -29,4 +29,5 @@ public interface UserService {
 	boolean deleteMyTag(String userId); //태그 삭제하기
 	List<String> selectMyTag(String userId); //태그 가져오기
 	boolean modifyUserImg(UserDto user); //프로필 이미지 수정하기
+	boolean insertKakao(UserDto user); //카카오로 회원가입
 }

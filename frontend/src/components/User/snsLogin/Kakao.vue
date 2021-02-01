@@ -1,7 +1,7 @@
 <template>
     <div id="kakao-login">
 
-        <button>
+        <button @click="kakaoLogin">
             <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 55 55">
                 <g id="그룹_247" data-name="그룹 247" transform="translate(-237 -406)">
                     <g id="구성_요소_2" data-name="구성 요소 2" transform="translate(237 406)">
@@ -18,11 +18,60 @@
                     </g>
                 </g>
             </svg>
-
         </button>
     </div>
 </template>
 
 <script>
-    export default {}
+ import axios from 'axios'
+    export default {
+        methods: {
+            kakaoLogin() {
+                // console.log(window.Kakao);
+                window.Kakao.Auth.login({
+                    scope : 'profile, account_email',
+                    success: this.GetMe,
+                });
+            },
+            GetMe(authObj){
+                console.log(authObj);
+                window.Kakao.API.request({
+                    url:'/v2/user/me',
+                    success : res => {
+                        const kakao_account = res.kakao_account;
+                        const userInfo = {
+                            nickname : kakao_account.profile.nickname,
+                            email : kakao_account.email,
+                            password : '',
+                            account_type : 2,
+                        }
+
+                         axios.post(`http://localhost:7777/api/user/login/kakao`,{
+                             userId : userInfo.email,
+                             userName : userInfo.nickname
+                         })
+                         .then(res => {
+                             console.log(res.data);
+                             //token 저장
+                             const token = res.data['auth-token'];
+                              if(token){ //로그인 성공
+                                 localStorage.setItem("access-token", token);
+                                 this.$store.commit("setUserInfo",res.data.user);
+                                 this.$router.push("/home");
+                              }
+                              else{
+                                alert(res.data['message']);
+                              }
+                         })
+                         .catch(err => {
+                             console.log(err);
+                         })
+                    },
+                    fail : error => {
+                        console.log(error);
+                    }
+                })
+            }
+        }
+    }
 </script>
