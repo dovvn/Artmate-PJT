@@ -4,7 +4,7 @@
 	<!-- 피드 글 작성 -->
 	<insert id="insertFeed" parameterType="FeedDto">
 		INSERT INTO Feed (userId, feedImg, feedText, exId, likeCnt, writeDate, location)
-		VALUES (#{userId}, #{feedImg}, #{feedText}, #{exId}, 0, NOW(), #{location})
+		VALUES (#{userId}, #{feedImg}, #{feedText}, #{exId}, 0, #{writeDate}, #{location})
 	</insert>
 	<!-- 내 피드 목록 가져오기 -->
 	<select id="selectAllMyFeed" parameterType="String" resultType="FeedDto">
@@ -22,10 +22,10 @@
         (SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
 		FROM Feed INNER JOIN User USING(userId) WHERE id = #{id}
 	</select>
-	<!-- 피드 글 수정 -->
+	<!-- 피드 글 수정(이미지 빼고 수정) -->
 	<update id="modifyFeed" parameterType="FeedDto">
 		UPDATE Feed
-		SET feedImg = #{feedImg}, feedText=#{feedText}, exId=#{exId}, location=#{location}
+		SET feedText=#{feedText}, exId=#{exId}, location=#{location}
 		WHERE id = #{id}
 	</update>
 	<!-- 피드 글 삭제 -->
@@ -93,5 +93,10 @@
 		UPDATE Feed
 		SET likeCnt = #{likeCnt}
 		WHERE id = #{id}
+	</update>
+	<update id="modifyFeedImg" parameterType="FeedDto">
+		UPDATE Feed
+		SET feedImg = #{feedImg}
+		WHERE id = #{id};
 	</update>
 </mapper>

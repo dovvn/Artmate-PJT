@@ -8,7 +8,7 @@ public interface FeedService{
 	boolean insertFeed(FeedDto feed); //피드 글 작성
 	List<FeedDto> selectAllMyFeed(String userId); //내 피드 목록 가져오기
 	List<FeedDto> selectAllNewsFeed(String userId); //내가 팔로우한 회원들 피드 목록 가져오기
-	FeedDto selectOneFeed(int id); //피드 하나 가져오기
+	FeedDto selectOneFeed(String userId, int id); //피드 하나 가져오기
 	boolean modifyFeed(FeedDto feed);// 피드 글 수정
 	boolean deleteFeed(int id);//피드 글 삭제
 	boolean insertBookmark(String userId, int feedId);//북마크에 피드 추가
