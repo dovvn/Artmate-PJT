@@ -16,7 +16,7 @@
 		ORDER BY writeDate DESC
 	</select>
 	<!-- 피드 하나 가져오기(상세보기) -->
-	<select id="selectOneFeed" parameterType="int" resultType="FeedDto">
+	<select id="selectOneFeed" resultType="FeedDto">
 		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
 		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
         (SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt

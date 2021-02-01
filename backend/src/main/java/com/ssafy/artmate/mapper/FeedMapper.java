@@ -10,7 +10,7 @@ public interface FeedMapper {
 	int insertFeed(FeedDto feed); //피드 글 작성
 	List<FeedDto> selectAllMyFeed(String userId); //내 피드 목록 가져오기
 	List<FeedDto> selectAllNewsFeed(String userId); //내가 팔로우한 회원들 피드 목록 가져오기
-	FeedDto selectOneFeed(int id); //피드 하나 가져오기
+	FeedDto selectOneFeed(@Param("userId")String userId, @Param("id")int id); //피드 하나 가져오기
 	int modifyFeed(FeedDto feed);// 피드 글 수정
 	int deleteFeed(int id);//피드 글 삭제
 	int insertBookmark(@Param("userId")String userId, @Param("feedId")int feedId);//북마크에 피드 추가
