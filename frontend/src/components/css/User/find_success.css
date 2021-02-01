@@ -1,9 +1,9 @@
 @import "../common.css";
+
 .success_header {
   color: var(--color-white);
-  font-size: var(--font-tlt-xl);
-  font-weight: var(--weight-bold);
-  margin-top: 4em;
+  font-size: var(--font-tlt-2xl);
+  margin-top: 2em;
   margin-bottom: 4em;
   text-align: left;
 }
@@ -14,7 +14,6 @@
 }
 .success_text p {
   padding: 4px;
-  margin: 0;
 }
 .success_btn_group {
   display: flex;
@@ -26,16 +25,12 @@
   width: 100%;
   height: 49px;
   margin: 0.7em 0;
-  font-size: var(--font-tlt-xl);
+  font-size: var(--font-tlt-lg);
 }
 .success_login_btn {
   border-radius: var(--border-radius-xl);
   width: 100%;
   height: 49px;
   margin: 0.7em 0;
-  font-size: var(--font-tlt-xl);
-}
-.success_login_btn a {
-  color: var(--color-white);
-  text-decoration: none;
+  font-size: var(--font-tlt-lg);
 }

@@ -35,15 +35,14 @@
           <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
           <div class="writer__info__name">팔로잉</div>
         </div>
-        
       </div>
-      <div class="writer__info__nickname">{{myInfo.userName}}</div>
-      <div class="writer__info__intro">{{myInfo.introduction}}</div>
-      <div class="writer__info__tags">
+        
+     
+      <!-- <div class="writer__info__tags">
         <div class="writer__info__tag" v-for="(tag,idx) in myInfo.myTag" :key="idx">
           {{tag}}
         </div>
-      </div>
+      </div> -->
     </div>
     <ul class="feeds">
       <li class="feed__image__container" v-for="(feed,idx) in feeds" :key="idx">
@@ -55,8 +54,9 @@
         >
       </li>
     </ul>
-    
-    <button class="feed__writebotton">붓</button>
+    <button class="feed__writebutton" @click="goWrite">
+      <font-awesome-icon icon="pen-fancy"/>
+    </button>
   </div>
 </template>
 
@@ -217,8 +217,8 @@ export default {
   color:#666666;
 }
 .feeds {
-  margin-left:15pt;
-  margin-right:15pt;
+  margin-left:20px;
+  margin-right:20px;
 }
 .writer__info {
   position: sticky;
@@ -231,8 +231,9 @@ export default {
   background-color: #FFFFFF;
 }
 .writer__info__feedname {
-  font-size:15pt;
+  font-size:20px;
   /* margin-top:20pt; */
+  margin-left:20px;
   text-align:left;
   font-weight: 700;
   margin-top:10px;
@@ -244,13 +245,14 @@ export default {
   margin-top:14px;
 }
 .writer__info__img {
-  width:45pt;
-  height:45pt;
+  width:95px;
+  height:95px;
   border-radius:100%;
 }
 .writer__info__cntboxes {
   display:flex;
-  /* justify-content:space-around; */
+  justify-content:space-around;
+  width:100%;
   align-items: center;
   border-radius:30px;
   border: 1px solid #F5F5F5;
@@ -259,19 +261,21 @@ export default {
   box-shadow: 0 1px 2px #00000029;
 }
 .writer__info__cntbox {
-  margin:10pt;
+  /* margin:10pt; */
+  margin-top:10px;
+  /* margin-bottom:10px; */
 }
 .writer__info__cnt {
   font-weight:900;
-  font-size:13pt;
+  font-size:16px;
 }
 .writer__info__name {
-  font-size:10pt;
+  font-size:14px;
   font-weight:600;
 }
 .writer__info__nickname,
 .writer__info__intro {
-  text-align:left;
+  text-align:center;
   
 }
 .writer__info__intro {
@@ -281,8 +285,8 @@ export default {
 }
 .writer__info__nickname {
   font-weight:800;
-  font-size:13pt;
-  margin-top:8pt;
+  font-size:16px;
+  margin-top:8px;
 }
 .writer__info__tags {
   margin-top:7pt;
@@ -303,23 +307,33 @@ export default {
   display:flex;
   flex-wrap: wrap;
   list-style:none;
-  justify-content: center;
+  justify-content: space-between;
   padding-left:0;
   padding-right:0;
 }
-.feed__img__container {
+.feed__image__container {
+  /* display:flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
   width: 50%;
+  height: 200px;
+  margin-bottom:13px;
+  /* background-color:blue; */
 }
-.feed__img {
-  width: 90%;
+.feed__image {
+  /* position:relative; */
+  display:flex;
+  width: 100%;
+  height:100%;
   border-radius:10px;
-  margin:3%;
+  /* padding:2px; */
 }
-.feed__writebotton {
+.feed__writebutton {
     position:fixed;
     bottom:40pt;
     right:25pt;
-    background-color:#B8A4FD;
+    background-image:linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF);
+    background-color:#9275F2;
     border-radius:100%;
     height:64px;
     width:64px;

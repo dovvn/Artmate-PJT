@@ -1,12 +1,8 @@
 <template>
   <div>
-    <div id="back" @click="back()">
+    <div id="back2" @click="back()">
       <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
     </div>
-<<<<<<< HEAD
-      <h1>취향을 바꿀거예요~~ 🎈</h1> 
-      <!-- 회원가입에서 JoinFavorite.vue 파일과 같은 형식 : 지형오빠가 만든 폼 그대로 이용 -->
-=======
     <div id="mpg2">
       <div id="content2">
         <div class="favorite_text">
@@ -28,7 +24,6 @@
 
     </div>
     </div>
->>>>>>> develop
   </div>
 </template>
 
@@ -56,9 +51,8 @@ export default {
       return "act active"
     }
   },
-    methods:{
-    back:function(){
-      // 수정된 취향 정보 가지고 돌아가기
+  methods:{
+    back:function(){ // 취향 수정 폼 뒤로가기는 내정보 수정 폼
       this.$router.push('/mypage');
     },
     onClick(e){
@@ -91,14 +85,6 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-#back {
-  margin-top: 40px;
-  padding-left: 25px;
-  width: 30px;
-}
-=======
 <style scoped>
   @import '../../components/css/User/joinFavorite.css';
   @import '../../components/css/common.css';
@@ -122,5 +108,4 @@ export default {
     margin: 1em;
     float: right;
 }
->>>>>>> develop
 </style>

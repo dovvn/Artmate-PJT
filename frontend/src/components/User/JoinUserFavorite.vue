@@ -2,7 +2,7 @@
   <div class="JoinUserFavorite">
     <div class="wrap">
       <header class="favorite_header">
-        <div class="back_btn">
+        <div class="back_btn black">
           <font-awesome-icon icon="chevron-left"/>
         </div>
         <div class="favorite_text">

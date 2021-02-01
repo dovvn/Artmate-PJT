@@ -38,7 +38,8 @@ const routes = [
       {
         path: "favorite",
         name: "JoinUserFavorite",
-        component: () => import("@/components/User/JoinUserFavorite.vue")
+        component: () => import("@/components/User/JoinUserFavorite.vue"),
+        props: true
       },
       {
         path: "success",
@@ -51,7 +52,12 @@ const routes = [
     path:"/find",
     name: "FindPw",
     component: FindPw,
-    childern:[
+    children:[
+      {
+        path: "",
+        name: "FindPwUserInfo",
+        component: ()=> import("@/components/User/FindPwUserInfo.vue")
+      },
       {
         path: "success",
         name: "FindPwSuccess",
@@ -96,8 +102,6 @@ const routes = [
         name:"MyFeedModify",
         component: ()=> import("@/components/MyFeed/MyFeedModify.vue")
       },
-<<<<<<< HEAD
-=======
       {
         path:"detail/:feedno",
         name:"MyFeedView",
@@ -113,7 +117,6 @@ const routes = [
         name:"MyFollow",
         component: ()=> import("@/components/MyFeed/MyPageFollower_ing_List.vue")
       },
->>>>>>> develop
     ]
   },
   {

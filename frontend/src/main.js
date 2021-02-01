@@ -3,7 +3,9 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
-
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 import Carousel3d from 'vue-carousel-3d';
 Vue.use(Carousel3d)
@@ -20,6 +22,8 @@ library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark,
 library.add(faCamera,faPenFancy, faTrashAlt)
 library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 new Vue({
   vuetify,

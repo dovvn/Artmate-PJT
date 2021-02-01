@@ -1,16 +1,15 @@
 <template>
-  <MyFeed/>
-  <!-- <router-view></router-view> -->
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import MyFeed from "../../components/MyFeed/MyFeedList"
 
 
 export default {
   name: "myfeed",
   components: {
-    MyFeed,
   },
 };
 </script>

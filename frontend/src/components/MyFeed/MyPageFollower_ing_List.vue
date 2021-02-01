@@ -43,7 +43,58 @@
         <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
         <div class="person__name">정마리</div>
       </div>
-      
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
+       <div class="person">
+        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
+        <div class="person__name">정마리</div>
+      </div>
     </div>
   </div>
 </template>
@@ -90,35 +141,8 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-@font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 400;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 700;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype')
-}
-
-@font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 300;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
-}
-=======
 <style scoped>
 @import "../../components/css/style.css";
->>>>>>> develop
 
 * {
     font-family: 'NanumBarunGothic', sans-serif;
@@ -127,7 +151,7 @@ export default {
   box-sizing: border-box;
 }
 .Follower_ing_List {
-  margin:30px 20px 0px 20px;
+  margin:10px 10px 0px 10px;
 }
 .tab {
   width: 100%;
@@ -137,11 +161,12 @@ export default {
 .tab__right {
   widtH: 50%;
   color: #CCCCCC;
-  margin-bottom:30px;
+  margin-bottom:20px;
 }
 .tab__title {
   margin-bottom:10px;
   font-size:18px;
+  text-align:center;
 }
 .tab__line {
   width: 100%;
@@ -155,6 +180,7 @@ export default {
 .person {
   width: 33%;
   height:33%;
+  text-align:center;
 }
 .person__img {
   width:80px;
@@ -166,6 +192,7 @@ export default {
   font-weight:900;
   font-size:16px;
   margin-bottom:8px;
+  text-align:center
 }
 .choosed {
   color: #A593DF;

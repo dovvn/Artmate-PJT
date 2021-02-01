@@ -1,6 +1,6 @@
 <template>
   <div id="mypage">
-    <div id="back" @click="mainGO()">
+    <div id="back" @click="back()">
       <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
     </div>
     <div id="mpg">
@@ -67,12 +67,10 @@
           />
         </div>
       </div>
+      
     </div>
-<<<<<<< HEAD
-=======
     <!-- 유저 데이터 삭제 후 로그인 페이지 -->
     <p id="out" @click="out()">탈퇴하기</p>
->>>>>>> develop
   </div>
 </template>
 
@@ -148,15 +146,6 @@ export default {
       // 취향 수정하러 가기
       this.$router.push('/mypage/myfavorite');
     },
-<<<<<<< HEAD
-    mainGO:function(){
-      // 그냥 메인으로 돌아가기
-      this.$router.push('/');
-    },
-    finish:function(){
-      // 데이터 갱신 후 메인
-      this.$router.push('/');
-=======
     out:function(){
       // 유저 데이터 삭제
       console.log("아이디:"+this.userInfo.userId);
@@ -252,7 +241,6 @@ export default {
       if(this.password.length >= 0 && !this.passwordSchema.validate(this.password))
         this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다";
       else this.error.password = false;
->>>>>>> develop
     }
   },
 };
@@ -276,7 +264,7 @@ export default {
 #mpg {
   margin-top: 65px;
   display: inline-block;
-  margin-bottom: 90px;
+  margin-bottom: 10px;
 }
 #txt {
   clear: both;
@@ -358,7 +346,7 @@ export default {
   color: white;
   background-image: var(--background-image-purple-gd);
   border-radius: 20px;
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   width: 160px;
   height: 39px;
 }
@@ -373,8 +361,6 @@ export default {
 #next {
   float: right;
 }
-<<<<<<< HEAD
-=======
 #out{
   color: red;
   font-size: 12px;
@@ -387,5 +373,4 @@ export default {
   color: var(--color-red);
   text-align: right;
 }
->>>>>>> develop
 </style>

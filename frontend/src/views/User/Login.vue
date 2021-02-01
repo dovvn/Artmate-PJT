@@ -4,16 +4,6 @@
       <div class="logo">
         <span class="logo_text"><span class="logo_text_point">a r t</span> m a t e</span>
       </div>
-<<<<<<< HEAD
-      <form class="login-form">
-        <label class="user-id_label" for="user-id">아이디(이메일)</label>
-        <input 
-          id="user-id"
-          v-model="email"
-          type="text"
-          class="login-form-input_id"
-          placeholder="아이디를 입력하세요."
-=======
       <form @submit="onSubmit" class="login-form">
         <div class="userid_input_box">
           <label class="user-id_label" for="user-id">아이디(이메일)</label>
@@ -23,7 +13,6 @@
             type="text"
             class="login-form-input_id"
             placeholder="아이디를 입력하세요."
->>>>>>> develop
           >
           <div :class="isEmail">
             <font-awesome-icon v-if="error.email" icon="times"/>
@@ -74,14 +63,11 @@ import Google from '@/components/User/snsLogin/Google.vue'
 import Kakao from '@/components/User/snsLogin/Kakao.vue'
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-<<<<<<< HEAD
-=======
 import {login} from '@/api/user.js'
 // window.addEventListener('resize',(e)=>{
 //   console.log(e);
 //   console.log(e.innerWidth, e.innerHeight);
 // })
->>>>>>> develop
 export default {
   name: "login",
   components:{
@@ -152,16 +138,12 @@ export default {
   },
   methods: {
     checkForm(){
-      console.log(`email : ${this.email}`);
-      console.log(`pw: ${this.password}`)
       if(this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email ="이메일 형식이 아닙니다";
       else this.error.email=false;
       if(this.password.length >= 0 && !this.passwordSchema.validate(this.password))
         this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다";
       else this.error.password = false;
-<<<<<<< HEAD
-=======
     },
     onSubmit(event){
       event.preventDefault();
@@ -189,7 +171,6 @@ export default {
           console.error(err);
         }
       )
->>>>>>> develop
     }
   }
 }

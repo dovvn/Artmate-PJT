@@ -10,7 +10,7 @@
       <div class="join_text">
         <span>회원가입</span>
       </div>
-      <form class="join_form">
+      <form @submit="onSubmit" class="join_form">
         <label class="username_label" for="username">닉네임</label>
         <div class="username_input_box">
           <input 
@@ -94,7 +94,7 @@ export default {
   name: "JoinUserInfo",
   data: () => {
     return {
-      nickname: "",
+      username: "",
       email: "",
       password: "",
       passwordCheck: "",
@@ -227,11 +227,6 @@ export default {
     onBack(){
       history.back();
     },
-<<<<<<< HEAD
-    // onComplete(){
-    //   this.$router.push({name:"JoinUserFavorite"});
-    // }
-=======
     onSubmit(event){
       event.preventDefault();
       if(this.error.username){
@@ -261,7 +256,6 @@ export default {
         })
       }
     }
->>>>>>> develop
   }
 }
 </script>
