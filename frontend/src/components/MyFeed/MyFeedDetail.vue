@@ -30,7 +30,8 @@
         <img class="feed__img" :src="feed.feedImg" alt="">
         <div class="creator__info">
           <div class="creator__info__left">
-            <img class="creator__info__img" src="../../assets/test_myfeed/profileImg.png" alt="">
+            <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" src="../../assets/person.jpg"/>
+            <img class="creator__info__img" v-else :src="feed.userImg" alt="">
             <div class="creator__info__box">
               <div class="creator__info__name">{{feed.userName}}</div>
               <div class="creator__info__date">{{feed.writeDate}}</div>
