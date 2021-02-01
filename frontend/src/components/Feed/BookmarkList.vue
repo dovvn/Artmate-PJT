@@ -14,7 +14,7 @@
             <div class="feedtext">
                {{nf.feedText}}
             </div>
-            <!-- 클릭하면 채운 하트로  -->
+            
             <div id="icons1">
               <font-awesome-icon v-if="nf.likemark == 0" @click="addHeart(nf.likemark,nf.id)"  :icon="['far', 'heart']" /> 
               <font-awesome-icon v-if="nf.likemark == 1" @click="addHeart(nf.likemark,nf.id)"  :icon="['fas', 'heart']" :style="{ color: 'red' }"/> 
@@ -25,7 +25,7 @@
               <font-awesome-icon
             :icon="['far', 'comment-alt']"
             size="sm"
-          /> 3 <!-- 댓글 수 보류 🎈 -->
+          /> {{nf.commentCnt}} 
             </div>
             <div id="mark">
           <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.id)" :icon="['far', 'bookmark']" size="sm" />
@@ -62,26 +62,20 @@ export default {
   },
   methods:{
     addBookmark:function(feedid){  
-      for (let i = 0; i<this.newsfeed.length; i++){
-        if(this.newsfeed[i].id===feedid){
-          if(!this.newsfeed[i].bookmark){
-            this.newsfeed[i].bookmark=1;
-          }
-          else{
-            this.newsfeed[i].bookmark=0;
-          }
-          break;
-        }
-      }
       http
         .delete(`api/bookmark/${this.userInfo.userId}/${feedid}`)
         .then((data) => {
         if (data) {
-          // alert('북마크 목록에서 삭제되었습니다.');
-          // this.$router.go(this.$router.currentRoute);// 새로고침 
-        } else {
-          alert('삭제하는데 오류가 발생했습니다.');
-        }
+         http
+          .get(`/api/bookmark/list/${this.userInfo.userId}`)
+          .then((res) => {
+            console.log(res);
+            this.newsfeed = res.data;
+          })
+         .catch((err) => console.log(err));
+         } else {
+            alert('삭제하는데 오류가 발생했습니다.');
+         }
       })
       .catch((err) => console.log(err));
     },
@@ -110,7 +104,6 @@ export default {
           } else {
             alert('오류가 발생하였습니다.');
           }
-          // this.$router.go(this.$router.currentRoute);
         })
         .catch((err) => console.log(err));
       }else if(like == 1){ // 좋아요 눌린 상태 
@@ -123,7 +116,6 @@ export default {
           } else {
             alert('오류가 발생하였습니다.');
           }
-          // this.$router.go(this.$router.currentRoute);
         })
         .catch((err) => console.log(err));
       }

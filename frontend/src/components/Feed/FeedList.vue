@@ -81,7 +81,6 @@ export default {
         .then((data) => {
           if (data) {
             // alert('북마크 목록에 추가되었습니다.');
-            // this.$router.go(this.$router.currentRoute);// 새로고침 
           } else {
             alert('추가하는데 오류가 발생했습니다.');
           }
@@ -93,7 +92,6 @@ export default {
         .then((data) => {
         if (data) {
           // alert('북마크 목록에서 삭제되었습니다.');
-          // this.$router.go(this.$router.currentRoute);// 새로고침 
         } else {
           alert('삭제하는데 오류가 발생했습니다.');
         }
@@ -128,7 +126,6 @@ export default {
           } else {
             alert('오류가 발생하였습니다.');
           }
-          // this.$router.go(this.$router.currentRoute);
         })
         .catch((err) => console.log(err));
       }else if(like == 1){ // 좋아요 눌린 상태 
@@ -141,7 +138,6 @@ export default {
           } else {
             alert('오류가 발생하였습니다.');
           }
-          // this.$router.go(this.$router.currentRoute);
         })
         .catch((err) => console.log(err));
       }
