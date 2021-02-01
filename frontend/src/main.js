@@ -18,12 +18,18 @@ import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf } from '@fortawesome/free-solid-svg-icons'
 
+//구글 로그인
+import GAuth from 'vue-google-oauth2'
+
 library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit)
 library.add(faCamera,faPenFancy, faTrashAlt)
 library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+//구글 로그인
+Vue.use(GAuth, {clientId: '586176925871-o9lo1kb9m1rgft73q8n4sicrh4knvlr6.apps.googleusercontent.com', scope: 'profile email https://www.googleapis.com/auth/plus.login'})
 
 //카카오 로그인
 window.Kakao.init("8ddb98b2ba952c3a17143df31ebbc92d");

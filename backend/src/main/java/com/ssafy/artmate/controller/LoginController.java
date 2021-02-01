@@ -77,22 +77,49 @@ public class LoginController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// SNS Login
+	// 카카오로 로그인
 	@PostMapping("/login/kakao")
 	public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestBody String json, HttpServletResponse response) {
 		Gson gson = new Gson();
 		UserDto loginUser = gson.fromJson(json, UserDto.class);
 		System.out.println(json);
-		System.out.println(loginUser.toString());
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		loginUser.setAccesskey("y");
 		if (userService.selectUserId(loginUser.getUserId()) == null) { // 아직 db에 없다면 회원가입 시킴
 			userService.insertKakao(loginUser);
-		}else { //db에서 회원정보 가져오기
+		} else { // db에서 회원정보 가져오기
 			loginUser = userService.selectUser(loginUser.getUserId());
 		}
-		
+
+		String token = jwtService.create(loginUser);
+		logger.trace("로그인 토큰정보 : {}", token);
+		// 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
+		response.setHeader("auth-token", token);
+		resultMap.put("auth-token", token); // 토큰 값
+		resultMap.put("status", true);
+		loginUser.setMyTag(userService.selectMyTag(loginUser.getUserId()));
+		resultMap.put("user", loginUser); // 회원 정보
+		resultMap.put("message", "로그인 성공했습니다."); // 메세지
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 구글로 로그인
+	@PostMapping("/login/google")
+	public ResponseEntity<Map<String, Object>> googleLogin(@RequestBody String json, HttpServletResponse response) {
+		Gson gson = new Gson();
+		UserDto loginUser = gson.fromJson(json, UserDto.class);
+		System.out.println(json);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		loginUser.setAccesskey("y");
+		if (userService.selectUserId(loginUser.getUserId()) == null) { // 아직 db에 없다면 회원가입 시킴
+			userService.insertKakao(loginUser);
+		} else { // db에서 회원정보 가져오기
+			loginUser = userService.selectUser(loginUser.getUserId());
+		}
+
 		String token = jwtService.create(loginUser);
 		logger.trace("로그인 토큰정보 : {}", token);
 		// 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
