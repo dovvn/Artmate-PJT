@@ -35,6 +35,11 @@ public class UserDto implements Serializable{
 
 	
 	public UserDto() {}
+	
+	public UserDto(String userId, String userName) {
+		this.userId = userId;
+		this.userName = userName;
+	}
 
 
 	public UserDto(String userId, String userName, String userImg) {
@@ -61,116 +66,93 @@ public class UserDto implements Serializable{
 		this.followingCnt = followingCnt;
 	}
 
-
 	public String getUserId() {
 		return userId;
 	}
-
 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-
 	public String getUserPw() {
 		return userPw;
 	}
-
 
 	public void setUserPw(String userPw) {
 		this.userPw = userPw;
 	}
 
-
 	public String getUserName() {
 		return userName;
 	}
-
 
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-
 	public String getFeedName() {
 		return feedName;
 	}
-
 
 	public void setFeedName(String feedName) {
 		this.feedName = feedName;
 	}
 
-
 	public String getIntroduction() {
 		return introduction;
 	}
-
 
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
 
-
 	public String getUserImg() {
 		return userImg;
 	}
-
 
 	public void setUserImg(String userImg) {
 		this.userImg = userImg;
 	}
 
-
 	public String getAccesskey() {
 		return accesskey;
 	}
-
 
 	public void setAccesskey(String accesskey) {
 		this.accesskey = accesskey;
 	}
 
-
 	public List<String> getMyTag() {
 		return myTag;
 	}
-
 
 	public void setMyTag(List<String> myTag) {
 		this.myTag = myTag;
 	}
 
-
 	public int getFeedCnt() {
 		return feedCnt;
 	}
-
 
 	public void setFeedCnt(int feedCnt) {
 		this.feedCnt = feedCnt;
 	}
 
-
 	public int getFollowerCnt() {
 		return followerCnt;
 	}
-
 
 	public void setFollowerCnt(int followerCnt) {
 		this.followerCnt = followerCnt;
 	}
 
-
 	public int getFollowingCnt() {
 		return followingCnt;
 	}
 
-
 	public void setFollowingCnt(int followingCnt) {
 		this.followingCnt = followingCnt;
 	}
-
 
 	@Override
 	public String toString() {

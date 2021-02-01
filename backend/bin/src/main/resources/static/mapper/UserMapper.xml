@@ -33,8 +33,9 @@
 		FROM User
 		WHERE userId=#{userId} AND userPw=#{userPw}
 	</select>
+	<!-- 이미지 빼고 변경 -->
 	<update id="modifyUserInfo" parameterType="userDto">
-		UPDATE User SET userName=#{userName}, userImg=#{userImg}, feedName=#{feedName}, introduction=#{introduction}, userPw=#{userPw}
+		UPDATE User SET userName=#{userName}, feedName=#{feedName}, introduction=#{introduction}, userPw=#{userPw}
 		WHERE userId=#{userId}
 	</update>
 	<delete id="deleteUser" parameterType="String">

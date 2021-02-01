@@ -32,8 +32,8 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public FeedDto selectOneFeed(int id) {
-		return sqlSession.getMapper(FeedMapper.class).selectOneFeed(id);
+	public FeedDto selectOneFeed(String userId, int id) {
+		return sqlSession.getMapper(FeedMapper.class).selectOneFeed(userId, id);
 	}
 
 	@Override

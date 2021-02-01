@@ -134,4 +134,9 @@ public class UserServiceImpl implements UserService{
 	public boolean modifyUserImg(UserDto user) {
 		return sqlSession.getMapper(UserMapper.class).modifyUserImg(user) == 1;
 	}
+
+	@Override
+	public boolean insertKakao(UserDto user) {
+		return sqlSession.getMapper(UserMapper.class).insertKakao(user) == 1;
+	}
 }
