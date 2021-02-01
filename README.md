@@ -1,8 +1,8 @@
-# SUBPJT2 : SNS 웹 큐레이팅 서비스    
+# SUBPJT3 : SNS 웹 큐레이팅 서비스    
 > 주제: 전시회 큐레이팅 SNS  
 > 팀명: 2조(B202)  
 
-### [SubPJT2 노션 문서](https://www.notion.so/Sub-PJT2-b640d5190a474d3ab2b0446397198f72)
+### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT2-b640d5190a474d3ab2b0446397198f72)
 
 ## 팀원 역할
 | 팀원   | 역할 | 비고                        |
@@ -17,57 +17,34 @@
 ![Javascript](https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript) ![VueJS](https://img.shields.io/badge/Vue.js-v4.5.10-green?logo=vue.js) ![Vuetify](https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify) ![Java](https://img.shields.io/badge/Java-v1.8-blue?logo=java) ![Spring Boot](https://img.shields.io/badge/spring-v3.9.15-blue?logo=spring) ![AWS RDS](https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws) ![MySQL](https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql)   
 
 ## Gantt Chat
+> 매일 오전 미팅 후 업데이트  
 ```mermaid  
 gantt
     title Artmate 진행상황
     dateFormat  YYYY-MM-DD
     section 프로젝트 준비
-    기능명세          :done, p1, 2021-01-18, 10h
-    기술스택          :done, p3, 2021-01-18, 24h
-    개발환경 셋팅          :done, 2021-01-18, 2021-01-19
-    프로젝트 구조          :done, 2021-01-18, 2021-01-19
-    GIT 메시지,코드규약          :done, 2021-01-18, 2021-01-19
-    [1차]와이어프레임          :done, p2, 2021-01-18, 12h
-    [2차]와이어프레임(검색/피드/메인)          :done, p2, 2021-01-21, 5d
-    [최종]와이어프레임 PDF          :done, 2021-01-27, 1d
-    [1차]화면정의서          :done, 2021-01-19, 1d
-    [최종]화면정의서 PDF         :done, 2021-01-27, 1d
-    [최종]발표 PPT         :done, 2021-01-27, 1d
-    Jira 이슈/스크럼보드 생성          :done, 2021-01-19, 1d
-    README 최종정리         :, 2021-01-28, 1d
-    ec2 배포 테스트         :done, 2021-01-27, 2d
+    SubⅢ Jira,Git 생성  :done, 2021-02-01, 6h
+    SubⅡ 회고          :done, p2,2021-02-01, 12h
+    UI/UX(전시회,피드3D)   :active,2021-02-01,2d
+    UCC컨셉, 사전조사   :active,after p2,6h
+    Jira,Git,MM연동   :active,after p2,6h
     
 
     section Frontend
-    프로젝트 생성          :done, 2021-01-18,1d
-    로그인/회원가입/비번찾기 페이지  :done,2021-01-19,2d
-    내 정보 수정 페이지  :done,2021-01-19,1d
-    내 피드 페이지(상세/댓글/팔로우 리스트)  :done,2021-01-19,7d
-    뉴스 피드/북마크 피드  :done,2021-01-20, 6d
-    검색 페이지 :done,2021-01-23,2d
-    알림 페이지 :done,2021-01-25,1d
-    메뉴페이지: done,2021-01-27,2d
-    메인페이지: done,2021-01-26,3d
-    전체 애니메이션 적용 :done,2021-01-26,3d
-    전체 반응형 체크 :done,2021-01-27,2d
-    전체 통합 테스트:done,2021-01-27,2d     
+    SubⅡ SNS 미완성 보완          :active, 2021-02-01, 2d
+    SubⅡ 반응형 보완          :active, 2021-02-01, 2d
+    지도페이지(카카오맵 API 적용)       :2021-02-03, 4d
+    피드 3D 전시 페이지   :,2021-02-03,6d
+    전시회 페이지   :,2021-02-05,3d
+    스크랩북 페이지   :,2021-02-07,2d
+    소개 페이지   :,2021-02-07,2d
+    메인 페이지 추가기능   :,2021-02-07,2d
+    
 
     section Backend
-    AWS RDS생성          :done, 2021-01-18, 1d
-    DB설계,테이블 구축           :done,d1, 2021-01-19, 1d
-    공공데이터API 조사         :done, 2021-01-18, 1d
-    회원가입 SMTP 메일 인증          :done, user1, 2021-01-19, 3d
-    로그인 JWT 토큰 인증,세션설정           :done, user2, 2021-01-19, 3d
-    비번찾기 SMTP 메일 인증           :done, 2021-01-22, 1d
-    회원정보 CRUD  :done,2021-01-21, 2d
-    Swagger 설정  :done,2021-01-21,1d
-    피드 CRUD  :done,2021-01-21,5d
-    피드 부가 기능(좋아요/북마크/공유/팔로우&팔로워) : done, 2021-01-26,2d
-
-    댓글 CRUD  :done,2021-01-24,1d
-    검색 기능           :done, 2021-01-24, 1d
-    알림 기능(팔로우 신청/알림삭제)           :done, 2021-01-26, 3d
-              
+    실시간 알림 기능          :active, 2021-02-01, 2d
+    SNS로그인 연동          :active, 2021-02-01, 2d
+    공공데이터API 가져오기/태그 분류          :active, p1, 2021-02-01, 2d
 ```
 
 ## 기능
