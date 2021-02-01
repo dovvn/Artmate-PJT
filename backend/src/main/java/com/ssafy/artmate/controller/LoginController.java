@@ -71,5 +71,7 @@ public class LoginController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	//SNS Login
 
 }
