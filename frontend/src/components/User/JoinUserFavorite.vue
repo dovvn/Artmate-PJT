@@ -1,5 +1,5 @@
 <template>
-  <div class="JoinUserFavorite">
+  <div id="JoinUserFavorite">
     <div class="wrap">
       <header class="favorite_header">
         <div class="back_btn black">
@@ -103,6 +103,6 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../components/css/User/joinFavorite.css';
-  @import '../../components/css/common.css';
+  @import '../../components/css/User/join_favorite.module.css';
+  @import '../../components/css/style.css';
 </style>

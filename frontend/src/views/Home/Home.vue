@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home wrap2">
+    <Navi id="navi"/>
     <div class="online_bg">
-      <Navi/>
       <div class="home_logo">
         <img class="home_logo_img" src="../../assets/main/logo_img.png" alt="">
         <span class="home_logo_text">ARTMATE</span>
@@ -157,6 +157,38 @@
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+document.addEventListener('scroll',()=>{
+  // console.log(e);
+  const navbar = document.querySelector('#navi');
+  const navbarHeight = navbar.getBoundingClientRect().height;
+  // console.log(navbar)
+  // console.log(navbar.style.background);
+  if(window.scrollY > navbarHeight){
+    navbar.style.background="white";
+  }
+  else{
+    navbar.style.background="transparent";
+  }
+})
+window.addEventListener('resize',()=>{
+  // const carousel=document.querySelector('.carousel-3d-slider');
+  if (window.innerWidth<=1024){
+    // carousel.style="width:120px; height:150px"
+    // carousel.style.width="120px";
+    // carousel.style.height="270px";
+    // console.log('이하');
+    // console.log(carousel.style.width, carousel.height);
+    // console.log(carousel.style);
+  }
+  else{
+    // carousel.style="width:274px; height:205.5px"
+    // carousel.style.width="300px";
+    // carousel.style.height="350px";
+    // console.log('이상');
+    // console.log(carousel.style.width, carousel.style.height);
+    // console.log(carousel.style);
+  }
+})
 export default {
   name: 'Home',
   mounted(){

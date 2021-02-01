@@ -264,5 +264,5 @@ export default {
 
 <style scoped>
 @import '../../components/css/style.css';
-@import '../../components/css/User/join.css';
+@import '../../components/css/User/join.module.css';
 </style>

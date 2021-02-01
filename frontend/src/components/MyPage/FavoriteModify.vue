@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../components/css/User/joinFavorite.css';
+  @import '../../components/css/User/join_favorite.module.css';
   @import '../../components/css/common.css';
 #back2 {
   margin-top: 30px;
