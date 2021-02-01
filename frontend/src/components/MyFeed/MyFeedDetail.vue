@@ -238,7 +238,7 @@ export default {
     this.memoInput.userName = this.user.userName;
     this.updateMemos();
     
-    detailFeed(this.$route.params.feedno, (response) => {
+    detailFeed(this.$route.params.feedno,this.user.userId, (response) => {
       console.log(response);
       this.feed = response.data;
       this.feed.writeDate = this.timeForToday(this.feed.writeDate);
