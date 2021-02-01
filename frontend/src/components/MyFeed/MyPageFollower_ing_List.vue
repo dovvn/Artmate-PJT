@@ -14,92 +14,25 @@
         <div class="tab__line"></div>
       </div>
     </header>
-    <div class="person__container">
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
+    <div class="person__container" v-if='choosed=="follower"' >
+      <div class="person" v-for="(person,idx) in followers" :key="idx">
+        <img class="person__img" :src="person.userImg" alt="">
+        <div class="person__name">{{person.userName}}</div>
       </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">이철수</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
-      </div>
-       <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">정마리</div>
+    </div>
+    <div class="person__container" v-if='choosed=="following"' >
+      <div class="person" v-for="(person,idx) in followings" :key="idx">
+        <img class="person__img" :src="person.userImg" alt="">
+        <div class="person__name">{{person.userName}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {listFollower, listFollowing} from '@/api/follow.js';
+import {mapState} from "vuex";
+
 export default {
   //팔로워, 팔로잉을 created에서 한번에 받아온 후 data에 넣는다.
   data() {
@@ -112,6 +45,22 @@ export default {
   created() {
     //애초에 첨들올때 뭐눌럿는지를 정보로 받아서
     // 보여주는애를 정해준다.
+    listFollower(this.user.userId,(response) => {
+      this.followers = response.data;
+    }, (error) => {
+      console.error(error);
+    });
+    listFollowing(this.user.userId,(response) => {
+      this.followings = response.data;
+    }, (error) => {
+      console.error(error);
+    });
+  },
+  mounted() {
+    
+  },
+  computed: {
+    ...mapState(["user"])
   },
   methods: {
     // 데이터 처리는 받아오면 합시다~

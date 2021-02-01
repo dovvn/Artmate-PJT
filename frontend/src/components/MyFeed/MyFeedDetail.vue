@@ -319,18 +319,18 @@ export default {
       // console.log(csv);
       if(csv === 0)  {
         img.style.height = ori_h;
-        console.log('사진 원래로 변경')
+        // console.log('사진 원래로 변경')
         // memoList.style.marginBottom = "200px";
       } else {
         if(img.style.height === ori_h){
           img.style.height = "200px";
-          console.log('사진 작게 변경')
+          // console.log('사진 작게 변경')
           // memoList.style.marginBottom = "60px";
         }
         // last_csv = csv;
       }
-      console.log(window.pageYOffset);
-      console.log(csv);
+      // console.log(window.pageYOffset);
+      // console.log(csv);
     })
   },
   computed: {
