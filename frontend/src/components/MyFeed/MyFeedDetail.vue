@@ -37,9 +37,12 @@
             </div>
           </div>
           <div class="creator__info__right">
-            <font-awesome-icon :icon="['far','heart']" class="feed__like__button"/>
+            <font-awesome-icon v-if="feed.likemark==0" :icon="['far','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
+            <font-awesome-icon v-if="feed.likemark==1" :icon="['fas','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
             <span class="feed__like__cnt">{{feed.likeCnt}}</span>
-            <font-awesome-icon class="feed__interactions__bookmark" :icon="['far','bookmark']"/>
+            <font-awesome-icon v-if="feed.bookmark == 0" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['far','bookmark']"/>
+            <font-awesome-icon v-if="feed.bookmark == 1" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['fas','bookmark']"/>
+
             <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
           </div>
         </div>
@@ -99,6 +102,7 @@ import Navi from '@/components/Common/Navi.vue';
 import {detailFeed, deleteFeed} from '@/api/myfeed.js';
 import {listMemo, addMemo, modifyMemo, deleteMemo} from '@/api/memo.js';
 import {mapState} from "vuex";
+import http from "@/util/http-common";
 
 export default {
   name: "FeedDetail",
@@ -230,7 +234,59 @@ export default {
         return `${betweenTimeDay}일전`;
       }
       return `%{Math.floor(betweenTimeDay/ 365)}년전`;
-    }
+    },
+    addBookmark:function(bookmark,feedid){
+      this.feed.bookmark = !this.feed.bookmark;
+      if(bookmark == 0) {
+        http
+        .put(`/api/bookmark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }
+      else {
+        http
+        .delete(`/api/bookmark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }
+    },
+    addHeart:function(like, feedid){
+      this.feed.likemark = !this.feed.likemark;
+      if(like == 0){ // 좋아요 안눌린 상태 
+        http
+        .put(`api/likemark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요!❤');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+        })
+        .catch((err) => console.log(err));
+      }else if(like == 1){ // 좋아요 눌린 상태 
+        http
+        .delete(`api/likemark/${this.user.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요 취소..😢');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+        })
+        .catch((err) => console.log(err));
+      }
+      
+    },
   },
   created() {
     this.memoInput.feedId = this.$route.params.feedno;
