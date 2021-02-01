@@ -77,13 +77,12 @@ public class LoginController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// SNS Login
+	// 카카오로 로그인
 	@PostMapping("/login/kakao")
 	public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestBody String json, HttpServletResponse response) {
 		Gson gson = new Gson();
 		UserDto loginUser = gson.fromJson(json, UserDto.class);
 		System.out.println(json);
-		System.out.println(loginUser.toString());
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		loginUser.setAccesskey("y");
