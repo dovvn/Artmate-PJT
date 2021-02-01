@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.artmate.mapper.UserMapper">
+	<select id="selectUserName" parameterType="String" resultType="userDto">
+		SELECT *
+		FROM User
+		WHERE userName=#{userName}
+	</select>
+	
+	<select id="selectUserId" parameterType="String" resultType="userDto">
+		SELECT *
+		FROM User
+		WHERE userId=#{userId}
+	</select>
+	
+	<insert id="insertUser" parameterType="userDto">
+		INSERT INTO User (userId, userPw, userName, userImg, accesskey)
+		VALUES (#{userId}, #{userPw}, #{userName}, #{userImg}, #{accesskey})
+	</insert>
+	
+	<select id="selectUseridAndAccesskey" parameterType="userDto" resultType="userDto">
+		SELECT *
+		FROM User
+		WHERE userId=#{userId} AND accesskey=#{accesskey}
+	</select>
+	
+	<update id="modifyAccesskey" parameterType="userDto">
+		UPDATE User SET accesskey=#{accesskey}
+		WHERE userId=#{userId} 
+	</update>
+	<select id="selectWithIdAndPw" parameterType="userDto" resultType="userDto">
+		SELECT *
+		FROM User
+		WHERE userId=#{userId} AND userPw=#{userPw}
+	</select>
+	<update id="modifyUserInfo" parameterType="userDto">
+		UPDATE User SET userName=#{userName}, userImg=#{userImg}, feedName=#{feedName}, introduction=#{introduction}, userPw=#{userPw}
+		WHERE userId=#{userId}
+	</update>
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM User WHERE userId=#{userId}
+	</delete>
+	<update id="modifyUserPw" parameterType="userDto">
+		UPDATE User SET userPw=#{userPw}
+		WHERE userId=#{userId}
+	</update>
+	<select id="selectFollowerCnt" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM Follow
+		WHERE getUserId = #{userId}
+	</select>
+	<select id="selectFollowingCnt" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM Follow
+		WHERE sendUserId = #{userId}
+	</select>
+	<select id="selectFollower" parameterType="String" resultType="UserDto">
+		SELECT *
+		FROM Follow INNER JOIN User ON sendUserId=userId
+		WHERE getUserId = #{userId}
+		ORDER BY userName
+	</select>
+	<select id="selectFollowing" parameterType="String" resultType="UserDto">
+		SELECT *
+		FROM Follow INNER JOIN User ON getUserId=userId
+		WHERE sendUserId = #{userId}
+		ORDER BY userName
+	</select>
+	<insert id="insertFollow" parameterType="String">
+		INSERT INTO Follow (sendUserId, getUserId)
+		VALUES (#{sendUserId}, #{getUserId})
+	</insert>
+	<delete id="deleteFollow" parameterType="String">
+		DELETE FROM Follow WHERE sendUserId = #{sendUserId} and getUserId=#{getUserId}
+	</delete>
+	<update id="modifyUserImg" parameterType="UserDto">
+		UPDATE User SET userImg = #{userImg}
+		WHERE userId = #{userId}
+	</update>
+	<select id="selectUserImg" parameterType="String" resultType="String">
+		SELECT userImg
+		FROM User
+		WHERE userId = #{userId};
+	</select>
+	<!-- 회원정보 가져오기 -->
+	<select id="selectUser" parameterType="String" resultType="userDto">
+		SELECT *,(SELECT COUNT(id) From Feed WHERE userId = #{userId}) AS feedCnt,
+		 (SELECT COUNT(sendUserId) From Follow WHERE getUserId = #{userId}) AS followerCnt,
+		 (SELECT COUNT(getUserId) From Follow WHERE sendUserId = #{userId}) AS followingCnt
+		FROM User
+		WHERE userId=#{userId};
+	</select>
+	<!-- 팔로우 상태 가져오기 -->
+	<select id="selectFollowState" parameterType="String" resultType="int">
+		  SELECT COUNT(#{sendUserId}) FROM Follow WHERE sendUserId = #{sendUserId} AND getUserId = #{getUserId};
+	</select>
+	<insert id="insertMyTag">
+		INSERT INTO MyTag (userId, tag)
+		VALUES (#{userId}, #{tag})
+	</insert>
+	<delete id="deleteMyTag" parameterType="String">
+		DELETE FROM MyTag
+		WHERE userId=#{userId}
+	</delete>
+	<select id="selectMyTag" parameterType="String" resultType="String">
+		SELECT tag
+		FROM MyTag
+		WHERE userId=#{userId}
+		ORDER BY tag;
+	</select>
+</mapper>

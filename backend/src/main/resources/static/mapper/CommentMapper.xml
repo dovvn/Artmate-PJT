@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.artmate.mapper.CommentMapper">
+	<insert id="insertComment" parameterType="CommentDto">
+		INSERT INTO Comment (feedId, userId, content, writeDate)
+		VALUES (#{feedId}, #{userId}, #{content}, CURDATE())
+	</insert>
+
+		<select id="selectCommentList" parameterType="int"
+		resultType="CommentDto">
+		select *, (SELECT userImg FROM User WHERE User.userId = Comment.userId) AS userImg,
+		  (SELECT userName FROM User WHERE User.userId = Comment.userId) AS userName
+		from Comment
+		where feedId = #{feedId}
+		order by writeDate;
+	</select>
+
+	<update id="modifyComment" parameterType="CommentDto">
+		UPDATE Comment SET
+		content=#{content}, writeDate=CURDATE() WHERE id=#{id}
+	</update>
+
+	<delete id="deleteComment">
+		DELETE FROM Comment WHERE id=#{id}
+	</delete>
+</mapper>
