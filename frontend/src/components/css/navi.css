@@ -1,0 +1,31 @@
+@import "./common.css";
+.wrap {
+  padding: 1em;
+}
+.navi {
+  z-index: 2;
+  /* position: sticky; */
+  position: fixed;
+  width: 100%;
+  color: var(--color-black);
+  font-size: var(--font-tlt-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  padding: 1em 1em 0 1em;
+}
+.navi_left,
+.navi_right {
+  display: inline;
+}
+.navi_item {
+  margin: 0 5px;
+  cursor: pointer;
+}
+.profile {
+  width: var(--font-tlt-xl);
+  height: var(--font-tlt-xl);
+  border-radius: var(--border-radius-circle);
+  margin-bottom: 5px;
+}

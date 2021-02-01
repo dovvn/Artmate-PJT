@@ -1,0 +1,229 @@
+<template>
+  <div id="newsfeed">
+      <div class="feedLine">
+        <div id="post"  v-for="nf in newsfeed" :key="nf.id">
+          <div id="picture" >
+            <img class="feed_img" :src="nf.feedImg" alt="">
+          </div>
+          <div id="contents">
+            <div class="pro" > 
+              <img class="profile_img" :src="nf.userImg" alt="">
+              <p id="nick">{{nf.userName}}</p>
+              <p id="date">{{nf.writeDate}}</p>
+            </div>
+            <div class="feedtext">
+               {{nf.feedText}}
+            </div>
+            <!-- 클릭하면 채운 하트로  -->
+            <div id="icons1">
+              <font-awesome-icon v-if="nf.likemark == 0" @click="addHeart(nf.likemark,nf.id)"  :icon="['far', 'heart']" /> 
+              <font-awesome-icon v-if="nf.likemark == 1" @click="addHeart(nf.likemark,nf.id)"  :icon="['fas', 'heart']" :style="{ color: 'red' }"/> 
+              {{nf.likeCnt}}
+            </div>
+    
+            <div id="icons2">
+              <font-awesome-icon
+            :icon="['far', 'comment-alt']"
+            size="sm"
+          /> 3 <!-- 댓글 수 보류 🎈 -->
+            </div>
+            <div id="mark">
+          <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.id)" :icon="['far', 'bookmark']" size="sm" />
+              <font-awesome-icon v-if="nf.bookmark == 1" @click="addBookmark(nf.id)" :icon="['fas', 'bookmark']" size="sm" />
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>
+
+<script>
+import http from "@/util/http-common";
+export default {
+  data() {
+    return {
+      userInfo:{
+        userId:"",
+      },
+      newsfeed:[],
+    };
+  },
+  created() {
+    this.userInfo =  this.$store.getters.getUser;
+  
+    http
+      .get(`/api/bookmark/list/${this.userInfo.userId}`)
+      .then((res) => {
+        console.log(res);
+        this.newsfeed = res.data;
+      })
+      .catch((err) => console.log(err));
+
+  },
+  methods:{
+    addBookmark:function(feedid){  
+      for (let i = 0; i<this.newsfeed.length; i++){
+        if(this.newsfeed[i].id===feedid){
+          if(!this.newsfeed[i].bookmark){
+            this.newsfeed[i].bookmark=1;
+          }
+          else{
+            this.newsfeed[i].bookmark=0;
+          }
+          break;
+        }
+      }
+      http
+        .delete(`api/bookmark/${this.userInfo.userId}/${feedid}`)
+        .then((data) => {
+        if (data) {
+          // alert('북마크 목록에서 삭제되었습니다.');
+          // this.$router.go(this.$router.currentRoute);// 새로고침 
+        } else {
+          alert('삭제하는데 오류가 발생했습니다.');
+        }
+      })
+      .catch((err) => console.log(err));
+    },
+    addHeart:function(like, feedid){
+      for (let i = 0; i<this.newsfeed.length; i++){
+        if(this.newsfeed[i].id===feedid){
+          if(!this.newsfeed[i].likemark){
+            this.newsfeed[i].likemark=1;
+            this.newsfeed[i].likeCnt++;
+          }
+          else{
+            this.newsfeed[i].likemark=0;
+            this.newsfeed[i].likeCnt--;
+          }
+          console.log(this.newsfeed[i].likemark,this.newsfeed[i].likeCnt)
+          break;
+        }
+      }
+      if(like == 0){ // 좋아요 안눌린 상태 
+        http
+        .put(`api/likemark/${this.userInfo.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요!❤');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+          // this.$router.go(this.$router.currentRoute);
+        })
+        .catch((err) => console.log(err));
+      }else if(like == 1){ // 좋아요 눌린 상태 
+        http
+        .delete(`api/likemark/${this.userInfo.userId}/${feedid}`)
+        .then((data) => {
+          console.log(data); 
+          if (data) {
+            // alert('좋아요 취소..😢');
+          } else {
+            alert('오류가 발생하였습니다.');
+          }
+          // this.$router.go(this.$router.currentRoute);
+        })
+        .catch((err) => console.log(err));
+      }
+      
+    },
+
+  }
+  
+}
+</script>
+
+<style>
+.feedLine {
+  width: 340px;
+  height: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+#post{
+  width: 100%;
+  height: 300px;
+  box-shadow: 0px 0px 7px #00000029;
+  border-radius: 25px;
+  margin-top: 20px;
+}
+#post>#picture{
+  height: 150px;
+  width: 100%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  overflow: hidden;
+}
+.feed_img{
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+#post>#contents{
+  height: 150px;
+  padding: 8px;
+}
+.profile_img{
+  width: 50px;
+  height: 50px;
+  float: left;
+  border-radius: 50%;
+}
+.pro{
+  display: block;
+  width: 320px;
+  height: 50px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+#nick{
+  float: left;
+  padding-left: 6px;
+  padding-top:4%;
+  font-weight: bold;
+  margin: 0 auto;
+}
+#date{
+  float: right;
+  padding-top: 4%;
+  font-size: 12px;
+  color: #999999;
+}
+.feedtext{
+  display: inline-block;
+  width: 320px;
+  padding: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: left;
+  font-size: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; 
+  line-height: 1.25; 
+  height: 4em; 
+  text-align: left; 
+  word-wrap: break-word; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+
+}
+#icons1{
+  padding-left: 10px;
+  float: left;
+  font-size: 12px;
+}
+#icons2{
+  margin-left: 20px;
+  float: left;
+  font-size: 12px;
+}
+#mark{
+  float: right;
+  margin-right: 5px;
+}
+</style>

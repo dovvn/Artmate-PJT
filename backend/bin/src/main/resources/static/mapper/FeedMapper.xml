@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.artmate.mapper.FeedMapper">
+	<!-- 피드 글 작성 -->
+	<insert id="insertFeed" parameterType="FeedDto">
+		INSERT INTO Feed (userId, feedImg, feedText, exId, likeCnt, writeDate, location)
+		VALUES (#{userId}, #{feedImg}, #{feedText}, #{exId}, 0, NOW(), #{location})
+	</insert>
+	<!-- 내 피드 목록 가져오기 -->
+	<select id="selectAllMyFeed" parameterType="String" resultType="FeedDto">
+		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+        (SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
+		FROM Feed INNER JOIN User USING(userId)
+		WHERE userId = #{userId}
+		ORDER BY writeDate DESC
+	</select>
+	<!-- 피드 하나 가져오기(상세보기) -->
+	<select id="selectOneFeed" parameterType="int" resultType="FeedDto">
+		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+        (SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
+		FROM Feed INNER JOIN User USING(userId) WHERE id = #{id}
+	</select>
+	<!-- 피드 글 수정 -->
+	<update id="modifyFeed" parameterType="FeedDto">
+		UPDATE Feed
+		SET feedImg = #{feedImg}, feedText=#{feedText}, exId=#{exId}, location=#{location}
+		WHERE id = #{id}
+	</update>
+	<!-- 피드 글 삭제 -->
+	<delete id="deleteFeed" parameterType="int">
+		DELETE FROM Feed WHERE id=#{id}
+	</delete>
+	<!-- 내가 팔로우한 회원들 피드 목록 가져오기 -->
+	<select id="selectAllNewsFeed" parameterType="String" resultType="FeedDto">
+		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+		(SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
+		FROM Feed INNER JOIN User USING(userId)
+		WHERE userId in (SELECT getUserId FROM Follow WHERE sendUserId=#{userId})
+		ORDER BY writeDate DESC
+	</select>
+	<!-- 북마크에 피드 추가 -->
+	<insert id="insertBookmark">
+		INSERT INTO Bookmark (userId, feedId)
+		VALUE (#{userId}, #{feedId})
+	</insert>
+	<!-- 북마크에 피드 삭제 -->
+	<delete id="deleteBookmark">
+		DELETE FROM Bookmark
+		WHERE userId=#{userId} and feedId=#{feedId}
+	</delete>
+	<!-- 북마크 목록 가져오기 -->
+	<select id="selectMyBookmark" parameterType="String" resultType="FeedDto">
+		SELECT fu.*,IF(fu.id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		IF(fu.id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+         (SELECT COUNT(id) FROM Comment WHERE Comment.feedId = fu.id) AS commentCnt
+		FROM (SELECT * FROM Bookmark) b INNER JOIN (SELECT * FROM Feed INNER JOIN User USING(userId)) fu ON b.feedId = fu.id
+		WHERE b.userId=#{userId}
+		ORDER BY b.id DESC
+	</select>
+	<!-- 북마크에 존재하는지 확인 -->
+	<select id="selectOneBookmark" resultType="FeedDto">
+		SELECT *
+		FROM Bookmark
+		WHERE userId=#{userId} and feedId=#{feedId};
+	</select>
+	<!-- 좋아요에 추가 -->
+	<insert id="insertLikemark">
+		INSERT INTO Likemark (userId, feedId)
+		VALUE (#{userId}, #{feedId})
+	</insert>
+	<!-- 좋아요에 삭제 -->
+	<delete id="deleteLikemark">
+		DELETE FROM Likemark
+		WHERE userId=#{userId} and feedId=#{feedId}
+	</delete>
+	<!-- 좋아요에 존재하는지 확인 -->
+	<select id="selectOneLikemark" resultType="FeedDto">
+		SELECT *
+		FROM Likemark
+		WHERE userId=#{userId} and feedId=#{feedId};
+	</select>
+	<!-- 피드 이미지 가져오기 -->
+	<select id="selectFeedImg" parameterType="int" resultType="String">
+		SELECT feedImg
+		FROM Feed
+		WHERE id = #{id}
+	</select>
+	<!-- 피드에 좋아요 수 수정 -->
+	<update id="modifyLikeCnt" parameterType="FeedDto">
+		UPDATE Feed
+		SET likeCnt = #{likeCnt}
+		WHERE id = #{id}
+	</update>
+</mapper>

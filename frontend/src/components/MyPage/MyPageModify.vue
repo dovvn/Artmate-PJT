@@ -1,0 +1,391 @@
+<template>
+  <div id="mypage">
+    <div id="back" @click="mainGO()">
+      <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
+    </div>
+    <div id="mpg">
+      <div id="content">
+        <p id="txt">프로필을 입력하세요</p>
+        <div id="userPicture">
+          <input type="file" id="file" ref="file" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
+          <!-- <font-awesome-icon v-if="userInfo.userImg==null" :icon="['fas', 'user-circle']" size="6x" /> -->
+          <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
+          <img id="upimg" v-else :src="imageUrl"/>
+        </div>
+        <p id="ptx" @click="onClickImageUpload()">프로필 사진 변경</p> 
+        <!--  프로필 삭제 - 디폴트로 변경 🎈  -->
+        <form class="change-form">
+          <label for="userName">닉네임</label><br />
+          <input
+            id="userName"
+            name="userName"
+            placeholder="닉네임을 입력하세요."
+            v-model="userInfo.userName"
+            type="text"
+          />
+          <b-button id="check" :variant="this.idCheck ? 'outline-success' : 'outline-secondary'" @click="idCheckFunc" >중복체크</b-button>
+           <br /><br /> 
+
+          <label for="password">비밀번호</label><br />
+          <input
+            id="password"
+            name="password"
+            v-model="password"
+            placeholder="변경할 비밀번호를 입력하세요."
+            type="text"
+          />
+           <p class="error" v-if="error.password">{{error.password}}</p>
+          <br /><br />
+          <label for="feedName">피드명</label><br />
+          <input
+            id="feedName"
+            name="feedName"
+            v-model="userInfo.feedName"
+            placeholder="피드명을 입력하세요.(10자 이내)"
+            type="text"
+          /><br /><br />
+          <label for="introduction ">소개말</label><br />
+          <input
+            id="introduction"
+            name="introduction"
+            v-model="userInfo.introduction"
+            placeholder="소개말을 입력하세요.(30자이내)"
+            type="text"
+          />
+        </form>
+        <div id="favorite"> <!-- myTag  선택한 취향 보여주기 갱신~🎈 myTag -->
+          <p id="tag1">명화</p> <p>현대미술</p> <p>유화</p>
+        </div>
+        <div id="btn">
+          <button id="changeFinish" @click="update()">완료</button>
+        </div>
+        <div id="next">
+          <font-awesome-icon
+            :icon="['fas', 'chevron-circle-right']"
+            size="3x" :style="{ color: '#7d5bf4' }"
+            @click="favChangeGO()"
+          />
+        </div>
+      </div>
+    </div>
+<<<<<<< HEAD
+=======
+    <!-- 유저 데이터 삭제 후 로그인 페이지 -->
+    <p id="out" @click="out()">탈퇴하기</p>
+>>>>>>> develop
+  </div>
+</template>
+
+<script>
+ import http from "@/util/http-common";
+import PV from "password-validator";
+export default {
+  name: "MyPageModify",
+  data: () =>{
+    return{
+      userInfo:{
+        userImg: "",
+        userName: "",
+        userPw:"",
+        feedName:"",
+        introduction:"",
+      },
+      nickname:"",
+      imageUrl:"",
+      idCheck: false,
+      password:"",
+      passwordSchema: new PV(),
+      error:{
+        password: false,
+      },
+      file:""
+    }
+  },
+  created(){
+    this.userInfo =  this.$store.getters.getUser;
+    this.password = this.userInfo.userPw;
+    this.imageUrl = this.userInfo.userImg;
+    this.nickname = this.userInfo.userName;
+
+    console.log(this.userInfo);
+    console.log("img:"+this.imageUrl);
+
+    this.component = this;
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(20)
+      .has()
+      .digits()
+      .has()
+      .letters();
+  },
+  watch: {
+    password: function() {
+      this.checkForm();
+    }  
+  },
+  methods: {
+    idCheckFunc() {
+      console.log(this.userInfo.userName);
+      http
+        .get(`/api/user/checkname/${this.userInfo.userName}`)
+        .then(({ data }) => {
+          if (!data) { // db에 닉네임이 있으면 false
+            alert('중복되는 닉네임 입니다. 다른 닉네임을 입력해주세요!');
+          } else if (data) { // 없으면 true
+            alert('사용가능한 닉네임 입니다.');
+            this.idCheck = true;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      
+    },
+    favChangeGO: function(){
+      // 취향 수정하러 가기
+      this.$router.push('/mypage/myfavorite');
+    },
+<<<<<<< HEAD
+    mainGO:function(){
+      // 그냥 메인으로 돌아가기
+      this.$router.push('/');
+    },
+    finish:function(){
+      // 데이터 갱신 후 메인
+      this.$router.push('/');
+=======
+    out:function(){
+      // 유저 데이터 삭제
+      console.log("아이디:"+this.userInfo.userId);
+      http
+        .delete(`/api/user/`+this.userInfo.userId)
+        .then(({ data }) => {
+          if (!data) {
+            alert('탈퇴에 실패하였습니다.');
+          } else if (data) {
+            // 모달창 넣기 -> 한번더 확인  🎈
+            alert('탈퇴되었습니다.');
+            this.$router.push("/login")
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onClickImageUpload() {
+      this.$refs.file.click();
+    },
+    update:function(){
+      this.userInfo.userPw = this.password;
+      this.userInfo.userImg = this.imageUrl;
+      
+      const formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("user", new Blob([JSON.stringify(this.userInfo)], { type: "application/json" }));
+      this.userInfo.userImg = this.file;
+      
+      console.log(this.nickname);
+      console.log(this.userInfo.userName);
+
+      if(this.nickname != this.userInfo.userName){ // 변경을 하려면 중복체크 하도록 
+        if(!this.idCheck){
+        alert("닉네임 중복확인 후 진행해주세요.")
+      }else{
+        http.
+        put(`/api/user`, formData,{
+                headers: {
+                    "Content-Type": `multipart/form-data`,
+                }
+              })
+        .then(({data}) => {
+         if(data != 'fail'){
+          alert("수정이 완료되었습니다.");
+          console.log("store: "+this.$store);
+          this.userInfo.userImg = data; // 리턴받은 url 넣기 
+          this.$store.commit('setUserInfo',this.userInfo);
+          this.$router.push("/home")
+         }else{
+           alert("회원정보 수정에 실패하였습니다.");
+         }
+       }).catch((err) => {
+         console.log(err);
+       });
+      }
+      }else{ // 변경안하고 싶으면 그냥 통과
+        http.
+        put(`/api/user`, formData,{
+                headers: {
+                    "Content-Type": `multipart/form-data`,
+                }
+              })
+        .then(({data}) => {
+         if(data != 'fail'){
+          alert("수정이 완료되었습니다.");
+          console.log("store: "+this.$store);
+          this.userInfo.userImg = data;
+          this.$store.commit('setUserInfo',this.userInfo);
+          this.$router.push("/home")
+         }else{
+           alert("회원정보 수정에 실패하였습니다.");
+         }
+       }).catch((err) => {
+         console.log(err);
+       });
+      }
+      
+    },
+    handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      },
+       onChangeImages(e) {
+            console.log(e.target.files)
+            const file = e.target.files[0];
+            this.imageUrl = URL.createObjectURL(file);
+        },
+    back:function(){ // 수정 폼 뒤로가기는 메인
+      this.$router.push('/home');
+    },
+    checkForm(){
+      if(this.password.length >= 0 && !this.passwordSchema.validate(this.password))
+        this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다";
+      else this.error.password = false;
+>>>>>>> develop
+    }
+  },
+};
+</script>
+
+<style scoped>
+@import "../../components/css/style.css";
+#mypage {
+  width: 380px;
+  height: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+#back {
+  margin-top: 30px;
+  padding-left: 25px;
+  width: 30px;
+  float: left;
+  display: inline-block;
+}
+#mpg {
+  margin-top: 65px;
+  display: inline-block;
+  margin-bottom: 90px;
+}
+#txt {
+  clear: both;
+  float: left;
+  font-size: 28px;
+  font-weight: bold;
+}
+#content {
+  margin-top: 20px;
+  width: 300px;
+}
+#userPicture {
+  clear: both;
+  display: inline-block;
+  padding-bottom: 14px;
+  width: 93px;
+  height: 93px;
+  border-radius: 50%;
+  /* border: 3px solid blueviolet; */
+}
+#upimg{
+  width: 93px;
+  height: 93px;
+   border-radius: 50%;
+  object-fit: cover;
+}
+#ptx {
+  color: var(--color-medium-purple);
+  font-size: 11px;
+  margin-top: 10px;
+}
+.change-form {
+  text-align: left;
+}
+#userName {
+  outline: none;
+  border-bottom: 2px solid;
+  width: 70%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  /* font-size: var(--font-txt-md); */
+}
+#feedName,
+#introduction,
+#password  {
+  outline: none;
+  border-bottom: 2px solid;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  /* font-size: var(--font-txt-md); */
+}
+#check {
+  float: right;
+  margin-left: 7px;
+  margin-right: 4px;
+  padding: 6px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+#favorite {
+  height: 60px;
+}
+#favorite>p{
+  font-size: var(--font-tlt-2xs);
+  margin-top: 10px;
+  display: inline-block;
+  border: 1px solid gray;
+  padding: 4px;
+  margin-left: 5px;
+  border-radius: 10px;
+  float: left;
+}
+#favorite>#tag1{
+  color: white;
+  background-color: #242424;
+}
+#changeFinish {
+  color: white;
+  background-image: var(--background-image-purple-gd);
+  border-radius: 20px;
+  font-size: var(--font-tlt-md);
+  width: 160px;
+  height: 39px;
+}
+#btn{
+  margin-left: 60px;
+  float: left;
+  width: 160px;
+  height: 39px;
+  padding-top: 10px;
+  
+}
+#next {
+  float: right;
+}
+<<<<<<< HEAD
+=======
+#out{
+  color: red;
+  font-size: 12px;
+  text-align: right;
+  margin-right: 41px;
+  margin-bottom: 50px;
+}
+.error{
+  font-size: 12px;
+  color: var(--color-red);
+  text-align: right;
+}
+>>>>>>> develop
+</style>

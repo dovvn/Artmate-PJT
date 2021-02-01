@@ -1,0 +1,108 @@
+/* Global */
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-grey: #707070;
+  --color-medium-grey: #6f6f6f;
+  --color-light-grey2: #b2b2b2;
+  --color-light-grey: #d3d3d3;
+  --color-black: #000000;
+  --color-red: #e40839;
+  --color-light-red: #eb4956;
+  --color-yellow: #fddc3f;
+  --color-blue: #26ade3;
+  --color-dark-purple: #6d44fd;
+  --color-purple: #7d5bf4;
+  --color-medium-purple: #9279e9;
+  --color-light-purple: #a593df;
+  --color-brown: #242424;
+
+  /* font-size */
+  --font-tlt-2xs: 12px;
+  --font-tlt-xs: 14px;
+  --font-tlt-sm: 16px;
+  --font-tlt-md: 18px;
+  --font-tlt-lg: 21px;
+  --font-tlt-xl: 24px;
+  --font-tlt-2xl: 36px;
+  --font-tlt-3xl: 48px;
+  --font-txt-2xs: 10px;
+  --font-txt-xs: 12px;
+  --font-txt-sm: 14px;
+  --font-txt-md: 16px;
+  --font-txt-lg: 18px;
+  --font-txt-xl: 20px;
+
+  /* font-weight */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-bold: 700;
+  --weight-exbold: 800;
+
+  /* size */
+  --border-radius-circle: 50%;
+  --border-radius-xl: 24px;
+  --border-radius-sm: 10px;
+
+  /* Animation */
+  --animation-duration: 300ms;
+
+  /* Gradation Color */
+  --background-color-purple-gd: #6d44fd; /*background-color 속성에 값 부여*/
+  --background-image-purple-gd: linear-gradient(
+    90deg,
+    #6d44fd 0%,
+    #7d5bf4 33%,
+    #9279e9 66%,
+    #a593df 100%
+  ); /*background-image 속성에 값 부여*/
+  --background-color-light-purple-gd: #d9cfe4;
+  --background-image-light-purple-gd: linear-gradient(
+    270deg,
+    #d9cfe4 0%,
+    #d5dee8 100%
+  );
+}
+/* font-style */
+@font-face {
+  font-family: "NanumBarunGothic";
+  font-style: normal;
+  font-weight: 400;
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot");
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix")
+      format("embedded-opentype"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff")
+      format("woff"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "NanumBarunGothic";
+  font-style: normal;
+  font-weight: 700;
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot");
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix")
+      format("embedded-opentype"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff")
+      format("woff"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "NanumBarunGothic";
+  font-style: normal;
+  font-weight: 300;
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot");
+  src: url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix")
+      format("embedded-opentype"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff")
+      format("woff"),
+    url("//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf")
+      format("truetype");
+}
+
+.nanumbarungothic * {
+  font-family: "NanumBarunGothic", sans-serif;
+}

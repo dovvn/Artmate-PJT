@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+#login,
+#JoinUserInfo,
+#JoinSuccess,
+#findpw {
+  width: 100%;
+  height: 100vh;
+  /* min-height: 1024px; */
+  background-image: url(../../assets/login_background.jpg);
+  /* no-repeat center
+    center fixed; */
+  background-repeat: no-repeat;
+  background-position: fixed;
+  background-size: cover;
+  /* position: absolute; */
+  /* top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  overflow-y: hidden;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  padding: 2.5em;
+  text-align: center;
+  width: 380px;
+  height: 100%;
+  margin: auto;
+}
+<<<<<<< HEAD
+img.bg {
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  filter: brightness(60%);
+  z-index: -1;
+=======
+
+.back_btn {
+  text-align: left;
+  color: var(--color-white);
+  font-size: var(--font-tlt-xl);
+  cursor: pointer;
+  margin-right: 10px;
+>>>>>>> develop
+}
+.purple_btn {
+  color: white;
+  background-color: var(--background-color-purple-gd);
+  background-image: var(--background-image-purple-gd);
+  /* font-size, widht, height, margin, border-radius 등은 사용하려는 css에서 정의할 것! */
+}
+.active {
+  filter: brightness(100%);
+}
+.inactive {
+  filter: brightness(50%);
+}
+.success {
+  color: var(--color-blue);
+  text-align: right;
+}
+.input_icon {
+  display: inline-block;
+}
+.full_bar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-white);
+  margin-top: 5px;
+  margin-bottom: 12px;
+  opacity: 70%;
+}
+.hide {
+  display: none;
+}
+@media screen and (max-width: 1024px) {
+  img.bg {
+    left: 0;
+    margin-left: -512px;
+    opacity: 85%;
+    z-index: -1;
+    filter: brightness(60%);
+  }
+}
