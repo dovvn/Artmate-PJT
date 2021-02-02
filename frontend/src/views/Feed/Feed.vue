@@ -3,7 +3,6 @@
      
     <div class="newsNav" v-on:scroll.passive="handleScroll" data-aos="fade-down"
      data-aos-easing="linear" data-aos-duration="1500" v-if="navType==1" >
-      <!-- <feed-nav></feed-nav> -->
       <div id="back" @click="back()">
       <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
     </div>
@@ -37,7 +36,6 @@
 </template>
 
 <script defer>
-// import FeedNav from "@/components/Feed/FeedNav.vue";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 export default {
@@ -105,7 +103,7 @@ export default {
   z-index: -1;
   opacity: 0.6;
 }
-/* nav css */
+/* ------------------------------- nav css ------------------------------- */
 #back {
   padding-top: 30px;
   padding-left: 25px;
