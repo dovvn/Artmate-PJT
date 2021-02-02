@@ -1,15 +1,15 @@
 <template>
   <div class="example">
-  <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">등록</button>
-  <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
-    <div class="pos-check-modal-body">
-      <div class="pos-check-title">
-        글을 등록하시겠습니까?
+    <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">등록</button>
+    <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-check-modal-body">
+        <div class="pos-check-title">
+          글을 등록하시겠습니까?
+        </div>
+        <button class="pos-check-yes-button" @click="addFeed">예</button>
+        <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
       </div>
-      <button class="pos-check-yes-button" @click="addFeed">예</button>
-      <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
-    </div>
-  </b-modal>
+    </b-modal>
   </div>
 </template>
 
