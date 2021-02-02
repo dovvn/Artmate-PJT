@@ -1,7 +1,7 @@
 <template>
   <div class="alarmPage">
     <div class="header">
-      <button class="back__button">
+      <button class="back__button" @click="goBack">
         <font-awesome-icon icon="chevron-left"/>
       </button>
       <div class="title">알림</div>
@@ -143,6 +143,9 @@ export default {
         tab__left.classList.remove("choosed");
         this.choosed = "feed";
       } 
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   }
 }
