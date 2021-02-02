@@ -353,14 +353,15 @@ export default {
   line-height:64px;
 }
 
-/deep/ .FollowInfo > .modal-dialog >.modal-content {
+::v-deep .FollowInfo > .modal-dialog >.modal-content {
   margin-top:200px;
   bottom:0px;
   border-radius: 20px 20px 0px 0px;
   /* min-height:490px; */
 }
-/deep/ .FollowInfo > .modal-dialog > .modal-content> .modal-body {
+::v-deep .FollowInfo > .modal-dialog > .modal-content> .modal-body {
   min-height:498px;
 }
+
 
 </style>

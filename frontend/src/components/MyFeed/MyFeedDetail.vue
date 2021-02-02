@@ -356,9 +356,7 @@ export default {
   * {
   box-sizing: border-box;
   }
-  .white {
-    /* z-index:1; */
-  }
+  
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
@@ -451,10 +449,6 @@ export default {
     /* border-radius:24px 24px 0 0; */
   }
 
-  .feed__img:hover {
-    /* height:50px; */
-  }
-  
   
   .feed__content,
   .feed__memo,
@@ -624,7 +618,7 @@ export default {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
