@@ -35,7 +35,7 @@ import {mapState} from "vuex";
 
 export default {
   //팔로워, 팔로잉을 created에서 한번에 받아온 후 data에 넣는다.
-  props: ["clicked"],
+  props: ["clicked", "userId"],
   data() {
     return {
       choosed: 'Follower',
@@ -48,12 +48,13 @@ export default {
     // 보여주는애를 정해준다.
     // console.log(this.props.clicked);
     // console.log(this.props);
-    listFollower(this.user.userId,(response) => {
+    console.log(this.userId);
+    listFollower(this.userId,(response) => {
       this.followers = response.data;
     }, (error) => {
       console.error(error);
     });
-    listFollowing(this.user.userId,(response) => {
+    listFollowing(this.userId,(response) => {
       this.followings = response.data;
     }, (error) => {
       console.error(error);
@@ -76,14 +77,9 @@ export default {
   },
   methods: {
     seeFeedList(person) {
-      this.$router.replace({
-        name:"UserFeedList",
-        params: {
-          user: person,
-          userId: person.userId,
-        }
-      })
-      
+    //  this.$router.go(this.$router.currentRoute);
+      console.log(person.userId);
+      this.$emit('seeFeedList',person.userId)
     },
     showFollower() {
       this.choosed = "Follower";

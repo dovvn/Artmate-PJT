@@ -83,8 +83,11 @@ export default {
 .newsNav{
   position: sticky;
   top: 0px;
-  background-color: white;
-
+  /* background-color: white; */
+  background-image : url(../../assets/ngng.png); 
+      background-repeat: no-repeat;
+      background-position: fixed;
+      background-size: cover;
   /* 그림자 반응형으로 해보기 🤍 */
   box-shadow: 0px 4px 7px #00000029;
   border-bottom-right-radius: 40px;

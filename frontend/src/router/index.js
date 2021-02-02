@@ -11,6 +11,7 @@ import Login from '@/views/User/Login.vue'
 import FindPw from '@/views/User/FindPw.vue'
 import MyFeed from '@/views/MyFeed/MyFeed.vue'
 import MyPage from "@/views/MyPage/MyPage.vue"
+import UserFeed from '@/views/UserFeed/UserFeed.vue'
 
 Vue.use(VueRouter)
 
@@ -177,6 +178,23 @@ const routes = [
     path: "/error",
     name: "Error",
     component: Error
+  },
+  {
+    path: "/userfeed",
+    name: "UserFeed",
+    component: UserFeed,
+    children: [
+      {
+        path:"list/:userId",
+        name:"UserFeedList",
+        component: ()=> import("@/components/UserFeed/UserFeedList.vue")
+      },
+      {
+        path:"detail/:feedno",
+        name:"UserFeedDetail",
+        component: ()=> import("@/components/UserFeed/UserFeedDetail.vue")
+      },
+    ],
   },
 ]
 

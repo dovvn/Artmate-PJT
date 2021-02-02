@@ -124,11 +124,20 @@ public class UserController {
 			@ApiParam(value = "사용자 객체(user)", required = true) @RequestPart(value = "user", required = true) UserDto user,
 			@ApiParam(value = "프로필사진(file)", required = true) @RequestPart(value = "file", required = false) MultipartFile file)
 			throws IOException {
-		String url="";
+		String url=null;
+		System.out.println("file : "+ file);
+		System.out.println(user.getUserImg()+ " "+uservice.selectUserImg(user.getUserId()));
 		if(file != null) { //파일이 있을때만
 			url = awservice.uploadObject(file, file.getOriginalFilename(), "user"); // aws s3에 이미지 업로드 후 url리턴
 			user.setUserImg(url);// 주소 바꿈
 			uservice.modifyUserImg(user); //유저 이미지 변경
+		}else {
+			if(user.getUserImg() == uservice.selectUserImg(user.getUserId())) {
+				url = user.getUserImg();
+			}else {
+				user.setUserImg(url);
+				uservice.modifyUserImg(user); //유저 이미지 변경
+			}
 		}
 		if (uservice.modifyUserInfo(user)) { //유저 정보 변경(이미지 빼고)
 			if(uservice.selectMyTag(user.getUserId()).size()!=0) { //태그가 이전에 하나라도 있었으면
@@ -139,6 +148,7 @@ public class UserController {
 					if(!uservice.insertMyTag(user.getUserId(),tag)) return "fail";
 				}
 			}
+			System.out.println("url : "+ url);
 			return url; //db 업데이트  
 		}
 		return "fail";
