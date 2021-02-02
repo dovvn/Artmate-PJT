@@ -1,5 +1,5 @@
 <template>
-  <div id="SearchMain" class="search_main wrap2">
+  <div id="SearchMain" class="search_main">
     <nav class="search_nav">
       <div @click="onBack" class="search_back_btn">
         <font-awesome-icon icon="chevron-left"/>
@@ -8,6 +8,7 @@
         <span>검색</span>
       </div>
     </nav>
+    <div class="search_header">무엇을 찾으시나요?</div>
     <form class="search_input_box">
       <input
         type="text"
