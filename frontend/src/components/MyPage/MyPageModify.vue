@@ -8,7 +8,6 @@
         <p id="txt">프로필을 입력하세요</p>
         <div id="userPicture">
           <input type="file" id="file" ref="file" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
-          <!-- <font-awesome-icon v-if="userInfo.userImg==null" :icon="['fas', 'user-circle']" size="6x" /> -->
           <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
           <img id="upimg" v-else :src="imageUrl"/>
         </div>
@@ -56,9 +55,21 @@
         <div id="favorite"> <!-- myTag  선택한 취향 보여주기 갱신~🎈 myTag -->
           <p id="tag1">명화</p> <p>현대미술</p> <p>유화</p>
         </div>
+
+        <!-- 수정완료 후 메인 -->
         <div id="btn">
-          <button id="changeFinish" @click="update()">완료</button>
+            <button id="changeFinish" @click="$bvModal.show('pos-check-modal2')">완료</button>
+            <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+              <div class="pos-check-modal-body">
+                <div class="pos-check-title">
+                  수정을 완료하시겠습니까?
+                </div>
+                <button class="pos-check-yess-button" @click="update()">예</button>
+                <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+              </div>
+            </b-modal>
         </div>
+
         <div id="next">
           <font-awesome-icon
             :icon="['fas', 'chevron-circle-right']"
@@ -70,11 +81,22 @@
       
     </div>
     <!-- 유저 데이터 삭제 후 로그인 페이지 -->
-    <p id="out" @click="out()">탈퇴하기</p>
+      <div class="example">
+        <p id="out" @click="$bvModal.show('pos-check-modal')">탈퇴하기</p>
+        <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+          <div class="pos-check-modal-body">
+            <div class="pos-check-title">
+              탈퇴하시겠습니까?
+            </div>
+            <button class="pos-check-yes-button" @click="out()">예</button>
+            <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
+          </div>
+        </b-modal>
+      </div>
   </div>
 </template>
 
-<script>
+<script scope>
  import http from "@/util/http-common";
 import PV from "password-validator";
 export default {
@@ -155,7 +177,8 @@ export default {
           if (!data) {
             alert('탈퇴에 실패하였습니다.');
           } else if (data) {
-            // 모달창 넣기 -> 한번더 확인  🎈
+            // 모달창 넣기 -> 한번더 확인 
+            
             alert('탈퇴되었습니다.');
             this.$router.push("/login")
           }
@@ -170,14 +193,13 @@ export default {
     update:function(){
       this.userInfo.userPw = this.password;
       this.userInfo.userImg = this.imageUrl;
-      
+
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("user", new Blob([JSON.stringify(this.userInfo)], { type: "application/json" }));
-      this.userInfo.userImg = this.file;
       
-      console.log(this.nickname);
-      console.log(this.userInfo.userName);
+      console.log("file : "+this.file);
+      console.log("userImg : "+this.userInfo.userImg);
 
       if(this.nickname != this.userInfo.userName){ // 변경을 하려면 중복체크 하도록 
         if(!this.idCheck){
@@ -191,7 +213,7 @@ export default {
               })
         .then(({data}) => {
          if(data != 'fail'){
-          alert("수정이 완료되었습니다.");
+          // alert("수정이 완료되었습니다.");
           console.log("store: "+this.$store);
           this.userInfo.userImg = data; // 리턴받은 url 넣기 
           this.$store.commit('setUserInfo',this.userInfo);
@@ -212,7 +234,7 @@ export default {
               })
         .then(({data}) => {
          if(data != 'fail'){
-          alert("수정이 완료되었습니다.");
+          // alert("수정이 완료되었습니다.");
           console.log("store: "+this.$store);
           this.userInfo.userImg = data;
           this.$store.commit('setUserInfo',this.userInfo);
@@ -372,5 +394,56 @@ export default {
   font-size: 12px;
   color: var(--color-red);
   text-align: right;
+}
+/* ---------------- 모달 css ---------------- */
+.pos-check-yes-button {
+  color:white;
+  background-color:#CB3E47; 
+  border-radius:10px;
+  font-size:14px;
+  width:100px;
+  height:30px;
+}
+.pos-check-yess-button {
+  color:white;
+  background-color:#9279e9; 
+  border-radius:10px;
+  font-size:14px;
+  width:100px;
+  height:30px;
+}
+.pos-check-no-button {
+  color:#F3F3F3;
+  background-color:#707070;
+  border-radius:10px;
+  font-size:14px;
+  width:100px;
+  height:30px;
+  margin-left:15px;
+}
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:15px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+}
+::v-deep .pos-check-modal2 > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:15px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+}
+.pos-check-title {
+  height:60px;
+  line-height:60px;
+  font-weight:700;
+}
+.pos-check-modal-body {
+  text-align:center;
+  
 }
 </style>

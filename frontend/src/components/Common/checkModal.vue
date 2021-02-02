@@ -22,7 +22,8 @@ export default {
 <style scoped>
 .pos-check-yes-button {
   color:white;
-  background-color:#CB3E47;
+  /* background-color:#CB3E47; */ /* 삭제, 탈되 확인 색 */
+  background-color:#9279e9;  /* 수정, 등록 확인 색 */
   border-radius:10px;
   font-size:14px;
   width:100px;
@@ -37,7 +38,7 @@ export default {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
