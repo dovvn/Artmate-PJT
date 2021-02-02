@@ -186,8 +186,6 @@ export default {
       this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
     }
     window.addEventListener('resize',()=>{
-      const carousel=document.querySelector('.carousel-3d-slider');
-      console.log(carousel)
       if (window.innerWidth<=1024){
           this.carouselWidth=120;
           this.carouselHeight=270;
