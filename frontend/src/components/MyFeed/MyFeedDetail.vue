@@ -12,10 +12,13 @@
           <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
         </div>
       </b-modal>
-      
+      <button class="goBack__button" @click="goBack()">
+            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          </button>
       <div class="sticky-top">
         
         <div class="white">
+          
           <div class="feed__info">
             <div class="feed__left">
               <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
@@ -136,6 +139,10 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      // console.log('뒤로가')
+      this.$router.push('/myfeed');
+    },
     showCheckmodal(memoId) {
       this.delete_memoId = memoId;
       console.log(memoId);
@@ -356,9 +363,7 @@ export default {
   * {
   box-sizing: border-box;
   }
-  .white {
-    /* z-index:1; */
-  }
+  
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
@@ -451,10 +456,6 @@ export default {
     /* border-radius:24px 24px 0 0; */
   }
 
-  .feed__img:hover {
-    /* height:50px; */
-  }
-  
   
   .feed__content,
   .feed__memo,
@@ -623,8 +624,8 @@ export default {
   width:100px;
   height:30px;
   margin-left:15px;
-} 
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+}
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
@@ -648,5 +649,12 @@ export default {
 }
 .white {
   background: white;
+}
+.goBack__button {
+  font-size:22px;
+  position:relative;
+  z-index:3;
+  top:30px;
+  left:10px;
 }
 </style>

@@ -39,11 +39,11 @@
   cursor: pointer;
 }
 .online_exhibition_poster {
-  object-fit: cover;
+  object-fit: contain;
   text-align: center;
   margin: auto;
   max-height: 340px;
-  max-width: 760px;
+  max-width: 700px;
   /* padding: 3px; */
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
@@ -267,6 +267,7 @@
   }
   .online_box {
     width: 300px;
+    min-height: 350px;
   }
   .online_tlt {
     font-size: var(--font-txt-xl);
@@ -280,6 +281,12 @@
   .home_logo_img {
     width: 50px;
     height: 50px;
+  }
+  .online_exhibition_poster {
+    max-height: 200px;
+    max-width: 300px;
+    /* padding: 3px; */
+    box-shadow: 3px 3px 5px 0 #0000007a;
   }
   .online_exhibition_tlt {
     font-size: var(--font-txt-md);
