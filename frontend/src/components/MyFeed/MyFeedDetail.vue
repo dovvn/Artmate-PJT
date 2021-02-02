@@ -12,10 +12,13 @@
           <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
         </div>
       </b-modal>
-      
+      <button class="goBack__button" @click="goBack()">
+            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          </button>
       <div class="sticky-top">
         
         <div class="white">
+          
           <div class="feed__info">
             <div class="feed__left">
               <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
@@ -136,6 +139,10 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      // console.log('뒤로가')
+      this.$router.push('/myfeed');
+    },
     showCheckmodal(memoId) {
       this.delete_memoId = memoId;
       console.log(memoId);
@@ -642,5 +649,12 @@ export default {
 }
 .white {
   background: white;
+}
+.goBack__button {
+  font-size:22px;
+  position:relative;
+  z-index:3;
+  top:30px;
+  left:10px;
 }
 </style>
