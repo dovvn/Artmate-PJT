@@ -3,9 +3,8 @@
     <div id="back" @click="back()">
       <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
     </div>
-  <!-- <p id="txt2">NEWSFEED</p> -->
  <!-- 처음 피드 메뉴바 또는 스크롤 맨위에 올리면 스르륵 변하기 -->
-    <div id="feednav1">
+    <div id="feednav1" >
         <p id="txt">NEWSFEED</p>
         
         <div id="nav" class="nav">
@@ -28,6 +27,7 @@
 
 <script>
 export default {
+  
   methods:{
     back:function(){ 
        this.$router.push('/home');

@@ -623,7 +623,7 @@ export default {
   width:100px;
   height:30px;
   margin-left:15px;
-}
+} 
 /deep/ .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;

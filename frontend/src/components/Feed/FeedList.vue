@@ -25,7 +25,7 @@
               <font-awesome-icon
             :icon="['far', 'comment-alt']"
             size="sm"
-          /> {{nf.commentCnt}} 
+          /> {{nf.commentCnt}}
             </div>
             <div id="mark">
               <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.bookmark, nf.id)" :icon="['far', 'bookmark']" size="sm" />

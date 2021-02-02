@@ -4,22 +4,47 @@
     <div class="fiddiv">
      <!-- <img src="../../assets/circle11.png" alt="" class="circle1">
      <img src="../../assets/circle2.png" alt="" class="circle2" > -->
-    <div class="newsNav">
-      
+     
+    <!-- <div class="newsNav" v-on:scroll="handleScroll" > -->
+      <div class="newsNav" >
       <feed-nav></feed-nav>
-      
     </div>
       <router-view></router-view>
   </div>
   </div>
 </template>
 
-<script>
+<script defer>
 import FeedNav from "@/components/Feed/FeedNav.vue";
+
 export default {
+  data(){
+    return{
+      scrollY: 0,
+      timer: null
+    }
+  },
+  // created () {
+  //   window.addEventListener('scroll', this.handleScroll);
+  // },
+  // destroyed () {
+  //   window.removeEventListener('scroll', this.handleScroll);
+  // },
     components :{
         FeedNav
-    }
+    },
+  //   methods:{
+  //    handleScroll () {
+  //     // Any code to be executed when the window is scrolled
+  //     if (this.timer === null) {
+  //       this.timer = setTimeout(function () {
+  //         this.scrollY = window.scrollY
+  //         clearTimeout(this.timer)
+  //         this.timer = null
+  //       }.bind(this), 200)
+  //     }
+  //   }
+  // }
 }
 </script>
 
