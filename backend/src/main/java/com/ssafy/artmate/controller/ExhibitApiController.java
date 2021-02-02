@@ -18,6 +18,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,20 +32,21 @@ import com.ssafy.artmate.service.ExhibitService;
 
 import io.swagger.annotations.Api;
 
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
-@RestController
-@RequestMapping("/api/exhibit")
-@Api(value = "전시회 공공데이터 API")
-public class ExhibitApiController {
+@Component
+public class ExhibitApiController implements ApplicationRunner{
 
 	static final String ServiceKey = "5a54466f6c756e6e3130324c50755745"; // 인증키
 	
 	@Autowired
 	private ExhibitService eservice;
+	
 
-	@ResponseBody
-	@GetMapping("/seoul") //최신 업데이트된 전시회 부터 불러오기
-	public void getSeoulExhibit(HttpServletRequest request, HttpServletResponse response) throws IOException, org.json.simple.parser.ParseException {
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		this.getSeoulExhibit();
+	}
+
+	public void getSeoulExhibit() throws IOException, org.json.simple.parser.ParseException {
 		StringBuilder urlBuilder = new StringBuilder(
 				"http://openapi.seoul.go.kr:8088/" + ServiceKey + "/json/ListExhibitionOfSeoulMOAInfo/1/53/"); /* URL */
 
@@ -81,7 +85,7 @@ public class ExhibitApiController {
 			
 			//만약 이미 db에 있는 전시회라면 종료
 			if(eservice.selectExhibitBySeq(dto.getSeqNum()) != null) {
-				System.out.println("더이상 최신 업데이트 된 전시회 없음!");
+				System.out.println("===============최신 업데이트 된 전시회 없음!");
 				break;
 			}
 			 
@@ -97,7 +101,7 @@ public class ExhibitApiController {
 			dto.setEndDate(data.get("DP_END").toString()); //종료날짜
 			dto.setArtist(data.get("DP_ARTIST").toString()); //작가
 
-			System.out.println("====새로운 전시회 데이터: "+dto.toString());
+			System.out.println("===============새로운 전시회 데이터: "+dto.toString());
 			
 			//DB에 전시회 데이터 넣기(태그빼고)
 			eservice.insertExhibit(dto);
