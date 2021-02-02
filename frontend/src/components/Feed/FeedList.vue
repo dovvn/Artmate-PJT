@@ -1,7 +1,7 @@
 <template>
   <div id="newsfeed">
       <div class="feedLine">
-        <div id="post"  v-for="nf in newsfeed" :key="nf.id">
+        <div id="post"  v-for="nf in newsfeed" :key="nf.id"> <!--  @click="postDetail(nf.id)" 🎈 -->
           <div id="picture" >
             <img class="feed_img" :src="nf.feedImg" alt="">
           </div>
@@ -9,7 +9,7 @@
             <div class="pro" > 
               <img class="profile_img" :src="nf.userImg" alt="">
               <p id="nick">{{nf.userName}}</p>
-              <p id="date">{{nf.writeDate}}</p>
+              <p id="date" >{{timeForToday(nf.writeDate)}}</p>
             </div>
             <div class="feedtext">
                {{nf.feedText}}
@@ -50,8 +50,8 @@ export default {
   },
   created() {
     this.userInfo =  this.$store.getters.getUser;
+    // this.changeDate = this.timeForToday(this.newsfeed.writeDate);
     console.log(this.userInfo.userId);
-    console.log(this.userInfo.likemark);
     http
       .get(`/api/newsfeed/list/${this.userInfo.userId}`)
       .then((res) => {
@@ -142,7 +142,29 @@ export default {
         .catch((err) => console.log(err));
       }
     },
+    timeForToday(value){
+      const today=new Date();
+      const timeValue = new Date(value);
+      // console.log(today,timeValue);
+      const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      if(betweenTime < 1) return '방금전';
+      if(betweenTime < 60) {
+        return `${betweenTime}분전`;
+      }
+      const betweenTimeHour = Math.floor(betweenTime / 60);
+      if(betweenTimeHour < 24) {
+        return `${betweenTimeHour}시간전`;
+      }
 
+      const betweenTimeDay = Math.floor(betweenTime / 60/ 24);
+      if(betweenTimeDay < 365) {
+        return `${betweenTimeDay}일전`;
+      }
+      return `%{Math.floor(betweenTimeDay/ 365)}년전`;
+    }
+    // postDetail:function(feedid){ 🎈 
+    //   this.$router.push(`feed/detail/${feedid}`);
+    // }
   }
   
 }
