@@ -153,16 +153,12 @@
 </template>
 
 <script defer>
-// @ is an alias to /src
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 document.addEventListener('scroll',()=>{
-  // console.log(e);
   const navbar = document.querySelector('#navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
-  // console.log(navbar)
-  // console.log(navbar.style.background);
   if(window.scrollY > navbarHeight){
     navbar.style.background="white";
   }
@@ -186,8 +182,6 @@ export default {
       this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
     }
     window.addEventListener('resize',()=>{
-      const carousel=document.querySelector('.carousel-3d-slider');
-      console.log(carousel)
       if (window.innerWidth<=1024){
           this.carouselWidth=120;
           this.carouselHeight=270;
@@ -206,6 +200,7 @@ export default {
   },
   data() {
     return{
+      onlineCarouselClass:"",
       carouselWidth:0,
       carouselHeight:0,
       carouselSpace:0,
