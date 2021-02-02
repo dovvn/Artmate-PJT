@@ -5,15 +5,23 @@
     <Navi class="list__navi"/>
     <div class="writer__info">
       
-      <div class="writer__info__feedname">
-        {{myInfo.feedName}}
+      <div class="writer__info__header">
+        <div class="writer__info__feedname">
+          {{userInfo.feedName}}
+        </div>
+        <button @click="Follow" v-if="!following" class="writer__follow__button">
+          팔로우
+        </button>
+        <button @click="unFollow" v-if="following" class="writer__followed__button">
+          팔로잉
+        </button>
       </div>
       
-      <!-- <img class="writer__info__img" :src="myInfo.userImg" alt=""> -->
+      <!-- <img class="writer__info__img" :src="userInfo.userImg" alt=""> -->
       <img class="writer__info__img" v-if="imageUrl==null||imageUrl==''" src="../../assets/person.jpg"/>
       <img class="writer__info__img" v-else :src="imageUrl"/>
-      <div class="writer__info__nickname">{{myInfo.userName}}</div>
-      <div class="writer__info__intro">{{myInfo.introduction}}</div>
+      <div class="writer__info__nickname">{{userInfo.userName}}</div>
+      <div class="writer__info__intro">{{userInfo.introduction}}</div>
       
       <div class="writer__info__cntboxes">
         <div class="writer__info__cntbox">
@@ -21,18 +29,18 @@
           <div class="writer__info__name">게시물</div>
         </div>
         <div class="writer__info__cntbox" @click="seeFollow('Follower')">
-          <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
+          <div class="writer__info__cnt">{{userInfo.followerCnt}}</div>
           <div class="writer__info__name">팔로워</div>
         </div>
         <div class="writer__info__cntbox"  @click="seeFollow('Following')">
-          <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
+          <div class="writer__info__cnt">{{userInfo.followingCnt}}</div>
           <div class="writer__info__name">팔로잉</div>
         </div>
       </div>
         
      
       <!-- <div class="writer__info__tags">
-        <div class="writer__info__tag" v-for="(tag,idx) in myInfo.myTag" :key="idx">
+        <div class="writer__info__tag" v-for="(tag,idx) in userInfo.myTag" :key="idx">
           {{tag}}
         </div>
       </div> -->
@@ -47,23 +55,21 @@
         >
       </li>
     </ul>
-    <button class="feed__writebutton" @click="goWrite">
-      <font-awesome-icon icon="pen-fancy"/>
-    </button>
+    
     <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
       <button 
       class="detail__hide__button" 
       @click="$bvModal.hide('FollowInfo')">
       x
       </button>
-      <FollowInfo :clicked="clicked"/>
+      <FollowInfo :clicked="clicked" :userId="userInfo.userId" @seeFeedList = "seeFeedList"/>
     </b-modal>
   </div>
 </template>
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
-import FollowInfo from './MyPageFollower_ing_List';
+import FollowInfo from './UserFollow.vue';
 import {mapState} from "vuex";
 import {listMyfeed} from '@/api/myfeed.js';
 import http from "@/util/http-common";
@@ -77,7 +83,7 @@ export default {
     return {
       clicked: '',
       feeds: [],
-      myInfo: {
+      userInfo: {
         feedCnt: 0,
         feedName: "",
         userImg: "",
@@ -88,13 +94,57 @@ export default {
         followerCnt: 0,
       },
       imageUrl:"",
-      detailVisible: false
+      detailVisible: false,
+      following: false,
     };
   },
   computed: {
     ...mapState(["user"])
   },
   methods: {
+    Follow() {
+      this.following = !this.following;
+      this.userInfo.followerCnt += 1;
+      let params = {
+        sendUserId: this.user.userId,
+        getUserId:this.$route.params.userId, 
+      }
+      console.log(params);
+      http
+      .put(`http://localhost:7777/api/user/follow?getUserId=${params.getUserId}&sendUserId=${params.sendUserId}`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+    unFollow() {
+      this.following = !this.following;
+      this.userInfo.followerCnt -= 1;
+       let params = {
+        "sendUserId": this.user.userId,
+        "getUserId":this.$route.params.userId, 
+      }
+      http
+      .delete('/api/user/follow', {params:params})
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+    seeFeedList(userId) {
+      this.updateFeedList(userId);
+      this.updateFollow(this.user.userId,this.$route.params.userId)
+      
+      this.$bvModal.hide('FollowInfo');
+       this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
+    },
     seeFollow(choosed) {
       // console.log(choosed);
       this.clicked = choosed;
@@ -105,16 +155,11 @@ export default {
       this.$bvModal.show('FollowInfo');
     },
     seeDetail(feedno){
-      // console.log(feedno);
+      console.log(feedno);
       // detail페이지로 이동하면서 라우터 안에 피드id를 같이 보냄
       this.$router.replace({
-        name: "MyFeedView",
+        name: "UserFeedDetail",
         params: {feedno: feedno}
-      });
-    },
-    goWrite(){
-      this.$router.replace({
-        name: "MyFeedAdd"
       });
     },
     imgLocate(){
@@ -124,11 +169,12 @@ export default {
       let left_width = 0;
       let left_short = true;
       let row_height = 0;
-      let row_cnt = 0;
+      let row_cnt = 0
       let nums = [125,150,100]
       for(let i = 0; i < imgs.length; i++){
         if(pos === "left") {
           row_height = nums[row_cnt%3];
+          // console.log(row_height);
           row_cnt +=1;
           left_width = left_short? 38 : 58;
           imgs[i].style.width = `${left_width}%`
@@ -149,39 +195,60 @@ export default {
       }
 
     },
+    updateFeedList(userId) {
+      http
+      .get(`/api/user/${userId}`)
+      .then((response) => {
+        this.userInfo = response.data;
+      })
+      .then(() => {
+        this.imageUrl = this.userInfo.userImg;
+        console.log(this.userInfo.userId);
+        listMyfeed(this.userInfo.userId,
+          (response) => {
+            this.feeds=response.data;
+            // this.imgLocate();
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      })
+      .catch((error)=> {
+        console.error(error);
+      })
+      },
+      updateFollow(me,you) {
+        http
+        .get(`/api/user/follow/${me}/${you}`)
+        .then((response) => {
+          if(response.data) {
+            this.following = response.data;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      },
+      updateUserInfo(userId) {
+        http
+        .get(`/api/user/${userId}`)
+        .then((response) => {
+          this.userInfo = response.data;
+        }) 
+        .catch((error) => {
+          console.error(error);
+        })
+      }
   },
   created() {
-    //axios요청으로 내가 쓴 피드들 받아와서 feeds에 담아놓는다. 
-    //내 정보(피드 소개, 프로필 이미지, 닉네임,소개글, 관심 태그 )
-    //myInfo에 담는다.
+    //axios요청으로 유저가 쓴 피드들 받아와서 feeds에 담아놓는다. 
+    //유저 정보(피드 소개, 프로필 이미지, 닉네임,소개글, 관심 태그 )
+    //userInfo에 담는다.
     // console.log(this.user);
-    http
-    .get(`/api/user/${this.user.userId}`)
-    .then((response) => {
-      this.myInfo = response.data;
-    })
-    .catch((error)=> {
-      console.error(error);
-    })
-    // this.myInfo.feedCnt = this.user.feedCnt;
-    // this.myInfo.feedName = this.user.feedName;
-    // this.myInfo.userImg = this.user.userImg;
-    // this.myInfo.userName = this.user.userName;
-    // this.myInfo.introduction = this.user.introduction;
-    // this.myInfo.myTag = this.user.myTag;
-    // this.myInfo.followingCnt = this.user.followingCnt;
-    // this.myInfo.followerCnt = this.user.followerCnt;
-    this.imageUrl = this.myInfo.userImg;
-    // console.log(this.user.userId);
-    listMyfeed(this.user.userId,
-      (response) => {
-        this.feeds=response.data;
-        // this.imgLocate();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this.updateFeedList(this.$route.params.userId);
+    //팔로우 정보 확인
+    this.updateFollow(this.user.userId,this.$route.params.userId);
     
   },
   updated() {
@@ -247,13 +314,43 @@ export default {
   /* height:330px; */
   background-color: #FFFFFF;
 }
+.writer__info__header {
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left:20px;
+  margin-right:20px;
+  margin-top:15px;
+}
+.writer__follow__button {
+  font-size: 12px;
+  color:white;
+  background: linear-gradient(270deg,#A593DF,#9279E9,#7D5BF4,#6D44FD);
+  box-shadow: #00000029 0px 3px 6px;
+  width: 69px;
+  height:20px;
+  margin-top:4px;
+  margin-right:2px;
+  border-radius:15px;
+}
+.writer__followed__button {
+  font-size: 12px;
+  color:white;
+  background-color: #D3D3D3;
+  /* box-shadow: #00000029 0px 3px 6px; */
+  width: 69px;
+  height:20px;
+  margin-top:4px;
+  margin-right:2px;
+  border-radius:15px;
+}
 .writer__info__feedname {
   font-size:20px;
   /* margin-top:20pt; */
-  margin-left:20px;
+  /* margin-left:20px; */
   text-align:left;
   font-weight: 700;
-  margin-top:10px;
+  /* margin-top:10px; */
 }
 .writer__info__middle {
   display:flex;

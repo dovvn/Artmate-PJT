@@ -53,10 +53,6 @@
             {{feed.feedText}}
           </div>
           
-          <div class="feed__btns">
-              <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
-              <span @click="deleteFeed" class="feed__delete__button">[삭제]</span>
-          </div>
           <div class="dotLine"></div>
           <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
         </div>
@@ -68,8 +64,8 @@
           <div class="feed__memo__items" v-for="(memo,idx) in memos" :key="idx">
             <div class="memo__left">
               <img v-if="memo.userImg==''||memo.userImg==null" class="memo__writer__img" src="../../assets/person.jpg">
-              <img 
-                v-else
+              <img
+                v-else 
                 :src="memo.userImg" 
                 class="memo__writer__img"
                 @click="goUserFeed(memo.userId)">
@@ -105,7 +101,7 @@
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
-import {detailFeed, deleteFeed} from '@/api/myfeed.js';
+import {detailFeed} from '@/api/myfeed.js';
 import {listMemo, addMemo, modifyMemo, deleteMemo} from '@/api/memo.js';
 import {mapState} from "vuex";
 import http from "@/util/http-common";
@@ -150,7 +146,10 @@ export default {
     },
     goBack() {
       // console.log('뒤로가')
-      this.$router.push('/myfeed');
+      this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: this.feed.userId}
+      });
     },
     showCheckmodal(memoId) {
       this.delete_memoId = memoId;
@@ -169,24 +168,6 @@ export default {
         console.error(error); 
       })
       this.memoInput.content = '';
-    },
-    modifyFeed() {
-      this.$router.replace({
-        name: "MyFeedModify",
-        params: {feed: this.feed}
-      });
-    },
-    deleteFeed() {
-      //먼저 알림창 띄우고 동의하면
-      //axios활용해서 백에 삭제요청 보냄
-      deleteFeed(this.$route.params.feedno, (response) => {
-        console.log(response);
-        this.$router.push({
-          name:"MyFeedList",
-        })
-      }, (error) => {
-        console.error(error);
-      })
     },
     updateMemos() {
       listMemo(this.$route.params.feedno, (response) => {
