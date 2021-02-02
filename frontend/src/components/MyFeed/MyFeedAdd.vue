@@ -78,7 +78,8 @@ export default {
   methods: {
     goBack() {
       this.$router.replace({
-        name: "MyFeedList"
+        name: "MyFeedList",
+        params: {status: "added"}
       });
     },
     addFeed() {
@@ -93,10 +94,10 @@ export default {
       addFeed(formData, (response) => {
         console.log(response);
         // const feedno = response.data.id;
-        this.$router.push({
+        this.$router.replace({
           name:"MyFeedList",
           // name: "MyFeedView",
-          // params: {feedno: feedno}
+          params: {status: "added"},
         });
       }, (error) => {
         console.error(error);

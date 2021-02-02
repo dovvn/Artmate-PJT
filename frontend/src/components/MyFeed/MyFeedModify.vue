@@ -100,10 +100,10 @@ export default {
       modifyFeed(formData, (response) => {
         console.log(response);
         // const feedno = response.data.id;
-        this.$router.push({
+        this.$router.replace({
           name:"MyFeedList",
           // name: "MyFeedView",
-          // params: {feedno: feedno}
+          params: {status: "modified"}
         });
       }, (error) => {
         console.error(error);
