@@ -132,7 +132,7 @@ public class UserController {
 			user.setUserImg(url);// 주소 바꿈
 			uservice.modifyUserImg(user); //유저 이미지 변경
 		}else {
-			if(user.getUserImg() == uservice.selectUserImg(user.getUserId())) {
+			if(user.getUserImg().equals(uservice.selectUserImg(user.getUserId()))) {
 				url = user.getUserImg();
 			}else {
 				user.setUserImg(url);
