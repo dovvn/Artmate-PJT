@@ -42,7 +42,7 @@
   object-fit: cover;
   text-align: center;
   margin: auto;
-  max-height: 200px;
+  max-height: 340px;
   max-width: 760px;
   /* padding: 3px; */
   box-shadow: 3px 3px 5px 0 #0000007a;
@@ -93,42 +93,34 @@
   background-color: var(--color-medium-grey);
   color: var(--color-white);
 }
-.carousel {
-  width: 500px;
-  /* height: 500px; */
-  margin-top: 50px;
-  margin-bottom: 0;
-  width: 120px;
-}
 .slide {
   background-color: transparent;
   cursor: pointer;
-  width: 120px;
 }
 .test {
   display: flex;
   justify-content: right;
 }
 .recommend_exhibition_poster {
-  width: 120px;
-  height: 150px;
+  width: 200px;
+  height: 260px;
 }
 .recommend_exhibition_info {
   font-weight: var(--weight-bold);
   text-align: right;
 }
 .recommend_exhibition_tlt {
-  font-size: var(--font-txt-sm);
+  font-size: var(--font-tlt-lg);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .recommend_exhibition_place {
-  font-size: var(--font-txt-xs);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .recommend_exhibition_duration {
-  font-size: var(--font-txt-xs);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
@@ -328,7 +320,7 @@
   }
   .recommend_exhibition_poster {
     width: 120px;
-    height: 150px;
+    height: 170px;
   }
   .recommend_exhibition_tlt {
     font-size: var(--font-txt-sm);
