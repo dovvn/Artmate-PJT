@@ -16,6 +16,9 @@
       <div class="sticky-top">
         
         <div class="white">
+          <button class="goBack__button">
+            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          </button>
           <div class="feed__info">
             <div class="feed__left">
               <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
@@ -642,5 +645,11 @@ export default {
 }
 .white {
   background: white;
+}
+.goBack__button {
+  font-size:22px;
+  position:absolute;
+  top:30px;
+  left:10px;
 }
 </style>
