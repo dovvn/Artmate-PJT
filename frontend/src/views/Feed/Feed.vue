@@ -1,58 +1,81 @@
 <template>
-  <div class="bgcircle">
-    <!-- <img src="../../assets/nbg.png" alt="" class="nbg"> -->
     <div class="fiddiv">
-     <!-- <img src="../../assets/circle11.png" alt="" class="circle1">
-     <img src="../../assets/circle2.png" alt="" class="circle2" > -->
      
-    <!-- <div class="newsNav" v-on:scroll="handleScroll" > -->
-      <div class="newsNav" >
-      <feed-nav></feed-nav>
+    <div class="newsNav" v-on:scroll.passive="handleScroll" data-aos="fade-down"
+     data-aos-easing="linear" data-aos-duration="1500" v-if="navType==1" >
+      <!-- <feed-nav></feed-nav> -->
+      <div id="back" @click="back()">
+      <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
+    </div>
+    <div id="feednav1" >
+        <p id="txt">NEWSFEED</p>
+        
+        <div id="nav" class="nav">
+            <router-link to="/feed" class="div2" id="follow">팔로우 피드 </router-link> | 
+            <router-link to="/feed/bookmark" class="div2" id="mark">북마크 </router-link>
+        </div>
+    </div>
+ </div>
+
+ <!-- 스크롤 내리면 변하는 메뉴바  -->
+ <div class="newsNav" v-on:scroll.passive="handleScroll" data-aos="fade-up"
+     data-aos-duration="3000" v-if="navType==2" >
+      <div id="back" @click="back()">
+      <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
+    </div>
+    <div id="feednav2"   >
+      <p id="txt2">NEWSFEED</p>
+        <div id="nav" class="nav">
+            <router-link to="/feed" class="div22" id="follow">팔로우 피드 </router-link> | 
+            <router-link to="/feed/bookmark" class="div22" id="mark">북마크 </router-link>
+        </div>
+    </div>
     </div>
       <router-view></router-view>
   </div>
-  </div>
+
 </template>
 
 <script defer>
-import FeedNav from "@/components/Feed/FeedNav.vue";
-
+// import FeedNav from "@/components/Feed/FeedNav.vue";
+import AOS from 'aos';
+import "aos/dist/aos.css";
 export default {
+  name: "Feed",
   data(){
     return{
       scrollY: 0,
-      timer: null
+      navType:1
     }
   },
-  // created () {
-  //   window.addEventListener('scroll', this.handleScroll);
-  // },
-  // destroyed () {
-  //   window.removeEventListener('scroll', this.handleScroll);
-  // },
-    components :{
-        FeedNav
+  created(){
+    AOS.init(); 
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+    methods:{
+      back:function(){ 
+       this.$router.push('/home');
     },
-  //   methods:{
-  //    handleScroll () {
-  //     // Any code to be executed when the window is scrolled
-  //     if (this.timer === null) {
-  //       this.timer = setTimeout(function () {
-  //         this.scrollY = window.scrollY
-  //         clearTimeout(this.timer)
-  //         this.timer = null
-  //       }.bind(this), 200)
-  //     }
-  //   }
-  // }
+     handleScroll () {
+      var _scrollTop = window.scrollY || document.documentElement.scrollTop;
+      // console.log(_scrollTop);  
+      this.scrollY = _scrollTop;
+      console.log("스크롤위치 : "+this.scrollY); 
+      console.log("navType : "+this.navType);
+
+      if(this.scrollY > 400) this.navType = 2;
+      else this.navType =1;
+    }
+  }
 }
 </script>
 
 <style>
-/* @import '../../components/css/common.css'; */
-/* .bgcircle{
-  background-image:url(../../assets/circle11.png), url(../../assets/circle2.png),url(../../assets/circle3.png); background-size:450px 250px, 200px 200px, 100px 100px; background-position:70% 0px ,25% 65%, 40% 50%; background-repeat:no-repeat;
-} */
 .fiddiv {
   width: 380px;
   height: 100%;
@@ -60,6 +83,10 @@ export default {
   margin: 0 auto;
 }
 .newsNav{
+  position: sticky;
+  top: 0px;
+  background-color: white;
+
   /* 그림자 반응형으로 해보기 🤍 */
   box-shadow: 0px 4px 7px #00000029;
   border-bottom-right-radius: 40px;
@@ -78,20 +105,52 @@ export default {
   z-index: -1;
   opacity: 0.6;
 }
-/* .circle1{
-  width: 450px;
-  height: 250px;
-  position: fixed;
-  z-index: -1;
-  opacity: 0.6;
+/* nav css */
+#back {
+  padding-top: 30px;
+  padding-left: 25px;
+  float: left;
+  width: 30px;
+  display: inline-block;
 }
-.circle2{
-  position: fixed;
-  z-index: -2;
-  opacity: 0.4;
-  width: 180px;
-  height: 180px;
-  
-} */
+#feednav1{
+    text-align: center;
+    margin: 0 auto;
+    height: 210px;
+    margin-bottom: 17px;
+}
+#feednav1>#txt {
+  clear: both;
+  float: left;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 50px;
+  padding-bottom: 30px;
+}
+.nav{
+    padding-top: 20px;
+    clear: both;
+    float: left;
+    margin-left: 50px;
+    color: #CCCCCC;
+}
+#follow, #mark{
+  text-decoration: none;
+  color: #CCCCCC;
+}
+
+#feednav2{
+    text-align: center;
+    margin: 0 auto;
+    height: 115px;
+    margin-bottom: 17px;
+}
+#feednav2>#txt2 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 30px;
+  margin-bottom: 0px;
+}
 
 </style>
