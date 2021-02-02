@@ -1,12 +1,11 @@
 .online_bg {
   background: center/cover no-repeat
     url("../../../assets/main/main_background1.png");
-  z-index: -1;
   padding-bottom: 200px;
 }
 .home_logo {
-  padding-top: 30px;
-  /* position: sticky; */
+  margin-top: 80px;
+  position: sticky;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,35 +14,24 @@
   cursor: pointer;
 }
 .home_logo_img {
-  width: 45px;
-  height: 45px;
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
 }
 .home_logo_text {
   color: var(--color-medium-grey);
-  font-size: var(--font-txt-sm);
+  font-size: var(--font-tlt-lg);
 }
 .online_box {
   width: 700px;
-  margin: auto;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
 }
 .online_tlt {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-lg);
   font-weight: var(--weight-bold);
-  margin-left: 10px;
-}
-.online_slide {
-  display: flex;
-  justify-content: center;
-}
-.carousel {
-  width: 250px;
-  /* height: 500px; */
-  margin-top: 50px;
-  margin-bottom: 0;
-}
-.slide {
-  background-color: transparent;
-  cursor: pointer;
+  padding: 1em 0;
 }
 .online_exhibition {
   display: flex;
@@ -54,8 +42,8 @@
   object-fit: cover;
   text-align: center;
   margin: auto;
-  max-height: 200px;
-  max-width: 280px;
+  max-height: 340px;
+  max-width: 760px;
   /* padding: 3px; */
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
@@ -68,20 +56,19 @@
   font-weight: var(--weight-bold);
 }
 .online_exhibition_tlt {
-  font-size: var(--font-txt-lg);
+  font-size: var(--font-tlt-lg);
   color: var(--color-black);
   margin: 0;
   padding: 5px 0;
 }
 .online_exhibition_place {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .recommend_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background2_mobile.jpg");
-  z-index: -1;
   padding: 15px 0 0 15px;
 }
 .recommend_tlt {
@@ -106,51 +93,41 @@
   background-color: var(--color-medium-grey);
   color: var(--color-white);
 }
-.recommend_exhibition_slide {
-  display: flex;
-  /* justify-content: flex-end; */
-  width: 100%;
-  height: 500px;
-  margin-top: 50px;
-  margin-left: 30%;
-  overflow-x: scroll;
+.slide {
+  background-color: transparent;
+  cursor: pointer;
 }
-.recommend_exhibition_slide::-webkit-scrollbar {
-  display: none;
-}
-.recommend_exhibition {
+.test {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding-right: 40px;
+  justify-content: right;
 }
 .recommend_exhibition_poster {
-  width: 300px;
+  width: 200px;
+  height: 260px;
 }
 .recommend_exhibition_info {
   font-weight: var(--weight-bold);
   text-align: right;
 }
 .recommend_exhibition_tlt {
-  font-size: var(--font-tlt-xl);
+  font-size: var(--font-tlt-lg);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .recommend_exhibition_place {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .recommend_exhibition_duration {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .feed_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background3.jpg");
-  z-index: -1;
-  padding: 30px 30px 0 30px;
+  padding: 15px 15px 0 15px;
 }
 .feed_header {
   display: flex;
@@ -164,13 +141,13 @@
   color: var(--color-medium-grey);
 }
 .feed_more_btn {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   cursor: pointer;
 }
 .feed_message {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
 }
@@ -181,8 +158,8 @@
   padding: 30px 0 30px 0;
 }
 .feed_item {
-  width: 470px;
-  padding: 20px;
+  width: 220px;
+  padding: 10px;
   border-radius: calc(var(--border-radius-xl) * 2);
   cursor: pointer;
 }
@@ -204,13 +181,13 @@
   color: var(--color-medium-grey);
 }
 .around_more_btn {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   cursor: pointer;
 }
 .around_message {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
 }
@@ -244,26 +221,25 @@
   padding: 20px;
 }
 .around_exhibition_tlt {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-purple);
   margin: 0;
 }
 .around_exhibition_place {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .around_exhibition_duration {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .footer_box {
   background: left/cover no-repeat url("../../../assets/main/footer_img.png");
-  z-index: -1;
   padding: 0 30px 0 30px;
 }
 .footer_tlt {
@@ -276,7 +252,7 @@
 }
 .footer_section p {
   font-size: var(--font-txt-md);
-  color: var(--color-medium-grey);
+  color: var(--color-white);
   margin: 0;
 }
 #last {
@@ -292,12 +268,25 @@
   .online_box {
     width: 300px;
   }
-  .online_exhibition_poster {
-    /* width: 300px; */
-    /* height: 350px; */
+  .online_tlt {
+    font-size: var(--font-txt-xl);
+  }
+  .home_logo {
+    margin-top: 70px;
+  }
+  .home_logo_text {
+    font-size: var(--font-txt-md);
+  }
+  .home_logo_img {
+    width: 50px;
+    height: 50px;
   }
   .online_exhibition_tlt {
+    font-size: var(--font-txt-md);
     padding: 3px 0;
+  }
+  .online_exhibition_place {
+    font-size: var(--font-txt-sm);
   }
   .online_exhibition_info {
     margin-top: 5px;
@@ -305,7 +294,6 @@
   .recommend_box {
     background: left/cover no-repeat
       url("../../../assets/main/main_background2_mobile.jpg");
-    z-index: -1;
     padding: 15px 0 0 15px;
   }
   .recommend_tlt {
@@ -332,22 +320,16 @@
   }
   .recommend_exhibition_poster {
     width: 120px;
-    height: 150px;
+    height: 170px;
   }
   .recommend_exhibition_tlt {
     font-size: var(--font-txt-sm);
-    color: var(--color-brown);
-    margin: 0;
   }
   .recommend_exhibition_place {
     font-size: var(--font-txt-xs);
-    color: var(--color-medium-grey);
-    margin: 0;
   }
   .recommend_exhibition_duration {
     font-size: var(--font-txt-xs);
-    color: var(--color-medium-grey);
-    margin: 0;
   }
   .feed_box {
     padding: 15px 15px 0 15px;

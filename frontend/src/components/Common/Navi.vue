@@ -1,5 +1,5 @@
 <template>
-  <nav class="navi">
+  <nav @scroll="onScroll" class="navi">
     <div class="navi_left">
       <!-- <font-awesome-icon @click="onClickBack" :class="isBack" icon="chevron-left"/> -->
       <!-- <font-awesome-icon @click="onClickMenu" class="navi_item" icon="bars"/> -->
@@ -117,6 +117,9 @@ export default {
       },
 
   methods:{
+    onScroll(e){
+      console.log(e);
+    },
     mypage(){
       this.$router.push('/mypage');
     },

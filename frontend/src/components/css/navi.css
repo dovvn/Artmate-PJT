@@ -4,9 +4,11 @@
 }
 .navi {
   z-index: 2;
-  /* position: sticky; */
   position: fixed;
-  width: 100%;
+  top: 0;
+  left: 50;
+  right: 50;
+  width: 760px;
   color: var(--color-black);
   font-size: var(--font-tlt-xl);
   display: flex;
@@ -28,4 +30,9 @@
   height: var(--font-tlt-xl);
   border-radius: var(--border-radius-circle);
   margin-bottom: 5px;
+}
+@media screen and (max-width: 1024px) {
+  .navi {
+    width: 380px;
+  }
 }

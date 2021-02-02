@@ -4,16 +4,6 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-/* #login {
-  height: 100vh;
-  position: relative;
-  background: url(https://static.pexels.com/photos/24428/pexels-photo.jpg)
-    no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-} */
 .logo {
   margin-top: 2em;
   margin-bottom: 3em;

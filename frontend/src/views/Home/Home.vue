@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home wrap2">
+    <Navi id="navi"/>
     <div class="online_bg">
-      <Navi/>
       <div class="home_logo">
         <img class="home_logo_img" src="../../assets/main/logo_img.png" alt="">
         <span class="home_logo_text">ARTMATE</span>
@@ -58,13 +58,13 @@
         <carousel-3d
           :autoplay=true
           :autoplayHoverPause=true
-          style='margin: 20px 0 0 90px; overflow-x:hidden'
-          :space="170"
+          :style="carouselStyle"
+          :space="carouselSpace"
           :display="3"
           :perspective="0"
-          :width="120"
           :border="0"
-          class="carousel"
+          :width="carouselWidth"
+          :height="carouselHeight"
           ref="mycarousel"
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
@@ -157,15 +157,59 @@
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+document.addEventListener('scroll',()=>{
+  // console.log(e);
+  const navbar = document.querySelector('#navi');
+  const navbarHeight = navbar.getBoundingClientRect().height;
+  // console.log(navbar)
+  // console.log(navbar.style.background);
+  if(window.scrollY > navbarHeight){
+    navbar.style.background="white";
+  }
+  else{
+    navbar.style.background="transparent";
+  }
+})
 export default {
   name: 'Home',
   mounted(){
-    console.log(this.$refs.mycarousel);
+    if(window.innerWidth<=1024){
+      this.carouselWidth=120;
+      this.carouselHeight=270;
+      this.carouselSpace=170;
+      this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+    }
+    else{
+      this.carouselWidth=200;
+      this.carouselHeight=400;
+      this.carouselSpace=320;
+      this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
+    }
+    window.addEventListener('resize',()=>{
+      const carousel=document.querySelector('.carousel-3d-slider');
+      console.log(carousel)
+      if (window.innerWidth<=1024){
+          this.carouselWidth=120;
+          this.carouselHeight=270;
+          this.carouselSpace=170;
+          this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+      }
+      else{
+          this.carouselWidth=200;
+          this.carouselHeight=400;
+          this.carouselSpace=320;
+          this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
+      }
+    });
     this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
     this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
   },
   data() {
     return{
+      carouselWidth:0,
+      carouselHeight:0,
+      carouselSpace:0,
+      carouselStyle:"",
       onlineList:[
         {
           img:require('../../assets/main/slide1_1.jpg'),
