@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.artmate.mapper.ExhibitMapper">
+	<select id="selectExhibitBySeq" parameterType="String" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE seqNum=#{seqNum};
+	</select>
+	
+	<insert id="insertExhibit" parameterType="ExhibitDto">
+		INSERT INTO Exhibition (name, location, description, exImg, startDate, endDate, artist, seqNum)
+		VALUES (#{name}, #{location}, #{description}, #{exImg}, #{startDate}, #{endDate}, #{artist}, #{seqNum});
+	</insert>
+	
+	<insert id="insertTag" parameterType="HashMap">
+		INSERT INTO ExhibitionTag (exId, tagId)
+		VALUES (#{exId}, #{tagId});
+	</insert>
+</mapper>
