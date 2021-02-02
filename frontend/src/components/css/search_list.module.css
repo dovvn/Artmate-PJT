@@ -1,18 +1,23 @@
 @import "./common.css";
-.wrap {
-  padding: 1.5em 1em;
+.search_list {
+  display: flex;
+  flex-direction: column;
+  width: 760px;
+  height: calc(100%-100px);
+  margin: auto;
+  padding: 30px;
 }
 .search_nav {
   display: flex;
   align-items: center;
 }
 .full_bar1 {
-  width: 100%;
+  position: relative;
+  width: 92%;
   height: 2px;
   background-color: var(--color-purple);
   margin-top: 5px;
-  margin-left: 30px;
-  margin-bottom: 0;
+  margin-left: 8%;
   opacity: 50%;
 }
 .search_back_btn {
@@ -30,22 +35,20 @@
 }
 .search_list_input {
   outline: none;
-  font-size: var(--font-txt-sm);
+  font-size: var(--font-txt-md);
   font-weight: var(--weight-bold);
-  width: 90%;
+  width: 95%;
 }
 .search_list_btn {
-  width: 10%;
+  float: right;
   font-size: var(--font-txt-sm);
 }
 .keyword_list {
-  width: 310px;
+  width: 644px;
   position: relative;
   z-index: 100;
-  margin-left: 30px;
+  margin-left: 55px;
   border: 1px solid var(--color-light-purple);
-  /* border-bottom-left-radius: var(--border-radius-xl);
-  border-bottom-right-radius: var(--border-radius-xl); */
   list-style: none;
 }
 .keyword_item {
@@ -72,14 +75,14 @@
   padding: 10px;
 }
 .search_user_list_tlt {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-lg);
   font-weight: var(--weight-bold);
   color: var(--color-light-purple);
   text-align: left;
 }
 .search_user_list_txt {
   color: var(--color-light-grey2);
-  font-size: var(--font-tlt-xs);
+  font-size: var(--font-tlt-md);
 }
 .search_users {
   display: flex;
@@ -104,7 +107,8 @@
 .search_user_name {
   margin: 0;
   color: var(--color-grey);
-  font-size: var(--font-txt-sm);
+  text-align: center;
+  font-size: var(--font-txt-md);
   font-weight: var(--weight-bold);
 }
 .search_exhibition_list {
@@ -115,14 +119,14 @@
   padding: 10px;
 }
 .search_exhibition_list_tlt {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-lg);
   font-weight: var(--weight-bold);
   color: var(--color-light-purple);
   text-align: left;
 }
 .search_exhibition_list_txt {
   color: var(--color-light-grey2);
-  font-size: var(--font-tlt-xs);
+  font-size: var(--font-tlt-md);
 }
 .search_exhibitions {
   list-style: none;
@@ -166,4 +170,34 @@
 .search_exhibition_expiration {
   font-size: var(--font-tlt-xs);
   color: var(--color-medium-grey);
+}
+@media screen and (max-width: 1024px) {
+  .search_list {
+    width: 380px;
+  }
+  .keyword_list {
+    width: 294px;
+    margin-left: 25px;
+  }
+  .search_user_list_tlt {
+    font-size: var(--font-tlt-md);
+  }
+  .search_user_list_txt {
+    font-size: var(--font-tlt-sm);
+  }
+  .search_user_img {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--border-radius-circle);
+  }
+  .search_user_name {
+    font-size: var(--font-txt-sm);
+    font-weight: var(--weight-bold);
+  }
+  .search_exhibition_list_tlt {
+    font-size: var(--font-tlt-md);
+  }
+  .search_exhibition_list_txt {
+    font-size: var(--font-tlt-sm);
+  }
 }
