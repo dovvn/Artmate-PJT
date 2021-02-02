@@ -1,5 +1,5 @@
 <template>
-  <div id="SearchList" class="search_list wrap">
+  <div id="SearchList" class="search_list wrap2">
     <nav class="search_nav">
       <div @click="onBack" class="search_back_btn">
         <font-awesome-icon icon="chevron-left"/>
@@ -234,5 +234,5 @@ export default {
 </script>
 
 <style scoped>
-  @import '../css/search_list.css';
+  @import '../css/search_list.module.css';
 </style>

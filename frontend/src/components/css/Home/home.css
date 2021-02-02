@@ -23,7 +23,7 @@
   font-size: var(--font-tlt-lg);
 }
 .online_box {
-  width: 700px;
+  width: 708px;
   margin-top: 1em;
   margin-left: auto;
   margin-right: auto;
@@ -104,6 +104,8 @@
 .recommend_exhibition_poster {
   width: 200px;
   height: 260px;
+  border-radius: var(--border-radius-xl);
+  box-shadow: 3px 3px 5px 0 #0000007a;
 }
 .recommend_exhibition_info {
   font-weight: var(--weight-bold);
@@ -166,7 +168,6 @@
 .around_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background4.jpg");
-  z-index: -1;
   padding: 30px 30px 0 30px;
 }
 .around_header {
@@ -266,11 +267,11 @@
     padding-bottom: 150px;
   }
   .online_box {
-    width: 300px;
+    width: 304px;
     min-height: 350px;
   }
   .online_tlt {
-    font-size: var(--font-txt-xl);
+    font-size: var(--font-txt-lg);
   }
   .home_logo {
     margin-top: 70px;
@@ -327,7 +328,7 @@
   }
   .recommend_exhibition_poster {
     width: 120px;
-    height: 170px;
+    height: 150px;
   }
   .recommend_exhibition_tlt {
     font-size: var(--font-txt-sm);
