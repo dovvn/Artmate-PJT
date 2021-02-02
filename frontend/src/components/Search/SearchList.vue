@@ -1,5 +1,5 @@
 <template>
-  <div id="SearchList" class="search_list wrap2">
+  <div id="SearchList" class="search_list">
     <nav class="search_nav">
       <div @click="onBack" class="search_back_btn">
         <font-awesome-icon icon="chevron-left"/>
@@ -12,14 +12,14 @@
           @blur="onBlur"
           type="text"
           class="search_list_input"
-          placeholder="검색"
+          placeholder="검색어를 입력해주세요."
         >
         <button class="search_list_btn">
           <font-awesome-icon icon="search"/>
         </button>
       </form>
     </nav>
-    <div class="full_bar1"></div>
+    <!-- <div class="full_bar1"></div> -->
     <ul
       v-if="isKeyUp && keyword.length && autocomplete.length" 
       class="keyword_list"

@@ -330,10 +330,11 @@ export default {
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 45px; /* Place content 60px from the top */
       transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
-
-    .bm-overlay {
-      //  background: rgba(0, 0, 0, 0.3);
+    .bm-menu::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
     }
     .bm-item-list {
       color: white;
