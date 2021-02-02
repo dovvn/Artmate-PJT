@@ -156,7 +156,7 @@
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
-document.addEventListener('scroll',()=>{
+function handleNavi() {
   const navbar = document.querySelector('#navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
   if(window.scrollY > navbarHeight){
@@ -165,10 +165,14 @@ document.addEventListener('scroll',()=>{
   else{
     navbar.style.background="transparent";
   }
-})
+}
 export default {
   name: 'Home',
+  destroyed(){
+    document.removeEventListener('scroll',handleNavi);
+  },
   mounted(){
+    document.addEventListener('scroll',handleNavi);
     if(window.innerWidth<=1024){
       this.carouselWidth=120;
       this.carouselHeight=270;
@@ -179,7 +183,7 @@ export default {
       this.carouselWidth=200;
       this.carouselHeight=400;
       this.carouselSpace=320;
-      this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
+      this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
     }
     window.addEventListener('resize',()=>{
       if (window.innerWidth<=1024){
@@ -192,7 +196,7 @@ export default {
           this.carouselWidth=200;
           this.carouselHeight=400;
           this.carouselSpace=320;
-          this.carouselStyle='margin: 40px 0 0 200px; overflow-x:hidden';
+          this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
       }
     });
     this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');

@@ -14,4 +14,8 @@ export default {
 
 <style scoped>
   @import '../../components/css/style.css';
+  #Search{
+    height: 100vh;
+    padding: 50px;
+  }
 </style>

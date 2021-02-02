@@ -1,5 +1,5 @@
 <template>
-  <div id="SearchMain" class="serarch_main wrap">
+  <div id="SearchMain" class="search_main wrap2">
     <nav class="search_nav">
       <div @click="onBack" class="search_back_btn">
         <font-awesome-icon icon="chevron-left"/>
@@ -116,5 +116,5 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../components/css/search.css';
+  @import '../../components/css/search.module.css';
 </style>
