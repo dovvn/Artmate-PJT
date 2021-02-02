@@ -1,69 +1,76 @@
 <template>
   <div class="alarmPage">
-    <div class="header">
-      <button class="back__button" @click="goBack">
-        <font-awesome-icon icon="chevron-left"/>
-      </button>
-      <div class="title">알림</div>
+    <div class="sticky-top">
+      <div class="header">
+        <button class="back__button" @click="goBack">
+          <font-awesome-icon icon="chevron-left"/>
+        </button>
+        <div class="title">알림</div>
+      </div>
+      
+      <div class="tabs">
+        <div class="left__tab choosed" @click="showExhibition">전시회 알림</div>
+        <span class="tab__divider">|</span>
+        <div class="right__tab" @click="showFeed">피드 알림</div>
+      </div>
+      <div class="line"></div>
     </div>
     
-    <div class="tabs">
-      <div class="left__tab choosed" @click="showExhibition">전시회 알림</div>
-      <span class="tab__divider">|</span>
-      <div class="right__tab" @click="showFeed">피드 알림</div>
-    </div>
     
-    <div class="line"></div>
+    
     <div class="feed__alarms" v-if="this.choosed === 'feed'">
-      <div class="follow__alarm">
-        <div class="alarm__left">
-          <img src="../../assets/test_alarm/ex1.png"  class="follow__alarm__img" alt="">
-        </div>
-        <div class="alarm__middle">
-          <div class="follow__alarm__body">
-            <div class="follow__alarm__content">박싸피님이 당신의 피드를 <br/> 팔로우했습니다.</div>
+      <div class="feed__alarm" v-for="(alarm,idx) in feeds" :key="idx">
+        <div class="follow__alarm" v-if="alarm.subType === 0">
+          <div class="alarm__left">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="follow__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="follow__alarm__img" alt="">
           </div>
-          <div class="follow__alarm__buttons">
-            <button class="follow__yes__button">수락</button>
-            <button class="follow__no__button">삭제</button>  
+          <div class="alarm__middle">
+            <div class="follow__alarm__body">
+              <div class="follow__alarm__content">{{alarm.sendUserName}}님이 당신의 피드를 <br/> 팔로우했습니다.</div>
+            </div>
+            <div class="follow__alarm__buttons">
+              <button class="follow__yes__button">수락</button>
+              <button class="follow__no__button">삭제</button>  
+            </div>
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">{{alarm.sigDate}}</div>
           </div>
         </div>
-        <div class="alarm__right">
-          <div class="exhibition__alarm__date">1시간 전</div>
+
+        <div class="like__alarm" v-if="alarm.subType === 2">
+          <div class="alarm__left">
+            <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
+          </div>
+          <div class="like__alarm__middle">
+            <div class="like__alarm__body">
+              <div class="like__alarm__content">이연희님 외 3명이 당신의<br/> 게시글을 좋아합니다.</div>
+            </div>
+            
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">3시간 전</div>
+          </div>
+        </div>
+
+        <div class="post__alarm read" v-if="alarm.subType === 1">
+          <div class="alarm__left">
+            <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
+          </div>
+          <div class="like__alarm__middle">
+            <div class="like__alarm__body">
+              <div class="like__alarm__content">팔로워 김연우 님께서 후기를 게시하였습니다.</div>
+            </div>
+            
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">7일 전</div>
+          </div>
         </div>
       </div>
-
-      <div class="like__alarm">
-        <div class="alarm__left">
-          <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
-        </div>
-        <div class="like__alarm__middle">
-          <div class="like__alarm__body">
-            <div class="like__alarm__content">이연희님 외 3명이 당신의<br/> 게시글을 좋아합니다.</div>
-          </div>
-          
-        </div>
-        <div class="alarm__right">
-          <div class="exhibition__alarm__date">3시간 전</div>
-        </div>
-      </div>
-
-      <div class="post__alarm read">
-        <div class="alarm__left">
-          <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
-        </div>
-        <div class="like__alarm__middle">
-          <div class="like__alarm__body">
-            <div class="like__alarm__content">팔로워 김연우 님께서 후기를 게시하였습니다.</div>
-          </div>
-          
-        </div>
-        <div class="alarm__right">
-          <div class="exhibition__alarm__date">7일 전</div>
-        </div>
-      </div>
-
     </div>
+    
     <div class="exhibition__alarms" v-if="this.choosed === 'exhibition'">
       <div class="exhibition__alarm">
         <div class="alarm__left">
@@ -108,6 +115,9 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
+import {mapState} from "vuex";
+
 export default {
   name: "alarm",
   data() {
@@ -117,8 +127,12 @@ export default {
       feeds: [],
     }
   },
+  computed: {
+    ...mapState(["user"])
+  },
   created() {
     // vuex로 유저정보 가져와서 걔의 알림 백에서 가져온다음 data에 담아준다.
+    this.updateAlarms();
   },
   methods: {
     showExhibition() {
@@ -146,6 +160,30 @@ export default {
     },
     goBack() {
       this.$router.go(-1);
+    },
+    updateAlarms() {
+      http
+      .get(`/api/signal/${this.user.userId}`)
+      .then((response) => {
+        // console.log(response.data);
+        let temp_feeds = [];
+        let temp_exhibitions = [];
+        response.data.forEach(element => {
+          if(element.sigType == 0) {
+            temp_exhibitions.push(element);
+          } else {
+            temp_feeds.push(element);
+          }
+        });
+        this.feeds = temp_feeds;
+        this.exhibitions = temp_exhibitions;
+      })
+      .then(() => {
+        console.log(this.feeds, this.exhibitions);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
     }
   }
 }
@@ -163,6 +201,11 @@ export default {
 .alarmPage {
   max-width:380px;
 }
+.sticky-top {
+  position:sticky;
+  top:0px;
+  background-color: white;
+}
 .line {
   width:100%;
   height:1px;
@@ -179,7 +222,7 @@ export default {
 .title {
   font-size:20px;
   font-weight:700;
-  margin-top:25px;
+  padding-top:25px;
   text-align:center;
 }
 .left__tab,
@@ -205,6 +248,10 @@ export default {
 .exhibition__alarms {
   margin-left:20px;
   margin-right:20px;
+}
+.feed__alarms,
+.exhibition__alarms {
+  padding-bottom:20px;
 }
 .follow__alarm,
 .like__alarm,
