@@ -28,6 +28,7 @@ gantt
     UI/UX(전시회)   :crit,2021-02-01,2d
     UCC컨셉, 사전조사   :done,after p2,6h
     Jira,Git,MM연동   :done,after p2,6h
+    Jenkins&배포테스트 :crit, 2021-02-02,2d
     
 
     section Frontend
@@ -43,9 +44,9 @@ gantt
 
     section Backend
     실시간 알림 기능(웹소켓)          :crit, 2021-02-01, 2d
-    SNS로그인 연동          :crit, 2021-02-01, 2d
-    공공데이터API 가져오기/태그 분류          :active, p1, 2021-02-01, 2d
-    전시회 기능   :,2021-02-03,2d
+    SNS로그인 연동          :done, 2021-02-01, 2d
+    공공데이터API 가져오기/태그 분류          :crit, p1, 2021-02-02, 2d
+    전시회 기능   :crit,2021-02-02,2d
 ```
 
 ## 기능
