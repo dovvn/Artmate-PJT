@@ -268,6 +268,7 @@ export default {
     addHeart:function(like, feedid){
       this.feed.likemark = !this.feed.likemark;
       if(like == 0){ // 좋아요 안눌린 상태 
+        this.feed.likeCnt += 1;
         http
         .put(`api/likemark/${this.user.userId}/${feedid}`)
         .then((data) => {
@@ -280,6 +281,7 @@ export default {
         })
         .catch((err) => console.log(err));
       }else if(like == 1){ // 좋아요 눌린 상태 
+      this.feed.likeCnt -= 1;
         http
         .delete(`api/likemark/${this.user.userId}/${feedid}`)
         .then((data) => {
