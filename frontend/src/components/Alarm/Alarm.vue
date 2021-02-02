@@ -172,7 +172,7 @@ export default {
 
 .back__button {
   position:fixed;
-  top:30px;
+  top:28px;
   left:20px;
   font-weight:700;
 }
