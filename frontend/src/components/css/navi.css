@@ -16,6 +16,7 @@
   align-items: center;
   background: transparent;
   padding: 1em;
+  padding-bottom: 10px;
 }
 .navi_left,
 .navi_right {

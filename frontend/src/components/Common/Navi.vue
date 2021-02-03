@@ -12,7 +12,7 @@
                 <p class="r_keyword">유화</p>
               </div>
               <div class="proContent">
-                <p id="nick">{{userInfo.userName}}</p>
+                <p class="nickname">{{userInfo.userName}}</p>
                 <p id="uid">{{userInfo.userId}}</p>
               </div>
               <div class="userPicture">
@@ -304,6 +304,7 @@ export default {
       position: absolute;
       top: 12px;
       right: 2px;
+      margin-right: 10px;
       cursor: pointer;
     }
     .bm-cross {
@@ -397,16 +398,20 @@ export default {
        flex-direction: column;
        justify-items: center;
        float: right;
+       margin-right: 10px;
     }
     .proContent>p{
-      display: inline-block;
       margin: 0;
     }
-    #nick{
+    .nickname{
+      display: inline-block;
+      word-break:break-all;
       font-weight: bold;
       font-size: 20px;
     }
     #uid{
+      display: inline-block;
+      word-break:break-all;
       font-size: 16px;
     }
     .r_list{
