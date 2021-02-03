@@ -508,8 +508,15 @@ export default {
   line-height:64px;
 }
 
+::v-deep .FollowInfo > .modal-dialog {
+  position:absolute;
+  bottom:0;
+  width:95%;
+  /* margin:auto; */
+}
+
 ::v-deep .FollowInfo > .modal-dialog >.modal-content {
-  margin-top:200px;
+  /* margin-top:200px; */
   bottom:0px;
   border-radius: 20px 20px 0px 0px;
   /* min-height:490px; */
@@ -548,6 +555,13 @@ export default {
   }
   .feeds {
     justify-content:initial;
+  }
+  ::v-deep .FollowInfo > .modal-dialog >.modal-content {
+    border-radius:20px;
+  }
+  ::v-deep .FollowInfo > .modal-dialog {
+    margin-top:200px;
+    position:static;
   }
   /* 변경 */
   .feed__image__container {

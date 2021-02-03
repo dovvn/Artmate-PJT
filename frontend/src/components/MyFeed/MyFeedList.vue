@@ -440,8 +440,15 @@ export default {
   line-height:64px;
 }
 
+::v-deep .FollowInfo > .modal-dialog {
+  position:absolute;
+  bottom:0;
+  width:95%;
+  /* margin:auto; */
+}
+
 ::v-deep .FollowInfo > .modal-dialog >.modal-content {
-  margin-top:200px;
+  /* margin-top:200px; */
   bottom:0px;
   border-radius: 20px 20px 0px 0px;
   /* min-height:490px; */
@@ -467,6 +474,7 @@ export default {
   margin:auto;
   box-shadow: #00000096 20px 20px 40px;
 }
+
 
 .pos-added-modal-body {
   text-align:center;
@@ -548,6 +556,13 @@ export default {
     height:44px;
     width:44px;
     font-size:18px;
+  }
+  ::v-deep .FollowInfo > .modal-dialog {
+    margin-top:200px;
+    position:static;
+  }
+  ::v-deep .FollowInfo > .modal-dialog >.modal-content {
+    border-radius:20px;
   }
   /* 변경 */
   .feed__image__container {
