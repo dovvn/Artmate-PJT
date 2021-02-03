@@ -10,8 +10,8 @@
       </div>
       
       <!-- <img class="writer__info__img" :src="myInfo.userImg" alt=""> -->
-      <img class="writer__info__img" v-if="imageUrl==null||imageUrl==''" src="../../assets/person.jpg"/>
-      <img class="writer__info__img" v-else :src="imageUrl"/>
+      <img class="writer__info__img" v-if="myInfo.userImg==null||myInfo.userImg==''" src="../../assets/person.jpg"/>
+      <img class="writer__info__img" v-else :src="myInfo.userImg"/>
       <div class="writer__info__nickname">{{myInfo.userName}}</div>
       <div class="writer__info__intro">{{myInfo.introduction}}</div>
       
@@ -177,6 +177,9 @@ export default {
     .get(`/api/user/${this.user.userId}`)
     .then((response) => {
       this.myInfo = response.data;
+    })
+    .then(() => {
+      console.log(this.myInfo);
     })
     .catch((error)=> {
       console.error(error);
