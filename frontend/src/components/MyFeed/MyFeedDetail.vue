@@ -708,6 +708,66 @@ export default {
   .feed__img {
     height:400px;
   }
+  /* 글씨 크기 변경 */
+  .feed__info {
+    font-size:19px;
+  }
+  .creator__info__name {
+    font-size:22px;
+  }
+  .creator__info__date {
+    font-size:19px;
+  }
+  .creator__info__img {
+    width:60px;
+    height:60px;
+    margin-right:5px;
+  }
+  .creator__info__right {
+    font-size:23px;
+  }
+  .feed__like__button {
+    font-size:23px;
+  }
+  .feed__interactions__share,
+  .feed__interactions__bookmark {
+    margin-left:10px;
+  }
+  .feed__content {
+    font-size:18px;
+  }
+  .feed__memo__cnt {
+    font-size:20px;
+  }
+  .memo__writer__img {
+    height:57px;
+    width:57px;
+  }
+  .memo__writer__name {
+    font-size:18px;
+  }
+  .memo__text {
+    font-size: 12px;
+  }
+  /* 글씨 크기 변경 */
+
+   /* 글씨크기 추가변경 */
+  .feed__modify__button,
+  .feed__delete__button{
+    font-size:20px;
+  }
+
+  /* 글씨크기 추가변경 */
+
+ /* 추가 */
+  .memo__buttons,
+  .memo__modifier__btn {
+    font-size:15px;
+  }
+  .memo__modify__button {
+    margin-right:5px;
+  }
+  /* 추가 */
 }
 
 @media screen and (min-height: 700px) {

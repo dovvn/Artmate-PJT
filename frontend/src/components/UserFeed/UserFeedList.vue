@@ -568,6 +568,25 @@ export default {
     margin:1.5%;
   }
   /* 변경 */
+
+  /* 글씨크기변경 */
+  .writer__info__feedname {
+    font-size:30px;
+  }
+  .writer__followed__button {
+    font-size:18px;
+    width:105px;
+    height:30px;
+    margin-top:8px;
+    margin-right:4px;
+  }
+  .writer__info__nickname {
+    font-size:24px;
+  }
+  .writer__info__intro {
+    font-size:18px;
+  }
+  /* 글씨크기변경 */
 }
 /* 반응형 */
 </style>
