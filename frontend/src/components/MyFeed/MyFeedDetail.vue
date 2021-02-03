@@ -344,6 +344,11 @@ export default {
     //해결법: body크기를 고정하자
     //zoom event도 추가하자
     document.addEventListener('scroll', () => {
+      // 반응형
+      if(screen.height > 700) {
+        return;
+      }
+      // 반응형
       const csv = document.documentElement.scrollTop;
       // console.log(csv);
       if(csv === 0)  {
@@ -392,7 +397,7 @@ export default {
     width: 100%;
     /* height: 100%; */
     box-sizing: border-box;
-    max-width:380px;
+    /* max-width:380px; */
     margin:auto;
     /* z-index:1; */
   }
@@ -460,7 +465,7 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:65px;
+    padding-top:70px;
     margin-bottom:5px;
   }
   .feed__like__button {
@@ -687,6 +692,29 @@ export default {
   position:fixed;
   z-index:3;
   top:30px;
-  left:10px;
+  margin-left:10px;
 }
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feed {
+    width: 760px;
+  }
+  .feed__memo__write {
+    width:760px;
+  }
+  .feed__memo__write__input {
+    width: 95%;
+  }
+  .feed__img {
+    height:400px;
+  }
+}
+
+@media screen and (min-height: 700px) {
+  .feed__memo__list {
+    min-height:300px;
+  }
+}
+/* 반응형 */
+
 </style>
