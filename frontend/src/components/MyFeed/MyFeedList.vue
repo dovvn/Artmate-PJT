@@ -35,6 +35,9 @@
           </div>
         </div>
       </div>
+      <button class="feed__writebutton" @click="goWrite">
+        <font-awesome-icon icon="pen-fancy"/>
+      </button>
       <!-- 반응형 -->   
      
       <!-- <div class="writer__info__tags">
@@ -53,9 +56,7 @@
         >
       </li>
     </ul>
-    <button class="feed__writebutton" @click="goWrite">
-      <font-awesome-icon icon="pen-fancy"/>
-    </button>
+    
     <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
       <button 
       class="detail__hide__button" 
@@ -539,6 +540,14 @@ export default {
   }
   .feeds {
     justify-content:initial;
+  }
+  .feed__writebutton {
+    position:absolute;
+    bottom: 125px;
+    right:60px;
+    height:44px;
+    width:44px;
+    font-size:18px;
   }
   /* 변경 */
   .feed__image__container {
