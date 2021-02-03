@@ -7,7 +7,7 @@
       <div id="content">
         <p id="txt">프로필을 입력하세요</p>
         <div id="userPicture">
-          <input type="file" id="file" ref="file" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
+          <input type="file" id="file" ref="file" accept=".jpg, .png, .jpeg" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
           <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
           <img id="upimg" v-else :src="imageUrl"/>
         </div>
