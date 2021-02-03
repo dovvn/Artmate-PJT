@@ -17,8 +17,7 @@
  </div>
 
  <!-- 스크롤 내리면 변하는 메뉴바  -->
- <div class="newsNav" v-on:scroll.passive="handleScroll" data-aos="fade-up"
-     data-aos-duration="3000" v-if="navType==2" >
+ <div class="newsNav" v-on:scroll.passive="handleScroll" v-if="navType==2" >
       <div id="back" @click="back()">
       <font-awesome-icon :icon="['fas', 'chevron-left']" size="2x" />
     </div>
@@ -66,8 +65,8 @@ export default {
       console.log("스크롤위치 : "+this.scrollY); 
       console.log("navType : "+this.navType);
 
-      if(this.scrollY > 400) this.navType = 2;
-      else this.navType =1;
+      if(this.scrollY > 250) this.navType = 2;
+      else if(this.scrollY <= 120) this.navType =1;
     }
   }
 }
@@ -93,6 +92,7 @@ export default {
   border-bottom-right-radius: 40px;
     border-bottom-left-radius: 40px;
 }
+
 .nbg{
   width: 900px;
   height: 500px;
