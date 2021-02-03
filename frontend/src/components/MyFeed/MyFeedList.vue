@@ -544,7 +544,7 @@ export default {
   .feed__writebutton {
     position:absolute;
     bottom: 125px;
-    right:60px;
+    right:50px;
     height:44px;
     width:44px;
     font-size:18px;
