@@ -163,8 +163,10 @@ export default {
       return `%{Math.floor(betweenTimeDay/ 365)}년전`;
     },
     postDetail:function(feedno){ 
-      // this.$router.push(`/feed/detail/${feedno}`);
-      console.log(feedno);
+      this.$router.replace({
+        name: "MyFeedView",
+        params: {feedno: feedno}
+      });
     }
   }
   
