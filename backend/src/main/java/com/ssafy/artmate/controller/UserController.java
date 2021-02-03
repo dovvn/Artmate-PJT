@@ -230,29 +230,21 @@ public class UserController {
 
 	// 팔로우 하기
 	@ApiOperation(value = "팔로우(* 마이피드에서 사용)", notes = "팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
-	@PutMapping(value = "/user/follow")
+	@PutMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean insertFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @RequestParam("sendUserId") String sendUserId,
-			@ApiParam(value = "팔로우 할 아이디", required = true) @RequestParam("getUserId") String getUserId) {
+			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
 		if(uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
-		/*팔로우 추가에 성공했으면 상대방한테 팔로우 알림 보내기*/
-		SignalDto signal = new SignalDto(getUserId, sendUserId,1,0,0); //받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x
-		UserDto sendUser = uservice.selectUser(sendUserId);
-		signal.setImg(sendUser.getUserImg()); //프로필 사진 설정
-		signal.setSendUserName(sendUser.getUserName()); //닉네임 설정
-		if(uservice.insertFollow(sendUserId, getUserId)) { //팔로우 추가
-			return signalService.insertSignal(signal);//알림 전송
-		}
-		return false; //팔로우 실패
+		return uservice.insertFollow(sendUserId, getUserId); //팔로우 추가
 	}
 
 	// 언팔로우 하기
 	@ApiOperation(value = "언팔로우(* 마이피드에서 사용)", notes = "언팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
-	@DeleteMapping(value = "/user/follow")
+	@DeleteMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean deleteFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @RequestParam("sendUserId") String sendUserId,
-			@ApiParam(value = "언팔로우 할 아이디", required = true) @RequestParam("getUserId") String getUserId) {
+			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "언팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
 		if(!uservice.selectFollowState(sendUserId, getUserId)) return false; //아직 팔로우하지 않았다면 false리턴
 		return uservice.deleteFollow(sendUserId, getUserId);

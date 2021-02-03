@@ -1,39 +1,36 @@
 package com.ssafy.artmate.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import com.ssafy.artmate.Dto.SignalDto;
+import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.service.SignalService;
+import com.ssafy.artmate.service.UserService;
 
 @Controller
 public class SocketController {
-	// /receive를 메시지를 받을 endpoint로 설정합니다.
-	// /send로 메시지를 반환합니다.
-	// SocketHandler는 1) /receive에서 메시지를 받고, /send로 메시지를 보내줍니다.
-    // 정의한 SocketVO를 1) 인자값, 2) 반환값으로 사용합니다.
-    @MessageMapping("/socket/receive")
-    @SendTo("/socket/send")
-    public SignalDto SocketHandler(SignalDto Message) {
-        return Message; // 반환
-    }
 	
-    @MessageMapping("/getSignal/{sendUserId}")
-    @SendTo("/signal/{getUserId}")
-    public SignalDto signal(@DestinationVariable String sendUserId, @DestinationVariable String getUserId, SignalDto Message) {
-    	System.out.println(Message);
-    	return Message;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private SignalService signalService;
+	
+    @MessageMapping("/send/follow/{sendUserId}/{getUserId}") //message를 백으로 받음 
+    @SendTo("/get/follow/{getUserId}") //message를 프론트로 보냄
+    public SignalDto signal(@DestinationVariable String sendUserId, @DestinationVariable String getUserId) {
+    	UserDto sendUser = userService.selectUser(sendUserId);
+    	/*Follow 알림*/
+		SignalDto message = new SignalDto(getUserId, sendUserId,1,0,0); //받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x
+		message.setImg(sendUser.getUserImg()); //프로필 사진 설정
+		message.setSendUserName(sendUser.getUserName()); //닉네임 설정
+		if(!signalService.insertSignal(message)) return null; //알림 추가
+		return message;
     }
-    
-//    @MessageMapping("/receive")
-//    @sendTo()
-//    public MessageDto test() {
-//    	MessageDto result=new MessageDto();
-//    	result.setUserName("관리자");
-//    	result.setMessage("이거 가냐");
-//    	return result;
-//    }
-    
     
 }
