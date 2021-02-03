@@ -124,7 +124,7 @@ public class UserController {
 			@ApiParam(value = "사용자 객체(user)", required = true) @RequestPart(value = "user", required = true) UserDto user,
 			@ApiParam(value = "프로필사진(file)", required = true) @RequestPart(value = "file", required = false) MultipartFile file)
 			throws IOException {
-		String url=null;
+		String url=null; 
 		System.out.println("file : "+ file);
 		System.out.println(user.getUserImg()+ " "+uservice.selectUserImg(user.getUserId()));
 		if(file != null) { //파일이 있을때만
