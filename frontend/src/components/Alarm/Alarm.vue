@@ -199,7 +199,8 @@ export default {
   box-sizing: border-box;
 }
 .alarmPage {
-  max-width:380px;
+  width:380px;
+  margin:auto;
 }
 .sticky-top {
   position:sticky;
@@ -216,7 +217,7 @@ export default {
 .back__button {
   position:fixed;
   top:28px;
-  left:20px;
+  margin-left:20px;
   font-weight:700;
 }
 .title {
@@ -363,4 +364,43 @@ export default {
   box-shadow: 0 3px 6px #00000029;
   margin-bottom:18px;
 }
+
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .alarmPage {
+    width: 760px;
+  }
+  .exhibition__alarm__img {
+    width:174px;
+    height:246px;
+  }
+  .follow__alarm__img {
+    width:120px;
+    height:120px;
+  }
+  .like__alarm__img {
+    width:160px;
+    height:160px;
+  }
+  .exhibition__alarm__title {
+    font-size:30px;
+  }
+  .exhibition__alarm__content {
+    font-size:21px;
+  }
+  .exhibition__alarm__term {
+    font-size:21px;
+  }
+  .exhibition__alarm__date {
+    font-size:18px;
+  }
+  .follow__alarm__content {
+    font-size:21px;
+  }
+  .alarm__info {
+    width: 100%;
+  }
+}
+
+/* 반응형 */
 </style>

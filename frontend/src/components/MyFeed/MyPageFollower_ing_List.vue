@@ -16,13 +16,15 @@
     </header>
     <div class="person__container" v-if='choosed=="Follower"' >
       <div class="person" v-for="(person,idx) in followers" :key="idx" @click="seeFeedList(person)">
-        <img class="person__img" :src="person.userImg" alt="">
+        <img class="person__img" v-if="person.userImg==null||person.userImg==''" src="../../assets/person.jpg" alt="">
+        <img class="person__img" v-else :src="person.userImg" alt="">
         <div class="person__name">{{person.userName}}</div>
       </div>
     </div>
     <div class="person__container" v-if='choosed=="Following"' >
       <div class="person" v-for="(person,idx) in followings" :key="idx" @click="seeFeedList(person)">
-        <img class="person__img" :src="person.userImg" alt="">
+        <img class="person__img" v-if="person.userImg==null||person.userImg==''" src="../../assets/person.jpg" alt="">
+        <img class="person__img" v-else :src="person.userImg" alt="">
         <div class="person__name">{{person.userName}}</div>
       </div>
     </div>
