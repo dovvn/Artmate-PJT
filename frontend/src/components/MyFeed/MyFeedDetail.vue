@@ -55,7 +55,18 @@
           
           <div class="feed__btns">
               <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
-              <span @click="deleteFeed" class="feed__delete__button">[삭제]</span>
+
+                <span @click="$bvModal.show('pos-check-modal2')" class="feed__delete__button">[삭제]</span>
+                <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+                  <div class="pos-check-modal-body">
+                    <div class="pos-check-title">
+                      글을 삭제하시겠습니까?
+                    </div>
+                    <button class="pos-check-yes-button" @click="deleteFeed">예</button>
+                    <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+                  </div>
+                </b-modal>
+
           </div>
           <div class="dotLine"></div>
           <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
@@ -619,6 +630,8 @@ export default {
     /* background-color:white; */
     padding-bottom:8px;
   }
+
+  /* -------------------------모달 css ----------------------------- */
   .pos-check-yes-button {
   color:white;
   background-color:#CB3E47;
@@ -637,6 +650,14 @@ export default {
   margin-left:15px;
 }
 ::v-deep .pos-check-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:15px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+}
+::v-deep .pos-check-modal2 > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
