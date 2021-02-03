@@ -8,28 +8,37 @@
       <div class="writer__info__feedname">
         {{myInfo.feedName}}
       </div>
-      
+      <!-- 반응형 -->
+      <div class="writer__info__responsive">
       <!-- <img class="writer__info__img" :src="myInfo.userImg" alt=""> -->
-      <img class="writer__info__img" v-if="myInfo.userImg==null||myInfo.userImg==''" src="../../assets/person.jpg"/>
-      <img class="writer__info__img" v-else :src="myInfo.userImg"/>
-      <div class="writer__info__nickname">{{myInfo.userName}}</div>
-      <div class="writer__info__intro">{{myInfo.introduction}}</div>
-      
-      <div class="writer__info__cntboxes">
-        <div class="writer__info__cntbox">
-          <div class="writer__info__cnt">{{feeds.length}}</div>
-          <div class="writer__info__name">게시물</div>
+        <div class="writer__info__left">
+          <img class="writer__info__img" v-if="myInfo.userImg==null||myInfo.userImg==''" src="../../assets/person.jpg"/>
+          <img class="writer__info__img" v-else :src="myInfo.userImg"/>
         </div>
-        <div class="writer__info__cntbox" @click="seeFollow('Follower')">
-          <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
-          <div class="writer__info__name">팔로워</div>
-        </div>
-        <div class="writer__info__cntbox"  @click="seeFollow('Following')">
-          <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
-          <div class="writer__info__name">팔로잉</div>
+        <div class="writer__info__right">
+          <div class="writer__info__nickname">{{myInfo.userName}}</div>
+          <div class="writer__info__intro">{{myInfo.introduction}}</div>
+          
+          <div class="writer__info__cntboxes">
+            <div class="writer__info__cntbox">
+              <div class="writer__info__cnt">{{feeds.length}}</div>
+              <div class="writer__info__name">게시물</div>
+            </div>
+            <div class="writer__info__cntbox" @click="seeFollow('Follower')">
+              <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
+              <div class="writer__info__name">팔로워</div>
+            </div>
+            <div class="writer__info__cntbox"  @click="seeFollow('Following')">
+              <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
+              <div class="writer__info__name">팔로잉</div>
+            </div>
+          </div>
         </div>
       </div>
-        
+      <button class="feed__writebutton" @click="goWrite">
+        <font-awesome-icon icon="pen-fancy"/>
+      </button>
+      <!-- 반응형 -->   
      
       <!-- <div class="writer__info__tags">
         <div class="writer__info__tag" v-for="(tag,idx) in myInfo.myTag" :key="idx">
@@ -47,9 +56,7 @@
         >
       </li>
     </ul>
-    <button class="feed__writebutton" @click="goWrite">
-      <font-awesome-icon icon="pen-fancy"/>
-    </button>
+    
     <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
       <button 
       class="detail__hide__button" 
@@ -137,6 +144,31 @@ export default {
     imgLocate(){
       // console.log(this.feeds);
       const imgs = document.querySelectorAll(".feed__image__container");
+      // 반응형
+      if(window.innerWidth >= 1024) {
+        // let width_cnt = 0;
+        // let row_height = 0;
+        // let row_cnt = 0;
+        // let nums = [125,150,100];
+        // let widths = [28,18,15,31];        
+        for(let i = 0; i < imgs.length; i++) {
+          // row_height=nums[row_cnt%3];
+          imgs[i].style.width=`30%`
+
+          // imgs[i].style.width=`${widths[width_cnt%4]}%`
+          imgs[i].style.height = `125px`
+          console.log(imgs[i].style.width,imgs[i].style.height);
+          // width_cnt += 1;
+          // if(width_cnt%4 == 0) {
+          //   imgs[i].style.left="0";
+          // }
+          // else if(width_cnt%3 == 2) {
+          //   row_cnt+=1;
+          // }
+        }
+        return;
+      }
+      // 반응형
       let pos = "left";
       let left_width = 0;
       let left_short = true;
@@ -205,6 +237,7 @@ export default {
     );
     
   },
+  
   updated() {
     // const imgs = document.querySelectorAll(".feed__image__container");
         // console.log(this.feeds);
@@ -220,6 +253,16 @@ export default {
     if(this.$route.params.status == "modified") {
       this.$bvModal.show('pos-modified-modal')
     }
+    // 반응형
+    let prev_size = window.innerWidth;
+    window.addEventListener('resize', () => {
+      let now_size = window.innerWidth;
+      if((now_size >= 1024 && prev_size < 1024) || (now_size<1024 && prev_size >= 1024)) {
+        this.imgLocate();
+      }
+      prev_size=now_size;
+    })
+     // 반응형
   }
 }
 </script>
@@ -243,8 +286,8 @@ export default {
 }
 
 .myfeed {
-  width:100%;
-  max-width:380px;
+  width:380px;
+  /* max-width:380px; */
   margin:auto;
 }
 .FollowInfo > div {
@@ -329,6 +372,8 @@ export default {
 .writer__info__intro {
   font-weight:500;
   font-size:12px;
+  width:200px;
+  margin:auto;
   /* margin-top:1px; */
 }
 .writer__info__nickname {
@@ -395,8 +440,15 @@ export default {
   line-height:64px;
 }
 
+::v-deep .FollowInfo > .modal-dialog {
+  position:absolute;
+  bottom:0;
+  width:95%;
+  /* margin:auto; */
+}
+
 ::v-deep .FollowInfo > .modal-dialog >.modal-content {
-  margin-top:200px;
+  /* margin-top:200px; */
   bottom:0px;
   border-radius: 20px 20px 0px 0px;
   /* min-height:490px; */
@@ -422,6 +474,7 @@ export default {
   margin:auto;
   box-shadow: #00000096 20px 20px 40px;
 }
+
 
 .pos-added-modal-body {
   text-align:center;
@@ -464,4 +517,58 @@ export default {
   color: #6D44FD;
   margin-top: 15px;
 }
+
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .myfeed {
+    width: 760px;
+  }
+  .writer__info__img {
+    width:160px;
+    height:160px;
+  }
+  .writer__info__responsive {
+    display:flex;
+    justify-content: space-around;
+    margin-top:20px;
+  }
+  .writer__info__right {
+    width:400px;
+    
+  }
+  .writer__info__intro {
+    width: 100%;
+  }
+  .writer__info__intro,
+  .writer__info__nickname {
+    text-align:left;
+  }
+  .writer__info__nickname {
+    margin-top:20px;
+  }
+  .feeds {
+    justify-content:initial;
+  }
+  .feed__writebutton {
+    position:absolute;
+    bottom: 125px;
+    right:50px;
+    height:44px;
+    width:44px;
+    font-size:18px;
+  }
+  ::v-deep .FollowInfo > .modal-dialog {
+    margin-top:200px;
+    position:static;
+  }
+  ::v-deep .FollowInfo > .modal-dialog >.modal-content {
+    border-radius:20px;
+  }
+  /* 변경 */
+  .feed__image__container {
+    margin:1.5%;
+  }
+  /* 변경 */
+}
+/* 반응형 */
 </style>
