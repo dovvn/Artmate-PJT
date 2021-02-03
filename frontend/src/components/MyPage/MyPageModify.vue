@@ -178,8 +178,7 @@ export default {
             alert('탈퇴에 실패하였습니다.');
           } else if (data) {
             // 모달창 넣기 -> 한번더 확인 
-            
-            alert('탈퇴되었습니다.');
+            // alert('탈퇴되었습니다.');
             this.$router.push("/login")
           }
         })
