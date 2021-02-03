@@ -235,7 +235,7 @@ public class UserController {
 			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
 			@ApiParam(value = "팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
+		if(!uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
 		return uservice.insertFollow(sendUserId, getUserId); //팔로우 추가
 	}
 
