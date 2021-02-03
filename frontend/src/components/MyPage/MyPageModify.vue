@@ -11,8 +11,9 @@
           <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
           <img id="upimg" v-else :src="imageUrl"/>
         </div>
-        <p id="ptx" @click="onClickImageUpload()">프로필 사진 변경</p> 
+        <p class="ptx" @click="onClickImageUpload()">프로필 사진 변경</p> 
         <!--  프로필 삭제 - 디폴트로 변경 🎈  -->
+        <p class="ptx" style="color:red" @click="delPicture()">[삭제]</p>
         <form class="change-form">
           <label for="userName">닉네임</label><br />
           <input
@@ -262,6 +263,23 @@ export default {
       if(this.password.length >= 0 && !this.passwordSchema.validate(this.password))
         this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다";
       else this.error.password = false;
+    },
+    delPicture(){
+      http
+        .put(`/api/user/`+this.userInfo.userId)
+        .then(({ data }) => {
+          if (!data) {
+            alert('프사삭제 실패하였습니다.');
+          } else if (data) {
+            // alert('프사삭제 성공');
+            this.userInfo.userImg = ""; 
+            this.imageUrl = ""; //미리보기 삭제 
+            this.$store.commit('setUserInfo',this.userInfo);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   },
 };
@@ -299,7 +317,9 @@ export default {
 }
 #userPicture {
   clear: both;
-  display: inline-block;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
   padding-bottom: 14px;
   width: 93px;
   height: 93px;
@@ -312,10 +332,13 @@ export default {
    border-radius: 50%;
   object-fit: cover;
 }
-#ptx {
+.ptx {
   color: var(--color-medium-purple);
   font-size: 11px;
   margin-top: 10px;
+  display: inline-block;
+  text-align: center;
+  margin-left: 10px;
 }
 .change-form {
   text-align: left;
