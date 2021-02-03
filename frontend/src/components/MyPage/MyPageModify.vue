@@ -7,7 +7,7 @@
       <div id="content">
         <p id="txt">프로필을 입력하세요</p>
         <div id="userPicture">
-          <input type="file" id="file" ref="file" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
+          <input type="file" id="file" ref="file" accept=".jpg, .png, .jpeg" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
           <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
           <img id="upimg" v-else :src="imageUrl"/>
         </div>
@@ -178,8 +178,7 @@ export default {
             alert('탈퇴에 실패하였습니다.');
           } else if (data) {
             // 모달창 넣기 -> 한번더 확인 
-            
-            alert('탈퇴되었습니다.');
+            // alert('탈퇴되었습니다.');
             this.$router.push("/login")
           }
         })
@@ -203,28 +202,28 @@ export default {
 
       if(this.nickname != this.userInfo.userName){ // 변경을 하려면 중복체크 하도록 
         if(!this.idCheck){
-        alert("닉네임 중복확인 후 진행해주세요.")
-      }else{
-        http.
-        put(`/api/user`, formData,{
-                headers: {
-                    "Content-Type": `multipart/form-data`,
-                }
-              })
-        .then(({data}) => {
-         if(data != 'fail'){
-          // alert("수정이 완료되었습니다.");
-          console.log("store: "+this.$store);
-          this.userInfo.userImg = data; // 리턴받은 url 넣기 
-          this.$store.commit('setUserInfo',this.userInfo);
-          this.$router.push("/home")
-         }else{
-           alert("회원정보 수정에 실패하였습니다.");
-         }
-       }).catch((err) => {
-         console.log(err);
-       });
-      }
+         alert("닉네임 중복확인 후 진행해주세요.")
+        }else{
+            http.
+            put(`/api/user`, formData,{
+                    headers: {
+                        "Content-Type": `multipart/form-data`,
+                    }
+                  })
+            .then(({data}) => {
+            if(data != 'fail'){
+              // alert("수정이 완료되었습니다.");
+              console.log("store: "+this.$store);
+              this.userInfo.userImg = data; // 리턴받은 url 넣기 
+              this.$store.commit('setUserInfo',this.userInfo);
+              this.$router.push("/home")
+            }else{
+              alert("회원정보 수정에 실패하였습니다.");
+            }
+          }).catch((err) => {
+            console.log(err);
+          });
+        }
       }else{ // 변경안하고 싶으면 그냥 통과
         http.
         put(`/api/user`, formData,{

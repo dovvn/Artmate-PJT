@@ -250,10 +250,10 @@ label {
   height:40px;
   align-self:center;
 }
-/* 긍정알림 */
+/* ------------------------------ 모달 css --------------------------------- */
 .pos-check-yes-button {
   color:white;
-  background-color:#CB3E47;
+  background-color:#9279e9;
   border-radius:10px;
   font-size:14px;
   width:100px;
@@ -268,7 +268,7 @@ label {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;

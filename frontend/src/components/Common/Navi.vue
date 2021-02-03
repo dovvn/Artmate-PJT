@@ -22,14 +22,15 @@
                 <p id="ptxx" @click="mypage"> <font-awesome-icon id="modifyicon" :icon="['fas', 'edit']" size="sm"/>내 정보 수정</p> 
               </div>
                   <ul id="mlist">
-                  <li><a class="ml" id="Home"  href="/home">Home</a></li>
-                  <li><a class="ml" id="about"  href="/about">ABOUT</a></li>
-                  <li><a class="ml" id="exhibition"  href="#">EXHIBITION</a></li>
-                  <li><a class="ml" id="search" href="/search">SEARCH</a></li>
-                  <li><a class="ml" id="around"  href="#">AROUND</a></li>
-                  <li><a class="ml" id="feed"  href="/feed">NEWSFEED</a></li>
-                  <li><a class="ml" id="scrapbook"  href="#">SCRAPBOOK</a></li>
-                  <li><p class="ml" id="logout" @click="logout">LOGOUT</p></li>
+                  <!-- <li><a class="ml" id="Home"  href="/home">Home</a></li> -->
+                  <li><router-link class="ml" id="Home" to="/home">HOME</router-link></li>
+                  <li><router-link class="ml" id="about"  to="/about">ABOUT</router-link></li>
+                  <li><router-link class="ml" id="exhibition"  to="#">EXHIBITION</router-link></li>
+                  <li><router-link class="ml" id="search" to="/search">SEARCH</router-link></li>
+                  <li><router-link class="ml" id="around"  to="#">AROUND</router-link></li>
+                  <li><router-link class="ml" id="feed"  to="/feed">NEWSFEED</router-link></li>
+                  <li><router-link class="ml" id="scrapbook"  to="#">SCRAPBOOK</router-link></li>
+                  <li><a class="ml" id="logout" @click="logout">LOGOUT</a></li>
                 </ul>
             </nav>
             <!-- X 버튼 부분 -->
