@@ -235,7 +235,7 @@ public class UserController {
 			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
 			@ApiParam(value = "팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(!uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
 		return uservice.insertFollow(sendUserId, getUserId); //팔로우 추가
 	}
 
@@ -284,4 +284,14 @@ public class UserController {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
 		return uservice.selectFollowState(sendUserId, getUserId);
 	}
+	
+	//회원 이미지 기본으로 변경하기
+	@ApiOperation(value = "회원 프로필 이미지 기본(null)으로 변경하기", notes = "프로필 이미지 변경(null)에 성공하면 true, 실패하면 false 반환", response = Boolean.class)
+	@PutMapping(value="/user/{userId}")
+	public boolean initUserImg(@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId) {
+		UserDto user = uservice.selectUser(userId);
+		user.setUserImg(null); //이미지 null로 지정
+		return uservice.modifyUserImg(user);
+	}
+	
 }
