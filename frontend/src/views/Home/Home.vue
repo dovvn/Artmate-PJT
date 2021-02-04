@@ -37,10 +37,6 @@
             </div>
           </div>
         </carousel>
-        <div class="online_slide">
-          
-
-        </div>
       </div>
     </div>
     
@@ -105,34 +101,34 @@
     </div>
 
     <!-- Around -->
-    <div class="around_box">
-      <div class="around_header">
-        <div class="around_tlt">Around</div>
-        <div class="around_more_btn">
+    <div class="home_around_box">
+      <div class="home_around_header">
+        <div class="home_around_tlt">Around</div>
+        <div class="home_around_more_btn">
           <span>더보기</span>
           <font-awesome-icon class="online_slide_right_btn" icon="chevron-right"/>
         </div>
       </div>
-      <div class="feed_message">
+      <div class="home_around_message">
         <span>덕명동 주변 리스트입니다 </span>
-        <font-awesome-icon class="feed_message_icon" icon="pallet"/>
+        <font-awesome-icon class="home_around_message_icon" icon="pallet"/>
       </div>
-      <div class="around_list">
+      <div class="home_around_list">
         <div 
-          class="around_exhibition"
+          class="home_around_exhibition"
           v-for="(item,idx) in aroundList"
           :key="idx"
         >
-          <img :src="item.img" alt="" class="around_exhibition_img">
-          <div class="around_exhibition_info">
-            <p class="around_exhibition_tlt">
-              <font-awesome-icon class="feed_message_icon" icon="leaf"/>{{item.title}}
+          <img :src="item.img" alt="" class="home_around_exhibition_img">
+          <div class="home_around_exhibition_info">
+            <p class="home_around_exhibition_tlt">
+              <font-awesome-icon class="home_around_message_icon" icon="leaf"/>{{item.title}}
             </p>
             <p class="around_exhibition_place">
-              <font-awesome-icon class="feed_message_icon" icon="map-marker-alt"/>
+              <font-awesome-icon class="home_around_message_icon" icon="map-marker-alt"/>
               {{item.place}}
             </p>
-            <p class="around_exhibition_duration">{{item.duration}}</p>
+            <p class="home_around_exhibition_duration">{{item.duration}}</p>
           </div>
         </div>
       </div>
