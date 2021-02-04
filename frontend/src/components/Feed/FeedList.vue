@@ -1,9 +1,9 @@
 <template>
   <div id="newsfeed">
       <div class="feedLine">
-        <div id="post"  v-for="nf in newsfeed" :key="nf.id" @click="postDetail(nf.id)"> 
-          <div id="picture" >
-            <img class="feed_img" :src="nf.feedImg" alt="">
+        <div id="post"  v-for="nf in newsfeed" :key="nf.id" > 
+          <div id="picture">
+            <img class="feed_img" :src="nf.feedImg" alt=""  @click="postDetail(nf.id)">
           </div>
           <div id="contents">
             <div class="pro" > 
@@ -175,7 +175,7 @@ export default {
 
 <style>
 .feedLine {
-  width: 340px;
+  width: 700px;
   height: 100%;
   text-align: center;
   margin: 0 auto;
@@ -184,43 +184,47 @@ export default {
 }
 #post{
   width: 100%;
-  height: 300px;
+  height: 500px;
   box-shadow: 0px 0px 7px #00000029;
   border-radius: 25px;
   margin-top: 20px;
 }
 #post>#picture{
-  height: 150px;
+  height: 250px;
   width: 100%;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   overflow: hidden;
+  width: 100%;
 }
 .feed_img{
+  width: 100%;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  object-fit:fill;
 }
 #post>#contents{
-  height: 150px;
-  padding: 8px;
+  height: 250px;
+  padding: 20px;
 }
 .profile_img{
-  width: 50px;
-  height: 50px;
+  width: 78px;
+  height: 78px;
   float: left;
   border-radius: 50%;
 }
 .pro{
   display: block;
-  width: 320px;
-  height: 50px;
+  width: 650px;
+  height: 80px;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 #nick{
   float: left;
-  padding-left: 6px;
-  padding-top:4%;
+  padding-left: 10px;
+  padding-top:3.5%;
+  font-size: 24px;
   font-weight: bold;
   margin: 0 auto;
 }
@@ -229,21 +233,20 @@ export default {
   padding-top: 4%;
   font-size: 12px;
   color: #999999;
+  font-size: 14px;
 }
 .feedtext{
   display: inline-block;
-  width: 320px;
-  padding: 2px;
-  margin-left: 5px;
-  margin-right: 5px;
+  width: 650px;
+  padding: 5px;
   text-align: left;
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal; 
   line-height: 1.25; 
-  height: 4em; 
+  height: 5.8em; 
   text-align: left; 
   word-wrap: break-word; 
   display: -webkit-box; 
@@ -264,5 +267,46 @@ export default {
 #mark{
   float: right;
   margin-right: 5px;
+}
+/* ------------------------------ 반응형 ------------------------------ */
+@media screen and (max-width: 1024px) {
+  .feedLine {
+    width: 340px;
+  }
+  #post{
+    height: 300px;
+  }
+  #post>#picture{
+   height: 150px;
+  }
+  #post>#contents{
+    height: 150px;
+    padding: 8px;
+  }
+  .profile_img{
+    width: 50px;
+    height: 50px;
+  }
+  .pro{
+    width: 320px;
+    height: 50px;
+    margin-bottom: 7px;
+  }
+  #nick{
+    padding-left: 6px;
+    font-size: 18px;
+  }
+  #date{
+    font-size: 12px;
+  }
+  .feedtext{
+    width: 320px;
+    padding: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    line-height: 1.25; 
+    height: 4em; 
+  }
 }
 </style>
