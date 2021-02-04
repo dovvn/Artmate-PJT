@@ -38,6 +38,7 @@
     "vuetify": "^2.2.11",
     "vuex": "^3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.3",
+    "webstomp-client": "^1.2.6",
     "yarn": "^1.22.10"
   },
   "devDependencies": {

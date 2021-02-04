@@ -47,6 +47,7 @@
     <div class="navi_right">
       <font-awesome-icon @click="onClickSearch" class="navi_item" size='sm' icon="search"/>
       <font-awesome-icon @click="onClickAlarm" class="navi_item" size='sm' icon="bell"/>
+      <div v-if="isNewAlarm" class="alarm__new">N</div>
       <!-- <img @click="onClickProfile" src="../../assets/profile_ex.jpg" alt="" class="profile navi_item"> -->
       <img class="profile navi_item" @click="onClickProfile" v-if="imageUrl==null||imageUrl==''" src="../../assets/person.jpg"/>
       <img class="profile navi_item" @click="onClickProfile" v-else :src="imageUrl"/>
@@ -55,6 +56,10 @@
 </template>
 
 <script>
+import Stomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
+import { mapState } from 'vuex';
+import http from '@/util/http-common';
 export default {
   data() {
         return {
@@ -65,7 +70,7 @@ export default {
             // myTag:[]
           },
           imageUrl:"",
-          isSideBarOpen: false
+          isSideBarOpen: false,
         };
       },
       
@@ -118,6 +123,76 @@ export default {
       },
 
   methods:{
+    showNew() {
+      this.$store.commit('setNewAlarm');
+    },
+    connect() {
+      const serverURL = 'http://localhost:7777/socket'; //소켓 연결 주소
+      let socket = new SockJS(serverURL);
+      let stompClient = Stomp.over(socket);
+      this.$store.commit('setStompClient', stompClient); //store에 있는 stompClient에게 소켓 등록
+      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+      console.log(this.stompClient);
+      this.stompClient.connect(
+        //소켓 연결
+        {},
+        (frame) => {
+          this.connected = true;
+          // console.log(this.stompClient);
+          console.log('소켓 연결 성공', frame);
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/follow/${this.user.userId}`, //팔로우 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
+              // alert('팔로우 요청 옴'); //임시로 알림창 띄움
+              this.showNew();
+            }
+          );
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/feed`, //새 피드 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              let message = JSON.parse(signal.body);
+              console.log(message.sendUserId);
+              http
+                .get(
+                  `/api/user/follow/${this.user.userId}/${message.sendUserId}`
+                )
+                .then(({ data }) => {
+                  //내가 팔로우 한 유저의 피드 알림인지 확인해야함
+                  if (data) {
+                    //팔로우 하고있는 상대가 들어옴
+                    /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
+                    // alert('새 피드 요청 옴'); //임시로 알림창 띄움
+                    this.showNew();
+                  }
+                });
+            }
+          );
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/like/${this.user.userId}`, //좋아요 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              if (signal.body != null) {
+                // alert('새 좋아요 요청 옴'); //임시로 알림창 띄움
+                console.log('좋아요!');
+                this.showNew();
+              }
+            }
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     mypage(){
       this.$router.push('/mypage');
     },
@@ -130,6 +205,7 @@ export default {
     //   // 슬라이드 열리기
     // },
     onClickAlarm(){
+      this.$store.commit('setNewAlarm');
       this.$router.push('/alarm');
     },
     onClickSearch(){
@@ -207,8 +283,19 @@ export default {
           return false;
         },
   },
-  
+  computed: {
+    ...mapState(['user', 'stompClient','isNewAlarm']),
+  },
   mounted() {
+      // 알림 통신
+      if (
+        this.stompClient == null ||
+        this.stompClient == '' ||
+        !this.stompClient.connected
+      ) {
+        this.connect();
+      }
+      // 알림 통신
         if (!this.disableEsc) {
           document.addEventListener('keyup', this.closeMenuOnEsc);
         }
@@ -427,5 +514,20 @@ export default {
     }
     #modifyicon{
       margin-right: 5px;
+    }
+    .alarm__new {
+      position:absolute;
+      display:hidden;
+      top:22px;
+      width:17px;
+      height:17px;
+      text-align: center;
+      line-height: 11px;
+      margin-left:45px;
+      background-color: red;
+      color:white;
+      font-size:6px;
+      padding:4px;
+      border-radius:50%;
     }
 </style>
