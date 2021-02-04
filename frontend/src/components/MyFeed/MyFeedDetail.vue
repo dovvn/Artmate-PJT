@@ -394,7 +394,7 @@ export default {
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
-    width: 100%;
+    width: 380px;
     /* height: 100%; */
     box-sizing: border-box;
     /* max-width:380px; */
