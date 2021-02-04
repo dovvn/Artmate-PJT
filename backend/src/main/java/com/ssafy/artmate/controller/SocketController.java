@@ -1,5 +1,7 @@
 package com.ssafy.artmate.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +27,20 @@ public class SocketController {
 	@Autowired
 	private FeedService feedService;
 	
-    @MessageMapping("/send/follow/{sendUserId}/{getUserId}") //message를 백으로 받음 
+    @MessageMapping("/send/follow/{sendUserId}/{getUserId}") //message를 백으로 받음
     @SendTo("/get/follow/{getUserId}") //message를 프론트로 보냄
     public SignalDto signalFollow(@DestinationVariable String sendUserId, @DestinationVariable String getUserId) {
+    	if(sendUserId.equals(getUserId)) {
+    		return null;
+    	}
     	UserDto sendUser = userService.selectUser(sendUserId);
     	/*Follow 알림*/
 		SignalDto message = new SignalDto(getUserId, sendUserId,1,0,0); //받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x
 		message.setImg(sendUser.getUserImg()); //프로필 사진 설정
 		message.setSendUserName(sendUser.getUserName()); //닉네임 설정
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = dateFormat.format(new Date());
+		message.setSigDate(currentDate);
 		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
     }
@@ -45,11 +53,14 @@ public class SocketController {
     	List<UserDto> followers = userService.selectFollower(sendUserId);
     	
     	SignalDto message = null;
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = dateFormat.format(new Date());
     	for(UserDto user : followers) {
     		/*feed 알림*/
     		message = new SignalDto(user.getUserId(), sendUserId,1,1,0); //받는 아이디, 보내는 아이디, 피드 알림, 피드 알림, 읽기x
     		message.setImg(feed.getFeedImg()); //피드 사진 설정
     		message.setSendUserName(sendUser.getUserName()); //닉네임 설정
+    		message.setSigDate(currentDate);
     		signalService.insertSignal(message); //알림 추가
     	}
 		return message;
@@ -68,7 +79,10 @@ public class SocketController {
     	SignalDto message = new SignalDto(getUserId, sendUserId,1,2,0); //받는 아이디, 보내는 아이디, 피드 알림, 좋아요 알림, 읽기x
 		message.setImg(feed.getFeedImg()); //피드 사진 설정
 		message.setSendUserName(sendUser.getUserName()); //닉네임 설정
-		signalService.insertSignal(message); //알림 추가
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = dateFormat.format(new Date());
+		message.setSigDate(currentDate);
+		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
     }
     
