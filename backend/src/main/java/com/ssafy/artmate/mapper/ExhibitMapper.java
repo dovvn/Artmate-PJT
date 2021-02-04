@@ -11,12 +11,8 @@ import com.ssafy.artmate.dto.ExhibitDto;
 public interface ExhibitMapper {
 	ExhibitDto selectExhibitBySeq(String seqNum);
 	int insertExhibit(ExhibitDto dto);
-<<<<<<< HEAD
-	int insertTag(HashMap<String, Integer> tagInfo);
+	int insertTag(HashMap<String, Object> tagInfo);
 	List<ExhibitDto> selectExhibitMyTag(String userId);
 	List<ExhibitDto> selectAllExhibit();
 	ExhibitDto selectOneExhibit(int id);
-=======
-	int insertTag(HashMap<String, Object> tagInfo);
->>>>>>> b130404681492332219519ef5007a00719effe78
 }
