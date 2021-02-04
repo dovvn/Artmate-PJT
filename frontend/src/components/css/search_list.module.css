@@ -17,7 +17,7 @@
   background-color: var(--color-purple);
   margin-top: 5px;
   margin-left: 8%;
-  opacity: 0.5;
+  /* opacity: 0.5; */
 }
 .search_back_btn {
   /* float: left; */

@@ -33,7 +33,7 @@
 .user-pw_label {
   color: var(--color-white);
   font-size: var(--font-txt-md);
-  opacity: 0.8;
+  /* opacity: 0.8; */
 }
 .login-form_btn {
   font-size: var(--font-tlt-xl);
@@ -45,7 +45,7 @@
 .horizontal {
   display: flex;
   color: var(--color-white);
-  opacity: 0.6;
+  /* opacity: 0.6; */
   justify-content: center;
   align-items: center;
   margin-bottom: 2em;
