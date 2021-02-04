@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.artmate.Dto.SignalDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.SignalDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.service.AwsS3Service;
 import com.ssafy.artmate.service.EmailService;
 import com.ssafy.artmate.service.SignalService;
@@ -124,7 +124,7 @@ public class UserController {
 			@ApiParam(value = "사용자 객체(user)", required = true) @RequestPart(value = "user", required = true) UserDto user,
 			@ApiParam(value = "프로필사진(file)", required = true) @RequestPart(value = "file", required = false) MultipartFile file)
 			throws IOException {
-		String url=null;
+		String url=null; 
 		System.out.println("file : "+ file);
 		System.out.println(user.getUserImg()+ " "+uservice.selectUserImg(user.getUserId()));
 		if(file != null) { //파일이 있을때만

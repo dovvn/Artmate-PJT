@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.service.JwtService;
 import com.ssafy.artmate.service.UserService;
 

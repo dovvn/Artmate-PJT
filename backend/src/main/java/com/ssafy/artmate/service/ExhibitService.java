@@ -2,7 +2,7 @@ package com.ssafy.artmate.service;
 
 import java.util.HashMap;
 
-import com.ssafy.artmate.Dto.ExhibitDto;
+import com.ssafy.artmate.dto.ExhibitDto;
 
 public interface ExhibitService {
 	ExhibitDto selectExhibitBySeq(String seq); //일련번호에 해당하는 전시회 찾기

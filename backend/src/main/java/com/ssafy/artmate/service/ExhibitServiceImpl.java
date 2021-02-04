@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.ExhibitDto;
+import com.ssafy.artmate.dto.ExhibitDto;
 import com.ssafy.artmate.mapper.ExhibitMapper;
 
 @Service

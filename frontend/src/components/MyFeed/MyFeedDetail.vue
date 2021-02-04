@@ -344,6 +344,11 @@ export default {
     //해결법: body크기를 고정하자
     //zoom event도 추가하자
     document.addEventListener('scroll', () => {
+      // 반응형
+      if(screen.height > 700) {
+        return;
+      }
+      // 반응형
       const csv = document.documentElement.scrollTop;
       // console.log(csv);
       if(csv === 0)  {
@@ -392,7 +397,7 @@ export default {
     width: 100%;
     /* height: 100%; */
     box-sizing: border-box;
-    max-width:380px;
+    /* max-width:380px; */
     margin:auto;
     /* z-index:1; */
   }
@@ -460,7 +465,7 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:65px;
+    padding-top:70px;
     margin-bottom:5px;
   }
   .feed__like__button {
@@ -687,6 +692,89 @@ export default {
   position:fixed;
   z-index:3;
   top:30px;
-  left:10px;
+  margin-left:10px;
 }
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feed {
+    width: 760px;
+  }
+  .feed__memo__write {
+    width:760px;
+  }
+  .feed__memo__write__input {
+    width: 95%;
+  }
+  .feed__img {
+    height:400px;
+  }
+  /* 글씨 크기 변경 */
+  .feed__info {
+    font-size:19px;
+  }
+  .creator__info__name {
+    font-size:22px;
+  }
+  .creator__info__date {
+    font-size:19px;
+  }
+  .creator__info__img {
+    width:60px;
+    height:60px;
+    margin-right:5px;
+  }
+  .creator__info__right {
+    font-size:23px;
+  }
+  .feed__like__button {
+    font-size:23px;
+  }
+  .feed__interactions__share,
+  .feed__interactions__bookmark {
+    margin-left:10px;
+  }
+  .feed__content {
+    font-size:18px;
+  }
+  .feed__memo__cnt {
+    font-size:20px;
+  }
+  .memo__writer__img {
+    height:57px;
+    width:57px;
+  }
+  .memo__writer__name {
+    font-size:18px;
+  }
+  .memo__text {
+    font-size: 12px;
+  }
+  /* 글씨 크기 변경 */
+
+   /* 글씨크기 추가변경 */
+  .feed__modify__button,
+  .feed__delete__button{
+    font-size:20px;
+  }
+
+  /* 글씨크기 추가변경 */
+
+ /* 추가 */
+  .memo__buttons,
+  .memo__modifier__btn {
+    font-size:15px;
+  }
+  .memo__modify__button {
+    margin-right:5px;
+  }
+  /* 추가 */
+}
+
+@media screen and (min-height: 700px) {
+  .feed__memo__list {
+    min-height:300px;
+  }
+}
+/* 반응형 */
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="newsfeed">
       <div class="feedLine">
-        <div id="post"  v-for="nf in newsfeed" :key="nf.id"> <!--  @click="postDetail(nf.id)" 🎈 -->
+        <div id="post"  v-for="nf in newsfeed" :key="nf.id" @click="postDetail(nf.id)"> 
           <div id="picture" >
             <img class="feed_img" :src="nf.feedImg" alt="">
           </div>
@@ -161,10 +161,13 @@ export default {
         return `${betweenTimeDay}일전`;
       }
       return `%{Math.floor(betweenTimeDay/ 365)}년전`;
+    },
+    postDetail:function(feedno){ 
+      this.$router.replace({
+        name: "MyFeedView",
+        params: {feedno: feedno}
+      });
     }
-    // postDetail:function(feedid){ 🎈 
-    //   this.$router.push(`feed/detail/${feedid}`);
-    // }
   }
   
 }
@@ -177,6 +180,7 @@ export default {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 80px;
+  padding-top: 60px;
 }
 #post{
   width: 100%;

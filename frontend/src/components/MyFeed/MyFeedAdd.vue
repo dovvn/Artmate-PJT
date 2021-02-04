@@ -79,7 +79,7 @@ export default {
     goBack() {
       this.$router.replace({
         name: "MyFeedList",
-        params: {status: "added"}
+        // params: {status: "added"}
       });
     },
     addFeed() {
@@ -134,7 +134,7 @@ export default {
 .feedadd {
   display:flex;
   flex-direction: column;
-  max-width:380px;
+  width:380px;
   margin:auto;
 }
 .line {
@@ -154,7 +154,7 @@ export default {
 .back__button {
   position:fixed;
   top:30px;
-  left:20px;
+  margin-left:20px;
   font-weight:700;
 }
 .title {
@@ -262,7 +262,7 @@ label {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
@@ -279,4 +279,16 @@ label {
   text-align:center;
   
 }
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feedadd {
+    width:760px;
+  }
+  .img__upload,
+  .img__empty {
+    height:400px;
+  }
+}
+
+/* 반응형 */
 </style>

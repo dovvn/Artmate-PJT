@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.ssafy.artmate.Dto.SignalDto;
+import com.ssafy.artmate.dto.SignalDto;
 import com.ssafy.artmate.service.SignalService;
 
 import io.swagger.annotations.Api;

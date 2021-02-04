@@ -140,7 +140,7 @@ export default {
 .feedadd {
   display:flex;
   flex-direction: column;
-  max-width:380px;
+  width:380px;
   margin:auto;
 }
 .line {
@@ -160,7 +160,7 @@ export default {
 .back__button {
   position:fixed;
   top:30px;
-  left:20px;
+  margin-left:20px;
   font-weight:700;
 }
 .title {
@@ -285,4 +285,17 @@ label {
   text-align:center;
   
 }
+
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feedadd {
+    width:760px;
+  }
+  .img__upload,
+  .img__empty {
+    height:400px;
+  }
+}
+
+/* 반응형 */
 </style>
