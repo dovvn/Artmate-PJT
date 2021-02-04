@@ -195,7 +195,7 @@ export default {
     },
     onFocus(){
       this.isKeyUp=true;
-      this.isSubmit=false;
+      // this.isSubmit=false;
     },
     onSubmit(e){
       e.preventDefault();
@@ -227,7 +227,12 @@ export default {
       document.querySelector('.search_list_input').blur();
     },
     onClickUser(e){
-      console.log(e);
+      const user=this.users[e.target.dataset.idx];
+      const userId=user.userId;
+      this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
     }
   }
 }

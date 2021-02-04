@@ -95,8 +95,13 @@
   display: none;
 }
 .search_user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 5px;
   margin-right: 15px;
+  cursor: pointer;
 }
 .search_user_img {
   width: 61px;
