@@ -3,8 +3,7 @@
       <div>
         <Navi class="detail__navi"/>
       </div>
-    <div class="newsNav" v-on:scroll.passive="handleScroll" data-aos="fade-down"
-     data-aos-easing="linear" data-aos-duration="1500" v-if="navType==1" >
+    <div class="newsNav" v-on:scroll.passive="handleScroll"  data-aos-duration="1500" v-if="navType==1" >
     <div id="feednav1" >
         <p id="txt">NEWSFEED</p>
         
@@ -62,8 +61,8 @@ export default {
       var _scrollTop = window.scrollY || document.documentElement.scrollTop;
       // console.log(_scrollTop);  
       this.scrollY = _scrollTop;
-      console.log("스크롤위치 : "+this.scrollY); 
-      console.log("navType : "+this.navType);
+      // console.log("스크롤위치 : "+this.scrollY); 
+      // console.log("navType : "+this.navType);
 
       if(this.scrollY > 250) this.navType = 2;
       else if(this.scrollY <= 120) this.navType =1;
@@ -74,7 +73,7 @@ export default {
 
 <style>
 .fiddiv {
-  width: 380px;
+  width: 760px;
   height: 100%;
   text-align: center;
   margin: 0 auto;
@@ -82,7 +81,7 @@ export default {
 .newsNav{
   position: sticky;
   top: 70px;
-  background-image : url(../../assets/ngng.png); 
+  background-image : url(../../assets/ngngz.png); 
   background-repeat: no-repeat;
   background-position: fixed;
   background-size: cover;
@@ -93,31 +92,18 @@ export default {
 .detail__navi{
   background-color: white;
 }
-.nbg{
-  width: 900px;
-  height: 500px;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  /* position: fixed;  */
-  /* position: absolute;
-  top: 0;
-  left: 0; */
-  z-index: -1;
-  opacity: 0.6;
-}
 /* ------------------------------- nav css ------------------------------- */
 
 #feednav1{
     text-align: center;
     margin: 0 auto;
-    height: 210px;
+    height: 300px;
     margin-bottom: 17px;
 }
 #feednav1>#txt {
   clear: both;
   float: left;
-  font-size: 28px;
+  font-size: 35px;
   font-weight: bold;
   margin-left: 50px;
   margin-top: 10px;
@@ -138,7 +124,7 @@ export default {
 #feednav2{
     text-align: center;
     margin: 0 auto;
-    height: 115px;
+    height: 120px;
     margin-bottom: 17px;
 }
 #feednav2>#txt2 {
@@ -149,10 +135,34 @@ export default {
   margin-bottom: 0px;
 }
 .nav2{
-    padding-top: 60px;
+    padding-top: 130px;
     clear: both;
     float: left;
     margin-left: 50px;
     color: #CCCCCC;
+}
+/* ------------------------------ 반응형 ------------------------------ */
+@media screen and (max-width: 1024px) {
+  .fiddiv {
+    width: 380px;
+  }
+  .newsNav{
+    background-image : url(../../assets/ngng.png); 
+    background-repeat: no-repeat;
+    background-position: fixed;
+    background-size: cover;
+  }
+  #feednav1{
+    height: 210px;
+  }
+  .nav2{
+    padding-top: 60px;
+  }
+  #feednav1>#txt{
+    font-size: 28px;
+  }
+  #feednav2{
+    height: 115px;
+  }
 }
 </style>
