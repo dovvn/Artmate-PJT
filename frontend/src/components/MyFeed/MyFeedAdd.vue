@@ -286,7 +286,7 @@ label {
   }
   .img__upload,
   .img__empty {
-    height:400px;
+    height:320px;
   }
 }
 
