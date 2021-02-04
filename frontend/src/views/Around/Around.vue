@@ -144,8 +144,12 @@ export default {
   },
   methods:{
     handleToggle(e){
-      if(!e.target.className.includes('around_list'))
-        this.onToggle();
+      // console.log(typeof e.target.classList['around_list']);
+      if(this.isToggled)
+        if(typeof e.target.className == 'object' || 
+        typeof e.target.className == 'string' && 
+        !e.target.className.includes('around_list'))
+          this.onToggle();
     },
     onBack(){
       history.back();
