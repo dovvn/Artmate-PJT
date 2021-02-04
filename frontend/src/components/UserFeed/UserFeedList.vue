@@ -9,10 +9,13 @@
         <div class="writer__info__feedname">
           {{userInfo.feedName}}
         </div>
-        <button @click="Follow" v-if="!following" class="writer__follow__button">
+        <button @click="Follow" v-if="following==0" class="writer__follow__button">
           팔로우
         </button>
-        <button @click="unFollow" v-if="following" class="writer__followed__button">
+        <button v-if="following==1" class="writer__followed__button">
+          요청됨
+        </button>
+        <button @click="unFollow" v-if="following==2" class="writer__followed__button">
           팔로잉
         </button>
       </div>
@@ -109,15 +112,14 @@ export default {
   },
   methods: {
     Follow() {
-      this.following = !this.following;
-      this.userInfo.followerCnt += 1;
+      this.following = 1;
       let params = {
         sendUserId: this.user.userId,
         getUserId:this.$route.params.userId, 
       }
       console.log(params);
       http
-      .put(`http://localhost:7777/api/user/follow?getUserId=${params.getUserId}&sendUserId=${params.sendUserId}`)
+      .put(`http://localhost:7777/api/user/follow/${params.sendUserId}/${params.getUserId}`)
       .then((response) => {
         console.log(response.data);
       })
@@ -126,14 +128,14 @@ export default {
       })
     },
     unFollow() {
-      this.following = !this.following;
+      this.following = 0;
       this.userInfo.followerCnt -= 1;
        let params = {
         "sendUserId": this.user.userId,
         "getUserId":this.$route.params.userId, 
       }
       http
-      .delete('/api/user/follow', {params:params})
+      .delete(`/api/user/follow/${params.sendUserId}/${params.getUserId}`)
       .then((response) => {
         console.log(response.data);
       })

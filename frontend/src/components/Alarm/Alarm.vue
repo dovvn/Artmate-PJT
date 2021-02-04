@@ -53,7 +53,7 @@
             </div>
             <div class="follow__alarm__buttons">
               <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
-              <button class="follow__no__button" @click="showRejectModal(alarm.id)">거절</button>  
+              <button class="follow__no__button" @click="showRejectModal(alarm.id,alarm.sendUserId)">거절</button>  
             </div>
           </div>
           <div class="alarm__right">
@@ -73,7 +73,7 @@
             </div>
             <div class="follow__alarm__buttons">
               <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
-              <button class="follow__no__button" @click="showRejectModal(alarm.id)">거절</button>  
+              <button class="follow__no__button" @click="showRejectModal(alarm.id,alarm.sendUserId)">거절</button>  
             </div>
           </div>
           <div class="alarm__right">
@@ -208,6 +208,7 @@ export default {
       exhibitions: [],
       feeds: [],
       deleteId:-1,
+      sendFollowUserId: '',
     }
   },
   computed: {
@@ -216,6 +217,11 @@ export default {
   created() {
     // vuex로 유저정보 가져와서 걔의 알림 백에서 가져온다음 data에 담아준다.
     this.updateAlarms();
+  },
+  updated() {
+    const alarms = document.querySelectorAll(".feed__alarm");
+    console.log(alarms);
+    
   },
   methods: {
     allowDrop(event) {
@@ -245,8 +251,9 @@ export default {
       })
       
     },
-    showRejectModal(deleteId) {
+    showRejectModal(deleteId,sendUserId) {
       this.deleteId = deleteId; 
+      this.sendFollowUserId = sendUserId;
       this.$bvModal.show('pos-check-modal');
     },
     acceptFollow(sendUserId) {
@@ -255,7 +262,7 @@ export default {
         this.updateAlarms();
         //팔로우
         http
-        .put(`/api/user/follow/${this.user.userId}/${sendUserId}`)
+        .put(`/api/user/follow/accept/${sendUserId}/${this.user.userId}`)
         .then((response) => {
           console.log(response);
           //팔로우등록됐다 모달 띄우기
@@ -274,6 +281,14 @@ export default {
       deleteAlarm(this.delteId, (response) => {
         console.log(response);
         this.updateAlarms();
+        http
+        .delete(`/api/user/follow/${this.sendFollowUserId}/${this.user.userId}`)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
         this.$bvModal.hide('pos-check-modal');
       }, (error) => {
         console.error(error);
