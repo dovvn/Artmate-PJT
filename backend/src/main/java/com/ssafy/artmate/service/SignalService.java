@@ -2,7 +2,7 @@ package com.ssafy.artmate.service;
 
 import java.util.List;
 
-import com.ssafy.artmate.Dto.SignalDto;
+import com.ssafy.artmate.dto.SignalDto;
 
 public interface SignalService {
 	boolean insertSignal(SignalDto signal);// 알림 전송

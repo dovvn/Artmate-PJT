@@ -21,18 +21,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.artmate.Dto.ExhibitDto;
+import com.ssafy.artmate.dto.ExhibitDto;
 import com.ssafy.artmate.service.ExhibitService;
 
 import io.swagger.annotations.Api;
 
 @Component
+@Controller
 public class ExhibitApiController implements ApplicationRunner{
 
 	static final String ServiceKey = "5a54466f6c756e6e3130324c50755745"; // 인증키

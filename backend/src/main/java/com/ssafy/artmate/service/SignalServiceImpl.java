@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.SignalDto;
+import com.ssafy.artmate.dto.SignalDto;
 import com.ssafy.artmate.mapper.SignalMapper;
 
 @Service

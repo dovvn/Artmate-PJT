@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.MyFileDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.MyFileDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.mapper.UserMapper;
 
 @Service

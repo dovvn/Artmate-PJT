@@ -2,7 +2,7 @@ package com.ssafy.artmate.service;
 
 import java.util.List;
 
-import com.ssafy.artmate.Dto.FeedDto;
+import com.ssafy.artmate.dto.FeedDto;
 
 public interface FeedService{
 	boolean insertFeed(FeedDto feed); //피드 글 작성

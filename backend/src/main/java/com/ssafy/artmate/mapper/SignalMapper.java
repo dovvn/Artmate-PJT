@@ -2,8 +2,10 @@ package com.ssafy.artmate.mapper;
 
 import java.util.List;
 
-import com.ssafy.artmate.Dto.SignalDto;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.artmate.dto.SignalDto;
+@Mapper
 public interface SignalMapper {
 	int insertSignal(SignalDto signal);// 알림 전송
 	int deleteSignal(int id);// 알림 삭제

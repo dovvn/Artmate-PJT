@@ -8,8 +8,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import com.ssafy.artmate.Dto.SignalDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.SignalDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.service.SignalService;
 import com.ssafy.artmate.service.UserService;
 

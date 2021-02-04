@@ -2,11 +2,11 @@ package com.ssafy.artmate.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ssafy.artmate.Dto.MyFileDto;
-import com.ssafy.artmate.Dto.UserDto;
-
+import com.ssafy.artmate.dto.UserDto;
+@Mapper
 public interface UserMapper {
 	boolean insertUser(UserDto user);
 	UserDto selectUseridAndAccesskey(String userId, String accesskey);

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.ssafy.artmate.Dto.CommentDto;
+import com.ssafy.artmate.dto.CommentDto;
 import com.ssafy.artmate.service.CommentService;
 
 import io.swagger.annotations.Api;

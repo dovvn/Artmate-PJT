@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.ssafy.artmate.Dto.FeedDto;
+import com.ssafy.artmate.dto.FeedDto;
 import com.ssafy.artmate.service.AwsS3Service;
 import com.ssafy.artmate.service.FeedService;
 
