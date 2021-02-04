@@ -124,7 +124,7 @@ export default {
 
   methods:{
     showNew() {
-      this.$store.commit('setNewAlarm');
+      this.$store.commit('setNewAlarmTrue');
     },
     connect() {
       const serverURL = 'http://localhost:7777/socket'; //소켓 연결 주소
@@ -205,7 +205,7 @@ export default {
     //   // 슬라이드 열리기
     // },
     onClickAlarm(){
-      this.$store.commit('setNewAlarm');
+      this.$store.commit('setNewAlarmFalse');
       this.$router.push('/alarm');
     },
     onClickSearch(){
@@ -288,6 +288,7 @@ export default {
   },
   mounted() {
       // 알림 통신
+      console.log(this.stompClient);
       if (
         this.stompClient == null ||
         this.stompClient == '' ||

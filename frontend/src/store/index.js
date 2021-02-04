@@ -52,8 +52,11 @@ export default new Vuex.Store({
     setStompClient(state, stompClient) {
       state.stompClient = stompClient;
     },
-    setNewAlarm(state) {
-      state.isNewAlarm = !state.isNewAlarm;
+    setNewAlarmTrue(state) {
+      state.isNewAlarm = true;
+    },
+    setNewAlarmFalse(state) {
+      state.isNewAlarm = false;
     },
   },
   actions: {
