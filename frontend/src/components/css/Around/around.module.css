@@ -8,13 +8,13 @@
   padding: 30px 30px 0 30px;
 }
 .around_nav.inactive {
-  opacity: 40%;
+  opacity: 0.4;
 }
 .around_header.inactive {
-  opacity: 40%;
+  opacity: 0.4;
 }
 .around_map.inactive {
-  opacity: 40%;
+  opacity: 0.4;
 }
 .around_nav {
   display: flex;

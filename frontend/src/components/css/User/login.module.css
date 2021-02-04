@@ -30,14 +30,10 @@
   height: 1.6em;
 }
 .user-id_label,
-.user-pw_label,
-.remember-id_label {
+.user-pw_label {
   color: var(--color-white);
   font-size: var(--font-txt-md);
-  opacity: 80%;
-}
-.remember-id_label {
-  margin-left: 5px;
+  opacity: 0.8;
 }
 .login-form_btn {
   font-size: var(--font-tlt-xl);
@@ -49,7 +45,7 @@
 .horizontal {
   display: flex;
   color: var(--color-white);
-  opacity: 60%;
+  opacity: 0.6;
   justify-content: center;
   align-items: center;
   margin-bottom: 2em;
@@ -57,7 +53,6 @@
 }
 .bar {
   width: 42%;
-  opacity: 90%;
   height: 2px;
   margin: 0 5px;
   background-color: var(--color-white);
@@ -70,12 +65,12 @@
 .icon {
   margin: 0 10px;
 }
-.router {
+.router a {
   color: var(--color-white);
   font-weight: var(--weight-bold);
   text-decoration: none;
 }
-.router a:visited {
+.router a:visited,
+.router a:hover {
   color: white;
-  opacity: 70%;
 }
