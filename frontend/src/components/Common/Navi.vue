@@ -290,9 +290,9 @@ export default {
       // 알림 통신
       console.log(this.stompClient);
       if (
-        this.stompClient == null ||
-        this.stompClient == '' ||
-        !this.stompClient.connected
+        !this.stompClient ||
+      this.stompClient == '' ||
+      typeof this.stompClient.subscribe === 'undefined'
       ) {
         this.connect();
       }
