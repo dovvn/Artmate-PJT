@@ -2,6 +2,7 @@ package com.ssafy.artmate.service;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,28 @@ public class ExhibitServiceImpl implements ExhibitService{
 	}
 
 	@Override
-	public boolean insertTag(HashMap<String, Integer> tagInfo) {
+	public boolean insertTag(HashMap<String, Object> tagInfo) {
 		return sqlSession.getMapper(ExhibitMapper.class).insertTag(tagInfo) == 1;
 	}
+
+	@Override
+	public List<ExhibitDto> selectExhibitMyTag(String userId) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitMyTag(userId);
+	}
+
+	@Override
+	public List<ExhibitDto> selectAllExhibit() {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit();
+	}
+
+	@Override
+	public ExhibitDto selectOneExhibit(int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(id);
+	}
+
+	@Override
+	public List<String> selectExhibitTags(int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitTags(id);
+	}
+
 }
