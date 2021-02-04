@@ -9,7 +9,7 @@
         <div class="writer__info__feedname">
           {{userInfo.feedName}}
         </div>
-        <button @click="Follow" v-if="following==-1" class="writer__follow__button">
+        <button @click="Follow" v-if="following==-1 && this.user.userId != this.userInfo.userId" class="writer__follow__button">
           팔로우
         </button>
         <button v-if="following==0" class="writer__followed__button">
@@ -155,7 +155,7 @@ export default {
     },
     seeFeedList(userId) {
       this.updateFeedList(userId);
-      this.updateFollow(this.user.userId,this.$route.params.userId)
+      this.updateFollow(this.user.userId,userId)
       
       this.$bvModal.hide('FollowInfo');
        this.$router.replace({
