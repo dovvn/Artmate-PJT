@@ -48,23 +48,23 @@
 	<select id="selectFollowerCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM Follow
-		WHERE getUserId = #{userId} and state=1
+		WHERE getUserId = #{userId} AND state=1
 	</select>
 	<select id="selectFollowingCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM Follow
-		WHERE sendUserId = #{userId} and state=1
+		WHERE sendUserId = #{userId} AND state=1
 	</select>
 	<select id="selectFollower" parameterType="String" resultType="UserDto">
 		SELECT *
 		FROM Follow INNER JOIN User ON sendUserId=userId
-		WHERE getUserId = #{userId} and state=1
+		WHERE getUserId = #{userId} AND state=1
 		ORDER BY userName
 	</select>
 	<select id="selectFollowing" parameterType="String" resultType="UserDto">
 		SELECT *
 		FROM Follow INNER JOIN User ON getUserId=userId
-		WHERE sendUserId = #{userId} and state=1
+		WHERE sendUserId = #{userId} AND state=1
 		ORDER BY userName
 	</select>
 	<insert id="insertFollow" parameterType="String">
@@ -86,8 +86,8 @@
 	<!-- 회원정보 가져오기 -->
 	<select id="selectUser" parameterType="String" resultType="userDto">
 		SELECT *,(SELECT COUNT(id) From Feed WHERE userId = #{userId}) AS feedCnt,
-		 (SELECT COUNT(sendUserId) From Follow WHERE getUserId = #{userId}) AS followerCnt,
-		 (SELECT COUNT(getUserId) From Follow WHERE sendUserId = #{userId}) AS followingCnt
+		 (SELECT COUNT(sendUserId) From Follow WHERE getUserId = #{userId} AND state=1) AS followerCnt,
+		 (SELECT COUNT(getUserId) From Follow WHERE sendUserId = #{userId} AND state=1) AS followingCnt
 		FROM User
 		WHERE userId=#{userId};
 	</select>

@@ -51,8 +51,6 @@ public class UserController {
 	private UserService uservice;
 	@Autowired
 	private EmailService eservice;
-	@Autowired
-	private SignalService signalService;
 
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -277,7 +275,7 @@ public class UserController {
 	}
 
 	// 팔로우했는지 상태 가져오기
-	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 true, 안했으면 false 반환", response = Integer.class)
+	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 1, 요청 중이면 0, 아무것도 아니면 -1 반환", response = Integer.class)
 	@GetMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public int selectFollowState(
 			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId, @ApiParam(value = "현재 피드의 사용자 아이디", required = true, example = "unni2@naver.com") @PathVariable("getUserId") String getUserId) {
