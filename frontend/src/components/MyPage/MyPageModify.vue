@@ -5,17 +5,25 @@
     </div>
     <div id="mpg">
       <div id="content">
-        <p id="txt">프로필을 입력하세요</p>
-        <div id="userPicture">
-          <input type="file" id="file" ref="file" accept=".jpg, .png, .jpeg" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
-          <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
-          <img id="upimg" v-else :src="imageUrl"/>
+        <div class="up">
+          <div class="p">
+          <p id="txt">프로필을 입력하세요</p>
         </div>
-        <p class="ptx" @click="onClickImageUpload()">프로필 사진 변경</p> 
-        <!--  프로필 삭제 - 디폴트로 변경 🎈  -->
-        <p class="ptx" style="color:red" @click="delPicture()">[삭제]</p>
-        <form class="change-form">
-          <label for="userName">닉네임</label><br />
+        <div class="ppp">
+          <div id="userPicture">
+            <input type="file" id="file" ref="file" accept=".jpg, .png, .jpeg" hidden v-on:change="handleFileUpload()" @change="onChangeImages"/>
+            <img id="upimg" v-if="imageUrl==''||imageUrl==null" src="../../assets/person.jpg"/>
+            <img id="upimg" v-else :src="imageUrl"/>
+          </div>
+          <div class="ch">
+            <p class="ptx" @click="onClickImageUpload()">프로필 사진 변경</p> 
+            <p class="ptx" style="color:red" @click="delPicture()">[삭제]</p>
+          </div>
+        </div>
+      
+        <div class="fom">
+          <form class="change-form">
+          <label class="label" for="userName">닉네임</label><br />
           <input
             id="userName"
             name="userName"
@@ -24,9 +32,9 @@
             type="text"
           />
           <b-button id="check" :variant="this.idCheck ? 'outline-success' : 'outline-secondary'" @click="idCheckFunc" >중복체크</b-button>
-           <br /><br /> 
+           <br />
 
-          <label for="password">비밀번호</label><br />
+          <label class="label" for="password">비밀번호</label><br />
           <input
             id="password"
             name="password"
@@ -35,16 +43,16 @@
             type="text"
           />
            <p class="error" v-if="error.password">{{error.password}}</p>
-          <br /><br />
-          <label for="feedName">피드명</label><br />
+          <br />
+          <label class="label" for="feedName">피드명</label><br />
           <input
             id="feedName"
             name="feedName"
             v-model="userInfo.feedName"
             placeholder="피드명을 입력하세요.(10자 이내)"
             type="text"
-          /><br /><br />
-          <label for="introduction ">소개말</label><br />
+          /><br />
+          <label class="label" for="introduction ">소개말</label><br />
           <input
             id="introduction"
             name="introduction"
@@ -56,7 +64,9 @@
         <div id="favorite"> <!-- myTag  선택한 취향 보여주기 갱신~🎈 myTag -->
           <p id="tag1">명화</p> <p>현대미술</p> <p>유화</p>
         </div>
-
+        </div>
+        </div>
+        
         <!-- 수정완료 후 메인 -->
         <div id="btn">
             <button id="changeFinish" @click="$bvModal.show('pos-check-modal2')">완료</button>
@@ -287,136 +297,6 @@ export default {
 
 <style scoped>
 @import "../../components/css/style.css";
-#mypage {
-  width: 380px;
-  height: 100%;
-  text-align: center;
-  margin: 0 auto;
-}
-#back {
-  margin-top: 30px;
-  padding-left: 25px;
-  width: 30px;
-  float: left;
-  display: inline-block;
-}
-#mpg {
-  margin-top: 65px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-#txt {
-  clear: both;
-  float: left;
-  font-size: 28px;
-  font-weight: bold;
-}
-#content {
-  margin-top: 20px;
-  width: 300px;
-}
-#userPicture {
-  clear: both;
-  display: block;
-  text-align: center;
-  margin: 0 auto;
-  padding-bottom: 14px;
-  width: 93px;
-  height: 93px;
-  border-radius: 50%;
-  /* border: 3px solid blueviolet; */
-}
-#upimg{
-  width: 93px;
-  height: 93px;
-   border-radius: 50%;
-  object-fit: cover;
-}
-.ptx {
-  color: var(--color-medium-purple);
-  font-size: 11px;
-  margin-top: 10px;
-  display: inline-block;
-  text-align: center;
-  margin-left: 10px;
-}
-.change-form {
-  text-align: left;
-}
-#userName {
-  outline: none;
-  border-bottom: 2px solid;
-  width: 70%;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  /* font-size: var(--font-txt-md); */
-}
-#feedName,
-#introduction,
-#password  {
-  outline: none;
-  border-bottom: 2px solid;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  /* font-size: var(--font-txt-md); */
-}
-#check {
-  float: right;
-  margin-left: 7px;
-  margin-right: 4px;
-  padding: 6px;
-  font-size: 14px;
-  border-radius: 5px;
-}
-#favorite {
-  height: 60px;
-}
-#favorite>p{
-  font-size: var(--font-tlt-2xs);
-  margin-top: 10px;
-  display: inline-block;
-  border: 1px solid gray;
-  padding: 4px;
-  margin-left: 5px;
-  border-radius: 10px;
-  float: left;
-}
-#favorite>#tag1{
-  color: white;
-  background-color: #242424;
-}
-#changeFinish {
-  color: white;
-  background-image: var(--background-image-purple-gd);
-  border-radius: 20px;
-  font-size: var(--font-tlt-sm);
-  width: 160px;
-  height: 39px;
-}
-#btn{
-  margin-left: 60px;
-  float: left;
-  width: 160px;
-  height: 39px;
-  padding-top: 10px;
-  
-}
-#next {
-  float: right;
-}
-#out{
-  color: red;
-  font-size: 12px;
-  text-align: right;
-  margin-right: 41px;
-  margin-bottom: 50px;
-}
-.error{
-  font-size: 12px;
-  color: var(--color-red);
-  text-align: right;
-}
 /* ---------------- 모달 css ---------------- */
 .pos-check-yes-button {
   color:white;
@@ -467,5 +347,305 @@ export default {
 .pos-check-modal-body {
   text-align:center;
   
+}
+/* ------------------------------ 좁아질 때 반응형 ------------------------------ */
+@media screen and (max-width: 1024px) {
+    #mypage {
+    width: 380px;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+  #back {
+    margin-top: 20px;
+    padding-left: 25px;
+    width: 30px;
+    float: left;
+    display: inline-block;
+  }
+  #mpg {
+    margin-top: 65px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  #txt {
+    clear: both;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  #content {
+    margin-top: 20px;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  #userPicture {
+    clear: both;
+    display: block;
+    padding-bottom: 14px;
+    text-align: center;
+    margin: 0 auto;
+    width: 93px;
+    height: 93px;
+    border-radius: 50%;
+    /* border: 3px solid blueviolet; */
+  }
+  .label{
+    margin-top: 10px;
+  }
+  #upimg{
+    width: 93px;
+    height: 93px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .ptx {
+    color: var(--color-medium-purple);
+    font-size: 11px;
+    margin-top: 10px;
+    text-align: center;
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .change-form {
+    margin-top: 5px;
+    text-align: left;
+  }
+  #userName {
+    outline: none;
+    border-bottom: 2px solid;
+    width: 70%;
+    margin-bottom: 5px;
+    /* font-size: var(--font-txt-md); */
+  }
+  #feedName,
+  #introduction,
+  #password  {
+    outline: none;
+    border-bottom: 2px solid;
+    width: 100%;
+    margin-bottom: 5px;
+    /* font-size: var(--font-txt-md); */
+  }
+  #check {
+    float: right;
+    margin-left: 7px;
+    margin-right: 4px;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  #favorite {
+    height: 45px;
+  }
+  #favorite>p{
+    font-size: var(--font-tlt-2xs);
+    margin-top: 10px;
+    display: inline-block;
+    border: 1px solid gray;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 10px;
+    float: left;
+  }
+  #favorite>#tag1{
+    color: white;
+    background-color: #242424;
+  }
+  #changeFinish {
+    color: white;
+    background-image: var(--background-image-purple-gd);
+    border-radius: 20px;
+    font-size: var(--font-tlt-sm);
+    width: 160px;
+    height: 39px;
+  }
+  #btn{
+    margin-left: 60px;
+    float: left;
+    width: 160px;
+    height: 39px;
+    padding-top: 10px;
+    
+  }
+  #next {
+    float: right;
+  }
+  #out{
+    color: red;
+    font-size: 12px;
+    text-align: right;
+    margin-right: 41px;
+    padding-bottom: 50px;
+  }
+  .error{
+    font-size: 12px;
+    color: var(--color-red);
+    text-align: right;
+  }
+}
+/* ------------------------------ 넓어질 때 반응형 ------------------------------ */
+@media screen and (min-width: 1024px) {
+  #mypage {
+  width: 760px;
+  height: 100%;
+  text-align: center;
+  margin: 0 auto;
+  }
+  #back {
+    margin-top: 20px;
+    padding-left: 25px;
+    width: 30px;
+    float: left;
+    display: inline-block;
+  }
+  #mpg {
+    margin-top: 65px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .p{
+    display: block;
+  }
+  #txt {
+    clear: both;
+    text-align: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  #content {
+    margin-top: 20px;
+    width: 700px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .ppp{
+    padding-left: 20px;
+    padding-right: 30px;
+    height: 100%;
+    display: inline-block;
+    float: left;
+  }
+  #userPicture {
+    clear: both;
+    display: inline-block;
+    padding-bottom: 14px;
+    display: flex;
+       flex-direction: column;
+       justify-items: center;
+    /* text-align: center; */
+    /* margin: 0 auto; */
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    /* border: 3px solid blueviolet; */
+  }
+  .fom{
+    float: right;
+  }
+  .label{
+    margin-top: 10px;
+  }
+  #upimg{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .ptx {
+    color: var(--color-medium-purple);
+    font-size: 11px;
+    margin-top: 10px;
+    text-align: center;
+    display: inline-block;
+    margin-left: 10px;
+    flex-direction: column;
+    justify-items: center;
+  }
+  .ch{
+    display: inline-block;
+    display: flex;
+    justify-items: center;
+  }
+  .change-form {
+    margin-top: 5px;
+    text-align: left;
+    width: 500px;
+  }
+  #userName {
+    outline: none;
+    border-bottom: 2px solid;
+    width: 80%;
+    margin-bottom: 5px;
+    /* font-size: var(--font-txt-md); */
+  }
+  #feedName,
+  #introduction,
+  #password  {
+    outline: none;
+    border-bottom: 2px solid;
+    width: 100%;
+    margin-bottom: 5px;
+    /* font-size: var(--font-txt-md); */
+  }
+  #check {
+    float: right;
+    margin-left: 7px;
+    margin-right: 4px;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  #favorite {
+    height: 45px;
+  }
+  #favorite>p{
+    font-size: var(--font-tlt-2xs);
+    margin-top: 10px;
+    display: inline-block;
+    border: 1px solid gray;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 10px;
+    float: left;
+  }
+  #favorite>#tag1{
+    color: white;
+    background-color: #242424;
+  }
+  #changeFinish {
+    color: white;
+    background-image: var(--background-image-purple-gd);
+    border-radius: 20px;
+    font-size: var(--font-tlt-sm);
+    width: 200px;
+    height: 39px;
+    margin-left: 280px;
+  }
+  #btn{
+    margin-left: 60px;
+    float: left;
+    width: 160px;
+    height: 39px;
+    padding-top: 10px;
+    
+  }
+  #next {
+    float: right;
+  }
+  #out{
+    color: red;
+    font-size: 12px;
+    text-align: right;
+    margin-right: 41px;
+    padding-bottom: 50px;
+  }
+  .error{
+    font-size: 12px;
+    color: var(--color-red);
+    text-align: right;
+  }
 }
 </style>
