@@ -1,5 +1,25 @@
 <template>
   <div class="alarmPage">
+
+    <b-modal id="pos-added-modal" modal-class="pos-added-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-added-modal-body">
+        <div class="pos-added-title">
+          팔로우 신청을 수락했습니다.
+        </div>
+        <button class="pos-added-check-button" @click="$bvModal.hide('pos-added-modal')">확인</button>
+      </div>
+    </b-modal>
+
+    <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-check-modal-body">
+        <div class="pos-check-title">
+          팔로우를 거절하시겠습니까?
+        </div>
+        <button class="pos-check-yes-button" @click="rejectFollow()">예</button>
+        <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
+      </div>
+    </b-modal>
+
     <div class="sticky-top">
       <div class="header">
         <button class="back__button" @click="goBack">
@@ -20,7 +40,9 @@
     
     <div class="feed__alarms" v-if="this.choosed === 'feed'">
       <div class="feed__alarm" v-for="(alarm,idx) in feeds" :key="idx">
-        <div class="follow__alarm" v-if="alarm.subType === 0">
+        <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
+        <div class="follow__alarm" v-if="alarm.subType === 0 && alarm.read === 0">
+          
           <div class="alarm__left">
             <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="follow__alarm__img" alt="">
             <img v-else :src="alarm.img"  class="follow__alarm__img" alt="">
@@ -30,44 +52,103 @@
               <div class="follow__alarm__content">{{alarm.sendUserName}}님이 당신의 피드를 <br/> 팔로우했습니다.</div>
             </div>
             <div class="follow__alarm__buttons">
-              <button class="follow__yes__button">수락</button>
-              <button class="follow__no__button">삭제</button>  
+              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
+              <button class="follow__no__button" @click="showRejectModal(alarm.id)">거절</button>  
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{alarm.sigDate}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
           </div>
         </div>
 
-        <div class="like__alarm" v-if="alarm.subType === 2">
+        <div class="follow__alarm read" v-if="alarm.subType === 0 && alarm.read === 1">
+          <button class="alarm__delete__button__read" @click="removeAlarm(alarm.id)">x</button>
           <div class="alarm__left">
-            <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="follow__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="follow__alarm__img" alt="">
+          </div>
+          <div class="alarm__middle">
+            <div class="follow__alarm__body">
+              <div class="follow__alarm__content">{{alarm.sendUserName}}님이 당신의 피드를 <br/> 팔로우했습니다.</div>
+            </div>
+            <div class="follow__alarm__buttons">
+              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
+              <button class="follow__no__button" @click="showRejectModal(alarm.id)">거절</button>  
+            </div>
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+          </div>
+        </div>
+
+        <div class="like__alarm" v-if="alarm.subType === 2 && alarm.read === 0">
+          <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
           <div class="like__alarm__middle">
             <div class="like__alarm__body">
-              <div class="like__alarm__content">이연희님 외 3명이 당신의<br/> 게시글을 좋아합니다.</div>
+              <div class="like__alarm__content">{{alarm.sendUserName}} 님이 당신의<br/> 게시글을 좋아합니다.</div>
             </div>
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">3시간 전</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
           </div>
         </div>
 
-        <div class="post__alarm read" v-if="alarm.subType === 1">
-          <div class="alarm__left">
-            <img src="../../assets/test_alarm/ex1.png"  class="like__alarm__img" alt="">
+        <div class="like__alarm read" v-if="alarm.subType === 2 && alarm.read === 1">
+          <button class="alarm__delete__button__read" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
           <div class="like__alarm__middle">
             <div class="like__alarm__body">
-              <div class="like__alarm__content">팔로워 김연우 님께서 후기를 게시하였습니다.</div>
+              <div class="like__alarm__content">{{alarm.sendUserName}} 님이 당신의<br/> 게시글을 좋아합니다.</div>
             </div>
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">7일 전</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
           </div>
         </div>
+
+        <div class="post__alarm" v-if="alarm.subType === 1 && alarm.read === 0">
+          <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
+          </div>
+          <div class="like__alarm__middle">
+            <div class="like__alarm__body">
+              <div class="like__alarm__content">팔로워 {{alarm.sendUserName}} 님께서 후기를 게시하였습니다.</div>
+            </div>
+            
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+          </div>
+        </div>
+
+        <div class="post__alarm read" v-if="alarm.subType === 1 && alarm.read === 1">
+          <button class="alarm__delete__button__read" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+            <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
+            <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
+          </div>
+          <div class="like__alarm__middle">
+            <div class="like__alarm__body">
+              <div class="like__alarm__content">팔로워 {{alarm.sendUserName}} 님께서 후기를 게시하였습니다.</div>
+            </div>
+            
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+          </div>
+        </div>
+
       </div>
     </div>
     
@@ -115,8 +196,9 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
 import {mapState} from "vuex";
+import {deleteAlarm} from "@/api/alarm.js";
+import http from "@/util/http-common";
 
 export default {
   name: "alarm",
@@ -125,6 +207,7 @@ export default {
       choosed: 'exhibition',
       exhibitions: [],
       feeds: [],
+      deleteId:-1,
     }
   },
   computed: {
@@ -135,6 +218,87 @@ export default {
     this.updateAlarms();
   },
   methods: {
+    allowDrop(event) {
+      event.preventDefault();
+    },
+    removeAlarm(id) {
+      deleteAlarm(id, (response) => {
+        console.log(response);
+        this.updateAlarms();
+      }, (error) => {
+        console.error(error);
+      })
+    },
+    goFeed(userId,id) {
+      //읽음처리후 걔 피드목록으로 감
+      http
+      .put(`/api/signal/${id}`)
+      .then((response) => {
+        console.log(response);
+        this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+      
+    },
+    showRejectModal(deleteId) {
+      this.deleteId = deleteId; 
+      this.$bvModal.show('pos-check-modal');
+    },
+    acceptFollow(sendUserId) {
+      deleteAlarm(this.delteId, (response) => {
+        console.log(response);
+        this.updateAlarms();
+        //팔로우
+        http
+        .put(`/api/user/follow/${this.user.userId}/${sendUserId}`)
+        .then((response) => {
+          console.log(response);
+          //팔로우등록됐다 모달 띄우기
+          this.$bvModal.show('pos-added-modal');
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }, (error) => {
+        console.error(error);
+      })
+    },
+    rejectFollow() {
+      //알림 걍 지우고
+      //전체 알람 업뎃
+      deleteAlarm(this.delteId, (response) => {
+        console.log(response);
+        this.updateAlarms();
+        this.$bvModal.hide('pos-check-modal');
+      }, (error) => {
+        console.error(error);
+      })
+    },
+    timeForToday(value) {
+      const today=new Date();
+      const timeValue = new Date(value);
+      // console.log(today,timeValue);
+      const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      if(betweenTime < 1) return '방금전';
+      if(betweenTime < 60) {
+        return `${betweenTime}분전`;
+      }
+      const betweenTimeHour = Math.floor(betweenTime / 60);
+      if(betweenTimeHour < 24) {
+        return `${betweenTimeHour}시간전`;
+      }
+
+      const betweenTimeDay = Math.floor(betweenTime / 60/ 24);
+      if(betweenTimeDay < 365) {
+        return `${betweenTimeDay}일전`;
+      }
+      return `%{Math.floor(betweenTimeDay/ 365)}년전`;
+    },
     showExhibition() {
       const tab__left = document.querySelector(".left__tab");
       const tab__right = document.querySelector(".right__tab");
@@ -215,7 +379,7 @@ export default {
 }
 
 .back__button {
-  position:fixed;
+  position:absolute;
   top:28px;
   margin-left:20px;
   font-weight:700;
@@ -249,6 +413,9 @@ export default {
 .exhibition__alarms {
   margin-left:20px;
   margin-right:20px;
+}
+.feed__alarm {
+  position:relative;
 }
 .feed__alarms,
 .exhibition__alarms {
@@ -364,6 +531,19 @@ export default {
   box-shadow: 0 3px 6px #00000029;
   margin-bottom:18px;
 }
+.alarm__delete__button {
+  position:absolute;
+  right:10px;
+  font-size:15px;
+
+}
+.alarm__delete__button__read {
+  position:absolute;
+  right:10px;
+  font-size:15px;
+  color: #FFFFFF;
+}
+
 
 /* 반응형 */
 @media screen and (min-width: 1024px) {
@@ -403,4 +583,73 @@ export default {
 }
 
 /* 반응형 */
+
+/* 거절 모달 */
+.pos-check-yes-button {
+  color:white;
+  /* background-color:#CB3E47; */ /* 삭제, 탈되 확인 색 */
+  background-color:#9279e9;  /* 수정, 등록 확인 색 */
+  border-radius:10px;
+  font-size:14px;
+  width:100px;
+  height:30px;
+}
+.pos-check-no-button {
+  color:#F3F3F3;
+  background-color:#707070;
+  border-radius:10px;
+  font-size:14px;
+  width:100px;
+  height:30px;
+  margin-left:15px;
+}
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:15px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+}
+.pos-check-title {
+  height:60px;
+  line-height:60px;
+  font-weight:700;
+}
+.pos-check-modal-body {
+  text-align:center;
+  
+}
+/* 거절 모달 */
+
+/* 수락 모달 */
+
+::v-deep .pos-added-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:16px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+  box-shadow: #00000096 20px 20px 40px;
+}
+
+
+.pos-added-modal-body {
+  text-align:center;
+}
+
+.pos-added-title {
+  height:60px;
+  line-height:60px;
+  font-weight:500;
+  /* text-align:center; */
+}
+
+.pos-added-check-button {
+  color: #6D44FD;
+  margin-top: 15px;
+}
+
+/* 수락 모달 */
 </style>
