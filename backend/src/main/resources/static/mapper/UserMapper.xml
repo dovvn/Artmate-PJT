@@ -48,28 +48,28 @@
 	<select id="selectFollowerCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM Follow
-		WHERE getUserId = #{userId}
+		WHERE getUserId = #{userId} and state=1
 	</select>
 	<select id="selectFollowingCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM Follow
-		WHERE sendUserId = #{userId}
+		WHERE sendUserId = #{userId} and state=1
 	</select>
 	<select id="selectFollower" parameterType="String" resultType="UserDto">
 		SELECT *
 		FROM Follow INNER JOIN User ON sendUserId=userId
-		WHERE getUserId = #{userId}
+		WHERE getUserId = #{userId} and state=1
 		ORDER BY userName
 	</select>
 	<select id="selectFollowing" parameterType="String" resultType="UserDto">
 		SELECT *
 		FROM Follow INNER JOIN User ON getUserId=userId
-		WHERE sendUserId = #{userId}
+		WHERE sendUserId = #{userId} and state=1
 		ORDER BY userName
 	</select>
 	<insert id="insertFollow" parameterType="String">
-		INSERT INTO Follow (sendUserId, getUserId)
-		VALUES (#{sendUserId}, #{getUserId})
+		INSERT INTO Follow (sendUserId, getUserId,state)
+		VALUES (#{sendUserId}, #{getUserId},0)
 	</insert>
 	<delete id="deleteFollow" parameterType="String">
 		DELETE FROM Follow WHERE sendUserId = #{sendUserId} and getUserId=#{getUserId}
@@ -93,7 +93,8 @@
 	</select>
 	<!-- 팔로우 상태 가져오기 -->
 	<select id="selectFollowState" parameterType="String" resultType="int">
-		  SELECT COUNT(#{sendUserId}) FROM Follow WHERE sendUserId = #{sendUserId} AND getUserId = #{getUserId};
+		SELECT IFNULL(MAX(state),-1) AS state FROM Follow
+		WHERE sendUserId= #{sendUserId} AND getUserId=#{getUserId}
 	</select>
 	<insert id="insertMyTag">
 		INSERT INTO MyTag (userId, tag)
@@ -113,4 +114,8 @@
 		INSERT INTO User (userId, userName, accesskey)
 		VALUES (#{userId}, #{userName}, #{accesskey})
 	</insert>
+	<update id="modifyFollow" parameterType="String">
+		UPDATE Follow SET state=1
+		WHERE sendUserId=#{sendUserId} and getUserId=#{getUserId}
+	</update>
 </mapper>

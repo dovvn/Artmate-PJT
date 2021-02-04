@@ -31,4 +31,5 @@ public interface UserMapper {
 	int deleteMyTag(String userId);
 	List<String> selectMyTag(String userId);
 	int insertKakao(UserDto user);
+	boolean modifyFollow(String sendUserId, String getUserId);
 }
