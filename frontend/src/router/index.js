@@ -168,11 +168,6 @@ const routes = [
         name: "SearchMain",
         component: ()=> import("@/components/Search/SearchMain.vue")
       },
-      {
-        path:"list",
-        name: "SearchList",
-        component: ()=> import("@/components/Search/SearchList.vue")
-      },
     ],
   },
   {

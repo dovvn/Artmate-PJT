@@ -40,7 +40,6 @@
     <section class="search_latest" v-if="!isShowAuto && !isSubmit">
       <div class="search_latest_tlt">
         <span>최근 검색어</span>
-        <!-- <button class="search_latest_del_btn">검색기록 지우기</button> -->
       </div>
       <ul class="search_latest_list">
         <li
@@ -149,15 +148,6 @@ export default {
         console.error(err);
       }
     )
-    // searchList(
-    //   (res)=>{
-    //     this.keywordList=res.data;
-    //     // console.log(this.keywordList);
-    //   },
-    //   (err)=>{
-    //     console.error(err);
-    //   }
-    // )
     searchList(
       (res)=>{
         for(let i=0; i<res.data.length; i++){
