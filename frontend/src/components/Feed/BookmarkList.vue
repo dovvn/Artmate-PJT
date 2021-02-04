@@ -1,13 +1,13 @@
 <template>
   <div id="newsfeed">
       <div class="feedLine">
-        <div id="post"  v-for="nf in newsfeed" :key="nf.id" @click="postDetail(nf.id)">
+        <div id="post"  v-for="nf in newsfeed" :key="nf.id">
           <div id="picture" >
             <img class="feed_img" :src="nf.feedImg" alt="">
           </div>
           <div id="contents">
             <div class="pro" > 
-              <img class="profile_img" :src="nf.userImg" alt="">
+              <img class="profile_img" :src="nf.userImg" alt=""  @click="postDetail(nf.id)">
               <p id="nick">{{nf.userName}}</p>
               <p id="date">{{timeForToday(nf.writeDate)}}</p>
             </div>
