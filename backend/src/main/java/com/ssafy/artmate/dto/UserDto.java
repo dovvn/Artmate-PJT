@@ -1,4 +1,4 @@
-package com.ssafy.artmate.Dto;
+package com.ssafy.artmate.dto;
 
 import java.io.Serializable;
 import java.util.List;

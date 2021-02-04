@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.artmate.Dto.SearchDto;
+import com.ssafy.artmate.dto.SearchDto;
 import com.ssafy.artmate.service.SearchService;
 
 import io.swagger.annotations.ApiOperation;

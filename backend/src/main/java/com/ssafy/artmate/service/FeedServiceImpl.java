@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.FeedDto;
+import com.ssafy.artmate.dto.FeedDto;
 import com.ssafy.artmate.mapper.FeedMapper;
 @Service
 public class FeedServiceImpl implements FeedService{
