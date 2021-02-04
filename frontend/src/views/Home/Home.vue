@@ -65,7 +65,7 @@
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
-          <slide  class="slide" v-for="(item, i) in recommendList" :key="i" :index="i">
+          <slide  style="background-color: transparent;cursor: pointer;" v-for="(item, i) in recommendList" :key="i" :index="i">
             <img class="recommend_exhibition_poster a" :src="item.img" alt="" >
             <div class="recommend_exhibition_info b">
               <p class="recommend_exhibition_tlt">{{item.title}}</p>
