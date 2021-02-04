@@ -678,7 +678,7 @@ export default {
     width: 95%;
   }
   .feed__img {
-    height:400px;
+    /* height:400px; */
   }
   /* 글씨 크기 변경 */
   .feed__info {
