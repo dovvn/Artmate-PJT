@@ -12,4 +12,5 @@ public interface ExhibitService {
 	List<ExhibitDto> selectExhibitMyTag(String userId); //내 태그 들어간 전시회 목록
 	List<ExhibitDto> selectAllExhibit(); //모든 전시회 목록
 	ExhibitDto selectOneExhibit(int id); //선택한 전시회 상세 정보
+	List<String> selectExhibitTags(int id);//선택한 전시회 태그들 가져오기
 }

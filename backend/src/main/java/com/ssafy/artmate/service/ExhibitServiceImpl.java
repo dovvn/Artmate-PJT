@@ -38,14 +38,17 @@ public class ExhibitServiceImpl implements ExhibitService{
 
 	@Override
 	public List<ExhibitDto> selectAllExhibit() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit();
 	}
 
 	@Override
 	public ExhibitDto selectOneExhibit(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(id);
+	}
+
+	@Override
+	public List<String> selectExhibitTags(int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitTags(id);
 	}
 
 }

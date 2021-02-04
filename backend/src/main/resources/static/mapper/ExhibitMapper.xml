@@ -26,9 +26,12 @@
 		SELECT *
 		FROM Exhibition;
 	</select>
-	<select id="selectOneExhibit" resultType="ExhibitDto">
+	<select id="selectOneExhibit" resultType="ExhibitDto" parameterType="int">
 		SELECT *
 		FROM Exhibition
 		WHERE id = #{id};
+	</select>
+	<select id="selectExhibitTags" parameterType="int" resultType="String">
+		select tagName FROM ExhibitionTag WHERE exId = #{id};
 	</select>
 </mapper>
