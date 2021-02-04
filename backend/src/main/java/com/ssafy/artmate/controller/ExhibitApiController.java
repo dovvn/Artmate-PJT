@@ -108,27 +108,28 @@ public class ExhibitApiController implements ApplicationRunner{
 			//DB에 전시회 데이터 넣기(태그빼고)
 			eservice.insertExhibit(dto);
 			
-			List<Integer> tagIdList = new ArrayList<>();
+			List<String> tagList = new ArrayList<>();
 			
-			//전시부문 태그 분류
+			//전시부문 태그 6개 분류
+			//비디오,드로잉,설치,조각,사진,회화
 			String artPart = data.get("DP_ART_PART").toString();
-			if(artPart.contains("비디오") || artPart.contains("영상") || artPart.contains("뉴미디어")) tagIdList.add(1);
-			if(artPart.contains("드로잉") || artPart.contains("판화")) tagIdList.add(2);
-			if(artPart.contains("설치")) tagIdList.add(3);
-			if(artPart.contains("조각")) tagIdList.add(4);
-			if(artPart.contains("사진")) tagIdList.add(5);
-			if(artPart.contains("회화")) tagIdList.add(6);
+			if(artPart.contains("비디오") || artPart.contains("영상") || artPart.contains("뉴미디어")) tagList.add("비디오");
+			if(artPart.contains("드로잉") || artPart.contains("판화")) tagList.add("드로잉");
+			if(artPart.contains("설치")) tagList.add("설치");
+			if(artPart.contains("조각")) tagList.add("조각");
+			if(artPart.contains("사진")) tagList.add("사진");
+			if(artPart.contains("회화")) tagList.add("회화");
 			
 			//전시회 id 가져오기
 			int id = eservice.selectExhibitBySeq(dto.getSeqNum()).getId();
 			
-			if(tagIdList.size()==0) continue; //태그 정보가 없으면 pass
-			System.out.println(tagIdList.toString());
+			if(tagList.size()==0) continue; //태그 정보가 없으면 pass
+			System.out.println(tagList.toString());
 			//해당 전시회가 가진 태그 db에 넣기
-			for(int j=0; j<tagIdList.size(); j++) {
-				HashMap<String, Integer> tagInfo = new HashMap<String, Integer>();
+			for(int j=0; j<tagList.size(); j++) {
+				HashMap<String, Object> tagInfo = new HashMap<>();
 				tagInfo.put("exId", id);
-				tagInfo.put("tagId", tagIdList.get(j));
+				tagInfo.put("tagName", tagList.get(j));
 				eservice.insertTag(tagInfo);
 			}
 		}//End for문
