@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", 'stompClient'])
   },
   created() {
     this.feed.userId = this.user.userId;
@@ -93,6 +93,11 @@ export default {
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
       addFeed(formData, (response) => {
         console.log(response);
+        if (this.stompClient && this.stompClient.connected) {
+          //소켓이 연결되어있을 때만 알림 전송
+          console.log('피드 알림보냄~~')
+          this.stompClient.send(`/send/feed/${this.user.userId}`, {});
+        }
         // const feedno = response.data.id;
         this.$router.replace({
           name:"MyFeedList",

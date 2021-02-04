@@ -276,6 +276,14 @@ export default {
           console.log(data); 
           if (data) {
             // alert('좋아요!❤');
+            if (this.stompClient && this.stompClient.connected) {
+                console.log('알림보냄');
+                //소켓이 연결되어있을 때만 알림 전송
+                this.stompClient.send(
+                  `/send/like/${this.user.userId}/${this.feed.userId}/${feedid}`,
+                  {}
+                );
+              }
           } else {
             alert('오류가 발생하였습니다.');
           }
@@ -349,7 +357,7 @@ export default {
     })
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "stompClient"]),
   },
   directives: {
     focus: {
