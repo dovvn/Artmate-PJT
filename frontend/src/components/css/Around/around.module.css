@@ -8,13 +8,13 @@
   padding: 30px 30px 0 30px;
 }
 .around_nav.inactive {
-  opacity: 60%;
+  opacity: 40%;
 }
 .around_header.inactive {
-  opacity: 60%;
+  opacity: 40%;
 }
 .around_map.inactive {
-  opacity: 60%;
+  opacity: 40%;
 }
 .around_nav {
   display: flex;
@@ -51,6 +51,8 @@
   height: 100%;
 }
 .around_list {
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-white);
   border: 1px solid var(--color-light-grey2);
   border-top-left-radius: var(--border-radius-xl);
@@ -82,8 +84,6 @@
   border-radius: var(--border-radius-xl);
 }
 .around_list_items {
-  /* display: flex;
-  flex-direction: column; */
   overflow-y: scroll;
   -ms-overflow-style: none;
 }
