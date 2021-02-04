@@ -52,7 +52,7 @@
               <div class="follow__alarm__content">{{alarm.sendUserName}}님이 당신의 피드를 <br/> 팔로우했습니다.</div>
             </div>
             <div class="follow__alarm__buttons">
-              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
+              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId,alarm.id)">수락</button>
               <button class="follow__no__button" @click="showRejectModal(alarm.id,alarm.sendUserId)">거절</button>  
             </div>
           </div>
@@ -72,7 +72,7 @@
               <div class="follow__alarm__content">{{alarm.sendUserName}}님이 당신의 피드를 <br/> 팔로우했습니다.</div>
             </div>
             <div class="follow__alarm__buttons">
-              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId)">수락</button>
+              <button class="follow__yes__button" @click="acceptFollow(alarm.sendUserId,alarm.id)">수락</button>
               <button class="follow__no__button" @click="showRejectModal(alarm.id,alarm.sendUserId)">거절</button>  
             </div>
           </div>
@@ -256,8 +256,8 @@ export default {
       this.sendFollowUserId = sendUserId;
       this.$bvModal.show('pos-check-modal');
     },
-    acceptFollow(sendUserId) {
-      deleteAlarm(this.delteId, (response) => {
+    acceptFollow(sendUserId,deleteId) {
+      deleteAlarm(deleteId, (response) => {
         console.log(response);
         this.updateAlarms();
         //팔로우

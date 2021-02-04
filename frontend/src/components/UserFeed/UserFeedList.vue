@@ -9,13 +9,13 @@
         <div class="writer__info__feedname">
           {{userInfo.feedName}}
         </div>
-        <button @click="Follow" v-if="following==0" class="writer__follow__button">
+        <button @click="Follow" v-if="following==-1" class="writer__follow__button">
           팔로우
         </button>
-        <button v-if="following==1" class="writer__followed__button">
+        <button v-if="following==0" class="writer__followed__button">
           요청됨
         </button>
-        <button @click="unFollow" v-if="following==2" class="writer__followed__button">
+        <button @click="unFollow" v-if="following==1" class="writer__followed__button">
           팔로잉
         </button>
       </div>
@@ -104,31 +104,41 @@ export default {
       },
       imageUrl:"",
       detailVisible: false,
-      following: false,
+      following: -2,
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user","stompClient"])
   },
   methods: {
     Follow() {
-      this.following = 1;
+      this.following = 0;
       let params = {
         sendUserId: this.user.userId,
         getUserId:this.$route.params.userId, 
       }
       console.log(params);
       http
-      .put(`http://localhost:7777/api/user/follow/${params.sendUserId}/${params.getUserId}`)
+      .put(`/api/user/follow/${params.sendUserId}/${params.getUserId}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
+        if(response) {
+          if (this.stompClient && this.stompClient.connected) {
+              //소켓이 연결되어있을 때만 알림 전송
+              console.log('팔로요청 보냄')
+              this.stompClient.send(
+                `/send/follow/${params.sendUserId}/${params.getUserId}`, //서버로 팔로우 알림을 보내야한다고 요청
+                {}
+              );
+            }
+        }
       })
       .catch((error) => {
         console.error(error);
       })
     },
     unFollow() {
-      this.following = 0;
+      this.following = -1;
       this.userInfo.followerCnt -= 1;
        let params = {
         "sendUserId": this.user.userId,
@@ -255,9 +265,10 @@ export default {
         http
         .get(`/api/user/follow/${me}/${you}`)
         .then((response) => {
-          if(response.data) {
-            this.following = response.data;
-          }
+          console.log(response.data);
+          
+          this.following = response.data;
+          
         })
         .catch((error) => {
           console.error(error);
