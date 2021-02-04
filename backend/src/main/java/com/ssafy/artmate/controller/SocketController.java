@@ -55,4 +55,21 @@ public class SocketController {
 		return message;
     }
     
+    @MessageMapping("/send/like/{sendUserId}/{getUserId}/{feedId}") //message를 백으로 받음 
+    @SendTo("/get/like/{getUserId}") //message를 프론트로 보냄
+    public SignalDto signalLike(@DestinationVariable String sendUserId, @DestinationVariable String getUserId, @DestinationVariable int feedId) {
+    	if(sendUserId.equals(getUserId)) {
+    		return null;
+    	}
+    	UserDto sendUser = userService.selectUser(sendUserId);
+    	FeedDto feed = feedService.selectOneFeed(getUserId, feedId);
+    	
+    	/*좋아요 알림*/
+    	SignalDto message = new SignalDto(getUserId, sendUserId,1,2,0); //받는 아이디, 보내는 아이디, 피드 알림, 좋아요 알림, 읽기x
+		message.setImg(feed.getFeedImg()); //피드 사진 설정
+		message.setSendUserName(sendUser.getUserName()); //닉네임 설정
+		signalService.insertSignal(message); //알림 추가
+		return message;
+    }
+    
 }
