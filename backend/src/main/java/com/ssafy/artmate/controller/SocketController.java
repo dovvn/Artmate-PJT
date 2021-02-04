@@ -37,11 +37,11 @@ public class SocketController {
 		return message;
     }
     
-    @MessageMapping("/send/feed/{sendUserId}/{feedId}") //message를 백으로 받음 
+    @MessageMapping("/send/feed/{sendUserId}") //message를 백으로 받음 
     @SendTo("/get/feed") //message를 프론트로 보냄
-    public SignalDto signalFeed(@DestinationVariable String sendUserId, @DestinationVariable int feedId) {
+    public SignalDto signalFeed(@DestinationVariable String sendUserId) {
     	UserDto sendUser = userService.selectUser(sendUserId);
-    	FeedDto feed = feedService.selectOneFeed(sendUserId, feedId);
+    	FeedDto feed = feedService.selectAllMyFeed(sendUserId).get(0);
     	List<UserDto> followers = userService.selectFollower(sendUserId);
     	
     	SignalDto message = null;
