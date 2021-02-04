@@ -146,10 +146,21 @@ export default {
     },
     goBack() {
       // console.log('뒤로가')
-      this.$router.replace({
+      if(this.$route.params.status =="feedlist") {
+        this.$router.replace({
+        name: "FeedList",
+        });
+      }else if(this.$route.params.status == "bookmarklist") {
+        this.$router.replace({
+        name: "BookmarkList"
+        });
+      } else {
+        this.$router.replace({
         name: "UserFeedList",
         params: {userId: this.feed.userId}
       });
+      }
+      
     },
     showCheckmodal(memoId) {
       this.delete_memoId = memoId;
