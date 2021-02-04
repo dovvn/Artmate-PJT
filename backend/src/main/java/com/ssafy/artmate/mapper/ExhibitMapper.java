@@ -1,6 +1,7 @@
 package com.ssafy.artmate.mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,4 +12,7 @@ public interface ExhibitMapper {
 	ExhibitDto selectExhibitBySeq(String seqNum);
 	int insertExhibit(ExhibitDto dto);
 	int insertTag(HashMap<String, Integer> tagInfo);
+	List<ExhibitDto> selectExhibitMyTag(String userId);
+	List<ExhibitDto> selectAllExhibit();
+	ExhibitDto selectOneExhibit(int id);
 }

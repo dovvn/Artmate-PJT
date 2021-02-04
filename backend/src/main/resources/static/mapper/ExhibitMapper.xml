@@ -16,4 +16,19 @@
 		INSERT INTO ExhibitionTag (exId, tagId)
 		VALUES (#{exId}, #{tagId});
 	</insert>
+	<select id="selectExhibitMyTag" resultType="ExhibitDto">
+		SELECT et.*
+		FROM (SELECT * FROM Exhibition e INNER JOIN (SELECT exId AS id, tagName FROM ExhibitionTag) t USING(id)) et
+		WHERE et.tagName in (SELECT tag FROM MyTag WHERE userId=#{userId})
+		GROUP BY id;
+	</select>
+	<select id="selectAllExhibit" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition;
+	</select>
+	<select id="selectOneExhibit" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE id = #{id};
+	</select>
 </mapper>
