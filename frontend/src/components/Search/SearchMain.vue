@@ -20,7 +20,7 @@
         <font-awesome-icon icon="search"/>
       </button>
     </form>
-    <div class="full_bar"></div>
+    <div class="search_full_bar"></div>
     <section class="search_latest">
       <div class="search_latest_tlt">
         <span>최근 검색어</span>
@@ -116,6 +116,5 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import '../../components/css/search.module.css';
+<style scoped src="../../components/css/search.module.css">
 </style>

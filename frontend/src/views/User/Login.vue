@@ -176,7 +176,5 @@ export default {
 }
 </script>
 
-<style scoped>
-@import '../../components/css/style.css';
-@import '../../components/css/User/login.module.css';
+<style scoped src="../../components/css/User/login.module.css">
 </style>

@@ -314,14 +314,5 @@ export default {
   }
 }
 </script>
-<style scoped>
-  @import '../../components/css/Home/home.css';
-  @import '../../components/css/style.css';
-.a{
-  /* font-size: 50px; */
-  opacity: 0.5;
-}
-.b{
-  display: none;
-}
+<style scoped src="../../components/css/Home/home.css">
 </style>

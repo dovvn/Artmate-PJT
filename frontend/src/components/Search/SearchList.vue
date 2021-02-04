@@ -19,7 +19,7 @@
         </button>
       </form>
     </nav>
-    <!-- <div class="full_bar1"></div> -->
+    <div class="search_list_full_bar"></div>
     <ul
       v-if="isKeyUp && keyword.length && autocomplete.length" 
       class="keyword_list"
@@ -233,6 +233,5 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import '../css/search_list.module.css';
+<style scoped src="../css/search_list.module.css">
 </style>
