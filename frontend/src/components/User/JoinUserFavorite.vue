@@ -102,7 +102,5 @@ export default {
 } 
 </script>
 
-<style scoped>
-  @import '../../components/css/User/join_favorite.module.css';
-  @import '../../components/css/style.css';
+<style scoped src="../../components/css/User/join_favorite.module.css">
 </style>

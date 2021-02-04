@@ -35,7 +35,5 @@ export default {
 }
 </script>
 
-<style scoped>
-@import '../../components/css/style.css';
-@import '../../components/css/User/join_success.css';
+<style scoped src="../../components/css/User/findpw_success.css">
 </style>

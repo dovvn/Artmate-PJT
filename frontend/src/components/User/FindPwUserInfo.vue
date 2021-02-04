@@ -89,6 +89,5 @@ export default {
 }
 </script>
 
-<style scoped>
-@import '../../components/css/User/findpw.css';
+<style scoped src="../../components/css/User/findpw.css">
 </style>
