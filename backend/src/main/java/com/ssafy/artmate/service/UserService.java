@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.UserDto;
 
 public interface UserService {
 	boolean insertUser(UserDto user); //가입

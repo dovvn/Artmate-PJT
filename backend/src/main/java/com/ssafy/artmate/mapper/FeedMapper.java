@@ -2,10 +2,11 @@ package com.ssafy.artmate.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ssafy.artmate.Dto.FeedDto;
-
+import com.ssafy.artmate.dto.FeedDto;
+@Mapper
 public interface FeedMapper {
 	int insertFeed(FeedDto feed); //피드 글 작성
 	List<FeedDto> selectAllMyFeed(String userId); //내 피드 목록 가져오기

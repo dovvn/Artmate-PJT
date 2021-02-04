@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.CommentDto;
+import com.ssafy.artmate.dto.CommentDto;
 import com.ssafy.artmate.mapper.CommentMapper;
 
 @Service

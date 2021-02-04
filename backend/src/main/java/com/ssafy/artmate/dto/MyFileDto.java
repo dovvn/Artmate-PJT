@@ -1,4 +1,4 @@
-package com.ssafy.artmate.Dto;
+package com.ssafy.artmate.dto;
 
 public class MyFileDto {
 	private int fno; //파일 번호

@@ -61,14 +61,10 @@
   bottom: 0;
   width: 700px;
   z-index: 100;
+  transition: all 300ms ease-in;
 }
 .around_list.active {
   height: 500px;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-}
-.around_list.active::-webkit-scrollbar {
-  display: none;
 }
 .around_list_nav {
   position: relative;
@@ -86,9 +82,13 @@
   border-radius: var(--border-radius-xl);
 }
 .around_list_items {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-direction: column; */
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+.around_list_items::-webkit-scrollbar {
+  display: none;
 }
 .around_list_item_box {
   display: flex;

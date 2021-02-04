@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.artmate.Dto.SignalDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.SignalDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.service.AwsS3Service;
 import com.ssafy.artmate.service.EmailService;
 import com.ssafy.artmate.service.SignalService;
