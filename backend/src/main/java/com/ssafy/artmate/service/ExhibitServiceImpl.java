@@ -26,7 +26,7 @@ public class ExhibitServiceImpl implements ExhibitService{
 	}
 
 	@Override
-	public boolean insertTag(HashMap<String, Integer> tagInfo) {
+	public boolean insertTag(HashMap<String, Object> tagInfo) {
 		return sqlSession.getMapper(ExhibitMapper.class).insertTag(tagInfo) == 1;
 	}
 }

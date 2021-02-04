@@ -13,7 +13,7 @@
 	</insert>
 	
 	<insert id="insertTag" parameterType="HashMap">
-		INSERT INTO ExhibitionTag (exId, tagId)
-		VALUES (#{exId}, #{tagId});
+		INSERT INTO ExhibitionTag (exId, tagName)
+		VALUES (#{exId}, #{tagName});
 	</insert>
 </mapper>
