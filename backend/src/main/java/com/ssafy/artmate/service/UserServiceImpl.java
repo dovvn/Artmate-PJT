@@ -105,8 +105,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean selectFollowState(String sendUserId, String getUserId) {
-		return sqlSession.getMapper(UserMapper.class).selectFollowState(sendUserId, getUserId) == 1;
+	public int selectFollowState(String sendUserId, String getUserId) {
+		return sqlSession.getMapper(UserMapper.class).selectFollowState(sendUserId, getUserId);
 	}
 
 	@Override
@@ -138,5 +138,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean insertKakao(UserDto user) {
 		return sqlSession.getMapper(UserMapper.class).insertKakao(user) == 1;
+	}
+
+	@Override
+	public boolean modifyFollow(String sendUserId, String getUserId) {
+		return sqlSession.getMapper(UserMapper.class).modifyFollow(sendUserId, getUserId);
 	}
 }

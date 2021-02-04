@@ -229,24 +229,24 @@ public class UserController {
 	}
 
 	// 팔로우 하기
-	@ApiOperation(value = "팔로우(* 마이피드에서 사용)", notes = "팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
+	@ApiOperation(value = "팔로우 요청(* 마이피드에서 사용) - 팔로우(요청)상황:sendUserId가 getUserId를 팔로우 요청 함.", notes = "팔로우 요청에 성공하면 true, 팔로우 요청에 실패하면 false 반환")
 	@PutMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean insertFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
-			@ApiParam(value = "팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
+			@ApiParam(value = "팔로우 요청을 보내는 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청을 받을 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)!=-1) return false; //이미 팔로우 요청, 팔로우 중이면 false리턴
 		return uservice.insertFollow(sendUserId, getUserId); //팔로우 추가
 	}
 
 	// 언팔로우 하기
-	@ApiOperation(value = "언팔로우(* 마이피드에서 사용)", notes = "언팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
+	@ApiOperation(value = "언팔로우 혹은 팔로우 요청 거절(* 마이피드에서 사용) - 팔로우(요청)상황:sendUserId가 getUserId를 팔로우(요청)함.", notes = "언팔로우(or 요청 거절)에 성공하면 true, 언팔로우(or 요청 거절)에 실패하면 false 반환")
 	@DeleteMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean deleteFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
-			@ApiParam(value = "언팔로우 할 아이디", required = true) @PathVariable("getUserId") String getUserId) {
+			@ApiParam(value = "팔로우 요청을 한 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청을 받은 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(!uservice.selectFollowState(sendUserId, getUserId)) return false; //아직 팔로우하지 않았다면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)==-1) return false; //아직 팔로우하지 않았다면 false리턴
 		return uservice.deleteFollow(sendUserId, getUserId);
 	}
 
@@ -277,11 +277,11 @@ public class UserController {
 	}
 
 	// 팔로우했는지 상태 가져오기
-	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 true, 안했으면 false 반환", response = UserDto.class, responseContainer = "List")
+	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 true, 안했으면 false 반환", response = Integer.class)
 	@GetMapping(value = "/user/follow/{sendUserId}/{getUserId}")
-	public boolean selectFollowState(
+	public int selectFollowState(
 			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId, @ApiParam(value = "현재 피드의 사용자 아이디", required = true, example = "unni2@naver.com") @PathVariable("getUserId") String getUserId) {
-		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
+		if(sendUserId.equals(getUserId)) return -1; //둘다 같은 아이디가 왔다면 false리턴
 		return uservice.selectFollowState(sendUserId, getUserId);
 	}
 	
@@ -292,6 +292,16 @@ public class UserController {
 		UserDto user = uservice.selectUser(userId);
 		user.setUserImg(null); //이미지 null로 지정
 		return uservice.modifyUserImg(user);
+	}
+	//팔로우 승인
+	@ApiOperation(value = "팔로우 승인(* 알림에서 사용)- 팔로우(요청)상황:sendUserId가 getUserId를 팔로우 요청 함.", notes = "팔로우 승인 성공하면 true, 팔로우 승인 실패하면 false 반환")
+	@PutMapping(value = "/user/follow/accept/{sendUserId}/{getUserId}")
+	public Boolean acceptFollow(
+			@ApiParam(value = "팔로우 요청 보낸 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청 받은 아이디", required = true) @PathVariable("getUserId") String getUserId) {
+		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)==1) return false; //이미 팔로우중이면 false리턴
+		return uservice.modifyFollow(sendUserId, getUserId); //팔로우 추가
 	}
 	
 }
