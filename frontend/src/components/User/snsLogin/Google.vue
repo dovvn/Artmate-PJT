@@ -38,7 +38,7 @@
     export default {
         methods: {
             googleLogin() {
-                this.$gAuth.signIn() //로그인 팝업 열림
+                this.$gAuth.signIn() //로그인 팝업 열림  
                 .then(GoogleUser => {
                 //on success do something
                 var userId = GoogleUser.Fs.lt;
