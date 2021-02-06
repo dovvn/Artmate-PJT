@@ -215,7 +215,13 @@ export default {
       this.$router.push('/myfeed');
     },
     logout(){
-      // 로그아웃 구현 !!! 🎈 
+      this.store.dispatch('logout')
+      .then(()=>{
+        this.$router.push({name:'Login'});
+      })
+      .catch((e)=>{
+        console.error(e);
+      })
     },
     openMenu() {
           this.$emit('openMenu');
