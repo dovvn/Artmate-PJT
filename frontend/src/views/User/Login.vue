@@ -6,7 +6,7 @@
       </div>
       <form @submit="onSubmit" class="login-form">
         <div class="userid_input_box">
-          <label class="user-id_label" for="user-id">아이디(이메일)test</label><br>
+          <label class="user-id_label" for="user-id">아이디(이메일)</label><br>
           <input 
             id="user-id"
             v-model="email"
