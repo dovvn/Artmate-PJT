@@ -11,6 +11,9 @@
             <router-link to="/feed" class="div2" id="follow">팔로우 피드 </router-link> | 
             <router-link to="/feed/bookmark" class="div2" id="mark">북마크 </router-link>
         </div>
+        <div>
+          <img class="bu" src="../../assets/newsfeedPicture.png" alt="">
+        </div>
     </div>
  </div>
 
@@ -141,6 +144,11 @@ export default {
     margin-left: 50px;
     color: #CCCCCC;
 }
+.bu{
+    padding-top: 60px;
+    margin-left: 120px;
+    width: 300px;
+  }
 /* ------------------------------ 반응형 ------------------------------ */
 @media screen and (max-width: 1024px) {
   .fiddiv {
@@ -151,6 +159,11 @@ export default {
     background-repeat: no-repeat;
     background-position: fixed;
     background-size: cover;
+  }
+  .bu{
+    padding-top: 75px;
+    width: 160px;
+    margin-left: 0px;
   }
   #feednav1{
     height: 210px;
