@@ -23,7 +23,11 @@
     
     <div class="around_list">
       <div class="around_list_nav">
-        <button @click="onToggle" class="around_list_toggle_btn">목록보기</button>
+        <div></div>
+        <div></div>
+        <div v-if="isToggled" class="around_list_nav_tlt">전시회 목록</div>
+        <button v-if="!isToggled" @click="onToggle" class="around_list_toggle_btn">목록보기</button>
+        <button v-else @click="onToggle" class="around_list_toggle_btn">숨기기</button>
       </div>
       <ul class="around_list_items">
         <li
