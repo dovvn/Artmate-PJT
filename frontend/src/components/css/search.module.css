@@ -276,6 +276,11 @@
   font-size: var(--font-tlt-xs);
   color: var(--color-medium-grey);
 }
+.search_owl_img {
+  width: 140px;
+  height: 140px;
+  float: right;
+}
 @media screen and (max-width: 1024px) {
   .search_main {
     width: 380px;

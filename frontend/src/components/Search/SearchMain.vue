@@ -11,6 +11,7 @@
     <div class="search_header">무엇을 찾으시나요?</div>
     <form @submit="onSubmit" class="search_input_box">
       <input
+        maxlength="15"
         v-model="keyword"
         @input="onInput"
         type="text"
@@ -108,6 +109,14 @@
         </li>
       </ul>
     </section>
+    <footer>
+      <img 
+        class="search_owl_img"
+        src="../../assets/searchPicture.png"
+        alt=""
+        v-if="!isShowAuto && !isSubmit"
+      >
+    </footer>
   </div>
 </template>
 
@@ -208,7 +217,7 @@ export default {
     },
     search(){
       const key=String(Date.now());
-      if(localStorage.length<=12){
+      if(localStorage.length<=9){
         localStorage.setItem(key,this.keyword);
         this.latestList.unshift(key);
       }
