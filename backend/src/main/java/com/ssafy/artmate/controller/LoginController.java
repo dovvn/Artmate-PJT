@@ -35,7 +35,7 @@ public class LoginController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@ApiOperation(value = "로그인 정보를 반환한다.", response = List.class)
-	@PostMapping("/login")
+	@PostMapping("/loginzz")
 	public ResponseEntity<Map<String, Object>> login(
 			@ApiParam(value = "사용자 객체", required = true) @RequestBody UserDto user, HttpServletResponse response,
 			HttpSession session) {
