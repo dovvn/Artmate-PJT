@@ -77,7 +77,7 @@
   background-color: var(--color-white);
   margin-top: 5px;
   margin-bottom: 12px;
-  /* opacity: 0.7; */
+  opacity: 0.7;
 }
 .hide {
   display: none;
