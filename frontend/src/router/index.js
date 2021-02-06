@@ -13,6 +13,8 @@ import MyFeed from '@/views/MyFeed/MyFeed.vue'
 import MyPage from "@/views/MyPage/MyPage.vue"
 import UserFeed from '@/views/UserFeed/UserFeed.vue'
 import Around from '@/views/Around/Around.vue'
+import Exhibition from '@/views/Exhibition/Exhibit.vue'
+import ScrapBook from '@/views/ScrapBook/Scrapbook.vue'
 
 Vue.use(VueRouter)
 
@@ -196,6 +198,28 @@ const routes = [
     path: "/around",
     name: "Around",
     component: Around
+  },
+  {
+    path: "/exhibit",
+    name: "Exhibition",
+    component: Exhibition,
+    children: [
+      {
+        path:"list",
+        name:"ExhibitionList",
+        component: ()=> import("@/components/Exhibition/ExhibitList.vue")
+      },
+      {
+        path:"detail/:exno",
+        name:"ExhibitionDetail",
+        component: ()=> import("@/components/Exhibition/ExhibitDetail.vue")
+      },
+    ],
+  },
+  {
+    path: "/scrap",
+    name: "ScrapBook",
+    component: ScrapBook
   }
 ]
 

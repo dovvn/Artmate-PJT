@@ -25,11 +25,11 @@
                   <!-- <li><a class="ml" id="Home"  href="/home">Home</a></li> -->
                   <li><router-link class="ml" id="Home" to="/home">HOME</router-link></li>
                   <li><router-link class="ml" id="about"  to="/about">ABOUT</router-link></li>
-                  <li><router-link class="ml" id="exhibition"  to="#">EXHIBITION</router-link></li>
+                  <li><router-link class="ml" id="exhibition"  to="/exhibit">EXHIBITION</router-link></li>
                   <li><router-link class="ml" id="search" to="/search">SEARCH</router-link></li>
                   <li><router-link class="ml" id="around"  to="/around">AROUND</router-link></li>
                   <li><router-link class="ml" id="feed"  to="/feed">NEWSFEED</router-link></li>
-                  <li><router-link class="ml" id="scrapbook"  to="#">SCRAPBOOK</router-link></li>
+                  <li><router-link class="ml" id="scrapbook"  to="/scrap">SCRAPBOOK</router-link></li>
                   <li><a class="ml" id="logout" @click="logout">LOGOUT</a></li>
                 </ul>
             </nav>
