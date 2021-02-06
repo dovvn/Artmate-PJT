@@ -48,6 +48,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.isLogin = false;
+      state.user=null;
     },
     setStompClient(state, stompClient) {
       state.stompClient = stompClient;
