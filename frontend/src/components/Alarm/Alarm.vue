@@ -278,7 +278,7 @@ export default {
     rejectFollow() {
       //알림 걍 지우고
       //전체 알람 업뎃
-      deleteAlarm(this.delteId, (response) => {
+      deleteAlarm(this.deleteId, (response) => {
         console.log(response);
         this.updateAlarms();
         http
