@@ -60,7 +60,7 @@ public class FeedController {
 	@ApiOperation(value = "현재 아이디가 작성한 피드 목록을 반환(* 마이피드에서 사용)", notes = "피드 리스트(피드번호, 이미지) 반환", response = FeedDto.class, responseContainer = "List")
 	@GetMapping(value = "/feed/list/{userId}", produces = "text/json; charset=utf8")
 	public String selectAllMyFeed(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId) {
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectAllMyFeed(userId));
 		return result;
@@ -70,7 +70,7 @@ public class FeedController {
 	@ApiOperation(value = "선택한 번호의 상세정보를 반환", notes = "피드 반환", response = FeedDto.class)
 	@GetMapping(value = "/feed/{userId}/{id}")
 	public FeedDto selectOneFeed(
-			@ApiParam(value = "로그인 된 회원 아이디", required = true, example = "hw2621@daum.net") @PathVariable("userId") String userId,
+			@ApiParam(value = "로그인 된 회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
 			@ApiParam(value = "피드 번호", required = true, example = "43") @PathVariable("id") int id) {
 		return feedService.selectOneFeed(userId, id);
 	}
@@ -103,7 +103,7 @@ public class FeedController {
 	@ApiOperation(value = "현재 로그인한 회원이 팔로우한 회원들의 피드 목록 반환", notes = "피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
 	@GetMapping(value = "/newsfeed/list/{userId}", produces = "text/json; charset=utf8")
 	public String selectAllNewsFeed(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId) {
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectAllNewsFeed(userId));
 		return result;
@@ -113,7 +113,7 @@ public class FeedController {
 	@ApiOperation(value = "내 북마크에 피드 추가", notes = "북마크에 추가 성공시 true, 추가 실패시 false 반환", response = Boolean.class)
 	@PutMapping(value = "/bookmark/{userId}/{feedId}")
 	public Boolean insertBookmark(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
 			@ApiParam(value = "피드 번호", required = true, example = "1") @PathVariable("feedId") int feedId) {
 		if (feedService.selectOneBookmark(userId, feedId) != null) {
 			return false;
@@ -125,7 +125,7 @@ public class FeedController {
 	@ApiOperation(value = "내 북마크에 피드 삭제", notes = "북마크에 삭제 성공시 true, 삭제 실패시 false 반환", response = Boolean.class)
 	@DeleteMapping(value = "/bookmark/{userId}/{feedId}")
 	public Boolean deleteBookmark(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
 			@ApiParam(value = "피드 번호", required = true, example = "1") @PathVariable("feedId") int feedId) {
 		return feedService.deleteBookmark(userId, feedId);
 	}
@@ -134,7 +134,7 @@ public class FeedController {
 	@ApiOperation(value = "현재 로그인한 회원의 북마크 목록을 반환", notes = "북마크 리스트 반환", response = FeedDto.class, responseContainer = "List")
 	@GetMapping(value = "/bookmark/list/{userId}", produces = "text/json; charset=utf8")
 	public String selectMyBookmark(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId) {
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectMyBookmark(userId));
 		return result;
@@ -144,7 +144,7 @@ public class FeedController {
 	@ApiOperation(value = "좋아요 추가", notes = "좋아요 추가 성공시 true, 추가 실패시 false 반환", response = Boolean.class)
 	@PutMapping(value = "/likemark/{userId}/{feedId}")
 	public Boolean insertLikemark(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
 			@ApiParam(value = "피드 번호", required = true, example = "1") @PathVariable("feedId") int feedId) {
 		if (feedService.selectOneLikemark(userId, feedId) != null) {
 			return false;
@@ -160,7 +160,7 @@ public class FeedController {
 	@ApiOperation(value = "좋아요 삭제", notes = "좋아요 삭제 성공시 true, 삭제 실패시 false 반환", response = Boolean.class)
 	@DeleteMapping(value = "/likemark/{userId}/{feedId}")
 	public Boolean deleteLikemark(
-			@ApiParam(value = "회원 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
 			@ApiParam(value = "피드 번호", required = true, example = "1") @PathVariable("feedId") int feedId) {
 		if (feedService.deleteLikemark(userId, feedId)) {
 			FeedDto feed = feedService.selectOneFeed(userId, feedId);
@@ -174,10 +174,10 @@ public class FeedController {
 
 	// 내 피드 목록 가져오기
 	@ApiOperation(value = "전체 피드 목록을 반환", notes = "전체 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
-	@GetMapping(value = "/feed/allList", produces = "text/json; charset=utf8")
-	public String selectAllFeed() {
+	@GetMapping(value = "/feed/allList/{userId}", produces = "text/json; charset=utf8")
+	public String selectAllFeed(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
-		String result = gs.toJson(feedService.selectAllFeed());
+		String result = gs.toJson(feedService.selectAllFeed(userId));
 		return result;
 	}
 }
