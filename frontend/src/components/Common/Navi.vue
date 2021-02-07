@@ -127,7 +127,7 @@ export default {
       this.$store.commit('setNewAlarmTrue');
     },
     connect() {
-      const serverURL = 'http://localhost:7777/socket'; //소켓 연결 주소
+      const serverURL = 'http://i4b202.p.ssafy.io/socket'; //소켓 연결 주소
       let socket = new SockJS(serverURL);
       let stompClient = Stomp.over(socket);
       this.$store.commit('setStompClient', stompClient); //store에 있는 stompClient에게 소켓 등록
