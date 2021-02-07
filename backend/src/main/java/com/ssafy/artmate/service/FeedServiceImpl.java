@@ -113,4 +113,9 @@ public class FeedServiceImpl implements FeedService{
 	public boolean modifyFeedImg(FeedDto feed) {
 		return sqlSession.getMapper(FeedMapper.class).modifyFeedImg(feed) == 1;
 	}
+
+	@Override
+	public List<FeedDto> selectAllFeed() {
+		return sqlSession.getMapper(FeedMapper.class).selectAllFeed();
+	}
 }

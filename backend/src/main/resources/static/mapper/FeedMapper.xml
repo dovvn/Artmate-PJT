@@ -99,4 +99,8 @@
 		SET feedImg = #{feedImg}
 		WHERE id = #{id};
 	</update>
+	<!-- 전체 피드 목록 가져오기 -->
+	<select id="selectAllFeed" resultType="FeedDto">
+		SELECT * FROM Feed ORDER BY writeDate DESC;
+	</select>
 </mapper>
