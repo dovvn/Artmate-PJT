@@ -408,7 +408,6 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:65px;
     margin-bottom:5px;
   }
   .feed__like__button {
