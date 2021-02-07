@@ -33,6 +33,34 @@
             </div>
           </div>
         </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+        <div class="test">
+          야야야
+        </div>
+
       </div>
   </div>
 </template>
@@ -174,13 +202,17 @@ export default {
 </script>
 
 <style>
+.test{
+  height: 300px;
+  background-color: violet;
+}
 .feedLine {
   width: 700px;
   height: 100%;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 80px;
-  padding-top: 60px;
+  padding-top: 10px;
 }
 #post{
   width: 100%;
