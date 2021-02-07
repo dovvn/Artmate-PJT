@@ -101,6 +101,9 @@
 	</update>
 	<!-- 전체 피드 목록 가져오기 -->
 	<select id="selectAllFeed" resultType="FeedDto">
-		SELECT * FROM Feed ORDER BY writeDate DESC;
+		select *,
+		(select userName from User where User.userId = Feed.userId) AS UserName,
+		(select UserImg from User where User.userId = Feed.userId) AS UserImg
+		FROM Feed ORDER BY writeDate DESC;
 	</select>
 </mapper>
