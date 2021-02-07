@@ -34,7 +34,7 @@
 	<select id="selectExhibitTags" parameterType="int" resultType="String">
 		select tagName FROM ExhibitionTag WHERE exId = #{id};
 	</select>
-	<select id="selectExhibitbyMap" resultType="String">
+	<select id="selectExhibitbyMap" resultType="ExhibitDto">
 		select id, name, location, exImg, startDate, endDate from Exhibition;
 	</select>
 </mapper>

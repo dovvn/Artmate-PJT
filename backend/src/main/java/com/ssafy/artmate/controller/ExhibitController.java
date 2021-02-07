@@ -58,7 +58,7 @@ public class ExhibitController {
 	}
 	
 	//지도에서 보여줄 모든 전시회 정보 가져오기
-	@ApiOperation(value = "지도에서 보여줄 모든 전시회 정보( 전달", notes = "전시회 상세정보 반환", response = ExhibitDto.class)
+	@ApiOperation(value = "지도에서 보여줄 모든 전시회 정보(전시회아이디, 이름, 장소, 이미지, 시작날짜, 종료날자) 전달", notes = "전시회 상세정보 반환", response = ExhibitDto.class)
 	@GetMapping(value="/exhibit/map")
 	public String selectExhibitbyMap() {
 		Gson gs = new Gson();
