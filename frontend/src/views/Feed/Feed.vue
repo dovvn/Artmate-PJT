@@ -8,7 +8,8 @@
         <p id="txt">NEWSFEED</p>
         
         <div id="nav" class="nav2">
-            <router-link to="/feed" class="div2" id="follow">팔로우 피드 </router-link> | 
+            <router-link to="/feed" class="div2" id="all"> 전체 피드 </router-link> | 
+            <router-link to="/feed/follow" class="div2" id="follow">팔로우 피드 </router-link> | 
             <router-link to="/feed/bookmark" class="div2" id="mark">북마크 </router-link>
         </div>
         <div>

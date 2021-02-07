@@ -130,6 +130,11 @@ const routes = [
     children:[
       {
         path:"",
+        name:"FeedAll",
+        component: ()=> import("@/components/Feed/FeedAllList.vue")
+      },
+      {
+        path:"follow",
         name:"FeedList",
         component: ()=> import("@/components/Feed/FeedList.vue")
       },
