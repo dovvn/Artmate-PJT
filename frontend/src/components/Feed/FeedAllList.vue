@@ -53,7 +53,7 @@ export default {
     // this.changeDate = this.timeForToday(this.newsfeed.writeDate);
     console.log(this.userInfo.userId);
     http
-      .get("/api/feed/allList")
+      .get(`/api/feed/allList/${this.userInfo.userId}`)
       .then((res) => {
         console.log(res);
         this.newsfeed = res.data;
