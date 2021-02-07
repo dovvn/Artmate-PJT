@@ -21,8 +21,9 @@
       <Navi class="detail__navi"/>
       <p id="txt2">NEWSFEED</p>
         <div id="nav" class="nav">
-            <router-link to="/feed" class="div22" id="follow">팔로우 피드 </router-link> | 
-            <router-link to="/feed/bookmark" class="div22" id="mark">북마크 </router-link>
+          <router-link to="/feed" class="div2" id="all"> 전체 피드 </router-link> | 
+            <router-link to="/feed/follow" class="div2" id="follow">팔로우 피드 </router-link> | 
+            <router-link to="/feed/bookmark" class="div2" id="mark">북마크 </router-link>
         </div>
     </div>
     </div>
@@ -128,14 +129,13 @@ export default {
 #feednav2{
     text-align: center;
     margin: 0 auto;
-    height: 120px;
+    height: 150px;
     margin-bottom: 17px;
 }
 #feednav2>#txt2 {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  padding-top: 30px;
   margin-bottom: 0px;
 }
 .nav2{
@@ -176,7 +176,7 @@ export default {
     font-size: 28px;
   }
   #feednav2{
-    height: 115px;
+    height: 150px;
   }
 }
 </style>

@@ -159,7 +159,7 @@ export default {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 80px;
-  padding-top: 60px;
+  padding-top: 10px;
 }
 #post{
   width: 100%;
