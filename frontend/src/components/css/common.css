@@ -24,7 +24,7 @@
   flex-direction: column;
   text-align: center;
   width: 380px;
-  height: calc(100%-100px);
+  height: 100%;
 }
 
 .wrap2 {

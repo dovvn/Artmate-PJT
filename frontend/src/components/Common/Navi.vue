@@ -215,7 +215,7 @@ export default {
       this.$router.push('/myfeed');
     },
     logout(){
-      this.store.dispatch('logout')
+      this.store.dispatch('LOGOUT')
       .then(()=>{
         this.$router.push({name:'Login'});
       })
