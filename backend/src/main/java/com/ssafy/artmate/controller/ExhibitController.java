@@ -30,11 +30,12 @@ public class ExhibitController {
 	//내 태그와 일치하는 전시회 목록 가져오기
 	@ApiOperation(value = "내 태그와 일치하는 전시회 목록 가져오기(recommend)", notes = "전시회 목록 반환", response = ExhibitDto.class, responseContainer="List")
 	@GetMapping(value="/exhibit/recommend/{userId}", produces = "text/json; charset=utf8")
-	public List<ExhibitDto> selectExhibitRecommend(@ApiParam(value="회원 아이디", required = true, example="aaaa@naver.com")@PathVariable String userId) {
-		List<ExhibitDto> exhibits = exhibitService.selectExhibitMyTag(userId);
+	public List<ExhibitDto> selectExhibitRecommend(@ApiParam(value="회원 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId) {
+		List<ExhibitDto> exhibits = exhibitService.selectExhibitMyTag("jdaun.dev@gmail.com");
 		for(ExhibitDto e:exhibits) {
 			e.setTagList(exhibitService.selectExhibitTags(e.getId()));
 		}
+		for(int i=0; i<exhibits.size(); i++) System.out.println(exhibits.get(i).toString());
 		return exhibits;
 	}
 	//전체 전시회 목록 가져오기 (가나다 순, 열린 날짜 순, 마감 날짜 순)

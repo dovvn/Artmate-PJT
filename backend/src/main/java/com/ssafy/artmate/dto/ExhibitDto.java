@@ -44,127 +44,86 @@ public class ExhibitDto{
 		this.artist = artist;
 		this.seqNum = seqNum;
 	}
-	
-	
 
 	public int getId() {
 		return id;
 	}
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public List<String> getTagList() {
 		return tagList;
 	}
 
-
-
 	public void setTagList(List<String> tagList) {
 		this.tagList = tagList;
 	}
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public String getLocation() {
 		return location;
 	}
 
-
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
 
 	public String getExImg() {
 		return exImg;
 	}
 
-
-
 	public void setExImg(String exImg) {
 		this.exImg = exImg;
 	}
-
-
 
 	public String getStartDate() {
 		return startDate;
 	}
 
-
-
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-
-
 
 	public String getEndDate() {
 		return endDate;
 	}
 
-
-
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
-
 
 	public String getArtist() {
 		return artist;
 	}
 
-
-
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-
-
 
 	public String getSeqNum() {
 		return seqNum;
 	}
 
-
-
 	public void setSeqNum(String seqNum) {
 		this.seqNum = seqNum;
 	}
-
 
 	@Override
 	public String toString() {
