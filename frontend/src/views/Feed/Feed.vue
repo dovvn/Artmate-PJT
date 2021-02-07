@@ -1,19 +1,16 @@
 <template>
     <div class="fiddiv">
-      <div>
-        <Navi class="detail__navi"/>
-      </div>
     <div class="newsNav" v-on:scroll.passive="handleScroll"  data-aos-duration="1500" v-if="navType==1" >
     <div id="feednav1" >
+      <Navi class="detail__navi"/>
         <p id="txt">NEWSFEED</p>
-        
+        <div>
+          <img class="bu" src="../../assets/newsfeedPicture.png" alt="">
+        </div>
         <div id="nav" class="nav2">
             <router-link to="/feed" class="div2" id="all"> 전체 피드 </router-link> | 
             <router-link to="/feed/follow" class="div2" id="follow">팔로우 피드 </router-link> | 
             <router-link to="/feed/bookmark" class="div2" id="mark">북마크 </router-link>
-        </div>
-        <div>
-          <img class="bu" src="../../assets/newsfeedPicture.png" alt="">
         </div>
     </div>
  </div>
@@ -21,6 +18,7 @@
  <!-- 스크롤 내리면 변하는 메뉴바  -->
  <div class="newsNav" v-on:scroll.passive="handleScroll" v-if="navType==2" >
     <div id="feednav2"   >
+      <Navi class="detail__navi"/>
       <p id="txt2">NEWSFEED</p>
         <div id="nav" class="nav">
             <router-link to="/feed" class="div22" id="follow">팔로우 피드 </router-link> | 
@@ -84,7 +82,8 @@ export default {
 }
 .newsNav{
   position: sticky;
-  top: 70px;
+  top: 0px;
+  /* margin-top: 70px; */
   background-image : url(../../assets/ngngz.png); 
   background-repeat: no-repeat;
   background-position: fixed;
@@ -94,14 +93,15 @@ export default {
   border-bottom-left-radius: 40px;
 }
 .detail__navi{
-  background-color: white;
+  position: sticky;
+  /* background-color: white; */
 }
 /* ------------------------------- nav css ------------------------------- */
 
 #feednav1{
     text-align: center;
     margin: 0 auto;
-    height: 300px;
+    height: 310px;
     margin-bottom: 17px;
 }
 #feednav1>#txt {
@@ -139,16 +139,16 @@ export default {
   margin-bottom: 0px;
 }
 .nav2{
-    padding-top: 130px;
+    padding-top: 0px;
     clear: both;
     float: left;
     margin-left: 50px;
     color: #CCCCCC;
 }
 .bu{
-    padding-top: 60px;
-    margin-left: 120px;
-    width: 300px;
+    padding-top: 40px;
+    margin-left: 170px;
+    width: 200px;
   }
 /* ------------------------------ 반응형 ------------------------------ */
 @media screen and (max-width: 1024px) {
@@ -162,15 +162,15 @@ export default {
     background-size: cover;
   }
   .bu{
-    padding-top: 75px;
-    width: 160px;
+    padding-top: 60px;
+    width: 120px;
     margin-left: 0px;
   }
   #feednav1{
-    height: 210px;
+    height: 270px;
   }
   .nav2{
-    padding-top: 60px;
+    padding-top: 0px;
   }
   #feednav1>#txt{
     font-size: 28px;
