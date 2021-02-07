@@ -56,6 +56,7 @@ public class ExhibitController {
 		result.setTagList(exhibitService.selectExhibitTags(id));
 		return result;
 	}
+	
 	//주변에 위치한 전시회 목록 가져오기
 	
 
