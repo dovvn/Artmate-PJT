@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import io.swagger.annotations.Api;
 public class ExhibitApiController implements ApplicationRunner{
 
 	static final String ServiceKey = "5a54466f6c756e6e3130324c50755745"; // 인증키
+	static final String serviceKey2 = "NqI6L9Nl8SlLgNXMyLF58LZGxXkKHFpjhA9qPrtrs2uKoopI1HS%2BuiGF4mmq69ug48RLB3DlcoLEG60FYBCbQg%3D%3D"; //인증키2
 	
 	@Autowired
 	private ExhibitService eservice;
@@ -46,6 +49,7 @@ public class ExhibitApiController implements ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		this.getSeoulExhibit();
+		this.getExhibitInfo();
 	}
 
 	public void getSeoulExhibit() throws IOException, org.json.simple.parser.ParseException {
@@ -134,4 +138,29 @@ public class ExhibitApiController implements ApplicationRunner{
 			}
 		}//End for문
 	}
+	
+	public void getExhibitInfo() throws IOException {
+		StringBuilder urlBuilder = new StringBuilder("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/d/"); /*URL*/
+//		URLDecoder.decode(serviceKey2, "UTF-8");
+		urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "="+serviceKey2); /*Service Key*/
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        System.out.println(sb.toString());
+    }
 }
