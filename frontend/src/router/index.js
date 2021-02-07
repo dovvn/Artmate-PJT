@@ -205,7 +205,7 @@ const routes = [
     component: Exhibition,
     children: [
       {
-        path:"list",
+        path:"",
         name:"ExhibitionList",
         component: ()=> import("@/components/Exhibition/ExhibitList.vue")
       },
