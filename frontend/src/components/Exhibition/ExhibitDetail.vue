@@ -1,5 +1,7 @@
 <template>
-  <div>ddd</div>
+  <div class="exdiv">
+
+  </div>
 </template>
 
 <script>
