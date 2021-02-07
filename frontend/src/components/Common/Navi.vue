@@ -60,6 +60,7 @@ import Stomp from 'webstomp-client';
 import SockJS from 'sockjs-client';
 import { mapState } from 'vuex';
 import http from '@/util/http-common';
+import {API_BASE_URL} from '@/config/index.js';
 export default {
   data() {
         return {
@@ -203,7 +204,7 @@ export default {
     },
     // onClickMenu(){
     //   // 슬라이드 열리기
-    // },
+    // }, 
     onClickAlarm(){
       this.$store.commit('setNewAlarmFalse');
       this.$router.push('/alarm');
@@ -306,6 +307,20 @@ export default {
         if (!this.disableEsc) {
           document.addEventListener('keyup', this.closeMenuOnEsc);
         }
+        const mlist = document.querySelector('#mlist');
+        const lists=mlist.childNodes;
+        lists.forEach((item)=>{
+          const target=item.baseURI.slice(API_BASE_URL.length,);
+          const name=item.innerText.toLowerCase();
+          if(name.includes(target)){
+            item.style.fontSize="25px";
+            item.style.fontWeight="bold"
+          }
+          else{
+            item.style.fontSize="21px";
+            item.style.fontWeight="normal"
+          }
+        })
       },
       created: function() {
         document.addEventListener('click', this.documentClick);
@@ -536,5 +551,9 @@ export default {
       font-size:6px;
       padding:4px;
       border-radius:50%;
+    }
+    .big{
+      font-weight: bold;
+      font-size: 25px;
     }
 </style>
