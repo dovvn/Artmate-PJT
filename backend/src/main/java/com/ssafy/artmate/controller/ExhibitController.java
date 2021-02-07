@@ -57,7 +57,12 @@ public class ExhibitController {
 		return result;
 	}
 	
-	//주변에 위치한 전시회 목록 가져오기
-	
-
+	//지도에서 보여줄 모든 전시회 정보 가져오기
+	@ApiOperation(value = "지도에서 보여줄 모든 전시회 정보( 전달", notes = "전시회 상세정보 반환", response = ExhibitDto.class)
+	@GetMapping(value="/exhibit/map")
+	public String selectExhibitbyMap() {
+		Gson gs = new Gson();
+		String result = gs.toJson(exhibitService.selectExhibitbyMap());
+		return result;
+	}
 }
