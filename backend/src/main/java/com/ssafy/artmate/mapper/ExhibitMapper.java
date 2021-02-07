@@ -16,4 +16,5 @@ public interface ExhibitMapper {
 	List<ExhibitDto> selectAllExhibit();
 	ExhibitDto selectOneExhibit(int id);
 	List<String> selectExhibitTags(int id);
+	List<ExhibitDto> selectExhibitbyMap();
 }
