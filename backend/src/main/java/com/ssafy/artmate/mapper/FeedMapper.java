@@ -24,4 +24,5 @@ public interface FeedMapper {
 	String selectFeedImg(int id); //피드에서 이미지 가져오기
 	int modifyLikeCnt(FeedDto feed); //피드 좋아요 수 수정
 	int modifyFeedImg(FeedDto feed); //피드 이미지 변경
+	List<FeedDto> selectAllFeed(); //전체 피드목록 반환
 }

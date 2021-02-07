@@ -92,7 +92,7 @@ public class UserController {
 				+ user.getUserName() + "님 안녕하세요.<br />" + "		ARTMATE에 가입해 주셔서 진심으로 감사드립니다.<br />"
 				+ "		아래 <b style=\"color: #A593DF\">'메일 인증'</b> 버튼을 클릭하여 회원가입을 완료해 주세요.<br />" + "		감사합니다."
 				+ "	</p>" + "	<a style=\"color: #FFF; text-decoration: none; text-align: center;\""
-				+ "	href=\"http://localhost:7777/api/user/verifyJoin?userId=" + user.getUserId() + "&accesskey="
+				+ "	href=\"http://i4b202.p.ssafy.io:7777/api/user/verifyJoin?userId=" + user.getUserId() + "&accesskey="
 				+ user.getAccesskey() + "\" target=\"_blank\">" + "		<p"
 				+ "			style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #A593DF; line-height: 45px; vertical-align: middle; font-size: 16px;\">"
 				+ "			메일 인증</p>" + "	</a>" + "	<div style=\"border-top: 1px solid #DDD; padding: 5px;\"></div>"
