@@ -56,4 +56,24 @@ public class ExhibitServiceImpl implements ExhibitService{
 	public List<ExhibitDto> selectExhibitbyMap() {
 		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitbyMap();
 	}
+
+	@Override
+	public boolean insertScrapbook(String userId, int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).insertScrapbook(userId, id)==1;
+	}
+
+	@Override
+	public boolean deleteScrapbook(String userId, int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).deleteScrapbook(userId, id)==1;
+	}
+
+	@Override
+	public ExhibitDto selectOneScrapbook(String userId, int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectOneScrapbook(userId, id);
+	}
+
+	@Override
+	public List<ExhibitDto> selectAllScrapbook(String userId) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllScrapbook(userId);
+	}
 }
