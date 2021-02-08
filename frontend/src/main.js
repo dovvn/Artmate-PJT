@@ -16,14 +16,14 @@ import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBo
 import { faEnvira } from '@fortawesome/free-brands-svg-icons'
 import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf,faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 //구글 로그인
 import GAuth from 'vue-google-oauth2'
 
 library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit)
 library.add(faCamera,faPenFancy, faTrashAlt)
-library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag)
+library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag,faChevronDown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
