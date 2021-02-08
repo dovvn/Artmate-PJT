@@ -166,7 +166,7 @@ export default {
                 )
                 .then(({ data }) => {
                   //내가 팔로우 한 유저의 피드 알림인지 확인해야함
-                  if (data) {
+                  if (data == 1) {
                     //팔로우 하고있는 상대가 들어옴
                     /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
                     // alert('새 피드 요청 옴'); //임시로 알림창 띄움
@@ -299,7 +299,8 @@ export default {
       if (
         !this.stompClient ||
       this.stompClient == '' ||
-      typeof this.stompClient.subscribe === 'undefined'
+      typeof this.stompClient.subscribe === 'undefined' ||
+      !this.stompClient.connected
       ) {
         this.connect();
       }
