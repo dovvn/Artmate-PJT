@@ -11,6 +11,10 @@ import Login from '@/views/User/Login.vue'
 import FindPw from '@/views/User/FindPw.vue'
 import MyFeed from '@/views/MyFeed/MyFeed.vue'
 import MyPage from "@/views/MyPage/MyPage.vue"
+import UserFeed from '@/views/UserFeed/UserFeed.vue'
+import Around from '@/views/Around/Around.vue'
+import Exhibition from '@/views/Exhibition/Exhibit.vue'
+import ScrapBook from '@/views/ScrapBook/Scrapbook.vue'
 
 Vue.use(VueRouter)
 
@@ -126,6 +130,11 @@ const routes = [
     children:[
       {
         path:"",
+        name:"FeedAll",
+        component: ()=> import("@/components/Feed/FeedAllList.vue")
+      },
+      {
+        path:"follow",
         name:"FeedList",
         component: ()=> import("@/components/Feed/FeedList.vue")
       },
@@ -166,11 +175,6 @@ const routes = [
         name: "SearchMain",
         component: ()=> import("@/components/Search/SearchMain.vue")
       },
-      {
-        path:"list",
-        name: "SearchList",
-        component: ()=> import("@/components/Search/SearchList.vue")
-      },
     ],
   },
   {
@@ -178,6 +182,50 @@ const routes = [
     name: "Error",
     component: Error
   },
+  {
+    path: "/userfeed",
+    name: "UserFeed",
+    component: UserFeed,
+    children: [
+      {
+        path:"list/:userId",
+        name:"UserFeedList",
+        component: ()=> import("@/components/UserFeed/UserFeedList.vue")
+      },
+      {
+        path:"detail/:feedno",
+        name:"UserFeedDetail",
+        component: ()=> import("@/components/UserFeed/UserFeedDetail.vue")
+      },
+    ],
+  },
+  {
+    path: "/around",
+    name: "Around",
+    component: Around
+  },
+  {
+    path: "/exhibit",
+    name: "Exhibition",
+    component: Exhibition,
+    children: [
+      {
+        path:"",
+        name:"ExhibitionList",
+        component: ()=> import("@/components/Exhibition/ExhibitList.vue")
+      },
+      {
+        path:"detail/:exno",
+        name:"ExhibitionDetail",
+        component: ()=> import("@/components/Exhibition/ExhibitDetail.vue")
+      },
+    ],
+  },
+  {
+    path: "/scrap",
+    name: "ScrapBook",
+    component: ScrapBook
+  }
 ]
 
 const router = new VueRouter({

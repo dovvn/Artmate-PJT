@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.FeedDto;
+import com.ssafy.artmate.dto.FeedDto;
 import com.ssafy.artmate.mapper.FeedMapper;
 @Service
 public class FeedServiceImpl implements FeedService{
@@ -112,5 +112,10 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public boolean modifyFeedImg(FeedDto feed) {
 		return sqlSession.getMapper(FeedMapper.class).modifyFeedImg(feed) == 1;
+	}
+
+	@Override
+	public List<FeedDto> selectAllFeed(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectAllFeed(userId);
 	}
 }

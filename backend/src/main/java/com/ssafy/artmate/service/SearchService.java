@@ -2,8 +2,8 @@ package com.ssafy.artmate.service;
 
 import java.util.List;
 
-import com.ssafy.artmate.Dto.SearchDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.SearchDto;
+import com.ssafy.artmate.dto.UserDto;
 
 public interface SearchService {
 

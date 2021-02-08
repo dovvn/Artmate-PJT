@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "add": "^2.0.6",
+    "aos": "^2.3.4",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
@@ -37,6 +38,7 @@
     "vuetify": "^2.2.11",
     "vuex": "^3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.3",
+    "webstomp-client": "^1.2.6",
     "yarn": "^1.22.10"
   },
   "devDependencies": {
@@ -66,7 +68,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {},
+    "globals": {
+      "kakao": false
+    }
   },
   "browserslist": [
     "> 1%",

@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.UserDto;
 
 import io.jsonwebtoken.*;
 

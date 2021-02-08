@@ -9,28 +9,29 @@
 #findpw {
   width: 100%;
   height: 100vh;
-  /* min-height: 1024px; */
   background-image: url(../../assets/login_background.jpg);
-  /* no-repeat center
-    center fixed; */
   background-repeat: no-repeat;
   background-position: fixed;
   background-size: cover;
-  /* position: absolute; */
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0; */
   overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrap {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  padding: 2.5em;
   text-align: center;
   width: 380px;
+  height: 100%;
+}
+
+.wrap2 {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 760px;
   height: 100%;
   margin: auto;
 }
@@ -76,17 +77,13 @@
   background-color: var(--color-white);
   margin-top: 5px;
   margin-bottom: 12px;
-  opacity: 70%;
+  opacity: 0.7;
 }
 .hide {
   display: none;
 }
 @media screen and (max-width: 1024px) {
-  img.bg {
-    left: 0;
-    margin-left: -512px;
-    opacity: 85%;
-    z-index: -1;
-    filter: brightness(60%);
+  .wrap2 {
+    width: 380px;
   }
 }

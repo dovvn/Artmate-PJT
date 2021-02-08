@@ -12,10 +12,13 @@
           <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
         </div>
       </b-modal>
-      
+      <button class="goBack__button" @click="goBack()">
+            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          </button>
       <div class="sticky-top">
         
         <div class="white">
+          
           <div class="feed__info">
             <div class="feed__left">
               <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
@@ -52,7 +55,18 @@
           
           <div class="feed__btns">
               <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
-              <span @click="deleteFeed" class="feed__delete__button">[삭제]</span>
+
+                <span @click="$bvModal.show('pos-check-modal2')" class="feed__delete__button">[삭제]</span>
+                <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+                  <div class="pos-check-modal-body">
+                    <div class="pos-check-title">
+                      글을 삭제하시겠습니까?
+                    </div>
+                    <button class="pos-check-yes-button" @click="deleteFeed">예</button>
+                    <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+                  </div>
+                </b-modal>
+
           </div>
           <div class="dotLine"></div>
           <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
@@ -64,9 +78,12 @@
         <div class="feed__memo__list">
           <div class="feed__memo__items" v-for="(memo,idx) in memos" :key="idx">
             <div class="memo__left">
+              <img v-if="memo.userImg==''||memo.userImg==null" class="memo__writer__img" src="../../assets/person.jpg">
               <img 
+                v-else
                 :src="memo.userImg" 
-                class="memo__writer__img">
+                class="memo__writer__img"
+                @click="goUserFeed(memo.userId)">
               
               <div class="memo__content"  >
                 <span class="memo__writer__name">{{memo.userName}}</span> <span class="memo__text" v-if="!memos_modify[idx]">{{memo.content}}</span>
@@ -136,6 +153,16 @@ export default {
     };
   },
   methods: {
+    goUserFeed(userId) {
+      this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
+    },
+    goBack() {
+      // console.log('뒤로가')
+      this.$router.push('/myfeed');
+    },
     showCheckmodal(memoId) {
       this.delete_memoId = memoId;
       console.log(memoId);
@@ -261,6 +288,7 @@ export default {
     addHeart:function(like, feedid){
       this.feed.likemark = !this.feed.likemark;
       if(like == 0){ // 좋아요 안눌린 상태 
+        this.feed.likeCnt += 1;
         http
         .put(`api/likemark/${this.user.userId}/${feedid}`)
         .then((data) => {
@@ -273,6 +301,7 @@ export default {
         })
         .catch((err) => console.log(err));
       }else if(like == 1){ // 좋아요 눌린 상태 
+      this.feed.likeCnt -= 1;
         http
         .delete(`api/likemark/${this.user.userId}/${feedid}`)
         .then((data) => {
@@ -315,6 +344,11 @@ export default {
     //해결법: body크기를 고정하자
     //zoom event도 추가하자
     document.addEventListener('scroll', () => {
+      // 반응형
+      if(screen.height > 700) {
+        return;
+      }
+      // 반응형
       const csv = document.documentElement.scrollTop;
       // console.log(csv);
       if(csv === 0)  {
@@ -356,16 +390,14 @@ export default {
   * {
   box-sizing: border-box;
   }
-  .white {
-    /* z-index:1; */
-  }
+  
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
-    width: 100%;
+    width: 380px;
     /* height: 100%; */
     box-sizing: border-box;
-    max-width:380px;
+    /* max-width:380px; */
     margin:auto;
     /* z-index:1; */
   }
@@ -433,7 +465,7 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:65px;
+    padding-top:70px;
     margin-bottom:5px;
   }
   .feed__like__button {
@@ -451,10 +483,6 @@ export default {
     /* border-radius:24px 24px 0 0; */
   }
 
-  .feed__img:hover {
-    /* height:50px; */
-  }
-  
   
   .feed__content,
   .feed__memo,
@@ -607,6 +635,8 @@ export default {
     /* background-color:white; */
     padding-bottom:8px;
   }
+
+  /* -------------------------모달 css ----------------------------- */
   .pos-check-yes-button {
   color:white;
   background-color:#CB3E47;
@@ -624,7 +654,15 @@ export default {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:15px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+}
+::v-deep .pos-check-modal2 > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
@@ -649,4 +687,94 @@ export default {
 .white {
   background: white;
 }
+.goBack__button {
+  font-size:22px;
+  position:fixed;
+  z-index:3;
+  top:30px;
+  margin-left:10px;
+}
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feed {
+    width: 760px;
+  }
+  .feed__memo__write {
+    width:760px;
+  }
+  .feed__memo__write__input {
+    width: 95%;
+  }
+  .feed__img {
+    /* height:400px; */
+  }
+  /* 글씨 크기 변경 */
+  .feed__info {
+    font-size:19px;
+  }
+  .creator__info__name {
+    font-size:22px;
+  }
+  .creator__info__date {
+    font-size:19px;
+  }
+  .creator__info__img {
+    width:60px;
+    height:60px;
+    margin-right:5px;
+  }
+  .creator__info__right {
+    font-size:23px;
+  }
+  .feed__like__button {
+    font-size:23px;
+  }
+  .feed__interactions__share,
+  .feed__interactions__bookmark {
+    margin-left:10px;
+  }
+  .feed__content {
+    font-size:18px;
+  }
+  .feed__memo__cnt {
+    font-size:20px;
+  }
+  .memo__writer__img {
+    height:57px;
+    width:57px;
+  }
+  .memo__writer__name {
+    font-size:18px;
+  }
+  .memo__text {
+    font-size: 12px;
+  }
+  /* 글씨 크기 변경 */
+
+   /* 글씨크기 추가변경 */
+  .feed__modify__button,
+  .feed__delete__button{
+    font-size:20px;
+  }
+
+  /* 글씨크기 추가변경 */
+
+ /* 추가 */
+  .memo__buttons,
+  .memo__modifier__btn {
+    font-size:15px;
+  }
+  .memo__modify__button {
+    margin-right:5px;
+  }
+  /* 추가 */
+}
+
+@media screen and (min-height: 700px) {
+  .feed__memo__list {
+    min-height:300px;
+  }
+}
+/* 반응형 */
+
 </style>

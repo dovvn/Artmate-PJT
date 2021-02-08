@@ -46,7 +46,7 @@
                             account_type : 2,
                         }
 
-                         axios.post(`http://localhost:7777/api/user/login/kakao`,{
+                         axios.post(`http://i4b202.p.ssafy.io:7777/api/user/login/kakao`,{
                              userId : userInfo.email,
                              userName : userInfo.nickname
                          })

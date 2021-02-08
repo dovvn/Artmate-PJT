@@ -9,11 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.artmate.Dto.SearchDto;
+import com.ssafy.artmate.dto.SearchDto;
 import com.ssafy.artmate.service.SearchService;
 
 import io.swagger.annotations.ApiOperation;
@@ -49,13 +48,13 @@ public class SearchController {
 		return resutMap;
 	}
 	
-	@ApiOperation(value = "검색 페이지에서 인기 검색어 목록 출력", notes = "검색 리스트로 최대 5개까지 반환(위에서부터 검색횟수 내림차순)", response = List.class)
+	@ApiOperation(value = "검색 페이지에서 인기 검색어 목록 출력", notes = "검색 리스트로 최대 5개까지 반환(위에서부터 검색횟수 내림차순)",  response = SearchDto.class, responseContainer="List")
 	@GetMapping("/search/popular")
 	public List<String> getPopularKeyword() {
 		return service.selectPopular();
 	}
 	
-	@ApiOperation(value = "db에 저장된 전체 검색어 리스트 출력", notes = "검색 리스트로 반환", response = List.class)
+	@ApiOperation(value = "db에 저장된 전체 검색어 리스트 출력", notes = "검색 리스트로 반환", response = SearchDto.class, responseContainer="List")
 	@GetMapping("/search")
 	public List<String> getAllKeywords() {
 		return service.selectAllKeywords();

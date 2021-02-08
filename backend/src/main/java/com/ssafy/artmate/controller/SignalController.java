@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.ssafy.artmate.dto.SignalDto;
 import com.ssafy.artmate.service.SignalService;
 
 import io.swagger.annotations.Api;
@@ -31,7 +32,7 @@ public class SignalController {
 		return signalService.deleteSignal(id);
 	}
 	
-	@ApiOperation(value="전체 알림 목록 반환", notes="알림 리스트 반환", response = Boolean.class)
+	@ApiOperation(value="전체 알림 목록 반환", notes="알림 리스트 반환",  response = SignalDto.class, responseContainer="List")
 	@GetMapping(value="/signal/{getUserId}", produces = "text/json; charset=utf8")
 	public String seletctAllSignal(@ApiParam(value="회원 아이디", required=true, example="aaaa@naver.com")@PathVariable("getUserId") String getUserId) {
 		Gson gs = new Gson();

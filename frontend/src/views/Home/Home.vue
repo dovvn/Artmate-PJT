@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home wrap2">
+    <Navi id="navi"/>
     <div class="online_bg">
-      <Navi/>
       <div class="home_logo">
         <img class="home_logo_img" src="../../assets/main/logo_img.png" alt="">
         <span class="home_logo_text">ARTMATE</span>
@@ -37,10 +37,6 @@
             </div>
           </div>
         </carousel>
-        <div class="online_slide">
-          
-
-        </div>
       </div>
     </div>
     
@@ -58,18 +54,18 @@
         <carousel-3d
           :autoplay=true
           :autoplayHoverPause=true
-          style='margin: 20px 0 0 90px; overflow-x:hidden'
-          :space="170"
+          :style="carouselStyle"
+          :space="carouselSpace"
           :display="3"
           :perspective="0"
-          :width="120"
           :border="0"
-          class="carousel"
+          :width="carouselWidth"
+          :height="carouselHeight"
           ref="mycarousel"
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
-          <slide  class="slide" v-for="(item, i) in recommendList" :key="i" :index="i">
+          <slide  style="background-color: transparent;cursor: pointer;" v-for="(item, i) in recommendList" :key="i" :index="i">
             <img class="recommend_exhibition_poster a" :src="item.img" alt="" >
             <div class="recommend_exhibition_info b">
               <p class="recommend_exhibition_tlt">{{item.title}}</p>
@@ -105,34 +101,34 @@
     </div>
 
     <!-- Around -->
-    <div class="around_box">
-      <div class="around_header">
-        <div class="around_tlt">Around</div>
-        <div class="around_more_btn">
+    <div class="home_around_box">
+      <div class="home_around_header">
+        <div class="home_around_tlt">Around</div>
+        <div class="home_around_more_btn">
           <span>더보기</span>
           <font-awesome-icon class="online_slide_right_btn" icon="chevron-right"/>
         </div>
       </div>
-      <div class="feed_message">
+      <div class="home_around_message">
         <span>덕명동 주변 리스트입니다 </span>
-        <font-awesome-icon class="feed_message_icon" icon="pallet"/>
+        <font-awesome-icon class="home_around_message_icon" icon="pallet"/>
       </div>
-      <div class="around_list">
+      <div class="home_around_list">
         <div 
-          class="around_exhibition"
+          class="home_around_exhibition"
           v-for="(item,idx) in aroundList"
           :key="idx"
         >
-          <img :src="item.img" alt="" class="around_exhibition_img">
-          <div class="around_exhibition_info">
-            <p class="around_exhibition_tlt">
-              <font-awesome-icon class="feed_message_icon" icon="leaf"/>{{item.title}}
+          <img :src="item.img" alt="" class="home_around_exhibition_img">
+          <div class="home_around_exhibition_info">
+            <p class="home_around_exhibition_tlt">
+              <font-awesome-icon class="home_around_message_icon" icon="leaf"/>{{item.title}}
             </p>
             <p class="around_exhibition_place">
-              <font-awesome-icon class="feed_message_icon" icon="map-marker-alt"/>
+              <font-awesome-icon class="home_around_message_icon" icon="map-marker-alt"/>
               {{item.place}}
             </p>
-            <p class="around_exhibition_duration">{{item.duration}}</p>
+            <p class="home_around_exhibition_duration">{{item.duration}}</p>
           </div>
         </div>
       </div>
@@ -153,19 +149,62 @@
 </template>
 
 <script defer>
-// @ is an alias to /src
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+function handleNavi() {
+  const navbar = document.querySelector('#navi');
+  const navbarHeight = navbar.getBoundingClientRect().height;
+  if(window.scrollY > navbarHeight){
+    navbar.style.background="white";
+  }
+  else{
+    navbar.style.background="transparent";
+  }
+}
 export default {
   name: 'Home',
+  destroyed(){
+    document.removeEventListener('scroll',handleNavi);
+  },
   mounted(){
-    console.log(this.$refs.mycarousel);
+    document.addEventListener('scroll',handleNavi);
+    if(window.innerWidth<=1024){
+      this.carouselWidth=120;
+      this.carouselHeight=270;
+      this.carouselSpace=170;
+      this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+    }
+    else{
+      this.carouselWidth=200;
+      this.carouselHeight=400;
+      this.carouselSpace=320;
+      this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
+    }
+    window.addEventListener('resize',()=>{
+      if (window.innerWidth<=1024){
+          this.carouselWidth=120;
+          this.carouselHeight=270;
+          this.carouselSpace=170;
+          this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+      }
+      else{
+          this.carouselWidth=200;
+          this.carouselHeight=400;
+          this.carouselSpace=320;
+          this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
+      }
+    });
     this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
     this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
   },
   data() {
     return{
+      onlineCarouselClass:"",
+      carouselWidth:0,
+      carouselHeight:0,
+      carouselSpace:0,
+      carouselStyle:"",
       onlineList:[
         {
           img:require('../../assets/main/slide1_1.jpg'),
@@ -275,14 +314,5 @@ export default {
   }
 }
 </script>
-<style scoped>
-  @import '../../components/css/Home/home.css';
-  @import '../../components/css/style.css';
-.a{
-  /* font-size: 50px; */
-  opacity: 0.5;
-}
-.b{
-  display: none;
-}
+<style scoped src="../../components/css/Home/home.css">
 </style>

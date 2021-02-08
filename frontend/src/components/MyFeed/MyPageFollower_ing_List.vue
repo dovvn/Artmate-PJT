@@ -15,143 +15,17 @@
       </div>
     </header>
     <div class="person__container" v-if='choosed=="Follower"' >
-      <div class="person" v-for="(person,idx) in followers" :key="idx">
-        <img class="person__img" :src="person.userImg" alt="">
+      <div class="person" v-for="(person,idx) in followers" :key="idx" @click="seeFeedList(person)">
+        <img class="person__img" v-if="person.userImg==null||person.userImg==''" src="../../assets/person.jpg" alt="">
+        <img class="person__img" v-else :src="person.userImg" alt="">
         <div class="person__name">{{person.userName}}</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
       </div>
     </div>
     <div class="person__container" v-if='choosed=="Following"' >
-      <div class="person" v-for="(person,idx) in followings" :key="idx">
-        <img class="person__img" :src="person.userImg" alt="">
+      <div class="person" v-for="(person,idx) in followings" :key="idx" @click="seeFeedList(person)">
+        <img class="person__img" v-if="person.userImg==null||person.userImg==''" src="../../assets/person.jpg" alt="">
+        <img class="person__img" v-else :src="person.userImg" alt="">
         <div class="person__name">{{person.userName}}</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
-      </div>
-      <div class="person">
-        <img class="person__img" src="../../assets/test_myfeed/feedImg.png" alt="">
-        <div class="person__name">박싸피</div>
       </div>
     </div>
   </div>
@@ -203,8 +77,16 @@ export default {
     ...mapState(["user"])
   },
   methods: {
-    // 데이터 처리는 받아오면 합시다~
-    // 마이페이지도 마이페이지 완성되면 ㄱㄱ
+    seeFeedList(person) {
+      this.$router.replace({
+        name:"UserFeedList",
+        params: {
+          user: person,
+          userId: person.userId,
+        }
+      })
+      
+    },
     showFollower() {
       this.choosed = "Follower";
       const tab__left = document.querySelector(".tab__left");

@@ -13,5 +13,8 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../components/css/style.css';
+  #Search{
+    width: 100vw;
+    height: 100vh;
+  }
 </style>

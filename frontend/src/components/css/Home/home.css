@@ -1,12 +1,11 @@
 .online_bg {
   background: center/cover no-repeat
     url("../../../assets/main/main_background1.png");
-  z-index: -1;
   padding-bottom: 200px;
 }
 .home_logo {
-  padding-top: 30px;
-  /* position: sticky; */
+  margin-top: 80px;
+  position: sticky;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,35 +14,24 @@
   cursor: pointer;
 }
 .home_logo_img {
-  width: 45px;
-  height: 45px;
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
 }
 .home_logo_text {
   color: var(--color-medium-grey);
-  font-size: var(--font-txt-sm);
+  font-size: var(--font-tlt-lg);
 }
 .online_box {
-  width: 700px;
-  margin: auto;
+  width: 708px;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
 }
 .online_tlt {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-lg);
   font-weight: var(--weight-bold);
-  margin-left: 10px;
-}
-.online_slide {
-  display: flex;
-  justify-content: center;
-}
-.carousel {
-  width: 250px;
-  /* height: 500px; */
-  margin-top: 50px;
-  margin-bottom: 0;
-}
-.slide {
-  background-color: transparent;
-  cursor: pointer;
+  padding: 1em 0;
 }
 .online_exhibition {
   display: flex;
@@ -51,11 +39,11 @@
   cursor: pointer;
 }
 .online_exhibition_poster {
-  object-fit: cover;
+  object-fit: contain;
   text-align: center;
   margin: auto;
-  max-height: 200px;
-  max-width: 280px;
+  max-height: 340px;
+  max-width: 700px;
   /* padding: 3px; */
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
@@ -68,20 +56,19 @@
   font-weight: var(--weight-bold);
 }
 .online_exhibition_tlt {
-  font-size: var(--font-txt-lg);
+  font-size: var(--font-tlt-lg);
   color: var(--color-black);
   margin: 0;
   padding: 5px 0;
 }
 .online_exhibition_place {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .recommend_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background2_mobile.jpg");
-  z-index: -1;
   padding: 15px 0 0 15px;
 }
 .recommend_tlt {
@@ -106,51 +93,43 @@
   background-color: var(--color-medium-grey);
   color: var(--color-white);
 }
-.recommend_exhibition_slide {
-  display: flex;
-  /* justify-content: flex-end; */
-  width: 100%;
-  height: 500px;
-  margin-top: 50px;
-  margin-left: 30%;
-  overflow-x: scroll;
+.slide {
+  background-color: transparent;
+  cursor: pointer;
 }
-.recommend_exhibition_slide::-webkit-scrollbar {
-  display: none;
-}
-.recommend_exhibition {
+.test {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding-right: 40px;
+  justify-content: right;
 }
 .recommend_exhibition_poster {
-  width: 300px;
+  width: 200px;
+  height: 260px;
+  border-radius: var(--border-radius-xl);
+  box-shadow: 3px 3px 5px 0 #0000007a;
 }
 .recommend_exhibition_info {
   font-weight: var(--weight-bold);
   text-align: right;
 }
 .recommend_exhibition_tlt {
-  font-size: var(--font-tlt-xl);
+  font-size: var(--font-tlt-lg);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .recommend_exhibition_place {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .recommend_exhibition_duration {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-tlt-md);
   color: var(--color-white);
   margin: 0;
 }
 .feed_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background3.jpg");
-  z-index: -1;
-  padding: 30px 30px 0 30px;
+  padding: 15px 15px 0 15px;
 }
 .feed_header {
   display: flex;
@@ -164,13 +143,13 @@
   color: var(--color-medium-grey);
 }
 .feed_more_btn {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   cursor: pointer;
 }
 .feed_message {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
 }
@@ -181,47 +160,47 @@
   padding: 30px 0 30px 0;
 }
 .feed_item {
-  width: 470px;
-  padding: 20px;
+  width: 220px;
+  height: 220px;
+  padding: 10px;
   border-radius: calc(var(--border-radius-xl) * 2);
   cursor: pointer;
 }
-.around_box {
+.home_around_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background4.jpg");
-  z-index: -1;
   padding: 30px 30px 0 30px;
 }
-.around_header {
+.home_around_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-right: 30px;
 }
-.around_tlt {
+.home_around_tlt {
   font-size: var(--font-tlt-2xl);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
 }
-.around_more_btn {
-  font-size: var(--font-tlt-lg);
+.home_around_more_btn {
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   cursor: pointer;
 }
-.around_message {
-  font-size: var(--font-tlt-lg);
+.home_around_message {
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
 }
-.around_list {
+.home_around_list {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   padding: 30px 0 30px 0;
 }
-.around_exhibition {
+.home_around_exhibition {
   display: flex;
   border-radius: calc(var(--border-radius-xl) * 2);
   /* border: 1px solid var(--color-medium-grey); */
@@ -231,39 +210,38 @@
   margin: 20px 0 20px 0;
   background-color: var(--color-white);
 }
-.around_exhibition_img {
+.home_around_exhibition_img {
   width: 40%;
   height: 100%;
   border-top-left-radius: calc(var(--border-radius-xl) * 2);
   border-bottom-left-radius: calc(var(--border-radius-xl) * 2);
 }
-.around_exhibition_info {
+.home_around_exhibition_info {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 20px;
 }
-.around_exhibition_tlt {
-  font-size: var(--font-tlt-lg);
+.home_around_exhibition_tlt {
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-medium-purple);
   margin: 0;
 }
-.around_exhibition_place {
-  font-size: var(--font-tlt-md);
+.home_around_exhibition_place {
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   margin: 0;
 }
-.around_exhibition_duration {
-  font-size: var(--font-tlt-md);
+.home_around_exhibition_duration {
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   margin: 0;
 }
 .footer_box {
   background: left/cover no-repeat url("../../../assets/main/footer_img.png");
-  z-index: -1;
   padding: 0 30px 0 30px;
 }
 .footer_tlt {
@@ -276,11 +254,18 @@
 }
 .footer_section p {
   font-size: var(--font-txt-md);
-  color: var(--color-medium-grey);
+  color: var(--color-white);
   margin: 0;
 }
 #last {
   padding-bottom: 50px;
+}
+.a {
+  /* font-size: 50px; */
+  opacity: 0.5;
+}
+.b {
+  display: none;
 }
 /* ----------------------------------------------------------------- */
 /* ----------------------------------------------------------------- */
@@ -290,14 +275,34 @@
     padding-bottom: 150px;
   }
   .online_box {
-    width: 300px;
+    width: 304px;
+    min-height: 350px;
+  }
+  .online_tlt {
+    font-size: var(--font-txt-lg);
+  }
+  .home_logo {
+    margin-top: 70px;
+  }
+  .home_logo_text {
+    font-size: var(--font-txt-md);
+  }
+  .home_logo_img {
+    width: 50px;
+    height: 50px;
   }
   .online_exhibition_poster {
-    /* width: 300px; */
-    /* height: 350px; */
+    max-height: 200px;
+    max-width: 300px;
+    /* padding: 3px; */
+    box-shadow: 3px 3px 5px 0 #0000007a;
   }
   .online_exhibition_tlt {
+    font-size: var(--font-txt-md);
     padding: 3px 0;
+  }
+  .online_exhibition_place {
+    font-size: var(--font-txt-sm);
   }
   .online_exhibition_info {
     margin-top: 5px;
@@ -305,7 +310,6 @@
   .recommend_box {
     background: left/cover no-repeat
       url("../../../assets/main/main_background2_mobile.jpg");
-    z-index: -1;
     padding: 15px 0 0 15px;
   }
   .recommend_tlt {
@@ -315,13 +319,6 @@
     padding: 3px 10px;
     font-size: var(--font-txt-sm);
     margin: 5px 5px 0 0;
-  }
-  .recommend_exhibition_slide {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 500px;
-    margin-left: 0;
   }
   .test {
     display: flex;
@@ -336,18 +333,12 @@
   }
   .recommend_exhibition_tlt {
     font-size: var(--font-txt-sm);
-    color: var(--color-brown);
-    margin: 0;
   }
   .recommend_exhibition_place {
     font-size: var(--font-txt-xs);
-    color: var(--color-medium-grey);
-    margin: 0;
   }
   .recommend_exhibition_duration {
     font-size: var(--font-txt-xs);
-    color: var(--color-medium-grey);
-    margin: 0;
   }
   .feed_box {
     padding: 15px 15px 0 15px;
@@ -375,52 +366,53 @@
   }
   .feed_item {
     width: 115px;
+    height: 115px;
     padding: 5px;
     border-radius: var(--border-radius-xl);
     cursor: pointer;
   }
-  .around_box {
+  .home_around_box {
     padding: 15px 15px 0 15px;
   }
-  .around_header {
+  .home_around_header {
     margin-right: 10px;
   }
-  .around_tlt {
+  .home_around_tlt {
     font-size: var(--font-tlt-lg);
   }
-  .around_more_btn {
+  .home_around_more_btn {
     font-size: var(--font-tlt-sm);
     font-weight: var(--weight-bold);
     color: var(--color-medium-grey);
     cursor: pointer;
   }
-  .around_message {
+  .home_around_message {
     font-size: var(--font-tlt-sm);
   }
-  .around_list {
+  .home_around_list {
     padding: 15px 0 15px 0;
   }
-  .around_exhibition {
+  .home_around_exhibition {
     display: flex;
     border-radius: var(--border-radius-xl);
     height: 100px;
     margin: 5px 0 5px 0;
   }
-  .around_exhibition_img {
+  .home_around_exhibition_img {
     width: 45%;
     border-top-left-radius: var(--border-radius-xl);
     border-bottom-left-radius: var(--border-radius-xl);
   }
-  .around_exhibition_info {
+  .home_around_exhibition_info {
     padding: 10px;
   }
-  .around_exhibition_tlt {
+  .home_around_exhibition_tlt {
     font-size: var(--font-txt-md);
   }
-  .around_exhibition_place {
+  .home_around_exhibition_place {
     font-size: var(--font-txt-sm);
   }
-  .around_exhibition_duration {
+  .home_around_exhibition_duration {
     font-size: var(--font-txt-sm);
   }
 }

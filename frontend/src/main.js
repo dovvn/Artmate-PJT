@@ -11,8 +11,8 @@ import Carousel3d from 'vue-carousel-3d';
 Vue.use(Carousel3d)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark} from '@fortawesome/free-regular-svg-icons'
+import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit ,faGlobeAmericas} from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag} from '@fortawesome/free-regular-svg-icons'
 import { faEnvira } from '@fortawesome/free-brands-svg-icons'
 import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -21,9 +21,9 @@ import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faL
 //구글 로그인
 import GAuth from 'vue-google-oauth2'
 
-library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit)
+library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit,faGlobeAmericas)
 library.add(faCamera,faPenFancy, faTrashAlt)
-library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf)
+library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

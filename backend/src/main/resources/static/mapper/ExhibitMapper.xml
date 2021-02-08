@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.artmate.mapper.ExhibitMapper">
+	<select id="selectExhibitBySeq" parameterType="String" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE seqNum=#{seqNum};
+	</select>
+	
+	<insert id="insertExhibit" parameterType="ExhibitDto">
+		INSERT INTO Exhibition (name, location, description, exImg, startDate, endDate, artist, seqNum)
+		VALUES (#{name}, #{location}, #{description}, #{exImg}, #{startDate}, #{endDate}, #{artist}, #{seqNum});
+	</insert>
+	
+	<insert id="insertTag" parameterType="HashMap">
+		INSERT INTO ExhibitionTag (exId, tagName)
+		VALUES (#{exId}, #{tagName});
+	</insert>
+	<select id="selectExhibitMyTag" resultType="ExhibitDto">
+		SELECT et.*
+		FROM (SELECT * FROM Exhibition e INNER JOIN (SELECT exId AS id, tagName FROM ExhibitionTag) t USING(id)) et
+		WHERE et.tagName in (SELECT tag FROM MyTag WHERE userId=#{userId})
+		GROUP BY id;
+	</select>
+	<select id="selectAllExhibit" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition;
+	</select>
+	<select id="selectOneExhibit" resultType="ExhibitDto" parameterType="int">
+		SELECT *
+		FROM Exhibition
+		WHERE id = #{id};
+	</select>
+	<select id="selectExhibitTags" parameterType="int" resultType="String">
+		select tagName FROM ExhibitionTag WHERE exId = #{id};
+	</select>
+	<select id="selectExhibitbyMap" resultType="ExhibitDto">
+		select id, name, location, exImg, startDate, endDate from Exhibition;
+	</select>
+</mapper>

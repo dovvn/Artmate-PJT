@@ -8,28 +8,37 @@
       <div class="writer__info__feedname">
         {{myInfo.feedName}}
       </div>
-      
+      <!-- 반응형 -->
+      <div class="writer__info__responsive">
       <!-- <img class="writer__info__img" :src="myInfo.userImg" alt=""> -->
-      <img class="writer__info__img" v-if="imageUrl==null||imageUrl==''" src="../../assets/person.jpg"/>
-      <img class="writer__info__img" v-else :src="imageUrl"/>
-      <div class="writer__info__nickname">{{myInfo.userName}}</div>
-      <div class="writer__info__intro">{{myInfo.introduction}}</div>
-      
-      <div class="writer__info__cntboxes">
-        <div class="writer__info__cntbox">
-          <div class="writer__info__cnt">{{feeds.length}}</div>
-          <div class="writer__info__name">게시물</div>
+        <div class="writer__info__left">
+          <img class="writer__info__img" v-if="myInfo.userImg==null||myInfo.userImg==''" src="../../assets/person.jpg"/>
+          <img class="writer__info__img" v-else :src="myInfo.userImg"/>
         </div>
-        <div class="writer__info__cntbox" @click="seeFollow('Follower')">
-          <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
-          <div class="writer__info__name">팔로워</div>
-        </div>
-        <div class="writer__info__cntbox"  @click="seeFollow('Following')">
-          <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
-          <div class="writer__info__name">팔로잉</div>
+        <div class="writer__info__right">
+          <div class="writer__info__nickname">{{myInfo.userName}}</div>
+          <div class="writer__info__intro">{{myInfo.introduction}}</div>
+          
+          <div class="writer__info__cntboxes">
+            <div class="writer__info__cntbox">
+              <div class="writer__info__cnt">{{feeds.length}}</div>
+              <div class="writer__info__name">게시물</div>
+            </div>
+            <div class="writer__info__cntbox" @click="seeFollow('Follower')">
+              <div class="writer__info__cnt">{{myInfo.followerCnt}}</div>
+              <div class="writer__info__name">팔로워</div>
+            </div>
+            <div class="writer__info__cntbox"  @click="seeFollow('Following')">
+              <div class="writer__info__cnt">{{myInfo.followingCnt}}</div>
+              <div class="writer__info__name">팔로잉</div>
+            </div>
+          </div>
         </div>
       </div>
-        
+      <button class="feed__writebutton" @click="goWrite">
+        <font-awesome-icon icon="pen-fancy"/>
+      </button>
+      <!-- 반응형 -->   
      
       <!-- <div class="writer__info__tags">
         <div class="writer__info__tag" v-for="(tag,idx) in myInfo.myTag" :key="idx">
@@ -47,9 +56,7 @@
         >
       </li>
     </ul>
-    <button class="feed__writebutton" @click="goWrite">
-      <font-awesome-icon icon="pen-fancy"/>
-    </button>
+    
     <b-modal hide-footer hide-header scrollable id="FollowInfo" modal-class="FollowInfo">
       <button 
       class="detail__hide__button" 
@@ -57,6 +64,23 @@
       x
       </button>
       <FollowInfo :clicked="clicked"/>
+    </b-modal>
+    <b-modal id="pos-added-modal" modal-class="pos-added-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-added-modal-body">
+        <div class="pos-added-title">
+          피드 등록이 완료되었습니다.
+        </div>
+        <button class="pos-added-check-button" @click="$bvModal.hide('pos-added-modal')">확인</button>
+      </div>
+    </b-modal>
+    <b-modal id="pos-modified-modal" modal-class="pos-modified-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-modified-modal-body">
+        <div class="pos-modified-title">
+          피드 수정이 완료되었습니다.
+        </div>
+        <div class="modal-line"></div>
+        <button class="pos-modified-check-button" @click="$bvModal.hide('pos-modified-modal')">확인</button>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -66,6 +90,7 @@ import Navi from '@/components/Common/Navi.vue';
 import FollowInfo from './MyPageFollower_ing_List';
 import {mapState} from "vuex";
 import {listMyfeed} from '@/api/myfeed.js';
+import http from "@/util/http-common";
 
 export default {
   components: {
@@ -119,14 +144,41 @@ export default {
     imgLocate(){
       // console.log(this.feeds);
       const imgs = document.querySelectorAll(".feed__image__container");
+      // 반응형
+      if(window.innerWidth >= 1024) {
+        // let width_cnt = 0;
+        // let row_height = 0;
+        // let row_cnt = 0;
+        // let nums = [125,150,100];
+        // let widths = [28,18,15,31];        
+        for(let i = 0; i < imgs.length; i++) {
+          // row_height=nums[row_cnt%3];
+          imgs[i].style.width=`30%`
+
+          // imgs[i].style.width=`${widths[width_cnt%4]}%`
+          imgs[i].style.height = `125px`
+          console.log(imgs[i].style.width,imgs[i].style.height);
+          // width_cnt += 1;
+          // if(width_cnt%4 == 0) {
+          //   imgs[i].style.left="0";
+          // }
+          // else if(width_cnt%3 == 2) {
+          //   row_cnt+=1;
+          // }
+        }
+        return;
+      }
+      // 반응형
       let pos = "left";
       let left_width = 0;
       let left_short = true;
       let row_height = 0;
-      let nums = [150,125,100]
+      let row_cnt = 0;
+      let nums = [125,150,100]
       for(let i = 0; i < imgs.length; i++){
         if(pos === "left") {
-          row_height = nums[Math.floor(Math.random()*nums.length)];
+          row_height = nums[row_cnt%3];
+          row_cnt +=1;
           left_width = left_short? 38 : 58;
           imgs[i].style.width = `${left_width}%`
           imgs[i].style.height = `${row_height}px`
@@ -152,16 +204,28 @@ export default {
     //내 정보(피드 소개, 프로필 이미지, 닉네임,소개글, 관심 태그 )
     //myInfo에 담는다.
     // console.log(this.user);
-    this.myInfo.feedCnt = this.user.feedCnt;
-    this.myInfo.feedName = this.user.feedName;
-    this.myInfo.userImg = this.user.userImg;
-    this.myInfo.userName = this.user.userName;
-    this.myInfo.introduction = this.user.introduction;
-    this.myInfo.myTag = this.user.myTag;
-    this.myInfo.followingCnt = this.user.followingCnt;
-    this.myInfo.followerCnt = this.user.followerCnt;
+   
+    http
+    .get(`/api/user/${this.user.userId}`)
+    .then((response) => {
+      this.myInfo = response.data;
+    })
+    .then(() => {
+      console.log(this.myInfo);
+    })
+    .catch((error)=> {
+      console.error(error);
+    })
+    // this.myInfo.feedCnt = this.user.feedCnt;
+    // this.myInfo.feedName = this.user.feedName;
+    // this.myInfo.userImg = this.user.userImg;
+    // this.myInfo.userName = this.user.userName;
+    // this.myInfo.introduction = this.user.introduction;
+    // this.myInfo.myTag = this.user.myTag;
+    // this.myInfo.followingCnt = this.user.followingCnt;
+    // this.myInfo.followerCnt = this.user.followerCnt;
     this.imageUrl = this.myInfo.userImg;
-    console.log(this.user.userId);
+    // console.log(this.user.userId);
     listMyfeed(this.user.userId,
       (response) => {
         this.feeds=response.data;
@@ -173,11 +237,32 @@ export default {
     );
     
   },
+  
   updated() {
     // const imgs = document.querySelectorAll(".feed__image__container");
         // console.log(this.feeds);
         // console.log(imgs);
     this.imgLocate();
+  },
+  mounted() {
+    console.log(this.$route.params.status);
+    
+    if(this.$route.params.status == "added") {
+      this.$bvModal.show('pos-added-modal')
+    }
+    if(this.$route.params.status == "modified") {
+      this.$bvModal.show('pos-modified-modal')
+    }
+    // 반응형
+    let prev_size = window.innerWidth;
+    window.addEventListener('resize', () => {
+      let now_size = window.innerWidth;
+      if((now_size >= 1024 && prev_size < 1024) || (now_size<1024 && prev_size >= 1024)) {
+        this.imgLocate();
+      }
+      prev_size=now_size;
+    })
+     // 반응형
   }
 }
 </script>
@@ -201,8 +286,8 @@ export default {
 }
 
 .myfeed {
-  width:100%;
-  max-width:380px;
+  width:380px;
+  /* max-width:380px; */
   margin:auto;
 }
 .FollowInfo > div {
@@ -287,6 +372,8 @@ export default {
 .writer__info__intro {
   font-weight:500;
   font-size:12px;
+  width:200px;
+  margin:auto;
   /* margin-top:1px; */
 }
 .writer__info__nickname {
@@ -353,14 +440,154 @@ export default {
   line-height:64px;
 }
 
-/deep/ .FollowInfo > .modal-dialog >.modal-content {
-  margin-top:200px;
+::v-deep .FollowInfo > .modal-dialog {
+  position:absolute;
+  bottom:0;
+  width:95%;
+  /* margin:auto; */
+}
+
+::v-deep .FollowInfo > .modal-dialog >.modal-content {
+  /* margin-top:200px; */
   bottom:0px;
   border-radius: 20px 20px 0px 0px;
   /* min-height:490px; */
 }
-/deep/ .FollowInfo > .modal-dialog > .modal-content> .modal-body {
+::v-deep .FollowInfo > .modal-dialog > .modal-content> .modal-body {
   min-height:498px;
 }
 
+.modal-line {
+  width: 100%;
+  margin:auto;
+  height: 1px;
+  border: 1px solid #707070;
+  opacity:0.2;
+}
+
+::v-deep .pos-added-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:16px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+  box-shadow: #00000096 20px 20px 40px;
+}
+
+
+.pos-added-modal-body {
+  text-align:center;
+}
+
+.pos-added-title {
+  height:60px;
+  line-height:60px;
+  font-weight:500;
+  /* text-align:center; */
+}
+
+.pos-added-check-button {
+  color: #6D44FD;
+  margin-top: 15px;
+}
+
+::v-deep .pos-modified-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:16px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+  box-shadow: #00000096 20px 20px 40px;
+}
+
+.pos-modified-modal-body {
+  text-align:center;
+}
+
+.pos-modified-title {
+  height:60px;
+  line-height:60px;
+  font-weight:500;
+  /* text-align:center; */
+}
+
+.pos-modified-check-button {
+  color: #6D44FD;
+  margin-top: 15px;
+}
+
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .myfeed {
+    width: 760px;
+  }
+  .writer__info__img {
+    width:160px;
+    height:160px;
+  }
+  .writer__info__responsive {
+    display:flex;
+    justify-content: space-around;
+    margin-top:20px;
+  }
+  .writer__info__right {
+    width:400px;
+    
+  }
+  .writer__info__intro {
+    width: 100%;
+  }
+  .writer__info__intro,
+  .writer__info__nickname {
+    text-align:left;
+  }
+  .writer__info__nickname {
+    margin-top:20px;
+  }
+  .feeds {
+    justify-content:initial;
+  }
+  .feed__writebutton {
+    position:absolute;
+    bottom: 125px;
+    right:50px;
+    height:44px;
+    width:44px;
+    font-size:18px;
+  }
+  ::v-deep .FollowInfo > .modal-dialog {
+    margin-top:200px;
+    position:static;
+  }
+  ::v-deep .FollowInfo > .modal-dialog >.modal-content {
+    border-radius:20px;
+  }
+  /* 변경 */
+  .feed__image__container {
+    margin:1.5%;
+  }
+  /* 변경 */
+
+  /* 글씨크기변경 */
+  .writer__info__feedname {
+    font-size:30px;
+  }
+  .writer__followed__button {
+    font-size:18px;
+    width:105px;
+    height:30px;
+    margin-top:8px;
+    margin-right:4px;
+  }
+  .writer__info__nickname {
+    font-size:24px;
+  }
+  .writer__info__intro {
+    font-size:18px;
+  }
+  /* 글씨크기변경 */
+}
+/* 반응형 */
 </style>

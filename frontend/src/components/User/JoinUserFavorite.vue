@@ -1,5 +1,5 @@
 <template>
-  <div class="JoinUserFavorite">
+  <div id="JoinUserFavorite">
     <div class="wrap">
       <header class="favorite_header">
         <div class="back_btn black">
@@ -11,12 +11,12 @@
         </div>
       </header>
       <article class="favorite_list">
-        <img id="1" @click="onClick" data-keyword="현대예술" class="favorite_item" src="../../assets/taste_1.jpg" alt="">
-        <img id="2" @click="onClick" data-keyword="수묵화" class="favorite_item" src="../../assets/taste_2.jpg" alt="">
-        <img id="3" @click="onClick" data-keyword="풍경화" class="favorite_item" src="../../assets/taste_3.jpg" alt="">
-        <img id="4" @click="onClick" data-keyword="서양화" class="favorite_item" src="../../assets/taste_4.jpg" alt="">
-        <img id="5" @click="onClick" data-keyword="조각" class="favorite_item" src="../../assets/taste_5.jpg" alt="">
-        <img id="6" @click="onClick" data-keyword="디자인" class="favorite_item" src="../../assets/taste_6.jpg" alt="">
+        <img id="1" @click="onClick" data-keyword="비디오" class="favorite_item" src="../../assets/taste_1.jpg" alt="">
+        <img id="2" @click="onClick" data-keyword="드로잉" class="favorite_item" src="../../assets/taste_2.jpg" alt="">
+        <img id="3" @click="onClick" data-keyword="설치" class="favorite_item" src="../../assets/taste_3.jpg" alt="">
+        <img id="4" @click="onClick" data-keyword="조각" class="favorite_item" src="../../assets/taste_4.jpg" alt="">
+        <img id="5" @click="onClick" data-keyword="사진" class="favorite_item" src="../../assets/taste_5.jpg" alt="">
+        <img id="6" @click="onClick" data-keyword="회화" class="favorite_item" src="../../assets/taste_6.jpg" alt="">
       </article>
       <button @click="onSignUp" :class="classObject">
         가입하기
@@ -102,7 +102,5 @@ export default {
 } 
 </script>
 
-<style scoped>
-  @import '../../components/css/User/joinFavorite.css';
-  @import '../../components/css/common.css';
+<style scoped src="../../components/css/User/join_favorite.module.css">
 </style>

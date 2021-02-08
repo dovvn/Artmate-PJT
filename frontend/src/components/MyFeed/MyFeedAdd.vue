@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", 'stompClient'])
   },
   created() {
     this.feed.userId = this.user.userId;
@@ -78,7 +78,8 @@ export default {
   methods: {
     goBack() {
       this.$router.replace({
-        name: "MyFeedList"
+        name: "MyFeedList",
+        // params: {status: "added"}
       });
     },
     addFeed() {
@@ -92,11 +93,16 @@ export default {
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
       addFeed(formData, (response) => {
         console.log(response);
+        if (this.stompClient && this.stompClient.connected) {
+          //소켓이 연결되어있을 때만 알림 전송
+          console.log('피드 알림보냄~~')
+          this.stompClient.send(`/send/feed/${this.user.userId}`, {});
+        }
         // const feedno = response.data.id;
-        this.$router.push({
+        this.$router.replace({
           name:"MyFeedList",
           // name: "MyFeedView",
-          // params: {feedno: feedno}
+          params: {status: "added"},
         });
       }, (error) => {
         console.error(error);
@@ -133,7 +139,7 @@ export default {
 .feedadd {
   display:flex;
   flex-direction: column;
-  max-width:380px;
+  width:380px;
   margin:auto;
 }
 .line {
@@ -153,7 +159,7 @@ export default {
 .back__button {
   position:fixed;
   top:30px;
-  left:20px;
+  margin-left:20px;
   font-weight:700;
 }
 .title {
@@ -261,7 +267,7 @@ label {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
@@ -278,4 +284,16 @@ label {
   text-align:center;
   
 }
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feedadd {
+    width:760px;
+  }
+  .img__upload,
+  .img__empty {
+    height:320px;
+  }
+}
+
+/* 반응형 */
 </style>

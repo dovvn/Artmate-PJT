@@ -12,7 +12,7 @@
                 <p class="r_keyword">유화</p>
               </div>
               <div class="proContent">
-                <p id="nick">{{userInfo.userName}}</p>
+                <p class="nickname">{{userInfo.userName}}</p>
                 <p id="uid">{{userInfo.userId}}</p>
               </div>
               <div class="userPicture">
@@ -22,14 +22,15 @@
                 <p id="ptxx" @click="mypage"> <font-awesome-icon id="modifyicon" :icon="['fas', 'edit']" size="sm"/>내 정보 수정</p> 
               </div>
                   <ul id="mlist">
-                  <li><a class="ml" id="Home"  href="/home">Home</a></li>
-                  <li><a class="ml" id="about"  href="/about">ABOUT</a></li>
-                  <li><a class="ml" id="exhibition"  href="#">EXHIBITION</a></li>
-                  <li><a class="ml" id="search" href="/search">SEARCH</a></li>
-                  <li><a class="ml" id="around"  href="#">AROUND</a></li>
-                  <li><a class="ml" id="feed"  href="/feed">NEWSFEED</a></li>
-                  <li><a class="ml" id="scrapbook"  href="#">SCRAPBOOK</a></li>
-                  <li><p class="ml" id="logout" @click="logout">LOGOUT</p></li>
+                  <!-- <li><a class="ml" id="Home"  href="/home">Home</a></li> -->
+                  <li><router-link class="ml" id="Home" to="/home">HOME</router-link></li>
+                  <li><router-link class="ml" id="about"  to="/about">ABOUT</router-link></li>
+                  <li><router-link class="ml" id="exhibition"  to="/exhibit">EXHIBITION</router-link></li>
+                  <li><router-link class="ml" id="search" to="/search">SEARCH</router-link></li>
+                  <li><router-link class="ml" id="around"  to="/around">AROUND</router-link></li>
+                  <li><router-link class="ml" id="feed"  to="/feed">NEWSFEED</router-link></li>
+                  <li><router-link class="ml" id="scrapbook"  to="/scrap">SCRAPBOOK</router-link></li>
+                  <li><a class="ml" id="logout" @click="logout">LOGOUT</a></li>
                 </ul>
             </nav>
             <!-- X 버튼 부분 -->
@@ -46,6 +47,7 @@
     <div class="navi_right">
       <font-awesome-icon @click="onClickSearch" class="navi_item" size='sm' icon="search"/>
       <font-awesome-icon @click="onClickAlarm" class="navi_item" size='sm' icon="bell"/>
+      <div v-if="isNewAlarm" class="alarm__new">N</div>
       <!-- <img @click="onClickProfile" src="../../assets/profile_ex.jpg" alt="" class="profile navi_item"> -->
       <img class="profile navi_item" @click="onClickProfile" v-if="imageUrl==null||imageUrl==''" src="../../assets/person.jpg"/>
       <img class="profile navi_item" @click="onClickProfile" v-else :src="imageUrl"/>
@@ -54,6 +56,11 @@
 </template>
 
 <script>
+import Stomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
+import { mapState } from 'vuex';
+import http from '@/util/http-common';
+import {API_BASE_URL} from '@/config/index.js';
 export default {
   data() {
         return {
@@ -64,7 +71,7 @@ export default {
             // myTag:[]
           },
           imageUrl:"",
-          isSideBarOpen: false
+          isSideBarOpen: false,
         };
       },
       
@@ -117,6 +124,76 @@ export default {
       },
 
   methods:{
+    showNew() {
+      this.$store.commit('setNewAlarmTrue');
+    },
+    connect() {
+      const serverURL = 'http://i4b202.p.ssafy.io:7777/socket'; //소켓 연결 주소
+      let socket = new SockJS(serverURL);
+      let stompClient = Stomp.over(socket);
+      this.$store.commit('setStompClient', stompClient); //store에 있는 stompClient에게 소켓 등록
+      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+      console.log(this.stompClient);
+      this.stompClient.connect(
+        //소켓 연결
+        {},
+        (frame) => {
+          this.connected = true;
+          // console.log(this.stompClient);
+          console.log('소켓 연결 성공', frame);
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/follow/${this.user.userId}`, //팔로우 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
+              // alert('팔로우 요청 옴'); //임시로 알림창 띄움
+              this.showNew();
+            }
+          );
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/feed`, //새 피드 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              let message = JSON.parse(signal.body);
+              console.log(message.sendUserId);
+              http
+                .get(
+                  `/api/user/follow/${this.user.userId}/${message.sendUserId}`
+                )
+                .then(({ data }) => {
+                  //내가 팔로우 한 유저의 피드 알림인지 확인해야함
+                  if (data) {
+                    //팔로우 하고있는 상대가 들어옴
+                    /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
+                    // alert('새 피드 요청 옴'); //임시로 알림창 띄움
+                    this.showNew();
+                  }
+                });
+            }
+          );
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/like/${this.user.userId}`, //좋아요 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('메세지 : ', signal.body);
+              if (signal.body != null) {
+                // alert('새 좋아요 요청 옴'); //임시로 알림창 띄움
+                console.log('좋아요!');
+                this.showNew();
+              }
+            }
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     mypage(){
       this.$router.push('/mypage');
     },
@@ -127,8 +204,9 @@ export default {
     },
     // onClickMenu(){
     //   // 슬라이드 열리기
-    // },
+    // }, 
     onClickAlarm(){
+      this.$store.commit('setNewAlarmFalse');
       this.$router.push('/alarm');
     },
     onClickSearch(){
@@ -138,7 +216,13 @@ export default {
       this.$router.push('/myfeed');
     },
     logout(){
-      // 로그아웃 구현 !!! 🎈 
+      this.store.dispatch('LOGOUT')
+      .then(()=>{
+        this.$router.push({name:'Login'});
+      })
+      .catch((e)=>{
+        console.error(e);
+      })
     },
     openMenu() {
           this.$emit('openMenu');
@@ -206,11 +290,37 @@ export default {
           return false;
         },
   },
-  
+  computed: {
+    ...mapState(['user', 'stompClient','isNewAlarm']),
+  },
   mounted() {
+      // 알림 통신
+      console.log(this.stompClient);
+      if (
+        !this.stompClient ||
+      this.stompClient == '' ||
+      typeof this.stompClient.subscribe === 'undefined'
+      ) {
+        this.connect();
+      }
+      // 알림 통신
         if (!this.disableEsc) {
           document.addEventListener('keyup', this.closeMenuOnEsc);
         }
+        const mlist = document.querySelector('#mlist');
+        const lists=mlist.childNodes;
+        lists.forEach((item)=>{
+          const target=item.baseURI.slice(API_BASE_URL.length,);
+          const name=item.innerText.toLowerCase();
+          if(name.includes(target)){
+            item.style.fontSize="25px";
+            item.style.fontWeight="bold"
+          }
+          else{
+            item.style.fontSize="21px";
+            item.style.fontWeight="normal"
+          }
+        })
       },
       created: function() {
         document.addEventListener('click', this.documentClick);
@@ -303,6 +413,7 @@ export default {
       position: absolute;
       top: 12px;
       right: 2px;
+      margin-right: 10px;
       cursor: pointer;
     }
     .bm-cross {
@@ -330,10 +441,11 @@ export default {
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 45px; /* Place content 60px from the top */
       transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
-
-    .bm-overlay {
-      //  background: rgba(0, 0, 0, 0.3);
+    .bm-menu::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
     }
     .bm-item-list {
       color: white;
@@ -395,16 +507,20 @@ export default {
        flex-direction: column;
        justify-items: center;
        float: right;
+       margin-right: 10px;
     }
     .proContent>p{
-      display: inline-block;
       margin: 0;
     }
-    #nick{
+    .nickname{
+      display: inline-block;
+      word-break:break-all;
       font-weight: bold;
       font-size: 20px;
     }
     #uid{
+      display: inline-block;
+      word-break:break-all;
       font-size: 16px;
     }
     .r_list{
@@ -420,5 +536,24 @@ export default {
     }
     #modifyicon{
       margin-right: 5px;
+    }
+    .alarm__new {
+      position:absolute;
+      display:hidden;
+      top:22px;
+      width:17px;
+      height:17px;
+      text-align: center;
+      line-height: 11px;
+      margin-left:45px;
+      background-color: red;
+      color:white;
+      font-size:6px;
+      padding:4px;
+      border-radius:50%;
+    }
+    .big{
+      font-weight: bold;
+      font-size: 25px;
     }
 </style>

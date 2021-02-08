@@ -38,14 +38,14 @@
     export default {
         methods: {
             googleLogin() {
-                this.$gAuth.signIn() //로그인 팝업 열림
+                this.$gAuth.signIn() //로그인 팝업 열림  
                 .then(GoogleUser => {
                 //on success do something
                 var userId = GoogleUser.Fs.lt;
                 var userName = GoogleUser.Fs.oT;
                 console.log(userId+" "+userName);
 
-                         axios.post(`http://localhost:7777/api/user/login/google`,{
+                         axios.post(`http://i4b202.p.ssafy.io:7777/api/user/login/google`,{
                              userId : userId,
                              userName : userName
                          })
