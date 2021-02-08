@@ -5,8 +5,6 @@
   z-index: 2;
   position: fixed;
   top: 0;
-  left: 50;
-  right: 50;
   width: 760px;
   color: var(--color-black);
   font-size: var(--font-tlt-xl);
