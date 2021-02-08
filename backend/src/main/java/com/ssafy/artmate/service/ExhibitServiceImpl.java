@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonElement;
 import com.ssafy.artmate.dto.ExhibitDto;
 import com.ssafy.artmate.mapper.ExhibitMapper;
 
@@ -37,13 +38,13 @@ public class ExhibitServiceImpl implements ExhibitService{
 	}
 
 	@Override
-	public List<ExhibitDto> selectAllExhibit() {
-		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit();
+	public List<ExhibitDto> selectAllExhibit(String userId) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit(userId);
 	}
 
 	@Override
-	public ExhibitDto selectOneExhibit(int id) {
-		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(id);
+	public ExhibitDto selectOneExhibit(String userId, int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(userId, id);
 	}
 
 	@Override
@@ -51,4 +52,8 @@ public class ExhibitServiceImpl implements ExhibitService{
 		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitTags(id);
 	}
 
+	@Override
+	public List<ExhibitDto> selectExhibitbyMap() {
+		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitbyMap();
+	}
 }

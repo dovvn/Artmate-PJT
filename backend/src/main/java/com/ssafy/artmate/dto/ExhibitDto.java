@@ -27,11 +27,17 @@ public class ExhibitDto{
 	private String artist;
 	@ApiModelProperty(value="전시회 일련번호")
 	private String seqNum;
+	@ApiModelProperty(value="스크랩 수")
+	private int scrapCnt;
+	@ApiModelProperty(value="스크랩 표시")
+	private int scrapmark;
+	@ApiModelProperty(value="이 전시회에 작성된 피드 수")
+	private int feedCnt;
 	
 	public ExhibitDto() {}
 	
 	public ExhibitDto(int id, List<String> tagList, String name, String location, String description, String exImg,
-			String startDate, String endDate, String artist, String seqNum) {
+			String startDate, String endDate, String artist, String seqNum, int scrapCnt, int scrapmark, int feedCnt) {
 		super();
 		this.id = id;
 		this.tagList = tagList;
@@ -43,133 +49,121 @@ public class ExhibitDto{
 		this.endDate = endDate;
 		this.artist = artist;
 		this.seqNum = seqNum;
+		this.scrapCnt = scrapCnt;
+		this.scrapmark = scrapmark;
+		this.feedCnt = feedCnt;
 	}
-	
-	
 
 	public int getId() {
 		return id;
 	}
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public List<String> getTagList() {
 		return tagList;
 	}
 
-
-
 	public void setTagList(List<String> tagList) {
 		this.tagList = tagList;
 	}
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public String getLocation() {
 		return location;
 	}
 
-
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
 
 	public String getExImg() {
 		return exImg;
 	}
 
-
-
 	public void setExImg(String exImg) {
 		this.exImg = exImg;
 	}
-
-
 
 	public String getStartDate() {
 		return startDate;
 	}
 
-
-
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-
-
 
 	public String getEndDate() {
 		return endDate;
 	}
 
-
-
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
-
 
 	public String getArtist() {
 		return artist;
 	}
 
-
-
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-
-
 
 	public String getSeqNum() {
 		return seqNum;
 	}
 
-
-
 	public void setSeqNum(String seqNum) {
 		this.seqNum = seqNum;
 	}
+	
+	public int getScrapCnt() {
+		return scrapCnt;
+	}
 
+	public void setScrapCnt(int scrapCnt) {
+		this.scrapCnt = scrapCnt;
+	}
+
+	public int getScrapmark() {
+		return scrapmark;
+	}
+
+	public void setScrapmark(int scrapmark) {
+		this.scrapmark = scrapmark;
+	}
+	
+	public int getFeedCnt() {
+		return feedCnt;
+	}
+
+	public void setFeedCnt(int feedCnt) {
+		this.feedCnt = feedCnt;
+	}
 
 	@Override
 	public String toString() {
 		return "ExhibitDto [id=" + id + ", tagList=" + tagList + ", name=" + name + ", location=" + location
 				+ ", description=" + description + ", exImg=" + exImg + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", artist=" + artist + ", seqNum=" + seqNum + "]";
+				+ endDate + ", artist=" + artist + ", seqNum=" + seqNum + ", scrapCnt=" + scrapCnt + ", scrapmark="
+				+ scrapmark + ", feedCnt=" + feedCnt + "]";
 	}
+
 }

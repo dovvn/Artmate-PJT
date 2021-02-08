@@ -13,7 +13,8 @@ public interface ExhibitMapper {
 	int insertExhibit(ExhibitDto dto);
 	int insertTag(HashMap<String, Object> tagInfo);
 	List<ExhibitDto> selectExhibitMyTag(String userId);
-	List<ExhibitDto> selectAllExhibit();
-	ExhibitDto selectOneExhibit(int id);
+	List<ExhibitDto> selectAllExhibit(String userId);
+	ExhibitDto selectOneExhibit(String userId, int id);
 	List<String> selectExhibitTags(int id);
+	List<ExhibitDto> selectExhibitbyMap();
 }

@@ -115,7 +115,7 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public List<FeedDto> selectAllFeed() {
-		return sqlSession.getMapper(FeedMapper.class).selectAllFeed();
+	public List<FeedDto> selectAllFeed(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectAllFeed(userId);
 	}
 }

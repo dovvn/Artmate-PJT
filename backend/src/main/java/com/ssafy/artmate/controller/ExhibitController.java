@@ -31,7 +31,7 @@ public class ExhibitController {
 	//내 태그와 일치하는 전시회 목록 가져오기
 	@ApiOperation(value = "내 태그와 일치하는 전시회 목록 가져오기(recommend)", notes = "전시회 목록 반환", response = ExhibitDto.class, responseContainer="List")
 	@GetMapping(value="/exhibit/recommend/{userId}", produces = "text/json; charset=utf8")
-	public String selectExhibitRecommend(@ApiParam(value="회원 아이디", required = true, example="aaaa@naver.com")@PathVariable String userId) {
+	public String selectExhibitRecommend(@ApiParam(value="로그인 된 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId) {
 		List<ExhibitDto> exhibits = exhibitService.selectExhibitMyTag(userId);
 		for(ExhibitDto e:exhibits) {
 			e.setTagList(exhibitService.selectExhibitTags(e.getId()));
@@ -42,21 +42,27 @@ public class ExhibitController {
 	}
 	//전체 전시회 목록 가져오기 (가나다 순, 열린 날짜 순, 마감 날짜 순)
 	@ApiOperation(value = "전체 전시회 목록 가져오기", notes = "전시회 목록 반환", response = ExhibitDto.class, responseContainer="List")
-	@GetMapping(value="/exhibit", produces = "text/json; charset=utf8")
-	public String selectAllExhibit() {
+	@GetMapping(value="/exhibit/{userId}", produces = "text/json; charset=utf8")
+	public String selectAllExhibit(@ApiParam(value="로그인 된 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId) {
 		Gson gs = new Gson();
-		String result = gs.toJson(exhibitService.selectAllExhibit());
+		String result = gs.toJson(exhibitService.selectAllExhibit(userId));
 		return result;
 	}
 	//선택한 전시회 상세정보 가져오기
 	@ApiOperation(value = "선택한 전시회 상세정보 가져오기", notes = "전시회 상세정보 반환", response = ExhibitDto.class)
-	@GetMapping(value="/exhibit/{id}")
-	public ExhibitDto selectOneExhibit(@ApiParam(value="전시회 아이디", required = true, example="1")@PathVariable int id) {
-		ExhibitDto result = exhibitService.selectOneExhibit(id);
+	@GetMapping(value="/exhibit/{userId}/{id}")
+	public ExhibitDto selectOneExhibit(@ApiParam(value="로그인 된 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId, @ApiParam(value="전시회 아이디", required = true, example="1")@PathVariable int id) {
+		ExhibitDto result = exhibitService.selectOneExhibit(userId, id);
 		result.setTagList(exhibitService.selectExhibitTags(id));
 		return result;
 	}
-	//주변에 위치한 전시회 목록 가져오기
 	
-
+	//지도에서 보여줄 모든 전시회 정보 가져오기
+	@ApiOperation(value = "지도에서 보여줄 모든 전시회 정보(전시회아이디, 이름, 장소, 이미지, 시작날짜, 종료날짜) 전달", notes = "전시회 상세정보 반환", response = ExhibitDto.class, responseContainer="List")
+	@GetMapping(value="/exhibit/map")
+	public String selectExhibitbyMap() {
+		Gson gs = new Gson();
+		String result = gs.toJson(exhibitService.selectExhibitbyMap());
+		return result;
+	}
 }
