@@ -14,20 +14,21 @@
               <div class="exName">
                 <font-awesome-icon :icon="['fab', 'envira']" class="ex__icon" style="color:#A593DF"/>
                 <span class="ex__name"> {{exhibit.name}}</span>
+                <span class="scrapCnt"> {{exhibit.name}}</span>
               </div>
               <div class="exInfo">
                   <div class="ex__date">
-                    <span class="day"> 날짜 : </span>
-                    <span class="day"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </span>
+                    <div class="day"> 날짜 : </div>
+                    <div class="days"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </div>
                   </div>
                   <div class="ex__area">
-                    <span class="area"> 장소 : </span>
-                    <span class="area"> {{exhibit.location}} </span>
+                    <div class="area"> 장소 : </div>
+                    <div class="areas"> {{exhibit.location}} </div>
                   </div>
                   <div class="ex__artist">
-                    <span class="artist"> 작가 : </span>
-                    <span class="artist" v-if="exhibit.artist != null"> {{exhibit.artist}} </span>
-                    <span class="artist" v-else> 작가없음 </span>
+                    <div class="artist"> 작가 : </div>
+                    <div class="artist" v-if="exhibit.artist != null"> {{exhibit.artist}} </div>
+                    <div class="artists" v-else> 작가없음 '[총 41명/팀] 강상우, 고등어, 김민, 라이프 오브 어 크랩헤드 (에이미 램, 존 맥컬리)[Life of a Craphead (Amy Lam and John McCurley)], 류한솔, 리랴오(Li Liao), 리우추앙(Liu Chuang), 리처드 벨(Richard Bell), 림기옹(Lim Giong), 무니라 알 카디리(Mounira Al Qadiri), 미네르바 쿠에바스(Minerva Cuevas), 밍 웡(Ming Wong), 바니 아비디(Bani Abidi), 브리스 델스페제(Brice Dellsperger), 사라 라이(Srah Lai), 샤론 헤이즈(Sharon Hayes), 쉬쩌위(Hsu Che-Yu), 씨씨 우(Cici Wu), 아마츄어 증폭기, 아이사 혹슨(Eisa Jocson), 야마시로 치카코(Chikako Yamashiro), 올리버 라릭(Oliver Laric), 왕하이양(Want Haiyang), 요한나 빌링(Johanna Billing), 유리 패티슨(Yuri Pattison), 장영혜중공업, 장윤한(Chang Yun-Han), 정금형, 취미가X워크스, 치호이(Chihoi), 탈라 마다니(Tala Madani), 토비아스 칠로니(Tobias Zielony), 폴 파이퍼(Paul Pfeiffer), 폴린 부드리/레나테 로렌츠(Pauline Boudry / Renate Lorenz), 필비 타칼라(Pilvi Takala), 하오징반(Hao Jingban), 합정지구, 헨리케 나우만(Henrike Naumann), 홍진훤, DIS, ONEROOM' </div>
                   </div>
                   <div class="ex__text">
                     <div class="text"> 소개 : </div>
@@ -80,13 +81,17 @@ export default {
         return {
             id: 0,
             exhibit:{},
+            userInfo:{
+                userId:"",
+            },
         };
     },
     created() {
+        this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
         console.log(this.id);
         http
-        .get(`/api/exhibit/${this.id}`) 
+        .get(`/api/exhibit/${this.userInfo.userId}/${this.id}`) 
         .then(res => {
             console.log(res.data);
             this.qna = res.data;
@@ -137,6 +142,7 @@ export default {
     .bar{
         padding-top: 10px;
         border-bottom: solid 0.1px #B9B9B9;
+        clear: both;
     }
     .exContent, .exReview, .exRode{
         padding-top: 10px;
@@ -172,11 +178,11 @@ export default {
         padding-left: 10px;
         height: auto;
     }
-    .texts{
+    .days, .areas, .artists, .texts{
         padding-left: 55px;
         color: #FFFFFF;
         font-size: 14px;
-        
+        height: auto;
     }
     .feeds{
         color: #FFFFFF;
