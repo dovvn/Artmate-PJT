@@ -15,8 +15,8 @@
                 <font-awesome-icon :icon="['fab', 'envira']" class="ex__icon" style="color:#A593DF"/>
                 <span class="ex__name"> {{exhibit.name}}</span>
                 <span class="scrapCnt"> 
-                    <font-awesome-icon v-if="exhibit.scrapmark == 0"  :icon="['far', 'star']" style="color:white"/> 
-                    <font-awesome-icon v-if="exhibit.scrapmark == 1"  :icon="['fas', 'star']" style="color:white"/>
+                    <font-awesome-icon v-if="exhibit.scrapmark == 0" @click="addScrap(exhibit.scrapmark,exhibit.id)" :icon="['far', 'star']" style="color:white"/> 
+                    <font-awesome-icon v-if="exhibit.scrapmark == 1" @click="addScrap(exhibit.scrapmark,exhibit.id)"  :icon="['fas', 'star']" style="color:white"/>
                     {{exhibit.scrapCnt}}</span>
               </div>
               <div class="exInfo">
@@ -132,9 +132,38 @@ export default {
         },
         toggleDesShow(){
             this.showDes = !this.showDes;
-        }
+        },
+        addScrap:function(scrap, exid){
+            this.exhibit.scrapmark = ! this.exhibit.scrapmark;
+            if(scrap == 0){ // 스크랩 안눌린 상태 
+                this.exhibit.scrapCnt ++;
+                http
+                .put(`api/scrapbook/${this.user.userId}/${exid}`)
+                .then((data) => {
+                    console.log(data); 
+                    if (data) {
+                        // alert('스크랩');
+                    } else {
+                        alert('오류가 발생하였습니다.');
+                    }
+                })
+                .catch((err) => console.log(err));
+            }else if(scrap == 1){ // 스크랩 눌린 상태 
+                this.exhibit.scrapCnt --;
+                http
+                .delete(`api/scrapbook/${this.user.userId}/${exid}`)
+                .then((data) => {
+                    console.log(data); 
+                    if (data) {
+                        // alert('스크랩 취소..');
+                    } else {
+                        alert('오류가 발생하였습니다.');
+                    }
+                })
+                    .catch((err) => console.log(err));
+                }
+            }
     }
-
 }
 </script>
 
