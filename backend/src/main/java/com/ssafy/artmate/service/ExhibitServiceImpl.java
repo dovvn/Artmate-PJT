@@ -38,13 +38,13 @@ public class ExhibitServiceImpl implements ExhibitService{
 	}
 
 	@Override
-	public List<ExhibitDto> selectAllExhibit() {
-		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit();
+	public List<ExhibitDto> selectAllExhibit(String userId) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllExhibit(userId);
 	}
 
 	@Override
-	public ExhibitDto selectOneExhibit(int id) {
-		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(id);
+	public ExhibitDto selectOneExhibit(String userId, int id) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectOneExhibit(userId, id);
 	}
 
 	@Override

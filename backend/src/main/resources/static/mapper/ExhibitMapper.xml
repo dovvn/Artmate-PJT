@@ -23,13 +23,17 @@
 		GROUP BY id;
 	</select>
 	<select id="selectAllExhibit" resultType="ExhibitDto">
-		SELECT *
-		FROM Exhibition;
+		SELECT e.*, (SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(e.id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark,
+		(SELECT COUNT(*) FROM Feed f WHERE f.exId = e.id) AS feedCnt
+		FROM Exhibition e;
 	</select>
-	<select id="selectOneExhibit" resultType="ExhibitDto" parameterType="int">
-		SELECT *
-		FROM Exhibition
-		WHERE id = #{id};
+	<select id="selectOneExhibit" resultType="ExhibitDto">
+		SELECT e.*, (SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark,
+		(SELECT COUNT(*) FROM Feed f WHERE f.exId = e.id) AS feedCnt
+		FROM Exhibition e
+		WHERE e.id = #{id};
 	</select>
 	<select id="selectExhibitTags" parameterType="int" resultType="String">
 		select tagName FROM ExhibitionTag WHERE exId = #{id};
