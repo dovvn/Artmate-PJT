@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import com.ssafy.artmate.dto.FeedDto;
@@ -84,6 +85,16 @@ public class SocketController {
 		message.setSigDate(currentDate);
 		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
+    }
+    
+    @Scheduled(fixedRate=10000)
+    @SendTo("/get/exhibit")
+    public SignalDto signalExhibit() {
+    	String getUserId = "hyeji6138@naver.com";
+    	int exId = 1;
+    	SignalDto message = new SignalDto(getUserId,exId,0,0);
+    	System.out.println("주기적으로 호출이 됐다!");
+    	return message;
     }
     
 }
