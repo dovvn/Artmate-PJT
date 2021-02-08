@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bm-burger-bars {
     background-color: white;
 }

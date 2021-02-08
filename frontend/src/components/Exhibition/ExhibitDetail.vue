@@ -176,7 +176,6 @@ export default {
         font-size: 14px;
         float: left;
         padding-left: 10px;
-        height: auto;
     }
     .days, .areas, .artists, .texts{
         padding-left: 55px;
