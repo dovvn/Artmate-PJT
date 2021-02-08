@@ -31,6 +31,8 @@ public class FeedDto {
 	private int likemark;
 	@ApiModelProperty(value="북마크 여부(눌렀으면 1, 안눌렀으면 0)")
 	private int bookmark;
+	@ApiModelProperty(value="전시회 이름")
+	private String exName;
 	
 	public FeedDto() {}
 	
@@ -41,7 +43,7 @@ public class FeedDto {
 	}
 
 	public FeedDto(int id, String userName, String userImg, String feedImg, String feedText, int exId, int likeCnt,
-			int commentCnt, String writeDate, String location, String userId, int likemark, int bookmark) {
+			int commentCnt, String writeDate, String location, String userId, int likemark, int bookmark,String exName) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -56,6 +58,7 @@ public class FeedDto {
 		this.userId = userId;
 		this.likemark = likemark;
 		this.bookmark = bookmark;
+		this.exName = exName;
 	}
 
 	public int getId() {
@@ -162,11 +165,20 @@ public class FeedDto {
 		this.bookmark = bookmark;
 	}
 
+	public String getExName() {
+		return exName;
+	}
+
+	public void setExName(String exName) {
+		this.exName = exName;
+	}
+
 	@Override
 	public String toString() {
 		return "FeedDto [id=" + id + ", userName=" + userName + ", userImg=" + userImg + ", feedImg=" + feedImg
 				+ ", feedText=" + feedText + ", exId=" + exId + ", likeCnt=" + likeCnt + ", commentCnt=" + commentCnt
 				+ ", writeDate=" + writeDate + ", location=" + location + ", userId=" + userId + ", likemark="
-				+ likemark + ", bookmark=" + bookmark + "]";
+				+ likemark + ", bookmark=" + bookmark + ", exName=" + exName + "]";
 	}
+
 }

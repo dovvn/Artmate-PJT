@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ssafy.artmate.dto.ExhibitDto;
+import com.ssafy.artmate.dto.FeedDto;
 
 public interface ExhibitService {
 	ExhibitDto selectExhibitBySeq(String seq); //일련번호에 해당하는 전시회 찾기
@@ -18,4 +19,6 @@ public interface ExhibitService {
 	boolean deleteScrapbook(String userId, int id); //스크랩북에서 전시회 삭제
 	ExhibitDto selectOneScrapbook(String userId, int id); //스크랩북에서 하나 선택
 	List<ExhibitDto> selectAllScrapbook(String userId); //스크랩북 목록 가져오기
+	List<ExhibitDto> selectExhibitNameWithLoc(); //전시회 아이디,이름,장소 가져오기
+	List<FeedDto> selectFeeds(int id); //전시회 관련 피드 리스트 가져오기
 }
