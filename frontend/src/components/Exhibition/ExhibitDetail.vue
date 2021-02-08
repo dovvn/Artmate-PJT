@@ -60,12 +60,24 @@
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
                 </div>
-                <div class="review__list">
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    
-                </div>
+
+                <swiper 
+                    class="review__list swiper"
+                    :slides-per-view="3"
+                    :space-between="50"
+                    @swiper="onSwiper"
+                    @slideChange="onSlideChange"
+                >
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <!-- <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide> -->
+                
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>  
+                </swiper>
               </div>
           </div>
           <div class="bar"></div>
@@ -75,8 +87,6 @@
             <span class="ex__name"> 오시는 길 </span>
             <div>
                  <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
-                  <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
-                   <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
             </div>
            
           </div>
@@ -87,6 +97,9 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
+// import 'swiper/dist/css/swiper.css'
+
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -101,6 +114,8 @@ export default {
     name: "ExhibitDetail",
     components: {
         Navi,
+        Swiper,
+        SwiperSlide,
     },
     destroyed(){
     document.removeEventListener('scroll',handleNavi);
@@ -179,8 +194,15 @@ export default {
                     }
                 })
                     .catch((err) => console.log(err));
-                }
             }
+        },
+        onSwiper(swiper) {
+            console.log(swiper);
+        },
+        onSlideChange() {
+            console.log('slide change');
+        },
+        
     }
 }
 </script>
@@ -336,5 +358,9 @@ export default {
     .btn{
         height: auto;
         margin-left: 110px;
+    }
+    .swiper-container{
+        width: 320px;
+        height: 100px;
     }
 </style>

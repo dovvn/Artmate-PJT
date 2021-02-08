@@ -252,7 +252,7 @@ label {
 /* 긍정알림 */
 .pos-check-yes-button {
   color:white;
-  background-color:#CB3E47;
+  background-color:#9279e9;
   border-radius:10px;
   font-size:14px;
   width:100px;
