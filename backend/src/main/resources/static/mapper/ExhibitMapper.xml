@@ -41,4 +41,22 @@
 	<select id="selectExhibitbyMap" resultType="ExhibitDto">
 		select id, name, location, exImg, startDate, endDate from Exhibition;
 	</select>
+	<insert id="insertScrapbook">
+		INSERT INTO Scrapbook (userId, exId)
+		VALUES (#{userId},#{id});
+	</insert>
+	<delete id="deleteScrapbook">
+		DELETE FROM Scrapbook
+		WHERE userId=#{userId} AND exId=#{id}
+	</delete>
+	<select id="selectOneScrapbook" resultType="ExhibitDto">
+		SELECT *
+		FROM Scrapbook WHERE userId=#{userId} AND exId=#{id};
+	</select>
+	<select id="selectAllScrapbook" parameterType="String" resultType="ExhibitDto">
+		SELECT e.*,(SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(e.id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark
+		FROM Exhibition e INNER JOIN Scrapbook s ON e.id=s.exId
+		WHERE userId=#{userId};
+	</select>
 </mapper>

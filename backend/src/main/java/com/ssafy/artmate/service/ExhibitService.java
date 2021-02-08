@@ -3,7 +3,6 @@ package com.ssafy.artmate.service;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.ssafy.artmate.dto.ExhibitDto;
 
 public interface ExhibitService {
@@ -15,4 +14,8 @@ public interface ExhibitService {
 	ExhibitDto selectOneExhibit(String userId, int id); //선택한 전시회 상세 정보
 	List<String> selectExhibitTags(int id);//선택한 전시회 태그들 가져오기
 	List<ExhibitDto> selectExhibitbyMap(); //지도에서 보여줄 모든 전시회 정보 가져오기
+	boolean insertScrapbook(String userId, int id); //스크랩북에 전시회 추가
+	boolean deleteScrapbook(String userId, int id); //스크랩북에서 전시회 삭제
+	ExhibitDto selectOneScrapbook(String userId, int id); //스크랩북에서 하나 선택
+	List<ExhibitDto> selectAllScrapbook(String userId); //스크랩북 목록 가져오기
 }
