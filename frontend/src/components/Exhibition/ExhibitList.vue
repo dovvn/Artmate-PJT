@@ -24,7 +24,7 @@
 
 
     <div class="exhibit_list">
-      <Navi style="position: relative; color: white;"/>
+      <Navi class="main_nav"/>
       <div class="exhibit_nav">
         <button @click="onClickAll" id="all" class="exhibit_nav_item">All</button>
         <button @click="onClickBest" id="best" class="exhibit_nav_item">Best</button>
@@ -37,11 +37,13 @@
           <div class="exhibit_duration">{{item.duration}}</div>
           <img :src="item.poster" alt="" class="exhibit_poster">
           <div class="exhibit_box">
-            <div class="exhibit_tlt">{{item.title}}</div>
+            <div class="exhibit_tlt">
+              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf"/>
+              {{item.title}}
+            </div>
             <div class="exhibit_scrap">
               <div class="exhibit_scrap_cnt">{{item.scrapCnt}}</div>
               <button class="exhibit_scrap_btn">
-                
               </button>
             </div>
           </div>
@@ -107,11 +109,11 @@ export default {
       list.scrollIntoView({behavior:'smooth'});
     },
     handleScroll(){
-      // const main = document.querySelector('.exhibit_main');
-      // const mainRect = main.getBoundingClientRect();
-      // const list = document.querySelector('.exhibit_list');
-      // main.style.opacity = (mainRect.height-window.scrollY) / mainRect.height;
-      // list.style.opacity = window.scrollY / mainRect.height;
+      const main = document.querySelector('.exhibit_main');
+      const mainRect = main.getBoundingClientRect();
+      const list = document.querySelector('.exhibit_list');
+      main.style.opacity = (mainRect.height-window.scrollY) / mainRect.height;
+      list.style.opacity = window.scrollY / mainRect.height;
     }
   },
 }

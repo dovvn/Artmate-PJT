@@ -86,36 +86,50 @@
 }
 .exhibit_items {
   margin-top: 30px;
+  padding: 0 20px;
 }
 .exhibit_item {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  /* flex-wrap: wrap; */
   margin: 10px 0;
 }
 .exhibit_duration {
   font-size: var(--font-txt-md);
   color: var(--color-white);
-  text-align: left;
-  margin: 0 auto;
 }
 .exhibit_poster {
-  width: 300px;
+  width: 100%;
   min-height: 300px;
-  margin: 0 auto;
 }
 .exhibit_box {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  padding: 10px 0;
+}
+.exhibit_tlt_icon {
+  color: var(--color-light-purple);
 }
 .exhibit_tlt {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-txt-lg);
+  font-weight: var(--weight-bold);
   color: var(--color-white);
 }
 .exhibit_scrap {
   font-size: var(--font-txt-md);
+  color: var(--color-light-grey2);
+  display: flex;
+}
+.main_nav {
+  position: relative;
   color: var(--color-white);
 }
+.main_nav.bm-burger-bars {
+  background-color: white;
+}
+
 @media screen and (max-width: 1024px) {
   .exhibit_main_poster {
     max-width: 200px;
