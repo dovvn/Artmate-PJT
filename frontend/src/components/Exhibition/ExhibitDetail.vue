@@ -75,6 +75,8 @@
             <span class="ex__name"> 오시는 길 </span>
             <div>
                  <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
+                  <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
+                   <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
             </div>
            
           </div>
@@ -85,10 +87,26 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
+function handleNavi() {
+  const navbar = document.querySelector('.exDetial__navi');
+  const navbarHeight = navbar.getBoundingClientRect().height;
+  if(window.scrollY > navbarHeight){
+    navbar.style.background="#272626";
+  }
+  else{
+    navbar.style.background="transparent";
+  }
+}
 export default {
     name: "ExhibitDetail",
     components: {
         Navi,
+    },
+    destroyed(){
+    document.removeEventListener('scroll',handleNavi);
+    },
+    mounted(){
+    document.addEventListener('scroll',handleNavi);
     },
     data() {
         return {
