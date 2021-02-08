@@ -6,31 +6,33 @@
       <div class="detail">
           <!-- 전시회 포스터  -->
           <div class="exPoster">
-              <img class="poster_img" src="../../assets/test_exPoster.jpg" alt="" >
+              <img class="poster_img" :src="exhibit.exImg" alt="" >
           </div>
           <div class="bar"></div>
           <!-- 전시회내용 -->
           <div class="exContent">
               <div class="exName">
                 <font-awesome-icon :icon="['fab', 'envira']" class="ex__icon" style="color:#A593DF"/>
-                <span class="ex__name"> 서울의 전차</span>
+                <span class="ex__name"> {{exhibit.name}}</span>
               </div>
               <div class="exInfo">
                   <div class="ex__date">
                     <span class="day"> 날짜 : </span>
-                    <span class="day"> 2021.04.05 ~ 2021.04.28 </span>
+                    <span class="day"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </span>
                   </div>
                   <div class="ex__area">
                     <span class="area"> 장소 : </span>
-                    <span class="area"> 경기도 해움미술관 </span>
+                    <span class="area"> {{exhibit.location}} </span>
                   </div>
                   <div class="ex__artist">
                     <span class="artist"> 작가 : </span>
-                    <span class="artist"> 김남주 </span>
+                    <span class="artist" v-if="exhibit.artist != null"> {{exhibit.artist}} </span>
+                    <span class="artist" v-else> 작가없음 </span>
                   </div>
                   <div class="ex__text">
-                    <span class="text"> 소개 : </span>
-                    <div class="texts"> 동양이나 서양이나 산업혁명 이전 도시들은 '성곽 도시' 라고 불리는 방어형 도시였다. 성곽도시는 전 통적으로 뚜렷한 경계와 영역을 갖는 폐쇄적 공간 구조를 갖는데 성벽은 군사행정을 위한 건조물인 동시에 안과 밖을 분리해 도시 안의 재화가 빠져나 가는 것을 막았으며, 성문은 그 흐름을 관리하는 수 단이었다. 우리가 마주하고 있는 도시 풍경과 도시 문화는 어떤 양상을 띠고 있는가? </div>
+                    <div class="text"> 소개 : </div>
+                    <div class="texts" v-if="exhibit.description != null">{{exhibit.description}} </div>
+                    <div class="texts" v-else> 소개없음 </div>
                   </div>
               </div>
           </div>
@@ -42,7 +44,7 @@
                 <span class="ex__name"> 함께 즐겨요 </span>
                 <div class="mention">
                     <span class="feeds">6</span><span class="feeds">명의 회원님이 </span>
-                <span class="feeds">"외관의 지층들"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
+                <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
                 </div>
                 <div class="review__list">
                     <img class="feed_img" src="../../assets/sample.jpg" alt="" >
@@ -68,10 +70,30 @@
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
+import http from "@/util/http-common";
 export default {
     name: "ExhibitDetail",
     components: {
         Navi,
+    },
+    data() {
+        return {
+            id: 0,
+            exhibit:{},
+        };
+    },
+    created() {
+        this.id = this.$route.params.id;
+        console.log(this.id);
+        http
+        .get(`/api/exhibit/${this.id}`) 
+        .then(res => {
+            console.log(res.data);
+            this.qna = res.data;
+        })
+        .catch(err => {
+            console.log(err);
+        });
     },
 
 }
@@ -154,6 +176,7 @@ export default {
         padding-left: 55px;
         color: #FFFFFF;
         font-size: 14px;
+        
     }
     .feeds{
         color: #FFFFFF;
