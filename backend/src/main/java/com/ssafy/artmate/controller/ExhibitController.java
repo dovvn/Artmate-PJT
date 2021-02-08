@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.ssafy.artmate.dto.ExhibitDto;
+import com.ssafy.artmate.dto.FeedDto;
 import com.ssafy.artmate.service.ExhibitService;
 
 import io.swagger.annotations.Api;
@@ -58,7 +59,6 @@ public class ExhibitController {
 		result.setTagList(exhibitService.selectExhibitTags(id));
 		return result;
 	}
-	
 	//지도에서 보여줄 모든 전시회 정보 가져오기
 	@ApiOperation(value = "지도에서 보여줄 모든 전시회 정보(전시회아이디, 이름, 장소, 이미지, 시작날짜, 종료날짜) 전달", notes = "전시회 상세정보 반환", response = ExhibitDto.class, responseContainer="List")
 	@GetMapping(value="/exhibit/map", produces = "text/json; charset=utf8")
@@ -67,7 +67,6 @@ public class ExhibitController {
 		String result = gs.toJson(exhibitService.selectExhibitbyMap());
 		return result;
 	}
-	
 	//스크랩북에 전시회 추가하기
 	@ApiOperation(value = "선택한 전시회 스크랩북에 추가하기", notes = "성공적으로 추가하면 true, 실패하면 false", response = Boolean.class)
 	@PutMapping(value="/scrapbook/{userId}/{id}")
@@ -90,5 +89,20 @@ public class ExhibitController {
 		String result = gs.toJson(exhibitService.selectAllScrapbook(userId));
 		return result;
 	}
-	
+	//모든 전시회 아이디, 이름, 장소 가져오기
+	@ApiOperation(value = "전시회 이름, 장소 목록 가져오기(*피드작성시 사용)", notes = "전시회 리스트 반환", response = ExhibitDto.class, responseContainer="List")
+	@GetMapping(value="/exhibit/name", produces = "text/json; charset=utf8")
+	public String selectExhibitNameWithLoc() {
+		Gson gs = new Gson();
+		String result = gs.toJson(exhibitService.selectExhibitNameWithLoc());
+		return result;
+	}
+	//해당 아이디 전시회와 관련된 피드 목록 가져오기
+	@ApiOperation(value = "현재 전시회와 관련된 피드 목록 가져오기", notes = "피드 리스트 반환", response = FeedDto.class, responseContainer="List")
+	@GetMapping(value="/exhibit/feed/{id}", produces = "text/json; charset=utf8")
+	public String selectAllScrapbook(@ApiParam(value="전시회 아이디", required = true, example="1")@PathVariable int id) {
+		Gson gs = new Gson();
+		String result = gs.toJson(exhibitService.selectFeeds(id));
+		return result;
+	}
 }
