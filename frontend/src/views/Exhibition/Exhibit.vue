@@ -11,9 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.bm-burger-bars {
-    background-color: white;
-}
+
 .exdiv {
   width: 380px;
   height: 100%;
