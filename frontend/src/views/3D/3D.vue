@@ -141,7 +141,7 @@ function init() {
 
 
 				// 빛
-				const light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
+				const light = new THREE.AmbientLight( 0xFFFFFF ,0.9); // soft white light
 				scene.add( light );
 
 
@@ -317,6 +317,18 @@ function init() {
 					box12.position.x = x;
 					box12.position.y = 20;
 					box12.position.z = -100;
+					if(x%40==0) {
+						let spotlight = new THREE.SpotLight(0xffffff,0.3);
+						spotlight.position.x = x;
+						spotlight.position.y = 20;
+						spotlight.position.z = -88;
+						spotlight.castShadow = true;
+						scene.add(spotlight);
+						scene.add(spotlight.target);
+						spotlight.target.position.x = x;
+						spotlight.target.position.y = 20;
+						spotlight.target.position.z = -100;
+					}
 					const box13 = new THREE.Mesh( boxGeometry, box );
 					box13.position.x = x;
 					box13.position.y = 40;
@@ -337,6 +349,19 @@ function init() {
 					box22.position.x = x;
 					box22.position.y = 20;
 					box22.position.z = 100;
+						if(x%40==0) {
+						let spotlight = new THREE.SpotLight(0xffffff,0.3);
+						spotlight.position.x = x;
+						spotlight.position.y = 20;
+						spotlight.position.z = 85;
+						spotlight.castShadow = true;
+						scene.add(spotlight);
+						scene.add(spotlight.target);
+						spotlight.target = box22;
+						// spotlight.target.position.x = x;
+						// spotlight.target.position.y = 20;
+						// spotlight.target.position.z = 100;
+					}
 					const box23 = new THREE.Mesh( boxGeometry, box );
 					box23.position.x = x;
 					box23.position.y = 40;
