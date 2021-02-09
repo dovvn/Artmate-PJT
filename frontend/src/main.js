@@ -29,6 +29,10 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+// 날짜형식
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
+
 //구글 로그인
 Vue.use(GAuth, {clientId: '586176925871-o9lo1kb9m1rgft73q8n4sicrh4knvlr6.apps.googleusercontent.com', scope: 'profile email https://www.googleapis.com/auth/plus.login'})
 

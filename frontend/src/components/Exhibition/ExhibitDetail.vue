@@ -22,7 +22,7 @@
               <div class="exInfo">
                   <div class="ex__date">
                     <div class="day"> 날짜 : </div>
-                    <div class="days"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </div>
+                    <div class="days"> {{$moment(exhibit.startDate).format('YYYY-MM-DD')}} ~ {{$moment(exhibit.endDate).format('YYYY-MM-DD')}} </div>
                   </div>
                   <div class="ex__area">
                     <div class="area"> 장소 : </div>
@@ -30,20 +30,20 @@
                   </div>
                   <div class="ex__artist">
                     <div class="artist"> 작가 : </div>
-                    <div class="artists" v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
-                    <div class="artistTogle" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
+                    <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
+                    <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn">
+                    <div class="btn" v-if="exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
                   </div>
                   <div class="ex__text">
                     <div class="text"> 소개 : </div>
-                    <div class="texts" v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
-                    <div class="textTogle" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
+                    <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
+                    <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn">
+                    <div class="btn" v-if="exhibit.description.length > 61" >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
@@ -86,7 +86,6 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
-import moment from 'moment'
 
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
@@ -128,7 +127,7 @@ export default {
                 userId:"",
             },
             showArtist: false,
-            showDes: false
+            showDes: false,
         };
     },
     created() {
@@ -140,8 +139,6 @@ export default {
         .then(res => {
             // console.log("데이터야 : "+res.data.exImg);
             this.exhibit = res.data;
-            moment(this.exhibit.startDate).format('YYYY-MM-DD');
-            moment(this.exhibit.endDate).format('YYYY-MM-DD');
         })
         .catch(err => {
             console.error(err);
@@ -184,7 +181,6 @@ export default {
                     .catch((err) => console.log(err));
             }
         },
-        
     }
 }
 </script>
@@ -221,7 +217,6 @@ export default {
         width: 280px;
         text-align: center;
         margin: 0 auto;
-        box-shadow: 0px 4px 10px gray;
         margin-bottom: 25px;
     }
     .bar{
@@ -285,20 +280,23 @@ export default {
         color: #FFFFFF;
         font-size: 14px;
         height: auto;
+        line-height: 1.25; 
     }
     .feeds{
         color: #FFFFFF;
         font-size: 12px;
     }
     .mention{
+
         margin-left: 10px;
+        line-height: 1; 
     }
     .review__list{
         margin-top: 10px;
         line-height: 100px;
     }
     .img{
-        margin-top: 10px;
+        margin-top: 20px;
     }
     .feed_img{
         width: 80px;
