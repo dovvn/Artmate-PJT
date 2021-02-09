@@ -34,12 +34,12 @@
       </div>
       <div class="exhibit_items">
         <div class="exhibit_item" v-for="(item,idx) in ex_list" :key="idx">
-          <div class="exhibit_duration">{{item.duration}}</div>
-          <img :src="item.poster" alt="" class="exhibit_poster">
+          <div class="exhibit_duration">{{item.startDate}} ~ {{item.endDate}}</div>
+          <img :src="item.exImg" alt="" class="exhibit_poster">
           <div class="exhibit_box">
             <div class="exhibit_tlt">
               <font-awesome-icon class="exhibit_tlt_icon" icon="leaf"/>
-              {{item.title}}
+              {{item.name}}
             </div>
             <div class="exhibit_scrap">
               <div class="exhibit_scrap_cnt">{{item.scrapCnt}}</div>
@@ -54,67 +54,116 @@
 </template>
 
 <script>
+import {getExhibitList} from '@/api/exhibit.js';
 import Navi from '@/components/Common/Navi.vue';
 export default {
   name: "ExhibitList",
   data(){
     return{
-      ex_list:[
-        {
-          title:"외곽의 지층들",
-          poster:require("../../assets/main/slide1_1.jpg"),
-          duration:"2021.01.05 ~ 2021.02.14",
-          scrapCnt: 823,
-        },
-        {
-          title:"외곽의 지층들",
-          poster:require("../../assets/main/slide1_1.jpg"),
-          duration:"2021.01.05 ~ 2021.02.14",
-          scrapCnt: 823,
-        },
-        {
-          title:"외곽의 지층들",
-          poster:require("../../assets/main/slide1_1.jpg"),
-          duration:"2021.01.05 ~ 2021.02.14",
-          scrapCnt: 823,
-        },
-      ]
+      currentPlace:"",
+      target:"",
+      around_list:[],
+      ex_list:[]
     }
   },
   components:{
     Navi,
   },
+  created(){
+    getExhibitList(
+      (res)=>{
+        this.ex_list=res.data;
+      },
+      (err)=>{
+        console.error(err);
+      }
+    )
+  },
+  computed:{
+    filteredList(){
+      if(this.target==="all")  return this.ex_list;
+      else if(this.target==="best"){
+        let tmp = this.ex_list.slice(0,);
+        tmp.sort((a,b) => b.scrapCnt-a.scrapCnt);
+        return tmp.slice(0,10);
+      }
+      else if(this.target==="online"){
+        return this.ex_list;
+      }
+      else{
+        return this.around_list;
+      }
+    },
+  },
   mounted(){
     // document.addEventListener('scroll',this.handleScroll);
     document.querySelector('#all').classList.add('active');
+    this.target="all";
+    if (!window.kakao && !window.kakao.maps){
+      const script = document.createElement('script');
+      script.src ='http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0c6121d667946c4583e303b2760cca80&libraries=services ';
+      document.head.appendChild(script);
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        console.log(lat,lon);
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2Address(lon,lat, (res)=>{
+          this.currentPlace=res[0].address.region_1depth_name;
+        });
+      });
+    }
+    else{
+      this.currentPlace="서울";
+    }
+    let ps = new kakao.maps.services.Places();
+    for(let i=0; i<this.ex_list.length; i++){
+      ps.keywordSearch(this.ex_list[i].location,(data)=>{
+        for(let j=0; j<data.length; j++){
+          if(data[i].address_name.includes(this.currentPlace) && data[i].category_group_name==="문화시설"){
+            this.around_list.push(this.ex_list[i]);
+          }
+        }
+      })
+    }
   },
   destroyed(){
     // document.removeEventListener('scroll',this.handleScroll);
   },
   methods:{
     onClickAll(){
-
+      document.querySelector(`#${this.target}`).classList.remove('active');
+      this.target="all";
+      document.querySelector(`#${this.target}`).classList.add('active');
     },
     onClickBest(){
-
+      document.querySelector(`#${this.target}`).classList.remove('active');
+      this.target="best";
+      document.querySelector(`#${this.target}`).classList.add('active');
     },
     onClickOnline(){
-
+      document.querySelector(`#${this.target}`).classList.remove('active');
+      this.target="online";
+      document.querySelector(`#${this.target}`).classList.add('active');
     },
     onClickArea(){
-
+      document.querySelector(`#${this.target}`).classList.remove('active');
+      this.target="area";
+      document.querySelector(`#${this.target}`).classList.add('active');
     },
     onClickDown(){
       const list = document.querySelector('.exhibit_list');
       list.scrollIntoView({behavior:'smooth'});
     },
-    handleScroll(){
-      const main = document.querySelector('.exhibit_main');
-      const mainRect = main.getBoundingClientRect();
-      const list = document.querySelector('.exhibit_list');
-      main.style.opacity = (mainRect.height-window.scrollY) / mainRect.height;
-      list.style.opacity = window.scrollY / mainRect.height;
-    }
+    // handleScroll(){
+    //   const main = document.querySelector('.exhibit_main');
+    //   const mainRect = main.getBoundingClientRect();
+    //   const list = document.querySelector('.exhibit_list');
+    //   main.style.opacity = (mainRect.height-window.scrollY) / mainRect.height;
+    //   list.style.opacity = window.scrollY / mainRect.height;
+    // }
   },
 }
 </script>

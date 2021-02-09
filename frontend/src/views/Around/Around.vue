@@ -131,10 +131,8 @@ export default {
   },
   mounted(){
     if (window.kakao && window.kakao.maps) {
-      console.log('if');
       this.initMap();
     } else {
-      console.log('else')
       const script = document.createElement('script');
       
       script.onload = () => kakao.maps.load(this.initMap);
