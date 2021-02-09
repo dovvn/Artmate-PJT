@@ -118,4 +118,8 @@
 		UPDATE Follow SET state=1
 		WHERE sendUserId=#{sendUserId} and getUserId=#{getUserId}
 	</update>
+	<select id="selectAllUser" resultType="UserDto">
+		SELECT *
+		FROM User
+	</select>
 </mapper>
