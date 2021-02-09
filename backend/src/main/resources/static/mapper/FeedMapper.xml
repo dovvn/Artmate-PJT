@@ -3,8 +3,8 @@
 <mapper namespace="com.ssafy.artmate.mapper.FeedMapper">
 	<!-- 피드 글 작성 -->
 	<insert id="insertFeed" parameterType="FeedDto">
-		INSERT INTO Feed (userId, feedImg, feedText, exId, likeCnt, writeDate, location)
-		VALUES (#{userId}, #{feedImg}, #{feedText}, #{exId}, 0, #{writeDate}, #{location})
+		INSERT INTO Feed (userId, feedImg, feedText, exId, likeCnt, writeDate, location, exName)
+		VALUES (#{userId}, #{feedImg}, #{feedText}, #{exId}, 0, #{writeDate}, #{location}, #{exName})
 	</insert>
 	<!-- 내 피드 목록 가져오기 -->
 	<select id="selectAllMyFeed" parameterType="String" resultType="FeedDto">
@@ -25,7 +25,7 @@
 	<!-- 피드 글 수정(이미지 빼고 수정) -->
 	<update id="modifyFeed" parameterType="FeedDto">
 		UPDATE Feed
-		SET feedText=#{feedText}, exId=#{exId}, location=#{location}
+		SET feedText=#{feedText}, exId=#{exId}, location=#{location}, exName=#{exName}
 		WHERE id = #{id}
 	</update>
 	<!-- 피드 글 삭제 -->
@@ -64,7 +64,7 @@
 	<select id="selectOneBookmark" resultType="FeedDto">
 		SELECT *
 		FROM Bookmark
-		WHERE userId=#{userId} and feedId=#{feedId};
+		WHERE userId=#{userId} and feedId=#{feedId}
 	</select>
 	<!-- 좋아요에 추가 -->
 	<insert id="insertLikemark">
@@ -80,7 +80,7 @@
 	<select id="selectOneLikemark" resultType="FeedDto">
 		SELECT *
 		FROM Likemark
-		WHERE userId=#{userId} and feedId=#{feedId};
+		WHERE userId=#{userId} and feedId=#{feedId}
 	</select>
 	<!-- 피드 이미지 가져오기 -->
 	<select id="selectFeedImg" parameterType="int" resultType="String">
@@ -97,16 +97,14 @@
 	<update id="modifyFeedImg" parameterType="FeedDto">
 		UPDATE Feed
 		SET feedImg = #{feedImg}
-		WHERE id = #{id};
+		WHERE id = #{id}
 	</update>
 	<!-- 전체 피드 목록 가져오기 -->
 	<select id="selectAllFeed" parameterType="String" resultType="FeedDto">
-		SELECT *,
-		IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
 		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
-		(select userName from User where User.userId = Feed.userId) AS UserName,
-		(select UserImg from User where User.userId = Feed.userId) AS UserImg,
 		(SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
-		FROM Feed ORDER BY writeDate DESC;
+		FROM Feed INNER JOIN User USING(userId)
+		ORDER BY writeDate DESC
 	</select>
 </mapper>

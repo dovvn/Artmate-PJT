@@ -6,31 +6,47 @@
       <div class="detail">
           <!-- 전시회 포스터  -->
           <div class="exPoster">
-              <img class="poster_img" src="../../assets/test_exPoster.jpg" alt="" >
+              <img class="poster_img" :src="exhibit.exImg" alt="" >
           </div>
           <div class="bar"></div>
           <!-- 전시회내용 -->
           <div class="exContent">
               <div class="exName">
                 <font-awesome-icon :icon="['fab', 'envira']" class="ex__icon" style="color:#A593DF"/>
-                <span class="ex__name"> 서울의 전차</span>
+                <span class="ex__name"> {{exhibit.name}}</span>
+                <span class="scrapCnt"> 
+                    <font-awesome-icon v-if="exhibit.scrapmark == 0" @click="addScrap(exhibit.scrapmark,exhibit.id)" :icon="['far', 'star']" style="color:white"/> 
+                    <font-awesome-icon v-if="exhibit.scrapmark == 1" @click="addScrap(exhibit.scrapmark,exhibit.id)"  :icon="['fas', 'star']" style="color:white"/>
+                    {{exhibit.scrapCnt}}</span>
               </div>
               <div class="exInfo">
                   <div class="ex__date">
-                    <span class="day"> 날짜 : </span>
-                    <span class="day"> 2021.04.05 ~ 2021.04.28 </span>
+                    <div class="day"> 날짜 : </div>
+                    <div class="days"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </div>
                   </div>
                   <div class="ex__area">
-                    <span class="area"> 장소 : </span>
-                    <span class="area"> 경기도 해움미술관 </span>
+                    <div class="area"> 장소 : </div>
+                    <div class="areas"> {{exhibit.location}}</div>
                   </div>
                   <div class="ex__artist">
-                    <span class="artist"> 작가 : </span>
-                    <span class="artist"> 김남주 </span>
+                    <div class="artist"> 작가 : </div>
+                    <div class="artists" v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
+                    <div class="artistTogle" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
+                    <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
+                    <div class="btn">
+                        <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
+                        <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
+                    </div>
                   </div>
                   <div class="ex__text">
-                    <span class="text"> 소개 : </span>
-                    <div class="texts"> 동양이나 서양이나 산업혁명 이전 도시들은 '성곽 도시' 라고 불리는 방어형 도시였다. 성곽도시는 전 통적으로 뚜렷한 경계와 영역을 갖는 폐쇄적 공간 구조를 갖는데 성벽은 군사행정을 위한 건조물인 동시에 안과 밖을 분리해 도시 안의 재화가 빠져나 가는 것을 막았으며, 성문은 그 흐름을 관리하는 수 단이었다. 우리가 마주하고 있는 도시 풍경과 도시 문화는 어떤 양상을 띠고 있는가? </div>
+                    <div class="text"> 소개 : </div>
+                    <div class="texts" v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
+                    <div class="textTogle" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
+                    <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
+                    <div class="btn">
+                        <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
+                        <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
+                    </div>
                   </div>
               </div>
           </div>
@@ -41,15 +57,27 @@
                 <font-awesome-icon :icon="['fas', 'globe-americas']" class="earth__icon" style="color:#5F9EA0"/>
                 <span class="ex__name"> 함께 즐겨요 </span>
                 <div class="mention">
-                    <span class="feeds">6</span><span class="feeds">명의 회원님이 </span>
-                <span class="feeds">"외관의 지층들"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
+                    <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
+                <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
                 </div>
-                <div class="review__list">
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    
-                </div>
+
+                <swiper 
+                    class="review__list swiper"
+                    :slides-per-view="3"
+                    :space-between="50"
+                    @swiper="onSwiper"
+                    @slideChange="onSlideChange"
+                >
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <!-- <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
+                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide> -->
+                
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>  
+                </swiper>
               </div>
           </div>
           <div class="bar"></div>
@@ -68,12 +96,114 @@
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
+import http from "@/util/http-common";
+// import 'swiper/dist/css/swiper.css'
+
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+function handleNavi() {
+  const navbar = document.querySelector('.exDetial__navi');
+  const navbarHeight = navbar.getBoundingClientRect().height;
+  if(window.scrollY > navbarHeight){
+    navbar.style.background="#272626";
+  }
+  else{
+    navbar.style.background="transparent";
+  }
+}
 export default {
     name: "ExhibitDetail",
     components: {
         Navi,
+        Swiper,
+        SwiperSlide,
     },
-
+    destroyed(){
+    document.removeEventListener('scroll',handleNavi);
+    },
+    mounted(){
+    document.addEventListener('scroll',handleNavi);
+    },
+    data() {
+        return {
+            id: 0,
+            exhibit:{
+                artist:"",
+                description:"",
+                startDate:"",
+                endDate:"",
+                exImg:"",
+                feedCnt:0,
+                location:"",
+                name:"",
+                scrapCnt:0,
+                scrapmark:0
+            },
+            userInfo:{
+                userId:"",
+            },
+            showArtist: false,
+            showDes: false
+        };
+    },
+    created() {
+        this.userInfo =  this.$store.getters.getUser;
+        this.id = this.$route.params.id;
+        console.log(this.id);
+        http
+        .get(`/api/exhibit/${this.userInfo.userId}/${this.id}`) 
+        .then(res => {
+            console.log(res.data);
+            this.qna = res.data;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    },
+    methods:{
+        toggleArtistShow(){
+            this.showArtist = !this.showArtist;
+        },
+        toggleDesShow(){
+            this.showDes = !this.showDes;
+        },
+        addScrap:function(scrap, exid){
+            this.exhibit.scrapmark = ! this.exhibit.scrapmark;
+            if(scrap == 0){ // 스크랩 안눌린 상태 
+                this.exhibit.scrapCnt ++;
+                http
+                .put(`api/scrapbook/${this.user.userId}/${exid}`)
+                .then((data) => {
+                    console.log(data); 
+                    if (data) {
+                        // alert('스크랩');
+                    } else {
+                        alert('오류가 발생하였습니다.');
+                    }
+                })
+                .catch((err) => console.log(err));
+            }else if(scrap == 1){ // 스크랩 눌린 상태 
+                this.exhibit.scrapCnt --;
+                http
+                .delete(`api/scrapbook/${this.user.userId}/${exid}`)
+                .then((data) => {
+                    console.log(data); 
+                    if (data) {
+                        // alert('스크랩 취소..');
+                    } else {
+                        alert('오류가 발생하였습니다.');
+                    }
+                })
+                    .catch((err) => console.log(err));
+            }
+        },
+        onSwiper(swiper) {
+            console.log(swiper);
+        },
+        onSlideChange() {
+            console.log('slide change');
+        },
+        
+    }
 }
 </script>
 
@@ -115,6 +245,7 @@ export default {
     .bar{
         padding-top: 10px;
         border-bottom: solid 0.1px #B9B9B9;
+        clear: both;
     }
     .exContent, .exReview, .exRode{
         padding-top: 10px;
@@ -133,27 +264,41 @@ export default {
         padding-top: 20px;
         margin: 0 auto;
     }
-    .ex__date, .ex__area, .ex__artist {
-        border-left: solid 3px #A593DF;
-        height: 20px;
+    .ex__date, .ex__area, .ex__artist, .ex__text{
+        height: auto;
         margin-bottom: 12px;
-        width: 100%;
-
-    }
-    .text{
-        border-left: solid 3px #A593DF;
+        
     }
     .day, .area, .artist, .text{
         color: #FFFFFF;
         font-size: 14px;
         float: left;
         padding-left: 10px;
-        height: auto;
+        border-left: solid 3px #A593DF;
     }
-    .texts{
+    .days, .areas, .artists, .texts{
+        padding-left: 10px;
+        color: #FFFFFF;
+        font-size: 14px;
+        height: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal; 
+        line-height: 1.25; 
+        text-align: left; 
+        word-wrap: break-word; 
+        display: -webkit-box; 
+        -webkit-line-clamp: 3; 
+        -webkit-box-orient: vertical;
+    }
+    /* .areas{
+        clear: both;
+    } */
+    .artistTogle, .textTogle{
         padding-left: 55px;
         color: #FFFFFF;
         font-size: 14px;
+        height: auto;
     }
     .feeds{
         color: #FFFFFF;
@@ -179,5 +324,43 @@ export default {
         text-align: center;
         margin: 0 auto;
         padding-top: 10px;
+    }
+    .scrapCnt{
+        float: right;
+        font-size: 12px;
+        color: white;
+    }
+    .more{
+        color: #A593DF;
+        border: 1px solid #A593DF;
+        font-size: 11px;
+        line-height: 13px;
+        margin-top: 2px;
+        margin-bottom: 10px;
+        float: right;
+    }
+    .more:hover{
+        background-color: #A593DF;
+        color:whitesmoke;
+    }
+    .mores{
+        background-color: #A593DF;
+        color:whitesmoke;
+        font-size: 11px;
+        line-height: 13px;
+        margin-top: 2px;
+        margin-bottom: 10px;
+        float: right;
+    }
+    .btn > .mores{
+        margin-left: 126px;
+    }
+    .btn{
+        height: auto;
+        margin-left: 110px;
+    }
+    .swiper-container{
+        width: 320px;
+        height: 100px;
     }
 </style>

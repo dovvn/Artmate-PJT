@@ -27,11 +27,17 @@ public class ExhibitDto{
 	private String artist;
 	@ApiModelProperty(value="전시회 일련번호")
 	private String seqNum;
+	@ApiModelProperty(value="스크랩 수")
+	private int scrapCnt;
+	@ApiModelProperty(value="스크랩 표시")
+	private int scrapmark;
+	@ApiModelProperty(value="이 전시회에 작성된 피드 수")
+	private int feedCnt;
 	
 	public ExhibitDto() {}
 	
 	public ExhibitDto(int id, List<String> tagList, String name, String location, String description, String exImg,
-			String startDate, String endDate, String artist, String seqNum) {
+			String startDate, String endDate, String artist, String seqNum, int scrapCnt, int scrapmark, int feedCnt) {
 		super();
 		this.id = id;
 		this.tagList = tagList;
@@ -43,6 +49,9 @@ public class ExhibitDto{
 		this.endDate = endDate;
 		this.artist = artist;
 		this.seqNum = seqNum;
+		this.scrapCnt = scrapCnt;
+		this.scrapmark = scrapmark;
+		this.feedCnt = feedCnt;
 	}
 
 	public int getId() {
@@ -124,11 +133,37 @@ public class ExhibitDto{
 	public void setSeqNum(String seqNum) {
 		this.seqNum = seqNum;
 	}
+	
+	public int getScrapCnt() {
+		return scrapCnt;
+	}
+
+	public void setScrapCnt(int scrapCnt) {
+		this.scrapCnt = scrapCnt;
+	}
+
+	public int getScrapmark() {
+		return scrapmark;
+	}
+
+	public void setScrapmark(int scrapmark) {
+		this.scrapmark = scrapmark;
+	}
+	
+	public int getFeedCnt() {
+		return feedCnt;
+	}
+
+	public void setFeedCnt(int feedCnt) {
+		this.feedCnt = feedCnt;
+	}
 
 	@Override
 	public String toString() {
 		return "ExhibitDto [id=" + id + ", tagList=" + tagList + ", name=" + name + ", location=" + location
 				+ ", description=" + description + ", exImg=" + exImg + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", artist=" + artist + ", seqNum=" + seqNum + "]";
+				+ endDate + ", artist=" + artist + ", seqNum=" + seqNum + ", scrapCnt=" + scrapCnt + ", scrapmark="
+				+ scrapmark + ", feedCnt=" + feedCnt + "]";
 	}
+
 }
