@@ -11,4 +11,5 @@ public interface SignalMapper {
 	int deleteSignal(int id);// 알림 삭제
 	int modifySignal(int id);// 알림 확인
 	List<SignalDto> selectAllSignal(String getUserId);// 알림 목록 가져오기
+	int countNewSignal(String userId); //확인 안한 알림 갯수 반환
 }
