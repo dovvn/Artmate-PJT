@@ -24,6 +24,7 @@
     "email-validator": "^2.0.4",
     "hangul-js": "^0.2.6",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
     "or": "^0.2.0",
     "password-validator": "^5.1.1",
     "url-search-params-polyfill": "^8.1.0",

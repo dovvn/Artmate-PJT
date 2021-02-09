@@ -86,6 +86,8 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
+import moment from 'moment'
+
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -102,10 +104,10 @@ export default {
         Navi,
     },
     destroyed(){
-    document.removeEventListener('scroll',handleNavi);
+        document.removeEventListener('scroll',handleNavi);
     },
     mounted(){
-    document.addEventListener('scroll',handleNavi);
+        document.addEventListener('scroll',handleNavi);
     },
     data() {
         return {
@@ -132,15 +134,17 @@ export default {
     created() {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
-        console.log(this.id);
+        console.log(this.userInfo,this.id);
         http
-        .get(`/api/exhibit/${this.userInfo.userId}/${this.id}`) 
+        .get(`api/exhibit/${this.userInfo.userId}/1`) 
         .then(res => {
-            console.log(res.data);
-            this.qna = res.data;
+            // console.log("데이터야 : "+res.data.exImg);
+            this.exhibit = res.data;
+            moment(this.exhibit.startDate).format('YYYY-MM-DD');
+            moment(this.exhibit.endDate).format('YYYY-MM-DD');
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
         });
     },
     methods:{
@@ -236,6 +240,10 @@ export default {
     .ex__name{
         font-size: 20px;
         color: white;
+        display: inline-block;
+        width: 260px;
+        margin-left: 5px;
+        vertical-align: top;
     }
     .exContent, .exReview, .exRode{
         width: 320px;
@@ -310,6 +318,7 @@ export default {
         float: right;
         font-size: 12px;
         color: white;
+        margin-top: 5px;
     }
     .more{
         color: #A593DF;
