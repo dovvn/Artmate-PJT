@@ -32,4 +32,5 @@ public interface UserMapper {
 	List<String> selectMyTag(String userId);
 	int insertKakao(UserDto user);
 	boolean modifyFollow(String sendUserId, String getUserId);
+	List<UserDto> selectAllUser();
 }
