@@ -97,6 +97,7 @@ export default {
   },
   mounted(){
     // document.addEventListener('scroll',this.handleScroll);
+    // test
     document.querySelector('#all').classList.add('active');
     this.target="all";
     if (window.kakao && window.kakao.maps) {
