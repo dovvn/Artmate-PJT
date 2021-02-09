@@ -24,7 +24,7 @@
 
 
     <div class="exhibit_list">
-      <Navi class="main_nav"/>
+      <Navi class="main_nav" />
       <div class="exhibit_nav">
         <button @click="onClickAll" id="all" class="exhibit_nav_item">All</button>
         <button @click="onClickBest" id="best" class="exhibit_nav_item">Best</button>

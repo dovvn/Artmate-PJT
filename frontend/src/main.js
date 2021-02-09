@@ -10,6 +10,7 @@ Vue.config.productionTip = false
 import Carousel3d from 'vue-carousel-3d';
 Vue.use(Carousel3d)
 
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit ,faGlobeAmericas, faStar as fasStar} from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag, faStar as farStar} from '@fortawesome/free-regular-svg-icons'
