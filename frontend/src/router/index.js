@@ -15,7 +15,7 @@ import UserFeed from '@/views/UserFeed/UserFeed.vue'
 import Around from '@/views/Around/Around.vue'
 import Exhibition from '@/views/Exhibition/Exhibit.vue'
 import ScrapBook from '@/views/ScrapBook/Scrapbook.vue'
-
+import My3D from '@/views/3D/3D.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -225,6 +225,11 @@ const routes = [
     path: "/scrap",
     name: "ScrapBook",
     component: ScrapBook
+  },
+  {
+    path: "/3d",
+    name: "3d",
+    component: My3D,
   }
 ]
 
