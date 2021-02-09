@@ -144,4 +144,9 @@ public class UserServiceImpl implements UserService{
 	public boolean modifyFollow(String sendUserId, String getUserId) {
 		return sqlSession.getMapper(UserMapper.class).modifyFollow(sendUserId, getUserId);
 	}
+
+	@Override
+	public List<UserDto> selectAllUser() {
+		return sqlSession.getMapper(UserMapper.class).selectAllUser();
+	}
 }
