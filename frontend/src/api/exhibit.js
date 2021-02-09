@@ -2,19 +2,13 @@ import {createInstance} from "./index.js";
 
 const instance=createInstance();
 
-function getExhibitList(success,fail){
+function getExhibitList(userId,success,fail){
   instance
-  .get("api/exhibit")
+  .get(`api/exhibit/${userId}`)
   .then(success)
   .catch(fail)
 }
 
-function getExhibitDetail(ex_id,success,fail){
-  instance
-  .get(`api/exhibit/${ex_id}`)
-  .then(success)
-  .catch(fail)
-}
 
 function getExhibitRecommend(userId,success,fail){
   instance
@@ -29,3 +23,5 @@ function getListForMap(success,fail){
   .then(success)
   .catch(fail)
 }
+
+export {getExhibitList, getExhibitRecommend, getListForMap}
