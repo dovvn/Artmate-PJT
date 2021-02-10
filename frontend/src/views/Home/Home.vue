@@ -8,7 +8,7 @@
       </div>
       <!-- Online -->
       <div class="online_box">
-        <div class="online_tlt">온라인 전시회</div>
+        <!-- <div class="online_tlt">온라인 전시회</div> -->
         <carousel
           :items=1
           :autoplay="true"
@@ -50,7 +50,7 @@
         <div class="recommend_keyword">현대예술</div>
         <div class="recommend_keyword">유화</div>
       </div>
-      <div class="test">
+      <div class="slide_box">
         <carousel-3d
           :autoplay=true
           :autoplayHoverPause=true
@@ -152,6 +152,7 @@
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+import {getExhibitRecommend} from '@/api/exhibit.js';
 function handleNavi() {
   const navbar = document.querySelector('#navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -164,6 +165,13 @@ function handleNavi() {
 }
 export default {
   name: 'Home',
+  created(){
+    this.user=this.$store.getters.getUser;
+    console.log(this.user);
+    getExhibitRecommend(
+      
+    )
+  },
   destroyed(){
     document.removeEventListener('scroll',handleNavi);
   },
@@ -200,6 +208,7 @@ export default {
   },
   data() {
     return{
+      user:null,
       onlineCarouselClass:"",
       carouselWidth:0,
       carouselHeight:0,

@@ -38,13 +38,15 @@
   flex-direction: column;
   cursor: pointer;
 }
+.owl-carousel .owl-item img {
+  width: auto;
+}
 .online_exhibition_poster {
   object-fit: contain;
   text-align: center;
   margin: auto;
   max-height: 340px;
   max-width: 700px;
-  /* padding: 3px; */
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
 .online_exhibition_info {
@@ -93,11 +95,15 @@
   background-color: var(--color-medium-grey);
   color: var(--color-white);
 }
+.recommend_keyword.active {
+  background-color: var(--color-medium-grey);
+  color: var(--color-white);
+}
 .slide {
   background-color: transparent;
   cursor: pointer;
 }
-.test {
+.slide_box {
   display: flex;
   justify-content: right;
 }
@@ -272,7 +278,7 @@
 /* 미디어 쿼리 */
 @media screen and (max-width: 1024px) {
   .online_bg {
-    padding-bottom: 150px;
+    padding-bottom: 70px;
   }
   .online_box {
     width: 304px;
@@ -294,8 +300,6 @@
   .online_exhibition_poster {
     max-height: 200px;
     max-width: 300px;
-    /* padding: 3px; */
-    box-shadow: 3px 3px 5px 0 #0000007a;
   }
   .online_exhibition_tlt {
     font-size: var(--font-txt-md);
@@ -307,11 +311,6 @@
   .online_exhibition_info {
     margin-top: 5px;
   }
-  .recommend_box {
-    background: left/cover no-repeat
-      url("../../../assets/main/main_background2_mobile.jpg");
-    padding: 15px 0 0 15px;
-  }
   .recommend_tlt {
     font-size: var(--font-tlt-lg);
   }
@@ -319,10 +318,6 @@
     padding: 3px 10px;
     font-size: var(--font-txt-sm);
     margin: 5px 5px 0 0;
-  }
-  .test {
-    display: flex;
-    justify-content: right;
   }
   .recommend_exhibition {
     margin-right: 10px;
