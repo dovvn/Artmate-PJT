@@ -31,4 +31,5 @@ public interface UserService {
 	boolean modifyUserImg(UserDto user); //프로필 이미지 수정하기
 	boolean insertKakao(UserDto user); //카카오로 회원가입
 	boolean modifyFollow(String sendUserId, String getUserId); //팔로우 상태 바꾸기
+	List<UserDto> selectAllUser(); //모든 유저의 정보 가져오기
 }

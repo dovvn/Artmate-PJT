@@ -10,7 +10,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .exdiv {
   width: 380px;
   height: 100%;
@@ -19,9 +20,9 @@ export default {
 }
 
 /* ------------------------------------------- */
-/* @media screen and (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
   .exdiv {
     width: 760px;
   }
-} */
+}
 </style>

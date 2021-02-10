@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
+
+.exhibit_main {
+  position: relative;
+  font-family: "Nanum Myeongjo", serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: hidden;
+}
+.exhibit_main_down_btn {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  cursor: pointer;
+}
+.exhibit_main_down_btn:hover {
+  transform: scale(1.2);
+}
+.exhibit_main_header {
+  background-color: var(--color-light-grey2);
+  max-height: 70%;
+  min-height: 70%;
+}
+.exhibit_main_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10%;
+  padding-right: 5%;
+}
+.exhibit_main_poster {
+  max-width: 400px;
+  max-height: 310px;
+  object-fit: cover;
+}
+.exhibit_side_box {
+  height: 40px;
+  font-size: var(--font-tlt-lg);
+  transform: rotate(90deg);
+  transform-origin: 100% 0;
+}
+.exhibit_side_year {
+  color: var(--color-light-grey);
+}
+.exhibit_bottom_tlt {
+  font-size: 68px;
+  font-weight: var(--weight-exbold);
+}
+.exhibit_bottom_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 10px 10px 10px;
+}
+.exhibit_bottom_text div {
+  font-size: var(--font-tlt-md);
+  color: var(--color-medium-grey);
+  margin: 0;
+}
+.exhibit_footer_box {
+  min-width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+.exhibit_footer_poster {
+  min-width: 100%;
+  height: inherit;
+  object-fit: cover;
+}
+.exhibit_list {
+  background-color: #313030;
+}
+.exhibit_nav {
+  display: flex;
+  padding: 0 20px;
+}
+.exhibit_nav_item {
+  font-size: var(--font-tlt-md);
+  color: var(--color-grey);
+  margin-right: 5%;
+}
+.exhibit_nav_item.active {
+  color: var(--color-white);
+}
+.exhibit_items {
+  margin-top: 30px;
+  padding: 0 20px;
+}
+.exhibit_item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* flex-wrap: wrap; */
+  margin: 10px 0;
+}
+.exhibit_duration {
+  font-size: var(--font-txt-md);
+  color: var(--color-white);
+}
+.exhibit_poster {
+  width: 100%;
+  min-height: 300px;
+}
+.exhibit_box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.exhibit_tlt_icon {
+  color: var(--color-light-purple);
+}
+.exhibit_tlt {
+  font-size: var(--font-txt-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+}
+.exhibit_scrap {
+  font-size: var(--font-txt-md);
+  color: var(--color-light-grey2);
+  display: flex;
+}
+.main_nav {
+  position: relative;
+  color: var(--color-white);
+}
+
+@media screen and (max-width: 1024px) {
+  .exhibit_main_poster {
+    max-width: 200px;
+    height: 310px;
+    object-fit: cover;
+  }
+  .exhibit_footer_box {
+    height: 300px;
+  }
+}

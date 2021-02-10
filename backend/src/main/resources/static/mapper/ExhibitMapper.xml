@@ -4,37 +4,71 @@
 	<select id="selectExhibitBySeq" parameterType="String" resultType="ExhibitDto">
 		SELECT *
 		FROM Exhibition
-		WHERE seqNum=#{seqNum};
+		WHERE seqNum=#{seqNum}
 	</select>
 	
 	<insert id="insertExhibit" parameterType="ExhibitDto">
 		INSERT INTO Exhibition (name, location, description, exImg, startDate, endDate, artist, seqNum)
-		VALUES (#{name}, #{location}, #{description}, #{exImg}, #{startDate}, #{endDate}, #{artist}, #{seqNum});
+		VALUES (#{name}, #{location}, #{description}, #{exImg}, #{startDate}, #{endDate}, #{artist}, #{seqNum})
 	</insert>
 	
 	<insert id="insertTag" parameterType="HashMap">
 		INSERT INTO ExhibitionTag (exId, tagName)
-		VALUES (#{exId}, #{tagName});
+		VALUES (#{exId}, #{tagName})
 	</insert>
 	<select id="selectExhibitMyTag" resultType="ExhibitDto">
 		SELECT et.*
 		FROM (SELECT * FROM Exhibition e INNER JOIN (SELECT exId AS id, tagName FROM ExhibitionTag) t USING(id)) et
 		WHERE et.tagName in (SELECT tag FROM MyTag WHERE userId=#{userId})
-		GROUP BY id;
+		GROUP BY id
 	</select>
 	<select id="selectAllExhibit" resultType="ExhibitDto">
-		SELECT *
-		FROM Exhibition;
+		SELECT e.*, (SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(e.id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark,
+		(SELECT COUNT(*) FROM Feed f WHERE f.exId = e.id) AS feedCnt
+		FROM Exhibition e
 	</select>
-	<select id="selectOneExhibit" resultType="ExhibitDto" parameterType="int">
-		SELECT *
-		FROM Exhibition
-		WHERE id = #{id};
+	<select id="selectOneExhibit" resultType="ExhibitDto">
+		SELECT e.*, (SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark,
+		(SELECT COUNT(*) FROM Feed f WHERE f.exId = e.id) AS feedCnt
+		FROM Exhibition e
+		WHERE e.id = #{id}
 	</select>
 	<select id="selectExhibitTags" parameterType="int" resultType="String">
 		select tagName FROM ExhibitionTag WHERE exId = #{id};
 	</select>
 	<select id="selectExhibitbyMap" resultType="ExhibitDto">
-		select id, name, location, exImg, startDate, endDate from Exhibition;
+		select id, name, location, exImg, startDate, endDate from Exhibition
+	</select>
+	<insert id="insertScrapbook">
+		INSERT INTO Scrapbook (userId, exId)
+		VALUES (#{userId},#{id});
+	</insert>
+	<delete id="deleteScrapbook">
+		DELETE FROM Scrapbook
+		WHERE userId=#{userId} AND exId=#{id}
+	</delete>
+	<select id="selectOneScrapbook" resultType="ExhibitDto">
+		SELECT *
+		FROM Scrapbook WHERE userId=#{userId} AND exId=#{id}
+	</select>
+	<select id="selectAllScrapbook" parameterType="String" resultType="ExhibitDto">
+		SELECT e.*,(SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(e.id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark
+		FROM Exhibition e INNER JOIN Scrapbook s ON e.id=s.exId
+		WHERE userId=#{userId}
+	</select>
+	<select id="selectExhibitNameWithLoc" resultType="ExhibitDto">
+		SELECT id, name, location
+		FROM Exhibition
+	</select>
+	<select id="selectFeeds" parameterType="int" resultType="FeedDto">
+		SELECT *,IF(id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+		IF(id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+		(SELECT COUNT(id) FROM Comment WHERE Comment.feedId = Feed.id) AS commentCnt
+		FROM Feed INNER JOIN User USING(userId)
+		WHERE exId=#{id}
+		ORDER BY writeDate DESC
 	</select>
 </mapper>

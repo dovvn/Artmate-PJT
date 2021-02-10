@@ -130,17 +130,16 @@ export default {
     }
   },
   mounted(){
-    if (window.kakao && window.kakao.maps) {
-      console.log('if');
-      this.initMap();
-    } else {
-      console.log('else')
-      const script = document.createElement('script');
+    // if (window.kakao && window.kakao.maps) {
+    //   this.initMap();
+    // } else {
+    //   const script = document.createElement('script');
       
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src ='http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0c6121d667946c4583e303b2760cca80&libraries=services ';
-      document.head.appendChild(script);
-    }
+    //   script.onload = () => kakao.maps.load(this.initMap);
+    //   script.src ='http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0c6121d667946c4583e303b2760cca80&libraries=services';
+    //   document.head.appendChild(script);
+    // }
+    this.initMap();
     document.addEventListener('click',this.handleToggle);
   },
   destroyed(){
