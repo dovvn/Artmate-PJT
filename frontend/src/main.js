@@ -10,6 +10,7 @@ Vue.config.productionTip = false
 import Carousel3d from 'vue-carousel-3d';
 Vue.use(Carousel3d)
 
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit ,faGlobeAmericas, faStar as fasStar} from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag, faStar as farStar} from '@fortawesome/free-regular-svg-icons'
@@ -27,6 +28,10 @@ library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,f
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+// 날짜형식
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
 
 //구글 로그인
 Vue.use(GAuth, {clientId: '586176925871-o9lo1kb9m1rgft73q8n4sicrh4knvlr6.apps.googleusercontent.com', scope: 'profile email https://www.googleapis.com/auth/plus.login'})

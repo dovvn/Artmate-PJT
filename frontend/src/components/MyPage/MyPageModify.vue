@@ -40,7 +40,7 @@
             name="password"
             v-model="password"
             placeholder="변경할 비밀번호를 입력하세요."
-            type="text"
+            type="password"
           />
            <p class="error" v-if="error.password">{{error.password}}</p>
           <br />
@@ -62,7 +62,7 @@
           />
         </form>
         <div id="favorite"> <!-- myTag  선택한 취향 보여주기 갱신~🎈 myTag -->
-          <p id="tag1">명화</p> <p>현대미술</p> <p>유화</p>
+          <p class="tag1" v-for="(tag,idx) in userInfo.myTag" :key="idx">{{tag}}</p>
         </div>
         </div>
         </div>
@@ -138,8 +138,8 @@ export default {
     this.imageUrl = this.userInfo.userImg;
     this.nickname = this.userInfo.userName;
 
-    console.log(this.userInfo);
-    console.log("img:"+this.imageUrl);
+    // console.log(this.userInfo);
+    // console.log("img:"+this.imageUrl);
 
     this.component = this;
     this.passwordSchema
@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     idCheckFunc() {
-      console.log(this.userInfo.userName);
+      // console.log(this.userInfo.userName);
       http
         .get(`/api/user/checkname/${this.userInfo.userName}`)
         .then(({ data }) => {
@@ -181,7 +181,7 @@ export default {
     },
     out:function(){
       // 유저 데이터 삭제
-      console.log("아이디:"+this.userInfo.userId);
+      // console.log("아이디:"+this.userInfo.userId);
       http
         .delete(`/api/user/`+this.userInfo.userId)
         .then(({ data }) => {
@@ -208,8 +208,8 @@ export default {
       formData.append("file", this.file);
       formData.append("user", new Blob([JSON.stringify(this.userInfo)], { type: "application/json" }));
       
-      console.log("file : "+this.file);
-      console.log("userImg : "+this.userInfo.userImg);
+      // console.log("file : "+this.file);
+      // console.log("userImg : "+this.userInfo.userImg);
 
       if(this.nickname != this.userInfo.userName){ // 변경을 하려면 중복체크 하도록 
         if(!this.idCheck){
@@ -224,7 +224,7 @@ export default {
             .then(({data}) => {
             if(data != 'fail'){
               // alert("수정이 완료되었습니다.");
-              console.log("store: "+this.$store);
+              // console.log("store: "+this.$store);
               this.userInfo.userImg = data; // 리턴받은 url 넣기 
               this.$store.commit('setUserInfo',this.userInfo);
               this.$router.push("/home")
@@ -245,7 +245,7 @@ export default {
         .then(({data}) => {
          if(data != 'fail'){
           // alert("수정이 완료되었습니다.");
-          console.log("store: "+this.$store);
+          // console.log("store: "+this.$store);
           this.userInfo.userImg = data;
           this.$store.commit('setUserInfo',this.userInfo);
           this.$router.push("/home")
@@ -449,9 +449,8 @@ export default {
     border-radius: 10px;
     float: left;
   }
-  #favorite>#tag1{
-    color: white;
-    background-color: #242424;
+  #favorite>.tag1{
+    color: var(--color-purple);
   }
   #changeFinish {
     color: white;
@@ -611,9 +610,8 @@ export default {
     border-radius: 10px;
     float: left;
   }
-  #favorite>#tag1{
-    color: white;
-    background-color: #242424;
+  #favorite>.tag1{
+    color: var(--color-purple);
   }
   #changeFinish {
     color: white;

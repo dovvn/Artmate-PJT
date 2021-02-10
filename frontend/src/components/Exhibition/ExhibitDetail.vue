@@ -22,7 +22,7 @@
               <div class="exInfo">
                   <div class="ex__date">
                     <div class="day"> 날짜 : </div>
-                    <div class="days"> {{exhibit.startDate}} ~ {{exhibit.endDate}} </div>
+                    <div class="days"> {{$moment(exhibit.startDate).format('YYYY-MM-DD')}} ~ {{$moment(exhibit.endDate).format('YYYY-MM-DD')}} </div>
                   </div>
                   <div class="ex__area">
                     <div class="area"> 장소 : </div>
@@ -30,20 +30,20 @@
                   </div>
                   <div class="ex__artist">
                     <div class="artist"> 작가 : </div>
-                    <div class="artists" v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
-                    <div class="artistTogle" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
+                    <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
+                    <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn">
+                    <div class="btn" v-if="exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
                   </div>
                   <div class="ex__text">
                     <div class="text"> 소개 : </div>
-                    <div class="texts" v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
-                    <div class="textTogle" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
+                    <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
+                    <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn">
+                    <div class="btn" v-if="exhibit.description.length > 61" >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
@@ -59,25 +59,14 @@
                 <div class="mention">
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
-                </div>
-
-                <swiper 
-                    class="review__list swiper"
-                    :slides-per-view="3"
-                    :space-between="50"
-                    @swiper="onSwiper"
-                    @slideChange="onSlideChange"
-                >
-                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
-                    <!-- <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
-                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
-                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
-                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide>
-                    <swiper-slide><img class="feed_img" src="../../assets/sample.jpg" alt="" ></swiper-slide> -->
                 
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>  
-                </swiper>
+                </div>
+                <div class="img">
+                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
+                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
+                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
+                </div>
+                
               </div>
           </div>
           <div class="bar"></div>
@@ -97,9 +86,7 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
-// import 'swiper/dist/css/swiper.css'
 
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -114,14 +101,12 @@ export default {
     name: "ExhibitDetail",
     components: {
         Navi,
-        Swiper,
-        SwiperSlide,
     },
     destroyed(){
-    document.removeEventListener('scroll',handleNavi);
+        document.removeEventListener('scroll',handleNavi);
     },
     mounted(){
-    document.addEventListener('scroll',handleNavi);
+        document.addEventListener('scroll',handleNavi);
     },
     data() {
         return {
@@ -142,21 +127,21 @@ export default {
                 userId:"",
             },
             showArtist: false,
-            showDes: false
+            showDes: false,
         };
     },
     created() {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
-        console.log(this.id);
+        console.log(this.userInfo,this.id);
         http
-        .get(`/api/exhibit/${this.userInfo.userId}/${this.id}`) 
+        .get(`api/exhibit/${this.userInfo.userId}/1`) 
         .then(res => {
-            console.log(res.data);
-            this.qna = res.data;
+            // console.log("데이터야 : "+res.data.exImg);
+            this.exhibit = res.data;
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
         });
     },
     methods:{
@@ -196,13 +181,6 @@ export default {
                     .catch((err) => console.log(err));
             }
         },
-        onSwiper(swiper) {
-            console.log(swiper);
-        },
-        onSlideChange() {
-            console.log('slide change');
-        },
-        
     }
 }
 </script>
@@ -239,7 +217,6 @@ export default {
         width: 280px;
         text-align: center;
         margin: 0 auto;
-        box-shadow: 0px 4px 10px gray;
         margin-bottom: 25px;
     }
     .bar{
@@ -258,6 +235,10 @@ export default {
     .ex__name{
         font-size: 20px;
         color: white;
+        display: inline-block;
+        width: 260px;
+        margin-left: 5px;
+        vertical-align: top;
     }
     .exContent, .exReview, .exRode{
         width: 320px;
@@ -299,22 +280,28 @@ export default {
         color: #FFFFFF;
         font-size: 14px;
         height: auto;
+        line-height: 1.25; 
     }
     .feeds{
         color: #FFFFFF;
         font-size: 12px;
     }
     .mention{
+
         margin-left: 10px;
+        line-height: 1; 
     }
     .review__list{
         margin-top: 10px;
         line-height: 100px;
     }
+    .img{
+        margin-top: 20px;
+    }
     .feed_img{
         width: 80px;
         height: 80px;
-        border-radius: 12px;
+        border-radius: 10px;
         vertical-align: middle;
         margin-right: 13px;
     }
@@ -329,6 +316,7 @@ export default {
         float: right;
         font-size: 12px;
         color: white;
+        margin-top: 5px;
     }
     .more{
         color: #A593DF;

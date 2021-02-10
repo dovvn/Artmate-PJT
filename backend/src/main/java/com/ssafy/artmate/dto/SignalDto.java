@@ -25,25 +25,37 @@ public class SignalDto {
 	private String img;
 	@ApiModelProperty(value="보내는 사람 닉네임(ex. 'ooo'님이 팔로우합니다)")
 	private String sendUserName;
+	@ApiModelProperty(value="전시회 이름")
+	private String exName;
+	
 	
 	public SignalDto() {}
-	public SignalDto(String getUserId, int exId, int sigType, int read) {
+	//전시회 알림
+	public SignalDto(String getUserId, int exId, int sigType, int read, String img, String sigDate, String exName) {
 		super();
 		this.getUserId = getUserId;
 		this.exId = exId;
 		this.sigType=sigType;
 		this.read = read;
+		this.img = img;
+		this.sigDate = sigDate;
+		this.exName = exName;
 	}
-	public SignalDto(String getUserId, String sendUserId, int sigType, int subType, int read) {
+	//피드관련 알림
+	public SignalDto(String getUserId, String sendUserId, int sigType, int subType, int read, String img, String sigDate, String sendUserName) {
 		super();
 		this.getUserId=getUserId;
 		this.sendUserId = sendUserId;
 		this.sigType=sigType;
 		this.subType = subType;
 		this.read = read;
+		this.img = img;
+		this.sigDate = sigDate;
+		this.sendUserName = sendUserName;
 	}
+	//전체
 	public SignalDto(int id, String userId, String sendUserId, int exId, String sigDate, int sigType, int subType,
-			int read, String img) {
+			int read, String img, String sendUserName, String exName) {
 		super();
 		this.id = id;
 		this.getUserId = userId;
@@ -54,6 +66,8 @@ public class SignalDto {
 		this.subType = subType;
 		this.read = read;
 		this.img = img;
+		this.sendUserName = sendUserName;
+		this.exName = exName;
 	}
 	public int getId() {
 		return id;
@@ -116,11 +130,19 @@ public class SignalDto {
 	public void setSendUserName(String sendUserName) {
 		this.sendUserName = sendUserName;
 	}
+	
+	public String getExName() {
+		return exName;
+	}
+	public void setExName(String exName) {
+		this.exName = exName;
+	}
 	@Override
 	public String toString() {
 		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", exId=" + exId
 				+ ", sigDate=" + sigDate + ", sigType=" + sigType + ", subType=" + subType + ", read=" + read + ", img="
-				+ img + ", sendUserName=" + sendUserName + "]";
+				+ img + ", sendUserName=" + sendUserName + ", exName=" + exName + "]";
 	}
+	
 	
 }
