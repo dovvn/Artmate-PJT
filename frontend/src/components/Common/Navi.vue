@@ -216,7 +216,7 @@ export default {
       this.$router.push('/myfeed');
     },
     logout(){
-      this.store.dispatch('LOGOUT')
+      this.$store.dispatch('LOGOUT')
       .then(()=>{
         this.$router.push({name:'Login'});
       })
@@ -556,5 +556,8 @@ export default {
     .big{
       font-weight: bold;
       font-size: 25px;
+    }
+    .ml{
+      cursor: pointer;
     }
 </style>
