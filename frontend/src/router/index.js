@@ -215,7 +215,7 @@ const routes = [
         component: ()=> import("@/components/Exhibition/ExhibitList.vue")
       },
       {
-        path:"detail/:exno",
+        path:"detail/:id",
         name:"ExhibitionDetail",
         component: ()=> import("@/components/Exhibition/ExhibitDetail.vue")
       },
