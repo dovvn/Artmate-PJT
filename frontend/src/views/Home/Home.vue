@@ -46,9 +46,7 @@
     <div class="recommend_box">
       <div class="recommend_tlt">Recommend</div>
       <div class="recommend_keyword_list">
-        <div class="recommend_keyword">영화</div>
-        <div class="recommend_keyword">현대예술</div>
-        <div class="recommend_keyword">유화</div>
+        <div @click="onClickTag" class="recommend_keyword" v-for="(tag,idx) in user.myTag" :key="idx" :id="tag">{{tag}}</div>
       </div>
       <div class="slide_box">
         <carousel-3d
@@ -65,12 +63,12 @@
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
-          <slide  style="background-color: transparent;cursor: pointer;" v-for="(item, i) in recommendList" :key="i" :index="i">
-            <img class="recommend_exhibition_poster a" :src="item.img" alt="" >
+          <slide style="background-color: transparent;cursor: pointer;" v-for="(item, i) in filteredRecList" :data-id="item.id" :key="i" :index="i">
+            <img @click="onClickRecEx" class="recommend_exhibition_poster a" :src="item.exImg" alt="" >
             <div class="recommend_exhibition_info b">
-              <p class="recommend_exhibition_tlt">{{item.title}}</p>
-              <p class="recommend_exhibition_place">{{item.place}}</p>
-              <p class="recommend_exhibition_duration">{{item.duration}}</p>
+              <p class="recommend_exhibition_tlt">{{item.name}}</p>
+              <p class="recommend_exhibition_place">{{item.location}}</p>
+              <p class="recommend_exhibition_duration">{{item.startDate}} ~ {{item.endDate}}</p>
             </div>
           </slide>
         </carousel-3d>
@@ -91,10 +89,12 @@
       </div>
       <div class="feed_list">
         <img
+          @click="onClickFeed"
           class="feed_item"
-          v-for="(image,idx) in images"
+          v-for="(item,idx) in popularList"
+          :data-feedno="item.id"
           :key="idx"
-          :src="image"
+          :src="item.feedImg"
           alt=""
         >
       </div>
@@ -152,62 +152,13 @@
 import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+import {getFeedList} from '@/api/home.js';
 import {getExhibitRecommend} from '@/api/exhibit.js';
-function handleNavi() {
-  const navbar = document.querySelector('#navi');
-  const navbarHeight = navbar.getBoundingClientRect().height;
-  if(window.scrollY > navbarHeight){
-    navbar.style.background="white";
-  }
-  else{
-    navbar.style.background="transparent";
-  }
-}
 export default {
   name: 'Home',
-  created(){
-    this.user=this.$store.getters.getUser;
-    console.log(this.user);
-    getExhibitRecommend(
-      
-    )
-  },
-  destroyed(){
-    document.removeEventListener('scroll',handleNavi);
-  },
-  mounted(){
-    document.addEventListener('scroll',handleNavi);
-    if(window.innerWidth<=1024){
-      this.carouselWidth=120;
-      this.carouselHeight=270;
-      this.carouselSpace=170;
-      this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
-    }
-    else{
-      this.carouselWidth=200;
-      this.carouselHeight=400;
-      this.carouselSpace=320;
-      this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
-    }
-    window.addEventListener('resize',()=>{
-      if (window.innerWidth<=1024){
-          this.carouselWidth=120;
-          this.carouselHeight=270;
-          this.carouselSpace=170;
-          this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
-      }
-      else{
-          this.carouselWidth=200;
-          this.carouselHeight=400;
-          this.carouselSpace=320;
-          this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
-      }
-    });
-    this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
-    this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
-  },
   data() {
     return{
+      recommend_tag:"",
       user:null,
       onlineCarouselClass:"",
       carouselWidth:0,
@@ -234,32 +185,9 @@ export default {
           duration: "21.01.13 ~ 21.02.28"
         },
       ],
-      recommendList:[
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide1_1.jpg'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-      ],
+      recommendList:[],
+      filteredRecList:[],
+      popularList:[],
       images:[
         require('../../assets/main/feed_1.png'),
         require('../../assets/main/feed_2.png'),
@@ -299,6 +227,65 @@ export default {
       ]
     }
   },
+  created(){
+    this.user=this.$store.getters.getUser;
+    this.recommend_tag=this.user.myTag[0];
+    getExhibitRecommend(
+      this.user.userId,
+      (res)=>{
+        this.recommendList=res.data;
+        this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
+        document.querySelector(`#${this.recommend_tag}`).classList.add('active');
+        document.addEventListener('scroll',this.handleNavi);
+        if(window.innerWidth<=1024){
+          this.carouselWidth=120;
+          this.carouselHeight=270;
+          this.carouselSpace=170;
+          this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+        }
+        else{
+          this.carouselWidth=200;
+          this.carouselHeight=400;
+          this.carouselSpace=320;
+          this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
+        }
+        window.addEventListener('resize',()=>{
+          if (window.innerWidth<=1024){
+              this.carouselWidth=120;
+              this.carouselHeight=270;
+              this.carouselSpace=170;
+              this.carouselStyle='margin: 20px 0 0 90px; overflow-x:hidden';
+          }
+          else{
+              this.carouselWidth=200;
+              this.carouselHeight=400;
+              this.carouselSpace=320;
+              this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
+          }
+        });
+        this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
+        this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
+      },
+      (err)=>{
+        console.error(err);
+      }
+    );
+    getFeedList(
+      this.user.userId,
+      (res)=>{
+        this.popularList=res.data.sort((a,b)=>{b.likeCnt-a.likeCnt}).slice(0,9);
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
+  },
+  destroyed(){
+    document.removeEventListener('scroll',this.handleNavi);
+  },
+  mounted(){
+
+  },
   components: {
     carousel,
     Navi,
@@ -306,15 +293,52 @@ export default {
     Slide
   },
   methods:{
+    handleNavi() {
+      const navbar = document.querySelector('#navi');
+      const navbarHeight = navbar.getBoundingClientRect().height;
+      if(window.scrollY > navbarHeight){
+        navbar.style.background="white";
+      }
+      else{
+        navbar.style.background="transparent";
+      }
+    },
+    onClickTag(e){
+      document.querySelector(`#${this.recommend_tag}`).classList.remove('active');
+      this.recommend_tag = e.target.id;
+      this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
+      document.querySelector(`#${this.recommend_tag}`).classList.add('active');
+    },
+    onClickRecEx(e){
+      const slide = e.path[1];
+      const ex_no = slide.dataset.id;
+      // console.log(slide.dataset.id);
+      // console.log(slide.className);
+      if(slide.className.includes('current')){
+        this.$router.replace({
+          name:"ExhibitionDetail",
+          params:{
+            ex_no,
+          }
+        })
+      }    
+    },
+    onClickFeed(e){
+      const feedno = e.target.dataset.feedno;
+      this.$router.replace({
+        name: "UserFeedDetail",
+        params: {feedno: feedno}
+      });
+    },
     onAfterSlideChange(idx){
-      const before = idx-1<0 ? 3 : idx-1;
+      const before = idx-1<0 ? this.filteredRecList.length-1 : idx-1;
       this.$refs.mycarousel.$children[before].$slots.default[0].elm.classList.add('a');
       this.$refs.mycarousel.$children[before].$slots.default[1].elm.classList.add('b');
       this.$refs.mycarousel.$children[idx].$slots.default[0].elm.classList.remove('a');
       this.$refs.mycarousel.$children[idx].$slots.default[1].elm.classList.remove('b');
     },
     onBeforeSlideChange(idx){
-      const next = idx+1>=4 ? 0 : idx+1;
+      const next = idx+1>=this.filteredRecList.length ? 0 : idx+1;
       this.$refs.mycarousel.$children[next].$slots.default[0].elm.classList.add('a');
       this.$refs.mycarousel.$children[next].$slots.default[1].elm.classList.add('b');
       this.$refs.mycarousel.$children[idx].$slots.default[0].elm.classList.remove('a');
