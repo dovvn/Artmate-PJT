@@ -78,10 +78,10 @@
     <div class="feed_box">
       <div class="feed_header">
         <div class="feed_tlt">Popular Feed</div>
-        <div class="feed_more_btn">
+        <button @click="onClickMoreFeed" class="feed_more_btn">
           <span>더보기 </span>
           <font-awesome-icon class="online_slide_right_btn" icon="chevron-right"/>
-        </div>
+        </button>
       </div>
       <div class="feed_message">
         <span>인기있는 피드를 만나보세요 </span>
@@ -104,10 +104,10 @@
     <div class="home_around_box">
       <div class="home_around_header">
         <div class="home_around_tlt">Around</div>
-        <div class="home_around_more_btn">
+        <button @click="onClickMoreAround" class="home_around_more_btn">
           <span>더보기</span>
           <font-awesome-icon class="online_slide_right_btn" icon="chevron-right"/>
-        </div>
+        </button>
       </div>
       <div class="home_around_message">
         <span>덕명동 주변 리스트입니다 </span>
@@ -318,7 +318,7 @@ export default {
         this.$router.replace({
           name:"ExhibitionDetail",
           params:{
-            ex_no,
+            id:ex_no,
           }
         })
       }    
@@ -329,6 +329,16 @@ export default {
         name: "UserFeedDetail",
         params: {feedno: feedno}
       });
+    },
+    onClickMoreFeed(){
+      this.$router.replace({
+        name: "FeedAll"
+      })
+    },
+    onClickMoreAround(){
+      this.$router.replace({
+        name: "Around"
+      })
     },
     onAfterSlideChange(idx){
       const before = idx-1<0 ? this.filteredRecList.length-1 : idx-1;
