@@ -71,7 +71,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {"no-unused-vars": "off", "no-mixed-spaces-and-tabs": 0},
+    "rules": {
+      "no-unused-vars": "off",
+      "no-mixed-spaces-and-tabs": 0
+    },
     "globals": {
       "kakao": false
     }
