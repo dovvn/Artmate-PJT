@@ -230,6 +230,18 @@ const routes = [
     path: "/3d",
     name: "3d",
     component: My3D,
+    children: [
+      {
+        path:"watch/:userId",
+        name:"3dWatch",
+        component: ()=> import("@/components/3D/Watch3D.vue")
+      },
+      {
+        path:"customize",
+        name:"3dCustomize",
+        component: ()=> import("@/components/3D/Customize3D.vue")
+      },
+    ],
   }
 ]
 
