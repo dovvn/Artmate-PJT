@@ -1,18 +1,60 @@
 <template>
-  <div id="blocker">
+	<div class="wholeScene">
 
-			<div id="instructions">
-				<div class="intro">
-					<span style="font-size:36px">전시회를 구경하세요!</span>
-					<br /><br />
-					움직임: WASD<br/>
-					보기: 마우스 이동
+	
+		<div id="blocker">
+				<div id="instructions">
+					<div class="intro" v-if="!isMobile()">
+						<span style="font-size:36px">전시회를 구경하세요!</span>
+						<br /><br />
+						움직임: WASD<br/>
+						시점 변화: 마우스 이동
+					</div>
+					<div class="intro" v-else>
+						<span style="font-size:36px">전시회를 구경하세요!</span>
+						<br /><br />
+						움직임: 왼쪽 하단 컨트롤러<br/>
+						시점 변화: 오른쪽 하단 컨트롤러
+					</div>
+					
 				</div>
-				
-        
-			</div>
-
 		</div>
+		
+		<button class="Exit__button" @click="goBack">
+			나가기
+		</button>
+		<div class="movePad" v-if="isMobile()">
+			<font-awesome-icon icon="walking" class="person__icon"/>
+			<button class="up__button button">
+				<font-awesome-icon icon="angle-up" class="pad__icon"/>
+			</button>
+			<button class="down__button button">
+				<font-awesome-icon icon="angle-down" class="pad__icon"/>
+			</button>
+			<button class="left__button button">
+				<font-awesome-icon icon="angle-left" class="pad__icon"/>
+			</button>
+			<button class="right__button button">
+				<font-awesome-icon icon="angle-right" class="pad__icon"/>
+			</button>
+			
+		</div>
+		<div class="cameraPad" v-if="isMobile()">
+			<font-awesome-icon icon="camera" class="camera__icon"/>
+			<button class="cameraLeft__button button">
+				<font-awesome-icon icon="angle-left" class="pad__icon"/>
+			</button>
+			<button class="cameraRight__button button">
+				<font-awesome-icon icon="angle-right" class="pad__icon"/>
+			</button>
+			<button class="cameraUp__button button">
+				<font-awesome-icon icon="angle-up" class="pad__icon"/>
+			</button>
+			<button class="cameraDown__button button">
+				<font-awesome-icon icon="angle-down" class="pad__icon"/>
+			</button>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -49,7 +91,8 @@ const box = white;
 //
 
 let camera, scene, renderer, controls;
-
+let vec = new THREE.Vector3();
+let euler = new THREE.Euler(0,0,0,'YXZ');
 const objects = [];
 
 let raycaster;
@@ -58,6 +101,12 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
+let moveCameraRight = false;
+let moveCameraLeft = false;
+let moveCameraUp = false;
+let moveCameraDown = false;
+let prev_touch_x = 0;
+let prev_touch_y = 0;
 let canJump = false;
 
 let prevTime = performance.now();
@@ -66,58 +115,104 @@ const direction = new THREE.Vector3();
 // const vertex = new THREE.Vector3();
 // const color = new THREE.Color();
 
+
+
+function mobileMoveForward(distance) {
+	vec.setFromMatrixColumn( camera.matrix, 0 );
+	vec.crossVectors( camera.up, vec );
+	camera.position.addScaledVector( vec, distance );
+}
+
+function mobileMoveRight(distance) {
+	vec.setFromMatrixColumn( camera.matrix, 0 );
+	camera.position.addScaledVector( vec, distance );
+}
+
+function mobileMoveCameraRight() {
+	euler.setFromQuaternion(camera.quaternion);
+	if(moveCameraRight) {
+		euler.y -= moveCameraRight * 0.006;
+	}
+	if(moveCameraLeft) {
+		euler.y += moveCameraLeft * 0.006;
+	}
+	euler.x = Math.max( Math.PI/2 - Math.PI, Math.min( Math.PI/2 - 0, euler.x ) );
+
+	camera.quaternion.setFromEuler(euler);
+}
+
+function mobileMoveCameraUp() {
+	euler.setFromQuaternion(camera.quaternion);
+	if(moveCameraUp) {
+		euler.x += moveCameraUp * 0.006;
+	}
+	if(moveCameraDown) {
+		euler.x -= moveCameraDown * 0.006;
+	}
+	euler.x = Math.max( Math.PI/2 - Math.PI, Math.min( Math.PI/2 - 0, euler.x ) );
+
+	camera.quaternion.setFromEuler(euler);
+}
+
 function animate() {
 
   requestAnimationFrame( animate );
 
   const time = performance.now();
+	if(screen.availWidth > 900) {
+		if ( controls.isLocked === true) {
+			
+			raycaster.ray.origin.copy( controls.getObject().position );
+			raycaster.ray.origin.y -= 10;
 
-  if ( controls.isLocked === true ) {
+			const intersections = raycaster.intersectObjects( objects );
 
-    raycaster.ray.origin.copy( controls.getObject().position );
-    raycaster.ray.origin.y -= 10;
+			const onObject = intersections.length > 0;
 
-    const intersections = raycaster.intersectObjects( objects );
+			const delta = ( time - prevTime ) / 1000;
 
-    const onObject = intersections.length > 0;
+			velocity.x -= velocity.x * 10.0 * delta;
+			velocity.z -= velocity.z * 10.0 * delta;
 
-    const delta = ( time - prevTime ) / 1000;
+			velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
-    velocity.x -= velocity.x * 10.0 * delta;
-    velocity.z -= velocity.z * 10.0 * delta;
+			direction.z = Number( moveForward ) - Number( moveBackward );
+			direction.x = Number( moveRight ) - Number( moveLeft );
+			direction.normalize(); // this ensures consistent movements in all directions
 
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+			if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
+			if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
-    direction.z = Number( moveForward ) - Number( moveBackward );
-    direction.x = Number( moveRight ) - Number( moveLeft );
-    direction.normalize(); // this ensures consistent movements in all directions
+			if ( onObject === true ) {
 
-    if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-    if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+				velocity.y = Math.max( 0, velocity.y );
+				canJump = true;
 
-    if ( onObject === true ) {
+			}
 
-      velocity.y = Math.max( 0, velocity.y );
-      canJump = true;
+			controls.moveRight( - velocity.x * delta );
+			controls.moveForward( - velocity.z * delta );
 
-    }
+		}
+	} 
+	else {
+		const delta = ( time - prevTime ) / 1000;
+		velocity.x -= velocity.x * 10.0 * delta;
+		velocity.z -= velocity.z * 10.0 * delta;
 
-    controls.moveRight( - velocity.x * delta );
-    controls.moveForward( - velocity.z * delta );
+		velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
-    controls.getObject().position.y += ( velocity.y * delta ); // new behavior
+		direction.z = Number( moveForward ) - Number( moveBackward );
+		direction.x = Number( moveRight ) - Number( moveLeft );
+		direction.normalize(); // this ensures consistent movements in all directions
 
-    if ( controls.getObject().position.y < 10 ) {
-
-      velocity.y = 0;
-      controls.getObject().position.y = 10;
-
-      canJump = true;
-
-    }
-
-  }
-
+		if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
+		if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;	
+		mobileMoveRight(- velocity.x * delta);
+		mobileMoveForward(- velocity.z * delta);
+		mobileMoveCameraRight();
+		mobileMoveCameraUp();
+	}
   prevTime = time;
 
   renderer.render( scene, camera );
@@ -132,14 +227,27 @@ function onWindowResize() {
 
   }
 function init() {
-      camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+      	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.y = 10;
 
 				scene = new THREE.Scene();
 				// scene.background = new THREE.Color( 0xffffff );
 				// scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-
+				const blocker = document.getElementById( 'blocker' );
+				const instructions = document.getElementById( 'instructions' );
+				const movePad = document.querySelector(".movePad")
+				const cameraPad = document.querySelector(".cameraPad")
+				
+				const upButton = document.querySelector(".up__button");
+				const downButton = document.querySelector(".down__button");
+				const leftButton = document.querySelector(".left__button");
+				const rightButton = document.querySelector(".right__button");
+				const cameraRightButton = document.querySelector(".cameraRight__button");
+				const cameraLeftButton = document.querySelector(".cameraLeft__button");
+				const cameraUpButton = document.querySelector(".cameraUp__button");
+				const cameraDownButton = document.querySelector(".cameraDown__button");
+				
 				// 빛
 				const light = new THREE.AmbientLight( 0xFFFFFF ,0.9); // soft white light
 				scene.add( light );
@@ -149,35 +257,92 @@ function init() {
 				
 				//
 
-				controls = new PointerLockControls( camera, document.body );
-
-				const blocker = document.getElementById( 'blocker' );
-				const instructions = document.getElementById( 'instructions' );
-
-				instructions.addEventListener( 'click', function () {
-
-					controls.lock();
-
-				} );
-
-				controls.addEventListener( 'lock', function () {
-
-					instructions.style.display = 'none';
-					blocker.style.display = 'none';
-
-				} );
-
-				controls.addEventListener( 'unlock', function () {
-
-					blocker.style.display = 'block';
-					instructions.style.display = '';
-
-				} );
-
-				scene.add( controls.getObject() );
+				//PC 일 때만 pointerlock에 연결 카메라 컨트롤
 				
+					if(screen.availWidth > 900) {
+						controls = new PointerLockControls( camera, document.body );
+						instructions.addEventListener( 'click', function () {
+							controls.lock();
+							
+						} );
+						
+						controls.addEventListener( 'lock', function () {
+
+							instructions.style.display = 'none';
+							blocker.style.display = 'none';
+
+						} );
+
+						controls.addEventListener( 'unlock', function () {
+
+							blocker.style.display = 'block';
+							instructions.style.display = '';
+
+						} );
+
+						scene.add( controls.getObject() );
+					} else {
+						instructions.addEventListener('touchstart', function() {
+							instructions.style.display = 'none';
+							// console.log('왜안사라짐');
+							blocker.style.display = 'none';
+						})
+					}
 				// 유저 움직임
 
+				//모바일
+				if(screen.availWidth < 900) {
+					upButton.addEventListener("touchstart", () => {
+						moveForward = true;
+					})
+					downButton.addEventListener("touchstart", () => {
+						moveBackward = true;
+					})
+					leftButton.addEventListener("touchstart", () => {
+						moveLeft = true;
+					})
+					rightButton.addEventListener("touchstart", () => {
+						moveRight = true;
+					})
+
+					upButton.addEventListener("touchend", () => {
+						moveForward = false;
+					})
+					downButton.addEventListener("touchend", () => {
+						moveBackward = false;
+					})
+					leftButton.addEventListener("touchend", () => {
+						moveLeft = false;
+					})
+					rightButton.addEventListener("touchend", () => {
+						moveRight = false;
+					})
+					cameraLeftButton.addEventListener("touchstart", () => {
+						moveCameraLeft = true;
+					})
+					cameraRightButton.addEventListener("touchstart", () => {
+						moveCameraRight = true;
+					})
+					cameraLeftButton.addEventListener("touchend", () => {
+						moveCameraLeft = false;
+					})
+					cameraRightButton.addEventListener("touchend", () => {
+						moveCameraRight = false;
+					})
+					cameraUpButton.addEventListener("touchstart", () => {
+						moveCameraUp = true;
+					})
+					cameraDownButton.addEventListener("touchstart", () => {
+						moveCameraDown = true;
+					})
+					cameraUpButton.addEventListener("touchend", () => {
+						moveCameraUp = false;
+					})
+					cameraDownButton.addEventListener("touchend", () => {
+						moveCameraDown = false;
+					})
+				}
+				//pc
 				const onKeyDown = function ( event ) {
 
 					switch ( event.code ) {
@@ -265,7 +430,6 @@ function init() {
         let imgCnt = 0;
 				const imgContainer_left = (imgUrl) => { 
           // console.log(loader.load(`${imgUrl}`))
-          console.log(new THREE.MeshLambertMaterial({map:loader.load(`${imgUrl}`)}));
           return [
 					woods,
 					woods,
@@ -414,7 +578,16 @@ export default {
     init();
     animate();
   },
-  
+  methods: {
+		goBack() {
+			//해당 유저피드로 이동
+			console.log('뒤로가!');
+		},
+		isMobile() {
+			// console.log(screen.availWidth);
+			return screen.availWidth < 900;
+		}
+	}
     
 }
 </script>
@@ -547,6 +720,94 @@ a, button, input, select {
 	background-color: #f00;
 	margin-top: 20px;
 	padding: 10px;
+}
+
+.Exit__button {
+	position:absolute;
+	right:20px;
+	top:20px;
+	border-radius:15px;
+	background: linear-gradient(270deg,#A593DF,#9279E9,#7D5BF4,#6D44FD );
+	color: white;
+	font-size:12px;
+	padding:5px;
+}
+
+.movePad {
+	position:fixed;
+	bottom:20px;
+	left:20px;
+	width:100px;
+	height:100px;
+	/* opacity:0.2; */
+}
+
+.cameraPad {
+	position:fixed;
+	bottom:20px;
+	right:30px;
+	width:100px;
+	height:100px;
+}
+
+.person__icon {
+	position:absolute;
+	width:30px;
+	color:white;
+	opacity:0.6;
+	height:30px;
+	left:42px;
+	bottom:40px;
+}
+
+.camera__icon {
+	position:absolute;
+	width:25px;
+	color:white;
+	opacity:0.6;
+	height:25px;
+	left:45px;
+	bottom:40px;
+}
+
+.button {
+	position:absolute;
+	font-size:60px;
+	width:45px;
+	height:45px;
+	/* background-color: black; */
+	color:white;
+	opacity: 0.6;
+	text-align:center;
+	line-height:45px;
+}
+
+.button:active {
+	opacity:1;
+}
+
+.up__button,
+.cameraUp__button {
+	left:35px;
+	bottom:75px;
+}
+
+.down__button,
+.cameraDown__button {
+	left:35px;
+	bottom:0px;	
+}
+
+.left__button,
+.cameraLeft__button {
+	left:0px;
+	bottom:35px;
+}
+
+.right__button,
+.cameraRight__button {
+	left:70px;
+	bottom:35px;
 }
 
 </style>
