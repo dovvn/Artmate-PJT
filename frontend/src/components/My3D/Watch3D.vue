@@ -69,11 +69,11 @@ const loader = new THREE.TextureLoader();
 // });
 
 const concreteWhite = new THREE.MeshLambertMaterial({
-      map:loader.load('test3D/whiteConcrete.jpg'),
+      map:loader.load('../../test3D/whiteConcrete.jpg'),
 });
-
+// console.log(concreteWhite)
 const woods = new THREE.MeshLambertMaterial({
-      map:loader.load('test3D/wood.jpg'),
+      map:loader.load('../../test3D/wood.jpg'),
 });
 
 //
@@ -423,9 +423,9 @@ function init() {
 
 				
 				//피드 이미지 담을거 만들기
-				const imgUrls = ['test3D/feed_1.png','test3D/feed_2.png','test3D/feed_3.png',
-				'test3D/feed_4.png','test3D/feed_5.png','test3D/feed_6.png',
-				'test3D/feed_7.png','test3D/feed_8.png','test3D/feed_9.png','test3D/feed34.JFIF',]
+				const imgUrls = ['../../test3D/feed_1.png','../../test3D/feed_2.png','../../test3D/feed_3.png',
+				'../../test3D/feed_4.png','../../test3D/feed_5.png','../../test3D/feed_6.png',
+				'../../test3D/feed_7.png','../../test3D/feed_8.png','../../test3D/feed_9.png','../../test3D/feed34.JFIF',]
 			
         let imgCnt = 0;
 				const imgContainer_left = (imgUrl) => { 

@@ -8,7 +8,7 @@
 
 
 export default {
-  name: "3D",
+  name: "My3D",
   components: {
   },
 };
