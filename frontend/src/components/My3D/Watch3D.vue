@@ -60,9 +60,10 @@
 <script>
 import { PointerLockControls } from './PointerLockControls.js';
 import * as THREE from './three.module.js';
+import http from "@/util/http-common";
 
 const loader = new THREE.TextureLoader();
-
+loader.setCrossOrigin('anonymous')
 //테마
 // const concreteWhite = new THREE.MeshLambertMaterial({
 //       map:loader.load('@/assets/test3D/whiteConcrete.jpg',     
@@ -168,7 +169,7 @@ function animate() {
 			const intersections = raycaster.intersectObjects( objects );
 
 			const onObject = intersections.length > 0;
-
+			
 			const delta = ( time - prevTime ) / 1000;
 
 			velocity.x -= velocity.x * 10.0 * delta;
@@ -226,7 +227,7 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
   }
-function init() {
+function init(feeds,theme) {
       	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.y = 10;
 
@@ -282,7 +283,8 @@ function init() {
 
 						scene.add( controls.getObject() );
 					} else {
-						instructions.addEventListener('touchstart', function() {
+						instructions.addEventListener('touchstart', function(event) {
+							event.preventDefault();
 							instructions.style.display = 'none';
 							// console.log('왜안사라짐');
 							blocker.style.display = 'none';
@@ -292,16 +294,20 @@ function init() {
 
 				//모바일
 				if(screen.availWidth < 900) {
-					upButton.addEventListener("touchstart", () => {
+					upButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveForward = true;
 					})
-					downButton.addEventListener("touchstart", () => {
+					downButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveBackward = true;
 					})
-					leftButton.addEventListener("touchstart", () => {
+					leftButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveLeft = true;
 					})
-					rightButton.addEventListener("touchstart", () => {
+					rightButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveRight = true;
 					})
 
@@ -317,10 +323,12 @@ function init() {
 					rightButton.addEventListener("touchend", () => {
 						moveRight = false;
 					})
-					cameraLeftButton.addEventListener("touchstart", () => {
+					cameraLeftButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveCameraLeft = true;
 					})
-					cameraRightButton.addEventListener("touchstart", () => {
+					cameraRightButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveCameraRight = true;
 					})
 					cameraLeftButton.addEventListener("touchend", () => {
@@ -329,10 +337,12 @@ function init() {
 					cameraRightButton.addEventListener("touchend", () => {
 						moveCameraRight = false;
 					})
-					cameraUpButton.addEventListener("touchstart", () => {
+					cameraUpButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveCameraUp = true;
 					})
-					cameraDownButton.addEventListener("touchstart", () => {
+					cameraDownButton.addEventListener("touchstart", (event) => {
+						event.preventDefault();
 						moveCameraDown = true;
 					})
 					cameraUpButton.addEventListener("touchend", () => {
@@ -408,6 +418,9 @@ function init() {
 				document.addEventListener( 'keyup', onKeyUp );
 
 				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+				// pick
+				
+				//
 
 				// floor
 
@@ -423,10 +436,18 @@ function init() {
 
 				
 				//피드 이미지 담을거 만들기
-				const imgUrls = ['../../test3D/feed_1.png','../../test3D/feed_2.png','../../test3D/feed_3.png',
+				let imgUrls = ['../../test3D/feed_1.png','../../test3D/feed_2.png','../../test3D/feed_3.png',
 				'../../test3D/feed_4.png','../../test3D/feed_5.png','../../test3D/feed_6.png',
 				'../../test3D/feed_7.png','../../test3D/feed_8.png','../../test3D/feed_9.png','../../test3D/feed34.JFIF',]
-			
+				if(feeds.length > 0) {
+					// console.log('feeds:',feeds);
+					imgUrls = feeds.map((feed) => {
+						// console.log(feed)
+						return feed.feedImg+'?timestamp=2';
+					})
+					// console.log('이미지주소',imgUrls);
+				}
+
         let imgCnt = 0;
 				const imgContainer_left = (imgUrl) => { 
           // console.log(loader.load(`${imgUrl}`))
@@ -574,14 +595,36 @@ function init() {
 				window.addEventListener( 'resize', onWindowResize );
     }
 export default {
+	data() {
+		return {
+			userId: 'jhw1234527@gmail.com',
+			feeds: [],
+			theme: {
+				ceil: '',
+				wall: '',
+				floor: '',
+			},
+		};
+	},
 	created() {
-		// 해당 유저의 전시회피드들을 가져온다.
-		// 그 다음 걔네를 imgurl => feeds에 담는다.
-		// init()에 인자로 준다음에 돌린다.
+		
 	},
   mounted() {
-    init();
-    animate();
+		// 해당 유저의 전시회피드들을 가져온다.
+		http
+		.get(`/api/feed/allList/{this.userId}`)
+		.then((response) => {
+			this.feeds = response.data;
+		})
+		.catch((error) => {
+			console.error(error);
+		})
+		.then(()=> {
+			init(this.feeds,this.theme);
+		})
+		.then(()=> {
+			animate();
+		})
   },
   methods: {
 		goBack() {
