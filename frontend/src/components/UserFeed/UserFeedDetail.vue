@@ -379,6 +379,9 @@ export default {
   * {
   box-sizing: border-box;
   }
+  .detail__navi {
+    background-color:white;
+  }
   
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
@@ -454,7 +457,7 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:70px;
+    /* padding-top:70px; */
     margin-bottom:5px;
   }
   .feed__like__button {
@@ -618,7 +621,7 @@ export default {
   }
   .sticky-top {
     position: sticky;
-    top:0px;
+    top:70px;
     z-index:1;
     /* padding-top:55px; */
     /* background-color:white; */
