@@ -28,7 +28,6 @@
                     </g>
                 </g>
             </svg>
-
         </button>
     </div>
 </template>
