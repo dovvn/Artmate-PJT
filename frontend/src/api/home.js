@@ -6,7 +6,7 @@ function getFeedList(userId,success,fail){
   instance
   .get(`api/feed/allList/${userId}`)
   .then(success)
-  .then(fail)
+  .catch(fail)
 }
 
 export {getFeedList}

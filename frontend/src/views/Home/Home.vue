@@ -188,17 +188,6 @@ export default {
       recommendList:[],
       filteredRecList:[],
       popularList:[],
-      images:[
-        require('../../assets/main/feed_1.png'),
-        require('../../assets/main/feed_2.png'),
-        require('../../assets/main/feed_3.png'),
-        require('../../assets/main/feed_4.png'),
-        require('../../assets/main/feed_5.png'),
-        require('../../assets/main/feed_6.png'),
-        require('../../assets/main/feed_7.png'),
-        require('../../assets/main/feed_8.png'),
-        require('../../assets/main/feed_9.png'),
-      ],
       aroundList:[
         {
           img:require('../../assets/main/slide1_1.jpg'),
@@ -235,8 +224,12 @@ export default {
       (res)=>{
         this.recommendList=res.data;
         this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
+        console.log(this.filteredRecList);
         document.querySelector(`#${this.recommend_tag}`).classList.add('active');
         document.addEventListener('scroll',this.handleNavi);
+        console.log(1231,this.$refs.mycarousel);
+        this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
+        this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
         if(window.innerWidth<=1024){
           this.carouselWidth=120;
           this.carouselHeight=270;
@@ -263,8 +256,6 @@ export default {
               this.carouselStyle='margin: 40px 0 0 130px; overflow-x:hidden';
           }
         });
-        this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
-        this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
       },
       (err)=>{
         console.error(err);
@@ -276,7 +267,7 @@ export default {
         this.popularList=res.data.sort((a,b)=>{b.likeCnt-a.likeCnt}).slice(0,9);
       },
       (err)=>{
-        console.log(err);
+        console.error(err);
       }
     )
   },
