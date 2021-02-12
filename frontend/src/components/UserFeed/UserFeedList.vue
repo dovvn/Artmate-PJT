@@ -437,6 +437,10 @@ export default {
   margin-top:10px;
   /* margin-bottom:10px; */
 }
+.writer__info__cntbox:hover,
+.feed__image__container:hover {
+  cursor:pointer;
+}
 .writer__info__cnt {
   font-weight:900;
   font-size:16px;
@@ -500,6 +504,7 @@ export default {
   width: 100%;
   height:100%;
   border-radius:10px;
+  object-fit:cover;
   /* padding:2px; */
 }
 .feed__writebutton {
