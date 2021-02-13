@@ -103,6 +103,7 @@
         <div class="feed__memo__write">
           <input v-model="memoInput.content" class="feed__memo__write__input" type="text">
           <button @click="addMemo" class="feed__memo__write__button">
+            >
           </button>
         </div>
       </div>

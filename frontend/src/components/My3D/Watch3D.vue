@@ -61,6 +61,7 @@
 import { PointerLockControls } from './PointerLockControls.js';
 import * as THREE from './three.module.js';
 import http from "@/util/http-common";
+import {mapState} from "vuex";
 
 const loader = new THREE.TextureLoader();
 loader.setCrossOrigin('anonymous')
@@ -589,6 +590,7 @@ function init(feeds,theme) {
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				
 				document.body.appendChild( renderer.domElement );
 
 
@@ -605,6 +607,9 @@ export default {
 				floor: '',
 			},
 		};
+	},
+	computed: {
+		...mapState(["user"])
 	},
 	created() {
 		
@@ -628,8 +633,23 @@ export default {
   },
   methods: {
 		goBack() {
-			//해당 유저피드로 이동
-			console.log('뒤로가!');
+			console.log(renderer.domElement);
+			document.body.removeChild(renderer.domElement);
+			if(this.$route.params.userId === this.user.userId) {
+				//마이피드로이동
+				this.$router.push({
+					name: "MyFeedList",
+				})
+			} else {
+				//해당 유저피드로 이동
+				this.$router.push({
+					name: "UserFeedList",
+					params: {
+						userId: this.$route.params.userId, 
+					}
+				})
+			}
+
 		},
 		isMobile() {
 			// console.log(screen.availWidth);
