@@ -33,12 +33,12 @@
         
       </div>
       <div class="exhibit_items">
-        <div class="exhibit_item" v-for="(item,idx) in filteredList" :key="idx">
-          <div class="exhibit_duration">{{item.startDate}} ~ {{item.endDate}}</div>
-          <img :src="item.exImg" alt="" class="exhibit_poster">
-          <div class="exhibit_box">
-            <div class="exhibit_tlt">
-              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf"/>
+        <div @click="onClickEx" class="exhibit_item" v-for="(item,idx) in filteredList" :key="idx" :data-id="item.id">
+          <div class="exhibit_duration" :data-id="item.id">{{item.startDate}} ~ {{item.endDate}}</div>
+          <img :src="item.exImg" alt="" class="exhibit_poster" :data-id="item.id">
+          <div class="exhibit_box" :data-id="item.id">
+            <div class="exhibit_tlt" :data-id="item.id">
+              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf" :data-id="item.id"/>
               {{item.name}}
             </div>
             <div class="exhibit_scrap">
@@ -159,6 +159,15 @@ export default {
     onClickDown(){
       const list = document.querySelector('.exhibit_list');
       list.scrollIntoView({behavior:'smooth'});
+    },
+    onClickEx(e){
+      // console.log(e.target.dataset.id);
+      this.$router.replace({
+        name:"ExhibitionDetail",
+        params:{
+          id:e.target.dataset.id,
+        }
+      })
     },
     // handleScroll(){
     //   const main = document.querySelector('.exhibit_main');

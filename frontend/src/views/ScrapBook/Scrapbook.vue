@@ -2,6 +2,29 @@
   <div id="scrap_app">
     <link rel="stylesheet" href="vue-booklet.min.css" />
     <Navi class="scrap__navi" />
+
+    <b-modal
+      id="pos-check-modal"
+      modal-class="pos-check-modal"
+      hide-header
+      hide-footer
+      centered
+      size="sm"
+    >
+      <div class="pos-check-modal-body">
+        <div class="pos-check-title">
+          스크랩북에서 제거하시겠습니까?
+        </div>
+        <button class="pos-check-yes-button" @click="deleteScrap()">예</button>
+        <button
+          class="pos-check-no-button"
+          @click="$bvModal.hide('pos-check-modal')"
+        >
+          아니오
+        </button>
+      </div>
+    </b-modal>
+
     <div id="container">
       <div id="ttl">
         <p class="title">Scrapbook</p>
@@ -15,53 +38,26 @@
 
       <!--스크랩북 리스트-->
       <ul id="bookList" class="list-inline">
-        <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
+        <li class="book" v-for="(item, idx) in scrap_list" :key="idx">
+          <font-awesome-icon
+            :icon="['fas', 'bookmark']"
+            class="bookmark"
+            @click="showCheckmodal(item.id)"
+          />
+          <img :src="item.exImg" alt="" @click="seeDetail(item.id)" />
+          <div class="exName">
+            <p>{{ item.name }}</p>
+          </div>
         </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-         <li class="book">
-          <div class="bookmark"></div>
-          <img src="http://37signals.com/images/remote/remote_front.png" />
-        </li>
-
       </ul>
+      <!--스크랩북 리스트-->
     </div>
   </div>
 </template>
 
 <script>
+import { getScrapBook } from "@/api/exhibit.js";
+import { deleteScrapBook } from "@/api/exhibit.js";
 import Navi from "@/components/Common/Navi.vue";
 import anime from "animejs";
 
@@ -72,10 +68,24 @@ export default {
   },
   data: () => {
     return {
-      shredding: null,
-      dropping: null,
+      scrap_list: [],
+      deleteId: "",
     };
   },
+  created() {
+    //스크랩한 전시회리스트 가져오기
+    const user = this.$store.getters.getUser;
+    getScrapBook(
+      user.userId,
+      (res) => {
+        this.scrap_list = res.data;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  },
+  watch: {},
   methods: {
     shred() {
       this.shredding = anime({
@@ -92,22 +102,50 @@ export default {
         easing: "linear",
       });
     },
-    artSelected(e) {
+    artSelected() {
       this.shredding.pause();
       this.dropping.pause();
+    },
+    seeDetail(exno) {
+      this.$router.replace({
+        name: "ExhibitionDetail",
+        params: { exno: exno },
+      });
+    },
+    showCheckmodal(id) {
+      this.deleteId = id;
+      this.$bvModal.show("pos-check-modal");
+    },
+    deleteScrap() {
+      //스크랩 제거
+      const user = this.$store.getters.getUser;
+
+      deleteScrapBook(
+        user.userId,
+        this.deleteId,
+        (res) => {
+          console.log("북마크 삭제 완료" + res.data);
+          this.$bvModal.hide("pos-check-modal");
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
     },
   },
   mounted: function() {
     this.shred();
   },
 };
-
-var colorList = ["red","orange","yellow","green","blue","purple"];
-
 </script>
 
-<style>
+<style scoped>
 @import "../../components/css/style.css";
+
+/* nav */
+.scrap__navi {
+  background-color: #313030;
+}
 
 
 
@@ -140,7 +178,7 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
 #ttl .title {
   display: inline;
   float: left;
-  font-size: 2.5em;
+  font-size: 2em;
   padding: 32px 0 0px 30px;
   color: #fff;
 }
@@ -149,11 +187,11 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
 #ttl .bookLogo {
   float: left;
   display: inline;
-  margin: 60px 0 0 15px;
+  margin: 55px 0 0 15px;
   transform: translateY(-50%);
   border: 3px solid #ecf0f1;
-  width: 50px;
-  height: 40px;
+  width: 48px;
+  height: 35px;
   background-color: #313030;
 }
 
@@ -166,8 +204,8 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
   border-bottom: 3px solid #ecf0f1;
   border-right: 3px solid #ecf0f1;
   background-color: #313030;
-  width: 25px;
-  height: 40px;
+  width: 24px;
+  height: 35px;
   transform-origin: 0% 50%;
   -webkit-animation: flip 1.2s infinite linear;
   animation: flip 1.2s infinite linear;
@@ -176,18 +214,18 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
 }
 .book__page:nth-child(1) {
   z-index: -1;
-  -webkit-animation-delay: 2.4s;
-  animation-delay: 2.4s;
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
 }
 .book__page:nth-child(2) {
   z-index: -2;
-  -webkit-animation-delay: 3.8s;
-  animation-delay: 3.8s;
+  -webkit-animation-delay: 1.8s;
+  animation-delay: 1.8s;
 }
 .book__page:nth-child(3) {
   z-index: -3;
-  -webkit-animation-delay: 5.2s;
-  animation-delay: 5.2s;
+  -webkit-animation-delay: 3.2s;
+  animation-delay: 3.2s;
 }
 
 @keyframes flip {
@@ -227,19 +265,17 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
+
 .bookmark {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -5px;
+  right: 15px;
   z-index: 999;
-  height: 70px;
-  width: 50px;
   padding: 0px;
   -webkit-transform: rotate(0deg) skew(0deg);
   transform: rotate(0deg) skew(0deg);
-  border-left: 25px solid rgb(153, 50, 204);
-  border-right: 25px solid rgb(153, 50, 204);
-  border-bottom: 25px solid transparent;
+  color: #a593df;
+  font-size: 60px;
 }
 
 /* 리스트  */
@@ -250,6 +286,25 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
   position: relative;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.book:nth-child(2n){
+  top:35px;
+}
+
+.book .exName {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.6;
+}
+
+.book .exName p {
+  padding-top: 10px;
+  color: #fff;
+  font-size: 12px;
 }
 
 #bookList {
@@ -267,7 +322,7 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
 .list-inline > li {
   display: inline-block;
   margin-right: 1.5em;
-  margin-bottom: 5.5em;
+  margin-bottom: 4.5em;
 }
 .list-inline > li:last-child {
   margin-right: 0;
@@ -334,6 +389,64 @@ var colorList = ["red","orange","yellow","green","blue","purple"];
   text-align: left;
   margin: 0 auto;
   background-color: #313030;
+}
+
+/* -------------------------모달 css ----------------------------- */
+.pos-check-yes-button {
+  color: white;
+  background-color: #cb3e47;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 100px;
+  height: 30px;
+}
+.pos-check-no-button {
+  color: #f3f3f3;
+  background-color: #707070;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 100px;
+  height: 30px;
+  margin-left: 15px;
+}
+::v-deep .pos-check-modal > .modal-dialog > .modal-content {
+  background-color: #e8e8e8;
+  border: 1px solid #707070;
+  border-radius: 15px;
+  font-size: 14px;
+  width: 310px;
+  margin: auto;
+}
+::v-deep .pos-check-modal2 > .modal-dialog > .modal-content {
+  background-color: #e8e8e8;
+  border: 1px solid #707070;
+  border-radius: 15px;
+  font-size: 14px;
+  width: 310px;
+  margin: auto;
+}
+.pos-check-title {
+  height: 60px;
+  line-height: 60px;
+  font-weight: 700;
+}
+.pos-check-modal-body {
+  text-align: center;
+}
+.transparent {
+  background: transparent;
+
+  height: 55px;
+}
+.white {
+  background: white;
+}
+.goBack__button {
+  font-size: 22px;
+  position: fixed;
+  z-index: 3;
+  top: 30px;
+  margin-left: 10px;
 }
 
 /* ------------------------------ 반응형 ------------------------------ */

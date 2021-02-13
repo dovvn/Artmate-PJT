@@ -9,7 +9,6 @@ function getExhibitList(userId,success,fail){
   .catch(fail)
 }
 
-
 function getExhibitRecommend(userId,success,fail){
   instance
   .get(`api/exhibit/recommend/${userId}`)
@@ -24,4 +23,18 @@ function getListForMap(success,fail){
   .catch(fail)
 }
 
-export {getExhibitList, getExhibitRecommend, getListForMap}
+function getScrapBook(userId, success, fail){
+  instance
+  .get(`api/scrapbook/${userId}`)
+  .then(success)
+  .catch(fail)
+}
+
+function deleteScrapBook(userId, id, success, fail){
+  instance
+  .delete(`api/scrapbook/${userId}/${id}`)
+  .then(success)
+  .catch(fail)
+}
+
+export {getExhibitList, getExhibitRecommend, getListForMap, getScrapBook, deleteScrapBook}
