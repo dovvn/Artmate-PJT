@@ -96,7 +96,7 @@
 }
 .around_list_item_box {
   display: flex;
-  justify-content: center;
+  /* justify-content: space-between; */
   cursor: pointer;
   padding: 10px;
 }
