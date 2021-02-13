@@ -15,7 +15,7 @@
         <span>현재 우리 지역의 전시회</span>
       </div>
       <div class="around_header_place">
-        <span><font-awesome-icon :icon="['far', 'flag']"/>대전광역시</span>
+        <span><font-awesome-icon :icon="['far', 'flag']"/> {{currentPlace}}</span>
       </div>
     </div>
 
@@ -25,7 +25,7 @@
       <div class="around_list_nav">
         <div></div>
         <div></div>
-        <div v-if="isToggled" class="around_list_nav_tlt">전시회 목록</div>
+        <div class="around_list_nav_tlt">{{selectedLocation}}</div>
         <button v-if="!isToggled" @click="onToggle" class="around_list_toggle_btn">목록보기</button>
         <button v-else @click="onToggle" class="around_list_toggle_btn">숨기기</button>
       </div>
@@ -35,15 +35,15 @@
           v-for="(item,idx) in aroundEx"
           :key="idx"
         >
-          <div class="around_list_item_box">
-            <img :src="item.img" alt="" class="around_list_item_img">
-            <div class="around_list_item_info">
-              <p class="around_list_item_tlt">
-                <font-awesome-icon class="feed_message_icon" icon="leaf"/>{{item.title}}
+          <div @click="onClickEx" :data-id="item.id" class="around_list_item_box">
+            <img :src="item.exImg" :data-id="item.id" alt="" class="around_list_item_img">
+            <div class="around_list_item_info" :data-id="item.id" >
+              <p class="around_list_item_tlt" :data-id="item.id" >
+                <font-awesome-icon class="feed_message_icon" icon="leaf" :data-id="item.id" />{{item.name}}
               </p>
-              <p class="around_list_item_place">
-                <font-awesome-icon class="feed_message_icon" icon="map-marker-alt"/>
-                {{item.place}}
+              <p class="around_list_item_place" :data-id="item.id" >
+                <font-awesome-icon class="feed_message_icon" icon="map-marker-alt" :data-id="item.id" />
+                {{item.location}}
               </p>
             </div>
           </div>
@@ -54,91 +54,104 @@
 </template>
 
 <script>
-// import AroundList from '@/components/Around/AroundList.vue'
+import {getListForMap} from '@/api/exhibit.js'
 export default {
 
   name: "Around",
   data(){
     return{
+      currentPlace:"",
       isToggled:false,
-      aroundList:[
-        {
-          img:require('../../assets/main/slide1_1.jpg'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-      ]
+      idx:0,
+      selectedLocation:"",
+      aroundList:[]
     }
   },
   computed:{
     aroundEx(){
       if(!this.isToggled){
-        return [this.aroundList[0]];
+        if(this.selectedLocation==="") return [];
+        // console.log(this.selectedLocation);
+        let tmp=[];
+        let a = this.aroundList.filter(item=>item.location===this.selectedLocation);
+        tmp.push(a[0]);
+        return tmp;
       }
       else{
-        return this.aroundList;
+        return this.aroundList.filter(item=>item.location===this.selectedLocation);
       }
     }
   },
+  created(){
+    getListForMap(
+      (res)=>{
+        this.aroundList=res.data;
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+              center: new kakao.maps.LatLng(37.49887, 127.026581), // 지도의 중심좌표
+              level: 3, // 지도의 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        var geocoder = new kakao.maps.services.Geocoder();
+        // 주소로 좌표를 검색합니다
+        let ps = new kakao.maps.services.Places();
+        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+        let obj= new Object();
+        for(let i=0; i<this.aroundList.length; i++){
+          if(obj[this.aroundList[i].location]===undefined){
+            obj[this.aroundList[i].location]=[this.aroundList[i]]
+          }
+          else{
+            obj[this.aroundList[i].location].push(this.aroundList);
+          }
+        }
+        let flag=false;
+        for(let key in obj){
+          ps.keywordSearch(key,(data)=>{
+            for(let arr of data){
+              if(arr.category_group_name==="문화시설"){
+                var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
+                var imageSize = new kakao.maps.Size(24, 35);
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                var marker = new kakao.maps.Marker({
+                    map: map, // 마커를 표시할 지도
+                    position: new kakao.maps.LatLng(Number(arr.y), Number(arr.x)), // 마커를 표시할 위치
+                    title : key, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    image : markerImage // 마커 이미지 
+                });
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: key, // 인포윈도우에 표시할 내용
+                });
+                (function(marker, infowindow) {
+                  kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    infowindow.open(map, marker);
+                  });
+                  kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                  });
+                  // kakao.maps.event.addListener(marker, 'click', function() {
+                  //   this.selectedLocation=marker.Fb;
+                  //   console.log(this.selectedLocation,marker.Fb);
+                  // });
+                })(marker, infowindow);
+                if(!flag){
+                  this.selectedLocation=key;
+                  map.setCenter(coords);
+                  flag=true;
+                }
+                break;
+              }
+            }
+          })
+        }
+      },
+      (err)=>{
+        console.error(err);
+      }
+    )
+  },
   mounted(){
-    // if (window.kakao && window.kakao.maps) {
-    //   this.initMap();
-    // } else {
-    //   const script = document.createElement('script');
-      
-    //   script.onload = () => kakao.maps.load(this.initMap);
-    //   script.src ='http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0c6121d667946c4583e303b2760cca80&libraries=services';
-    //   document.head.appendChild(script);
-    // }
     this.initMap();
     document.addEventListener('click',this.handleToggle);
   },
@@ -147,12 +160,19 @@ export default {
   },
   methods:{
     handleToggle(e){
-      // console.log(typeof e.target.classList['around_list']);
-      if(this.isToggled)
+      // console.log(e);
+      if(this.isToggled){
         if(typeof e.target.className == 'object' || 
         typeof e.target.className == 'string' && 
         !e.target.className.includes('around_list'))
           this.onToggle();
+      }
+      else{
+        if(e.target.tagName==="IMG" && e.target.src==="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"){
+          this.selectedLocation=e.target.title;
+          // console.log(this.selectedLocation);
+        }
+      }
     },
     onBack(){
       history.back();
@@ -179,51 +199,47 @@ export default {
       
     },
     initMap() {
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-          mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3, // 지도의 확대 레벨
-          };
+      let place = "";
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lat = position.coords.latitude, // 위도
+              lon = position.coords.longitude; // 경도
+          var geocoder = new kakao.maps.services.Geocoder();
+          
+          geocoder.coord2Address(lon,lat, (res)=>{
+            place=res[0].address.region_1depth_name + ' ' + res[0].address.region_2depth_name;
+          });
+        });
+        setTimeout(()=>{
+          this.setCurrentPlace(place);
+          // console.log(this.currentPlace);
+        },500);
+      }
+      else{
+        this.setCurrentPlace("서울")
+      }
 
-      var map = new kakao.maps.Map(mapContainer, mapOption);
-      // 주소-좌표 변환 객체를 생성합니다
-      var geocoder = new kakao.maps.services.Geocoder();
-
-      // 주소로 좌표를 검색합니다
-      geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-          // 정상적으로 검색이 완료됐으면 
-          if (status === kakao.maps.services.Status.OK) {
-
-              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-              // 결과값으로 받은 위치를 마커로 표시합니다
-              var marker = new kakao.maps.Marker({
-                  map: map,
-                  position: coords
-              });
-
-              // 인포윈도우로 장소에 대한 설명을 표시합니다
-              var infowindow = new kakao.maps.InfoWindow({
-                  content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-              });
-              infowindow.open(map, marker);
-
-              // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-              map.setCenter(coords);
-          } 
-      });
       // var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
       // var marker = new kakao.maps.Marker({
       //     position: markerPosition
       // });
       // marker.setMap(map);
     },
+    setCurrentPlace(place){
+      this.currentPlace=place;
+    },
+    onClickEx(e){
+      // console.log(e.target.dataset.id);
+      this.$router.replace({
+        name:"ExhibitionDetail",
+        params:{
+          id:e.target.dataset.id,
+        }
+      })
+    },
   },
 };
 </script>
 
-<style scoped>
-  @import '../../components/css/style.css';
-  @import '../../components/css/Around/around.module.css';
+<style scoped src="../../components/css/Around/around.module.css">
 </style>

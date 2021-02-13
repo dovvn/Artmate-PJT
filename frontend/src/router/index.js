@@ -15,7 +15,7 @@ import UserFeed from '@/views/UserFeed/UserFeed.vue'
 import Around from '@/views/Around/Around.vue'
 import Exhibition from '@/views/Exhibition/Exhibit.vue'
 import ScrapBook from '@/views/ScrapBook/Scrapbook.vue'
-import My3D from '@/views/3D/3D.vue'
+import My3D from '@/views/My3D/My3D.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -215,7 +215,7 @@ const routes = [
         component: ()=> import("@/components/Exhibition/ExhibitList.vue")
       },
       {
-        path:"detail/:exno",
+        path:"detail/:id",
         name:"ExhibitionDetail",
         component: ()=> import("@/components/Exhibition/ExhibitDetail.vue")
       },
@@ -227,9 +227,21 @@ const routes = [
     component: ScrapBook
   },
   {
-    path: "/3d",
-    name: "3d",
+    path: "/My3d",
+    name: "My3d",
     component: My3D,
+    children: [
+      {
+        path:"watch/:userId",
+        name:"3dWatch",
+        component: ()=> import("@/components/My3D/Watch3D.vue")
+      },
+      {
+        path:"customize",
+        name:"3dCustomize",
+        component: ()=> import("@/components/My3D/Customize3D.vue")
+      },
+    ],
   }
 ]
 

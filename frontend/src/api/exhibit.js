@@ -9,7 +9,6 @@ function getExhibitList(userId,success,fail){
   .catch(fail)
 }
 
-
 function getExhibitRecommend(userId,success,fail){
   instance
   .get(`api/exhibit/recommend/${userId}`)

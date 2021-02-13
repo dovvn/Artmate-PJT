@@ -135,7 +135,7 @@ export default {
         this.id = this.$route.params.id;
         console.log(this.userInfo,this.id);
         http
-        .get(`api/exhibit/${this.userInfo.userId}/1`) 
+        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) 
         .then(res => {
             // console.log("데이터야 : "+res.data.exImg);
             this.exhibit = res.data;
