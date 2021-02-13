@@ -1,7 +1,6 @@
 <template>
-  <div id="scrap_app">
-    <link rel="stylesheet" href="vue-booklet.min.css" />
-    <Navi class="scrap__navi" />
+  <div class="scrap_app">
+    <Navi class="scrap_nav" />
 
     <b-modal
       id="pos-check-modal"
@@ -34,7 +33,7 @@
           <div class="book__page"></div>
         </div>
       </div>
-      <p class="txt">당신만의 "아트 스크랩북"을 만들어보세요😉</p>
+      <p class="txt">당신만의 '아트 스크랩북'을 만들어보세요😉</p>
 
       <!--스크랩북 리스트-->
       <ul id="bookList" class="list-inline">
@@ -73,17 +72,8 @@ export default {
     };
   },
   created() {
-    //스크랩한 전시회리스트 가져오기
-    const user = this.$store.getters.getUser;
-    getScrapBook(
-      user.userId,
-      (res) => {
-        this.scrap_list = res.data;
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    this.getScrapBook();
+    document.getElementsByClassName(".navi_item").style.color="#FFF";
   },
   watch: {},
   methods: {
@@ -125,7 +115,21 @@ export default {
         this.deleteId,
         (res) => {
           console.log("북마크 삭제 완료" + res.data);
+          this.getScrapBook();
           this.$bvModal.hide("pos-check-modal");
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    },
+    getScrapBook() {
+      //스크랩한 전시회리스트 가져오기
+      const user = this.$store.getters.getUser;
+      getScrapBook(
+        user.userId,
+        (res) => {
+          this.scrap_list = res.data;
         },
         (err) => {
           console.error(err);
@@ -141,13 +145,20 @@ export default {
 
 <style scoped>
 @import "../../components/css/style.css";
+@import '../../components/css/navi.css'; 
 
 /* nav */
-.scrap__navi {
+.scrap_nav {
   background-color: #313030;
 }
 
+.bm-burger-bars {
+  background-color: white;
+}
 
+.navi_item  {
+  color: white;
+}
 
 #container {
   float: left;
@@ -288,8 +299,8 @@ export default {
   border-bottom-right-radius: 5px;
 }
 
-.book:nth-child(2n){
-  top:35px;
+.book:nth-child(2n) {
+  top: 35px;
 }
 
 .book .exName {
@@ -337,7 +348,7 @@ export default {
   position: relative;
   background: white;
   z-index: 1;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 9px 20px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.45), 0 9px 20px 0 rgba(0, 0, 0, 0.55);
   overflow: hidden;
   transition: box-shadow 0.3s linear;
 }
@@ -383,7 +394,8 @@ export default {
   font-family: NanumBarunGothic;
   box-sizing: border-box;
 }
-#scrap_app {
+
+.scrap_app {
   width: 760px;
   height: 100%;
   text-align: left;
@@ -435,7 +447,6 @@ export default {
 }
 .transparent {
   background: transparent;
-
   height: 55px;
 }
 .white {
@@ -451,7 +462,7 @@ export default {
 
 /* ------------------------------ 반응형 ------------------------------ */
 @media screen and (max-width: 1024px) {
-  #scrap_app {
+  .scrap_app {
     width: 380px;
     height: 100%;
     background-color: #313030;
