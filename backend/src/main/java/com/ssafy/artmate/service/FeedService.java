@@ -22,4 +22,8 @@ public interface FeedService{
 	boolean modifyLikeCnt(FeedDto feed); //피드 좋아요 수 수정
 	boolean modifyFeedImg(FeedDto feed); //피드 이미지 변경
 	List<FeedDto> selectAllFeed(String userId); //전체 피드목록 반환
+	boolean insertFeedExhibit(String userId, int feedId); //전시할 피드 저장
+	boolean deleteFeedExhibit(String userId, int feedId); //전시에서 피드 삭제
+	List<FeedDto> selectFeedExhibit(String userId); //전시한 피드 정보 가져오기
+	boolean checkFeedExhibit(String userId, int feedId); //전시할 피드에 저장되어 있는지 확인
 }

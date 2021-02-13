@@ -107,4 +107,23 @@
 		FROM Feed INNER JOIN User USING(userId)
 		ORDER BY writeDate DESC
 	</select>
+	<insert id="insertFeedExhibit">
+		INSERT INTO FeedExhibit (userId, feedId)
+		VALUES (#{userId}, #{feedId})
+	</insert>
+	<delete id="deleteFeedExhibit">
+		DELETE FROM FeedExhibit WHERE userId=#{userId} and feedId=#{feedId}
+	</delete>
+	<select id="selectFeedExhibit" parameterType="String" resultType="FeedDto">
+		SELECT f.*,IF(f.id IN (SELECT feedId FROM Bookmark WHERE userId=#{userId}), 1, 0) AS bookmark,
+			IF(f.id IN (SELECT feedId FROM Likemark WHERE userId=#{userId}), 1, 0) AS likemark,
+			(SELECT COUNT(id) FROM Comment WHERE Comment.feedId = f.id) AS commentCnt
+		FROM Feed f INNER JOIN FeedExhibit fe ON f.id = fe.feedId
+		WHERE fe.userId=#{userId}
+	</select>
+	<select id="checkFeedExhibit" resultType="int">
+		SELECT COUNT(*) 
+		FROM FeedExhibit 
+		WHERE userId=#{userId} and feedId=#{feedId}
+	</select>
 </mapper>
