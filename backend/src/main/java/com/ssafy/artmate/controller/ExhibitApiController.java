@@ -37,7 +37,7 @@ import io.swagger.annotations.Api;
 
 @Component
 @Controller
-public class ExhibitApiController implements ApplicationRunner{
+public class ExhibitApiController implements ApplicationRunner{ //서버 실행시 한번만 실행
 
 	static final String ServiceKey = "5a54466f6c756e6e3130324c50755745"; // 인증키
 //	static final String serviceKey2 = "NqI6L9Nl8SlLgNXMyLF58LZGxXkKHFpjhA9qPrtrs2uKoopI1HS%2BuiGF4mmq69ug48RLB3DlcoLEG60FYBCbQg%3D%3D"; //인증키2

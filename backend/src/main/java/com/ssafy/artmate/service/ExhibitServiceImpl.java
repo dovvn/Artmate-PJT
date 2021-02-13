@@ -87,4 +87,19 @@ public class ExhibitServiceImpl implements ExhibitService{
 	public List<FeedDto> selectFeeds(int id) {
 		return sqlSession.getMapper(ExhibitMapper.class).selectFeeds(id);
 	}
+
+	@Override
+	public ExhibitDto selectExhibitByVrLink(String vrLink) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectExhibitByVrLink(vrLink);
+	}
+
+	@Override
+	public boolean insertOnlineExhibit(ExhibitDto dto) {
+		return sqlSession.getMapper(ExhibitMapper.class).insertOnlineExhibit(dto)==1;
+	}
+
+	@Override
+	public List<ExhibitDto> selectAllOnlineExhibit() {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllOnlineExhibit();
+	}
 }
