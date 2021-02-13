@@ -61,6 +61,8 @@
 import { PointerLockControls } from './PointerLockControls.js';
 import * as THREE from './three.module.js';
 import http from "@/util/http-common";
+import {mapState} from "vuex";
+
 
 const loader = new THREE.TextureLoader();
 loader.setCrossOrigin('anonymous')
@@ -162,16 +164,7 @@ function animate() {
   const time = performance.now();
 	if(screen.availWidth > 900) {
 		if ( controls.isLocked === true) {
-			
-			raycaster.ray.origin.copy( controls.getObject().position );
-			raycaster.ray.origin.y -= 10;
-
-			const intersections = raycaster.intersectObjects( objects );
-
-			const onObject = intersections.length > 0;
-			
 			const delta = ( time - prevTime ) / 1000;
-
 			velocity.x -= velocity.x * 10.0 * delta;
 			velocity.z -= velocity.z * 10.0 * delta;
 
@@ -184,12 +177,6 @@ function animate() {
 			if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
 			if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
-			if ( onObject === true ) {
-
-				velocity.y = Math.max( 0, velocity.y );
-				canJump = true;
-
-			}
 
 			controls.moveRight( - velocity.x * delta );
 			controls.moveForward( - velocity.z * delta );
@@ -215,7 +202,6 @@ function animate() {
 		mobileMoveCameraUp();
 	}
   prevTime = time;
-
   renderer.render( scene, camera );
 
 }
@@ -418,9 +404,14 @@ function init(feeds,theme) {
 				document.addEventListener( 'keyup', onKeyUp );
 
 				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-				// pick
 				
-				//
+				
+				
+				
+				
+				
+				
+				
 
 				// floor
 
@@ -589,8 +580,9 @@ function init(feeds,theme) {
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				
 				document.body.appendChild( renderer.domElement );
-
+				const canvas = renderer.domElement;
 
 				window.addEventListener( 'resize', onWindowResize );
     }
@@ -605,6 +597,9 @@ export default {
 				floor: '',
 			},
 		};
+	},
+	computed: {
+		...mapState(["user"])
 	},
 	created() {
 		
@@ -628,8 +623,23 @@ export default {
   },
   methods: {
 		goBack() {
-			//해당 유저피드로 이동
-			console.log('뒤로가!');
+			console.log(renderer.domElement);
+			document.body.removeChild(renderer.domElement);
+			if(this.$route.params.userId === this.user.userId) {
+				//마이피드로이동
+				this.$router.push({
+					name: "MyFeedList",
+				})
+			} else {
+				//해당 유저피드로 이동
+				this.$router.push({
+					name: "UserFeedList",
+					params: {
+						userId: this.$route.params.userId, 
+					}
+				})
+			}
+
 		},
 		isMobile() {
 			// console.log(screen.availWidth);
