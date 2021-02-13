@@ -1,6 +1,4 @@
 <template>
-  
-    
     <div class="feed">
       <Navi class="detail__navi"/>
       <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
@@ -104,13 +102,9 @@
         <div class="feed__memo__write">
           <input v-model="memoInput.content" class="feed__memo__write__input" type="text">
           <button @click="addMemo" class="feed__memo__write__button">
-            >
           </button>
         </div>
-        
       </div>
-      
-      
     </div>
 </template>
 
@@ -168,7 +162,6 @@ export default {
       console.log(memoId);
       console.log(this.delete_memoId);
       this.$bvModal.show('pos-check-modal');
-      
     },
     addMemo() {
       console.log(this.memoInput.content,'등록');
