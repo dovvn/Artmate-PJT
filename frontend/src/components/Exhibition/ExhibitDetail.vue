@@ -39,7 +39,7 @@
                     <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
                     <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn" v-if="exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
+                    <div class="btn" v-if="exhibit.artist != null && exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
                     <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn" v-if="exhibit.description.length > 61" >
+                    <div class="btn" v-if="exhibit.description != null && exhibit.description.length > 61 " >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
@@ -79,7 +79,7 @@
                         class="feed_img"
                         v-for="f in feed" :key="f.id"
                         :image="f.feedImg"
-                        @click="goUserFeedDetail(f.id)">
+                        @click.native ="goUserFeedDetail(f.id)">
                     </vueper-slide>
                 </vueper-slides>
                 
@@ -173,6 +173,7 @@ export default {
         .then(res => {
             console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
+            console.log("솔묭ㅋㅋ"+this.exhibit.description);
         })
         .catch(err => {
             console.error(err);
@@ -230,10 +231,10 @@ export default {
         },
         goUserFeedDetail(feedno){ // 피드 게시물로 이동
             console.log(feedno);
-            // this.$router.replace({
-            //     name: "UserFeedDetail",
-            //     params: {feedno: feedno}
-            // });
+            this.$router.replace({
+                name: "UserFeedDetail",
+                params: {feedno: feedno}
+            });
         },
 //         initMap() {
 //         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
