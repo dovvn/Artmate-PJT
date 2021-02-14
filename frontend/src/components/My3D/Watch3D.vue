@@ -601,7 +601,7 @@ export default {
 		return {
 			userId: 'jhw1234527@gmail.com',
 			feeds: [],
-			theme: 1,
+			theme: 0,
 		};
 	},
 	computed: {
@@ -621,14 +621,26 @@ export default {
 		.catch((error) => {
 			console.error(error);
 		})
-		.then(()=> {
-			// console.log(this.feeds);
-			console.log(this.theme);
-			init(this.feeds,this.theme);
+		.then(()=>{
+			http
+			.get(`/api/feed/theme/${this.user.userId}`)
+			.then((response)=>{
+				console.log(response.data);
+				this.theme = response.data;
+			})
+			.catch((error)=> {
+				console.error(error);
+			})
+			.then(()=> {
+				// console.log(this.feeds);
+				console.log(this.theme);
+				init(this.feeds,this.theme);
+			})
+			.then(()=> {
+				animate();
+			})
 		})
-		.then(()=> {
-			animate();
-		})
+		
   },
   methods: {
 		goBack() {
