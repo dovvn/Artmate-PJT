@@ -175,34 +175,60 @@ public class FeedController {
 	// 모든 유저의 피드 목록 가져오기 (전체 피드)
 	@ApiOperation(value = "모든 유저의 피드 목록(전체 피드)을 반환", notes = "전체 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
 	@GetMapping(value = "/feed/allList/{userId}", produces = "text/json; charset=utf8")
-	public String selectAllFeed(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
+	public String selectAllFeed(
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectAllFeed(userId));
 		return result;
 	}
-	
-	//전시할 피드 선택해서 저장
+
+	// 전시할 피드 선택해서 저장
 	@ApiOperation(value = "3D 전시할 피드 저장", notes = "저장 성공시 true, 실패시 false", response = Boolean.class)
 	@PutMapping(value = "/feed/exhibit/{userId}/{feedId}")
-	public boolean insertFeedExhibit(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId, @ApiParam(value = "피드 아이디", required = true, example = "17") @PathVariable("feedId")int feedId) {
-		if(!feedService.checkFeedExhibit(userId, feedId)) return false;
+	public boolean insertFeedExhibit(
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "피드 아이디", required = true, example = "17") @PathVariable("feedId") int feedId) {
+		if (!feedService.checkFeedExhibit(userId, feedId))
+			return false;
 		return feedService.insertFeedExhibit(userId, feedId);
 	}
-	
-	//전시할 피드 중에서 삭제
+
+	// 전시할 피드 중에서 삭제
 	@ApiOperation(value = "3D 전시할 피드 중 피드 삭제", notes = "삭제 성공시 true, 실패시 false", response = Boolean.class)
 	@DeleteMapping(value = "/feed/exhibit/{userId}/{feedId}")
-	public boolean deleteFeedExhibit(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId, @ApiParam(value = "피드 아이디", required = true, example = "17") @PathVariable("feedId")int feedId) {
+	public boolean deleteFeedExhibit(
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "피드 아이디", required = true, example = "17") @PathVariable("feedId") int feedId) {
 		return feedService.deleteFeedExhibit(userId, feedId);
 	}
-	
-	//전시할 피드 목록 가져오기
+
+	// 전시할 피드 목록 가져오기
 	@ApiOperation(value = "3D 전시할 피드 목록 가져오기", notes = "전시할 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
-	@GetMapping(value = "/feed/exhibit/{userId}", produces = "text/json; charset=utf8")
-	public String selecteFeedExhibit(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
+	@GetMapping(value = "/feed/exhibit/{userId}")
+	public String selecteFeedExhibit(
+			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectFeedExhibit(userId));
 		return result;
 	}
+
+	// 유저 피드테마 번호 업데이트
+	@ApiOperation(value = "3D 유저 피드테마 번호 업데이트", notes = "유저 피드테마 번호 업데이트 성공시 success, 실패시 fail 반환 ", response = Boolean.class)
+	@PutMapping(value = "/feed/theme/{userId}/{theme}")
+	public Boolean insertFeedTheme(
+			@ApiParam(value = "회원 아이디", required = true, example = "jhw1234527@gmail.com") @PathVariable("userId") String userId,
+			@ApiParam(value = "테마 번호", required = true, example = "1") @PathVariable("theme") int theme) {
+		//유저 피드테마 번호 업데이트
+		return feedService.modifyFeedTheme(userId, theme); //있으면 업데이트
+	}
 	
+	//유저 피드테마 번호 가져오기
+	@ApiOperation(value = "3D 유저 피드테마 번호 가져오기", notes = "유저 테마 번호 가져오기(int)", response = Integer.class)
+	@GetMapping(value = "/feed/theme/{userId}", produces = "text/json; charset=utf8")
+	public String selectFeedTheme(
+			@ApiParam(value = "회원 아이디", required = true, example = "jhw1234527@gmail.com") @PathVariable("userId") String userId) {
+		Gson gs = new Gson();
+		String result = gs.toJson(feedService.selectFeedTheme(userId));
+		return result;
+	}
 }
