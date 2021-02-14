@@ -23,7 +23,7 @@ import com.ssafy.artmate.service.ExhibitService;
 public class ExhibitOnlineController implements ApplicationRunner{ //서버 실행시 한번만 실행
 
 	@Autowired
-	ExhibitService eservice;
+	ExhibitService eservice;  
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
