@@ -18,16 +18,21 @@ import { faEnvira } from '@fortawesome/free-brands-svg-icons'
 import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf,faChevronDown } from '@fortawesome/free-solid-svg-icons'
-
+import { faAngleUp, faAngleLeft,faAngleDown, faAngleRight, faWalking} from '@fortawesome/free-solid-svg-icons'
 //구글 로그인
 import GAuth from 'vue-google-oauth2'
 
 library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit,faGlobeAmericas, fasStar, farStar)
 library.add(faCamera,faPenFancy, faTrashAlt)
 library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag,faChevronDown)
+library.add(faAngleUp,faAngleRight,faAngleLeft,faAngleDown,faWalking);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+// 날짜형식
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
 
 //구글 로그인
 Vue.use(GAuth, {clientId: '586176925871-o9lo1kb9m1rgft73q8n4sicrh4knvlr6.apps.googleusercontent.com', scope: 'profile email https://www.googleapis.com/auth/plus.login'})
@@ -41,3 +46,4 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+

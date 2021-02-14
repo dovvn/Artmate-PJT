@@ -33,12 +33,12 @@
         
       </div>
       <div class="exhibit_items">
-        <div class="exhibit_item" v-for="(item,idx) in ex_list" :key="idx">
-          <div class="exhibit_duration">{{item.startDate}} ~ {{item.endDate}}</div>
-          <img :src="item.exImg" alt="" class="exhibit_poster">
-          <div class="exhibit_box">
-            <div class="exhibit_tlt">
-              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf"/>
+        <div @click="onClickEx" class="exhibit_item" v-for="(item,idx) in filteredList" :key="idx" :data-id="item.id">
+          <div class="exhibit_duration" :data-id="item.id">{{item.startDate}} ~ {{item.endDate}}</div>
+          <img :src="item.exImg" alt="" class="exhibit_poster" :data-id="item.id">
+          <div class="exhibit_box" :data-id="item.id">
+            <div class="exhibit_tlt" :data-id="item.id">
+              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf" :data-id="item.id"/>
               {{item.name}}
             </div>
             <div class="exhibit_scrap">
@@ -60,8 +60,8 @@ export default {
   name: "ExhibitList",
   data(){
     return{
-      currentPlace:"",
-      target:"",
+      currentPlace:"서울",
+      target:"all",
       around_list:[],
       ex_list:[]
     }
@@ -70,9 +70,12 @@ export default {
     Navi,
   },
   created(){
+    const user =  this.$store.getters.getUser;
     getExhibitList(
+      user.userId,
       (res)=>{
         this.ex_list=res.data;
+        this.initMap();
       },
       (err)=>{
         console.error(err);
@@ -81,14 +84,14 @@ export default {
   },
   computed:{
     filteredList(){
-      if(this.target==="all")  return this.ex_list;
+      if(this.target==="all")  return this.ex_list.slice(0,10);
       else if(this.target==="best"){
         let tmp = this.ex_list.slice(0,);
         tmp.sort((a,b) => b.scrapCnt-a.scrapCnt);
         return tmp.slice(0,10);
       }
       else if(this.target==="online"){
-        return this.ex_list;
+        return this.ex_list.slice(0,10);
       }
       else{
         return this.around_list;
@@ -97,47 +100,41 @@ export default {
   },
   mounted(){
     // document.addEventListener('scroll',this.handleScroll);
-    // test
     document.querySelector('#all').classList.add('active');
-    this.target="all";
-    if (window.kakao && window.kakao.maps) {
-      this.initMap();
-    } else {
-      const script = document.createElement('script');
-      script.onload = () => this.initMap();
-      script.src ='http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0c6121d667946c4583e303b2760cca80&libraries=services';
-      document.head.appendChild(script);
-    }
   },
   destroyed(){
     // document.removeEventListener('scroll',this.handleScroll);
   },
   methods:{
     initMap(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var lat = position.coords.latitude, // 위도
-              lon = position.coords.longitude; // 경도
-          console.log(lat,lon);
-          var geocoder = new kakao.maps.services.Geocoder();
-          geocoder.coord2Address(lon,lat, (res)=>{
-            this.currentPlace=res[0].address.region_1depth_name;
-          });
-        });
-      }
-      else{
-        this.currentPlace="서울";
-      }
+      // if (navigator.geolocation) {
+      //   navigator.geolocation.getCurrentPosition(function(position) {
+      //     var lat = position.coords.latitude, // 위도
+      //         lon = position.coords.longitude; // 경도
+      //     var geocoder = new kakao.maps.services.Geocoder();
+      //     geocoder.coord2Address(lon,lat, (res)=>{
+      //       // console.log(res[0].address.region_1depth_name);
+      //       // this.currentPlace="서울";
+      //       this.currentPlace=res[0].address.region_1depth_name;
+      //     });
+      //   });
+      // }
+      // else{
+      //   this.currentPlace="서울";
+      // }
       let ps = new kakao.maps.services.Places();
+      // console.log(this.ex_list);
       for(let i=0; i<this.ex_list.length; i++){
         ps.keywordSearch(this.ex_list[i].location,(data)=>{
           for(let j=0; j<data.length; j++){
-            if(data[i].address_name.includes(this.currentPlace) && data[i].category_group_name==="문화시설"){
+            // console.log(this.ex_list[i]);
+            if(data[j].address_name.includes(this.currentPlace) && data[j].category_group_name==="문화시설"){
               this.around_list.push(this.ex_list[i]);
             }
           }
         })
       }
+      // console.log(this.around_list);
     },
     onClickAll(){
       document.querySelector(`#${this.target}`).classList.remove('active');
@@ -162,6 +159,15 @@ export default {
     onClickDown(){
       const list = document.querySelector('.exhibit_list');
       list.scrollIntoView({behavior:'smooth'});
+    },
+    onClickEx(e){
+      // console.log(e.target.dataset.id);
+      this.$router.replace({
+        name:"ExhibitionDetail",
+        params:{
+          id:e.target.dataset.id,
+        }
+      })
     },
     // handleScroll(){
     //   const main = document.querySelector('.exhibit_main');

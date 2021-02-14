@@ -18,6 +18,10 @@
         <div class="writer__info__right">
           <div class="writer__info__nickname">{{myInfo.userName}}</div>
           <div class="writer__info__intro">{{myInfo.introduction}}</div>
+          <div class="writer__3d__buttons">
+            <button class="edit3D__button" @click="goEdit()">3D 전시회 편집</button>
+            <button class="view3D__button" @click="goView()">3D 전시회 보기</button>
+          </div>
           
           <div class="writer__info__cntboxes">
             <div class="writer__info__cntbox">
@@ -119,6 +123,19 @@ export default {
     ...mapState(["user"])
   },
   methods: {
+    goEdit() {
+      this.$router.push({
+        name: "3dCustomize"
+      });
+    },
+    goView() {
+      this.$router.replace({
+        name: "3dWatch",
+        params: {
+          userId: this.user.userId,
+        }
+      });
+    },
     seeFollow(choosed) {
       // console.log(choosed);
       this.clicked = choosed;
@@ -347,7 +364,7 @@ export default {
   align-items: center;
   border-radius:30px;
   border: 1px solid #F5F5F5;
-  margin-top:20px;
+  margin-top:5px;
   /* margin-bottom:25px; */
   box-shadow: 0 1px 2px #00000029;
 }
@@ -355,6 +372,10 @@ export default {
   /* margin:10pt; */
   margin-top:10px;
   /* margin-bottom:10px; */
+}
+.writer__info__cntbox:hover,
+.feed__image__container:hover {
+  cursor:pointer;
 }
 .writer__info__cnt {
   font-weight:900;
@@ -419,6 +440,7 @@ export default {
   width: 100%;
   height:100%;
   border-radius:10px;
+  object-fit:cover;
   /* padding:2px; */
 }
 .feed__writebutton {
@@ -518,6 +540,24 @@ export default {
   margin-top: 15px;
 }
 
+/* 3d buttons */
+.writer__3d__buttons {
+  display:flex;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+
+.view3D__button,
+.edit3D__button {
+  border-radius:15px;
+  background: linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF);
+  color:white;
+  font-size:13px;
+  padding:3px;
+}
+
+/*  */
+
 /* 반응형 */
 @media screen and (min-width: 1024px) {
   .myfeed {
@@ -544,7 +584,7 @@ export default {
     text-align:left;
   }
   .writer__info__nickname {
-    margin-top:20px;
+    /* margin-top:20px; */
   }
   .feeds {
     justify-content:initial;

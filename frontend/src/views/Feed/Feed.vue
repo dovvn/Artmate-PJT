@@ -4,9 +4,6 @@
     <div id="feednav1" >
       <Navi class="detail__navi"/>
         <p id="txt">NEWSFEED</p>
-        <div>
-          <img class="bu" src="../../assets/newsfeedPicture.png" alt="">
-        </div>
         <div id="nav" class="nav2">
             <router-link to="/feed" class="div2" id="all"> 전체 피드 </router-link> | 
             <router-link to="/feed/follow" class="div2" id="follow">팔로우 피드 </router-link> | 
@@ -74,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .fiddiv {
   width: 760px;
   height: 100%;
@@ -84,17 +81,16 @@ export default {
 .newsNav{
   position: sticky;
   top: 0px;
-  /* margin-top: 70px; */
   background-image : url(../../assets/ngngz.png); 
   background-repeat: no-repeat;
   background-position: fixed;
   background-size: cover;
-  box-shadow: 0px 4px 7px #00000029;
-  border-bottom-right-radius: 40px;
-  border-bottom-left-radius: 40px;
+  box-shadow: 0px 4px 7px #99979725;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 .detail__navi{
-  position: sticky;
+  position: sticky!important;
   /* background-color: white; */
 }
 /* ------------------------------- nav css ------------------------------- */
@@ -102,7 +98,7 @@ export default {
 #feednav1{
     text-align: center;
     margin: 0 auto;
-    height: 310px;
+    height: 270px;
     margin-bottom: 17px;
 }
 #feednav1>#txt {
@@ -111,7 +107,6 @@ export default {
   font-size: 35px;
   font-weight: bold;
   margin-left: 50px;
-  margin-top: 10px;
   padding-bottom: 30px;
 }
 .nav{
@@ -139,17 +134,12 @@ export default {
   margin-bottom: 0px;
 }
 .nav2{
-    padding-top: 0px;
+    padding-top: 40px;
     clear: both;
     float: left;
     margin-left: 50px;
     color: #CCCCCC;
 }
-.bu{
-    padding-top: 40px;
-    margin-left: 170px;
-    width: 200px;
-  }
 /* ------------------------------ 반응형 ------------------------------ */
 @media screen and (max-width: 1024px) {
   .fiddiv {
@@ -161,16 +151,8 @@ export default {
     background-position: fixed;
     background-size: cover;
   }
-  .bu{
-    padding-top: 60px;
-    width: 120px;
-    margin-left: 0px;
-  }
   #feednav1{
-    height: 270px;
-  }
-  .nav2{
-    padding-top: 0px;
+    height: 250px;
   }
   #feednav1>#txt{
     font-size: 28px;

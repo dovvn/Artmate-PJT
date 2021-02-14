@@ -171,4 +171,9 @@ export default {
   background-color:#A593DF;
   
 }
+.tab__left:hover,
+.tab__right:hover,
+.person:hover {
+  cursor:pointer
+}
 </style>

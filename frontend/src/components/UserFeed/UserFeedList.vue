@@ -29,7 +29,9 @@
         <div class="writer__info__right">
           <div class="writer__info__nickname">{{userInfo.userName}}</div>
           <div class="writer__info__intro">{{userInfo.introduction}}</div>
-          
+          <div class="writer__3d__buttons">
+            <button class="view3D__button" @click="goView()">3D 전시회 보기</button>
+          </div>
           <div class="writer__info__cntboxes">
             <div class="writer__info__cntbox">
               <div class="writer__info__cnt">{{feeds.length}}</div>
@@ -111,6 +113,14 @@ export default {
     ...mapState(["user","stompClient"])
   },
   methods: {
+    goView() {
+      this.$router.replace({
+        name: "3dWatch",
+        params: {
+          userId: this.$route.params.userId,
+        }
+      });
+    },
     Follow() {
       this.following = 0;
       let params = {
@@ -437,6 +447,10 @@ export default {
   margin-top:10px;
   /* margin-bottom:10px; */
 }
+.writer__info__cntbox:hover,
+.feed__image__container:hover {
+  cursor:pointer;
+}
 .writer__info__cnt {
   font-weight:900;
   font-size:16px;
@@ -500,6 +514,7 @@ export default {
   width: 100%;
   height:100%;
   border-radius:10px;
+  object-fit:cover;
   /* padding:2px; */
 }
 .feed__writebutton {
@@ -538,6 +553,22 @@ export default {
   min-height:498px;
 }
 
+/* 3d buttons */
+.writer__3d__buttons {
+  display:flex;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+
+.view3D__button {
+  border-radius:15px;
+  background: linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF);
+  color:white;
+  font-size:13px;
+  padding:3px;
+}
+
+/*  */
 /* 반응형 */
 @media screen and (min-width: 1024px) {
   .myfeed {
