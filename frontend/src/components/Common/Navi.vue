@@ -176,6 +176,19 @@ export default {
               }
             }
           );
+          //
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/login/${this.user.userId}`, //로그인 신호가 오는 주소
+            (signal) => {
+            //신호를 받으면 - 확인 안 한 알림이 있는 것
+            console.log('메세지 : ', signal.body);
+            console.log('로그인 알림 표시!');
+            this.showNew();
+            }
+          );
+          this.stompClient.send(`/send/login/${this.user.userId}`, {});
+          //
         },
         (error) => {
           console.log(error);
