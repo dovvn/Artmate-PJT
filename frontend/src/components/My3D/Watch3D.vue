@@ -87,10 +87,14 @@ const woods = new THREE.MeshLambertMaterial({
 const white = new THREE.MeshLambertMaterial(
   {color: 0xffffff,}
 );
+const black = new THREE.MeshLambertMaterial(
+  {color: 0x000000,}
+);
 
 //box 정해줌
-const box = white;
 
+
+const box = white;
 //
 
 let camera, scene, renderer, controls;
@@ -214,6 +218,7 @@ function onWindowResize() {
 
   }
 function init(feeds,theme) {
+				
       	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.y = 10;
 
@@ -421,8 +426,10 @@ function init(feeds,theme) {
 				// 바닥 건설
 
 				floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-				const floor = new THREE.Mesh( floorGeometry, concreteWhite );
+				const floorTexture = new THREE.MeshLambertMaterial({
+							map:loader.load(`../../test3D/${theme}_floor.jpg`),
+				});
+				const floor = new THREE.Mesh( floorGeometry, floorTexture );
 				scene.add( floor );
 
 				
@@ -463,7 +470,10 @@ function init(feeds,theme) {
 				// const color1 = new THREE.Color('skyblue');
 				// 천장 건설
 				const ceilGeometry = new THREE.BoxGeometry( 200, 20, 200 ).toNonIndexed();
-				const ceil = new THREE.Mesh( ceilGeometry, concreteWhite );
+				const ceilTexture = new THREE.MeshLambertMaterial({
+							map:loader.load(`../../test3D/${theme}_ceil.jpg`),
+				});
+				const ceil = new THREE.Mesh( ceilGeometry, ceilTexture );
 				ceil.position.x = 0;
 				ceil.position.y = 60;
 				ceil.position.z = 0;
@@ -591,39 +601,50 @@ export default {
 		return {
 			userId: 'jhw1234527@gmail.com',
 			feeds: [],
-			theme: {
-				ceil: '',
-				wall: '',
-				floor: '',
-			},
+			theme: 0,
 		};
 	},
 	computed: {
 		...mapState(["user"])
 	},
 	created() {
-		
+		this.userId = this.$route.params.userId;
 	},
   mounted() {
 		// 해당 유저의 전시회피드들을 가져온다.
 		http
-		.get(`/api/feed/allList/{this.userId}`)
+		.get(`/api/feed/exhibit/${this.userId}`)
 		.then((response) => {
+			console.log(response.data);
 			this.feeds = response.data;
 		})
 		.catch((error) => {
 			console.error(error);
 		})
-		.then(()=> {
-			init(this.feeds,this.theme);
+		.then(()=>{
+			http
+			.get(`/api/feed/theme/${this.user.userId}`)
+			.then((response)=>{
+				console.log(response.data);
+				this.theme = response.data;
+			})
+			.catch((error)=> {
+				console.error(error);
+			})
+			.then(()=> {
+				// console.log(this.feeds);
+				console.log(this.theme);
+				init(this.feeds,this.theme);
+			})
+			.then(()=> {
+				animate();
+			})
 		})
-		.then(()=> {
-			animate();
-		})
+		
   },
   methods: {
 		goBack() {
-			console.log(renderer.domElement);
+			// console.log(renderer.domElement);
 			document.body.removeChild(renderer.domElement);
 			if(this.$route.params.userId === this.user.userId) {
 				//마이피드로이동

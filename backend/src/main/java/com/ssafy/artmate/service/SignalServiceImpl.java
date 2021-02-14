@@ -42,6 +42,11 @@ public class SignalServiceImpl implements SignalService{
 	@Override
 	public List<SignalDto> selectAllSignal(String getUserId) {
 		return sqlSession.getMapper(SignalMapper.class).selectAllSignal(getUserId);
+	}
+
+	@Override
+	public int countNewSignal(String userId) {
+		return sqlSession.getMapper(SignalMapper.class).countNewSignal(userId);
 	} 
 	
 

@@ -54,11 +54,9 @@ public class ExhibitController {
 	//선택한 전시회 상세정보 가져오기
 	@ApiOperation(value = "선택한 전시회 상세정보 가져오기", notes = "전시회 상세정보 반환", response = ExhibitDto.class)
 	@GetMapping(value="/exhibit/{userId}/{id}")
-	public String selectOneExhibit(@ApiParam(value="로그인 된 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId, @ApiParam(value="전시회 아이디", required = true, example="1")@PathVariable int id) {
-		ExhibitDto dto = exhibitService.selectOneExhibit(userId, id);
-		dto.setTagList(exhibitService.selectExhibitTags(id));
-		Gson gs = new Gson();
-		String result = gs.toJson(dto);
+	public ExhibitDto selectOneExhibit(@ApiParam(value="로그인 된 아이디", required = true, example="jdaun.dev@gmail.com")@PathVariable String userId, @ApiParam(value="전시회 아이디", required = true, example="1")@PathVariable int id) {
+		ExhibitDto result = exhibitService.selectOneExhibit(userId, id);
+		result.setTagList(exhibitService.selectExhibitTags(id));
 		return result;
 	}
 	//지도에서 보여줄 모든 전시회 정보 가져오기
