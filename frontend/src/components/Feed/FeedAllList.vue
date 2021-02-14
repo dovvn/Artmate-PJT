@@ -262,7 +262,7 @@ export default {
 }
 .detail{
   clear: both;
-  font-size: 14px;
+  font-size: 11px;
   color: #A593DF;
   float: right;
 }
@@ -275,6 +275,7 @@ export default {
    font-size: 12px;
    text-align: left;
    margin-right: 300px;
+   margin-left: 2px;
 }
 
 /* ------------------------------ 커질때반응형 ------------------------------ */
