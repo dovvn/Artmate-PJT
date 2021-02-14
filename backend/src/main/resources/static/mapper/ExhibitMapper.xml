@@ -85,4 +85,12 @@
 		FROM Exhibition
 		WHERE vrLink is not null
 	</select>
+	<select id="checkNaverExhibit" parameterType="ExhibitDto" resultType="int">
+		SELECT COUNT(*)
+		FROM Exhibition
+		WHERE name=#{name} AND (location=#{location} or location is null) AND exImg=#{exImg} AND startDate=str_to_date(#{startDate}, '%Y.%m.%d') AND endDate=str_to_date(#{endDate}, '%Y.%m.%d')
+	</select>
+	<delete id="deleteExhibition" parameterType="String">
+		DELETE FROM Exhibition WHERE endDate != str_to_date('0000-00-00', '%Y-%m-%d') AND endDate &lt; str_to_date(#{endDate}, '%Y-%m-%d')
+	</delete>
 </mapper>

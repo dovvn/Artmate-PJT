@@ -28,4 +28,6 @@ public interface ExhibitMapper {
 	ExhibitDto selectExhibitByVrLink(String vrLink);
 	int insertOnlineExhibit(ExhibitDto dto);
 	List<ExhibitDto> selectAllOnlineExhibit();
+	int checkNaverExhibit(ExhibitDto dto);
+	boolean deleteExhibition(String endDate);
 }
