@@ -71,4 +71,18 @@
 		WHERE exId=#{id}
 		ORDER BY writeDate DESC
 	</select>
+	<select id="selectExhibitByVrLink" parameterType="String" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE vrLink=#{vrLink}
+	</select>
+	<insert id="insertOnlineExhibit" parameterType="ExhibitDto">
+		INSERT INTO Exhibition (name, description, exImg, artist, vrLink)
+		VALUES (#{name}, #{description}, #{exImg}, #{artist}, #{vrLink})
+	</insert>
+	<select id="selectAllOnlineExhibit" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE vrLink is not null
+	</select>
 </mapper>

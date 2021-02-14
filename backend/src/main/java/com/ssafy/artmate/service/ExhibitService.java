@@ -3,6 +3,7 @@ package com.ssafy.artmate.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.ssafy.artmate.dto.ExhibitDto;
 import com.ssafy.artmate.dto.FeedDto;
 
@@ -21,4 +22,7 @@ public interface ExhibitService {
 	List<ExhibitDto> selectAllScrapbook(String userId); //스크랩북 목록 가져오기
 	List<ExhibitDto> selectExhibitNameWithLoc(); //전시회 아이디,이름,장소 가져오기
 	List<FeedDto> selectFeeds(int id); //전시회 관련 피드 리스트 가져오기
+	ExhibitDto selectExhibitByVrLink(String vrLink); //온라인전시회 db에 겹치는거 있는지 확인
+	boolean insertOnlineExhibit(ExhibitDto dto); //온라인 전시회 넣기
+	List<ExhibitDto> selectAllOnlineExhibit(); //온라인 전시회만 가져오기
 }

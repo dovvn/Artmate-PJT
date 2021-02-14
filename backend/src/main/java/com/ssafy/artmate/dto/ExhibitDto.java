@@ -11,19 +11,19 @@ public class ExhibitDto{
 	private int id;
 	@ApiModelProperty(value="전시회 태그이름 리스트 (문자열, null가능)")
 	private List<String> tagList;
-	@ApiModelProperty(value="전시회 제목")
+	@ApiModelProperty(value="전시회 제목[*온라인]")
 	private String name;
 	@ApiModelProperty(value="전시회 장소")
 	private String location;
-	@ApiModelProperty(value="전시회 설명 (null가능)")
+	@ApiModelProperty(value="전시회 설명 (null가능) [*온라인]")
 	private String description;
-	@ApiModelProperty(value="전시회 이미지 주소")
+	@ApiModelProperty(value="전시회 이미지 주소 [*온라인]")
 	private String exImg;
 	@ApiModelProperty(value="전시회 시작 날짜")
 	private String startDate;
 	@ApiModelProperty(value="전시회 종료 날짜")
 	private String endDate;
-	@ApiModelProperty(value="작가 (null가능)")
+	@ApiModelProperty(value="작가 (null가능) [*온라인]")
 	private String artist;
 	@ApiModelProperty(value="전시회 일련번호")
 	private String seqNum;
@@ -33,8 +33,19 @@ public class ExhibitDto{
 	private int scrapmark;
 	@ApiModelProperty(value="이 전시회에 작성된 피드 수")
 	private int feedCnt;
+	@ApiModelProperty(value="vr링크(온라인전시회) [*온라인]")
+	private String vrLink;
 	
 	public ExhibitDto() {}
+	
+	public ExhibitDto(String name, String description, String exImg, String artist, String vrLink) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.exImg = exImg;
+		this.artist = artist;
+		this.vrLink = vrLink;
+	}
 	
 	public ExhibitDto(int id, List<String> tagList, String name, String location, String description, String exImg,
 			String startDate, String endDate, String artist, String seqNum, int scrapCnt, int scrapmark, int feedCnt) {
@@ -52,6 +63,28 @@ public class ExhibitDto{
 		this.scrapCnt = scrapCnt;
 		this.scrapmark = scrapmark;
 		this.feedCnt = feedCnt;
+	}
+	
+	
+
+	public ExhibitDto(int id, List<String> tagList, String name, String location, String description, String exImg,
+			String startDate, String endDate, String artist, String seqNum, int scrapCnt, int scrapmark, int feedCnt,
+			String vrLink) {
+		super();
+		this.id = id;
+		this.tagList = tagList;
+		this.name = name;
+		this.location = location;
+		this.description = description;
+		this.exImg = exImg;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.artist = artist;
+		this.seqNum = seqNum;
+		this.scrapCnt = scrapCnt;
+		this.scrapmark = scrapmark;
+		this.feedCnt = feedCnt;
+		this.vrLink = vrLink;
 	}
 
 	public int getId() {
@@ -157,13 +190,22 @@ public class ExhibitDto{
 	public void setFeedCnt(int feedCnt) {
 		this.feedCnt = feedCnt;
 	}
+	
+	
+
+	public String getVrLink() {
+		return vrLink;
+	}
+
+	public void setVrLink(String vrLink) {
+		this.vrLink = vrLink;
+	}
 
 	@Override
 	public String toString() {
 		return "ExhibitDto [id=" + id + ", tagList=" + tagList + ", name=" + name + ", location=" + location
 				+ ", description=" + description + ", exImg=" + exImg + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", artist=" + artist + ", seqNum=" + seqNum + ", scrapCnt=" + scrapCnt + ", scrapmark="
-				+ scrapmark + ", feedCnt=" + feedCnt + "]";
+				+ scrapmark + ", feedCnt=" + feedCnt + ", vrLink=" + vrLink + "]";
 	}
-
 }

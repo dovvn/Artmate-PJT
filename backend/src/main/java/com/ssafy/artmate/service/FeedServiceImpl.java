@@ -118,4 +118,24 @@ public class FeedServiceImpl implements FeedService{
 	public List<FeedDto> selectAllFeed(String userId) {
 		return sqlSession.getMapper(FeedMapper.class).selectAllFeed(userId);
 	}
+
+	@Override
+	public boolean insertFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).insertFeedExhibit(userId, feedId) == 1;
+	}
+
+	@Override
+	public boolean deleteFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).deleteFeedExhibit(userId, feedId) == 1;
+	}
+
+	@Override
+	public List<FeedDto> selectFeedExhibit(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectFeedExhibit(userId);
+	}
+
+	@Override
+	public boolean checkFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).checkFeedExhibit(userId, feedId)==0;
+	}
 }

@@ -1,7 +1,6 @@
 <template>
-  
-    
-    <div class="feed">
+    <!-- 모바일 -->
+    <div class="feed" v-if="isMobile()">
       <Navi class="detail__navi"/>
       <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
         <div class="pos-check-modal-body">
@@ -107,11 +106,119 @@
             >
           </button>
         </div>
-        
       </div>
-      
-      
     </div>
+    <!-- PC -->
+    <div class="feed" v-else>
+      <Navi class="detail__navi"/>
+      <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+        <div class="pos-check-modal-body">
+          <div class="pos-check-title">
+            댓글을 삭제하시겠습니까?
+          </div>
+          <button class="pos-check-yes-button" @click="deleteMemo(delete_memoId)">예</button>
+          <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
+        </div>
+      </b-modal>
+      <button class="goBack__button" @click="goBack()">
+        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+      </button>
+      <div class="feed__important">
+        <div class="feed__left__part">
+          <img class="feed__img" :src="feed.feedImg" alt="">
+        </div>
+        <div class="feed__right__part">
+          <div class="creator__info">
+            <div class="creator__info__left">
+              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" src="../../assets/person.jpg"/>
+              <img class="creator__info__img" v-else :src="feed.userImg" alt="">
+              <div class="creator__info__box">
+                <div class="creator__info__name">{{feed.userName}}</div>
+                <div class="creator__info__date">{{feed.writeDate}}</div>
+              </div>
+            </div>
+            <div class="creator__info__right">
+              <font-awesome-icon v-if="feed.likemark==0" :icon="['far','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
+              <font-awesome-icon v-if="feed.likemark==1" :icon="['fas','heart']" @click="addHeart(feed.likemark,feed.id)" class="feed__like__button"/>
+              <span class="feed__like__cnt">{{feed.likeCnt}}</span>
+              <font-awesome-icon v-if="feed.bookmark == 0" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['far','bookmark']"/>
+              <font-awesome-icon v-if="feed.bookmark == 1" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['fas','bookmark']"/>
+
+              <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
+            </div>
+          </div>
+          <div class="feed__info">
+            <div class="feed__left">
+              <font-awesome-icon icon="map-marker-alt" class="feed__location__icon"/>
+              <span class="feed__location__name"> {{feed.location}}</span>
+            </div>
+            <div class="feed__right">
+              <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
+              <span class="feed__exhibition__name"> 간직해온 마음들</span>
+            </div>
+          </div>
+          <div class="feed__content">
+            {{feed.feedText}}
+          </div>
+      
+          <div class="feed__btns">
+            <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
+
+              <span @click="$bvModal.show('pos-check-modal2')" class="feed__delete__button">[삭제]</span>
+              <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+                <div class="pos-check-modal-body">
+                  <div class="pos-check-title">
+                    글을 삭제하시겠습니까?
+                  </div>
+                  <button class="pos-check-yes-button" @click="deleteFeed">예</button>
+                  <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+                </div>
+              </b-modal>
+          </div>
+          <div class="dotLine"></div>
+          <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
+            
+          <!-- 댓글 창은 import해서 쓰자 -->
+          <div class="feed__memo">
+            
+            <div class="feed__memo__list">
+              <div class="feed__memo__items" v-for="(memo,idx) in memos" :key="idx">
+                <div class="memo__left">
+                  <img v-if="memo.userImg==''||memo.userImg==null" class="memo__writer__img" src="../../assets/person.jpg">
+                  <img 
+                    v-else
+                    :src="memo.userImg" 
+                    class="memo__writer__img"
+                    @click="goUserFeed(memo.userId)">
+                  
+                  <div class="memo__content"  >
+                    <span class="memo__writer__name">{{memo.userName}}</span> <span class="memo__text" v-if="!memos_modify[idx]">{{memo.content}}</span>
+                  </div>
+                  <div class="memo__modifier" v-if=memos_modify[idx]>
+                    <input v-focus class="memo__modifier__input" type="text" :value="memo.content">
+                    <button @click="modifyMemo(memo)" class="memo__modifier__btn">수정</button>
+                  </div>  
+                </div>
+                
+                <div class="memo__buttons" v-if="memo.userId === user.userId">
+                  <button v-if="!memos_modify[idx]" @click="showModifier(idx)" class="memo__modify__button">수정</button>
+                  <button v-if="!memos_modify[idx]" @click="showCheckmodal(memo.id)"><font-awesome-icon icon="trash-alt"/></button>
+                </div>
+              </div>
+              
+            </div>
+            <div class="feed__memo__write">
+              <input v-model="memoInput.content" class="feed__memo__write__input" type="text">
+              <button @click="addMemo" class="feed__memo__write__button">
+                >
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      </div>  
+    </div>
+    
 </template>
 
 <script>
@@ -153,6 +260,9 @@ export default {
     };
   },
   methods: {
+    isMobile() {
+      return window.innerWidth < 1024;
+    },
     goUserFeed(userId) {
       this.$router.replace({
         name: "UserFeedList",
@@ -168,7 +278,6 @@ export default {
       console.log(memoId);
       console.log(this.delete_memoId);
       this.$bvModal.show('pos-check-modal');
-      
     },
     addMemo() {
       console.log(this.memoInput.content,'등록');
@@ -391,6 +500,10 @@ export default {
   box-sizing: border-box;
   }
   
+  .detail__navi {
+    background-color:white;
+  }
+
   .feed{ -ms-overflow-style: none; } 
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
@@ -465,7 +578,7 @@ export default {
     display:flex;
     font-size:13px;
     justify-content: space-between;
-    padding-top:70px;
+    /* padding-top:70px; */
     margin-bottom:5px;
   }
   .feed__like__button {
@@ -629,7 +742,7 @@ export default {
   }
   .sticky-top {
     position: sticky;
-    top:0px;
+    top:70px;
     z-index:1;
     /* padding-top:55px; */
     /* background-color:white; */
@@ -696,20 +809,54 @@ export default {
 }
 /* 반응형 */
 @media screen and (min-width: 1024px) {
+  .feed__important {
+    margin-top:20px;
+    display:flex;
+    width:100%;
+    height:600px;
+  }
+  .feed__left__part {
+    flex-basis:50%;
+    height:100%;
+    
+  }
+  .feed__right__part {
+    flex-basis:50%;
+    height:100%;
+    position:relative;
+    /* overflow-y:scroll; */
+    /* overflow-x:hidden; */
+  }
   .feed {
     width: 760px;
   }
+  .feed__memo {
+    overflow-y:auto;
+    height:300px;
+  }
+  .feed__memo {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .feed__memo::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   .feed__memo__write {
-    width:760px;
+    position:absolute;
+    width:360px;
   }
   .feed__memo__write__input {
     width: 95%;
   }
+  .feed__memo__write__button {
+    right:25px;
+  }
   .feed__img {
-    /* height:400px; */
+    height:600px;
   }
   /* 글씨 크기 변경 */
   .feed__info {
+    margin-top:5px;
     font-size:19px;
   }
   .creator__info__name {
@@ -735,6 +882,7 @@ export default {
   }
   .feed__content {
     font-size:18px;
+    margin-top:5px;
   }
   .feed__memo__cnt {
     font-size:20px;
@@ -770,11 +918,6 @@ export default {
   /* 추가 */
 }
 
-@media screen and (min-height: 700px) {
-  .feed__memo__list {
-    min-height:300px;
-  }
-}
 /* 반응형 */
 
 </style>

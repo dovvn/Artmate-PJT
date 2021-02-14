@@ -25,4 +25,7 @@ public interface ExhibitMapper {
 	List<ExhibitDto> selectAllScrapbook(String userId);
 	List<ExhibitDto> selectExhibitNameWithLoc();
 	List<FeedDto> selectFeeds(int id);
+	ExhibitDto selectExhibitByVrLink(String vrLink);
+	int insertOnlineExhibit(ExhibitDto dto);
+	List<ExhibitDto> selectAllOnlineExhibit();
 }
