@@ -1,10 +1,7 @@
 package com.ssafy.artmate.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -17,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.ssafy.artmate.dto.ExhibitDto;
 
-//@Component
+@Component
 public class ChromeController implements ApplicationRunner{
 	
 	private static WebDriver driver;
@@ -29,7 +26,7 @@ public class ChromeController implements ApplicationRunner{
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-//		this.chrome();
+		this.chrome();
 	}
 	
 	public void chrome() throws InterruptedException {
