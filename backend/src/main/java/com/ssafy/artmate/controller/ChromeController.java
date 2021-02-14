@@ -19,7 +19,7 @@ import com.ssafy.artmate.dto.ExhibitDto;
 import com.ssafy.artmate.service.ExhibitService;
 
 @Component
-public class ChromeController implements ApplicationRunner{
+public class ChromeController{
 	
 	@Autowired
 	private ExhibitService exhibitService;
@@ -30,10 +30,6 @@ public class ChromeController implements ApplicationRunner{
 	
 	static final String url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%A0%84%EC%8B%9C%ED%9A%8C";
 	
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
-		this.chrome();
-	}
 	
 	public void chrome() throws InterruptedException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
