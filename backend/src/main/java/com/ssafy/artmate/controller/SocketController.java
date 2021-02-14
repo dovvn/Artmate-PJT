@@ -108,7 +108,7 @@ public class SocketController {
     		}
     		//받는 아이디, 전시회 아이디, 전시회 알림, 읽기x, 이미지, 날짜, 전시회 이름
     		SignalDto message = new SignalDto(u.getUserId(),sendExhibit.getId(),0,0, sendExhibit.getExImg(), currentDate, sendExhibit.getName());
-//    		if(signalService.insertSignal(message)) simpm.convertAndSend("/get/exhibit/"+u.getUserId(), message);
+    		if(signalService.insertSignal(message)) simpm.convertAndSend("/get/exhibit/"+u.getUserId(), message);
     	}
 //		System.out.println(currentDate+" : 알림!");
     }
@@ -117,7 +117,6 @@ public class SocketController {
     public void signalCheckNew(@DestinationVariable String userId) {
     	if(signalService.countNewSignal(userId)>0) {
     		SignalDto message = new SignalDto();
-    		System.out.println("여기오냐?");
     		simpm.convertAndSend("/get/login/"+userId, message);
     	}
     }
