@@ -39,7 +39,7 @@
                     <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
                     <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn" v-if="exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
+                    <div class="btn" v-if="exhibit.artist != null && exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
                     <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn" v-if="exhibit.description.length > 61" >
+                    <div class="btn" v-if="exhibit.description != null && exhibit.description.length > 61 " >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
@@ -66,15 +66,11 @@
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
             </div>
-                <!-- <div class="img"  v-for="f in feed" :key="f.id">
-                    <img class="feed_img" :src="f.feedImg" alt="" >
-                </div> -->
                 <vueper-slides
                     class="no-shadow img"
                     :visible-slides="3"
                     slide-multiple
                     :gap="3"
-                    :slide-ratio="1 / 4"
                     :dragging-distance="200"
                     :breakpoints="{ 800: { visibleSlides: 3, slideMultiple: 2 } }"
                     disableArrowsOnEdges=true 
@@ -82,7 +78,8 @@
                      <vueper-slide
                         class="feed_img"
                         v-for="f in feed" :key="f.id"
-                        :image="f.feedImg">
+                        :image="f.feedImg"
+                        @click.native ="goUserFeedDetail(f.id)">
                     </vueper-slide>
                 </vueper-slides>
                 
@@ -94,7 +91,7 @@
             <font-awesome-icon icon="map-marker-alt" class="location__icon" style="color:gray"/>
             <span class="ex__name"> 오시는 길 </span>
             <div class="rode">
-                 <div id="map" style="width:270px;height:220px;"></div>
+                 <!-- <div id="map" style="width:270px;height:220px;"></div> -->
             </div>
            
           </div>
@@ -158,10 +155,10 @@ export default {
     created() {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
-        console.log(this.userInfo,this.id);
+        console.log("처음! : "+this.userInfo, this.id);
 
         http
-        .get(`api/exhibit/feed/${this.id}`) 
+        .get(`api/exhibit/feed/1`) 
         .then(res => {
             this.feed = res.data;
             console.log("이미지: "+res.data.feedImg);
@@ -172,10 +169,11 @@ export default {
         });
 
         http
-        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
+        .get(`api/exhibit/${this.userInfo.userId}/1`) //${this.id}
         .then(res => {
-            console.log("데이터야 : "+res.data.tagList);
+            console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
+            console.log("솔묭ㅋㅋ"+this.exhibit.description);
         })
         .catch(err => {
             console.error(err);
@@ -206,7 +204,7 @@ export default {
             if(scrap == 0){ // 스크랩 안눌린 상태 
                 this.exhibit.scrapCnt ++;
                 http
-                .put(`api/scrapbook/${this.user.userId}/${exid}`)
+                .put(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
                     console.log(data); 
                     if (data) {
@@ -219,7 +217,7 @@ export default {
             }else if(scrap == 1){ // 스크랩 눌린 상태 
                 this.exhibit.scrapCnt --;
                 http
-                .delete(`api/scrapbook/${this.user.userId}/${exid}`)
+                .delete(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
                     console.log(data); 
                     if (data) {
@@ -231,45 +229,52 @@ export default {
                     .catch((err) => console.log(err));
             }
         },
-        initMap() {
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-                };  
-
-            // 지도를 생성합니다    
-            var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
-
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-            // 정상적으로 검색이 완료됐으면 
-            if (status ===    kakao.maps.services.Status.OK) {
-
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
+        goUserFeedDetail(feedno){ // 피드 게시물로 이동
+            console.log(feedno);
+            this.$router.replace({
+                name: "UserFeedDetail",
+                params: {feedno: feedno}
             });
+        },
+//         initMap() {
+//         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+//         mapOption = {
+//             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+//             level: 3 // 지도의 확대 레벨
+//                 };  
 
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-            });
-            infowindow.open(map, marker);
+//             // 지도를 생성합니다    
+//             var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            map.setCenter(coords);
-        } 
-});    
+//             // 주소-좌표 변환 객체를 생성합니다
+//             var geocoder = new kakao.maps.services.Geocoder();
 
-        }
+//             // 주소로 좌표를 검색합니다
+//             geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+//             // 정상적으로 검색이 완료됐으면 
+//             if (status ===    kakao.maps.services.Status.OK) {
+
+//             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+//             // 결과값으로 받은 위치를 마커로 표시합니다
+//             var marker = new kakao.maps.Marker({
+//                 map: map,
+//                 position: coords
+//             });
+
+//             // 인포윈도우로 장소에 대한 설명을 표시합니다
+//             var infowindow = new kakao.maps.InfoWindow({
+//                 content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+//             });
+//             infowindow.open(map, marker);
+
+//             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+//             map.setCenter(coords);
+//         } 
+// });    
+
+//         }
     }
 }
 </script>
@@ -319,7 +324,7 @@ export default {
         font-size: 20px;
     }
     .exFeeds{
-        padding-bottom: 15px;
+        padding-bottom: 30px;
     }
     .ex__name{
         font-size: 20px;
@@ -388,6 +393,7 @@ export default {
         padding-top: 20px;
         margin: 0 auto;
         width: 270px;
+        height: 80px;
     }
     .vueperslides__arrow {
         color : #A593DF
