@@ -23,14 +23,14 @@
       <label class="label__location" for="location">
         <font-awesome-icon icon="map-marker-alt" class="location__icon"/>
       </label>
-      <input v-model="feed.location" class="input__location" id="location" placeholder="위치" type="text">
+      <input v-model="feed.location" class="input__location" id="location" placeholder="위치" type="text" autocomplete="off">
     </div>
     <div class="line"></div>
     <div class="input__container">
       <label class="label__exhibition" for="exhibition">
         <font-awesome-icon :icon="['fab', 'envira']" class="exhibition__icon"/>
       </label>
-      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text">
+      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text" autocomplete="off">
     </div>
     <div class="line"></div>
     <textarea v-model="feed.feedText" class="input__content"></textarea>
@@ -50,6 +50,7 @@
 <script>
 import {mapState} from "vuex";
 import {addFeed} from '@/api/myfeed.js';
+import http from "@/util/http-common";
 
 export default {
   data() {
@@ -63,8 +64,9 @@ export default {
         userId: '',
         userImg: '',
         userName: '',
-      }
-      
+      },
+      exhibitions: []
+        
     }
   },
   computed: {
@@ -74,6 +76,14 @@ export default {
     this.feed.userId = this.user.userId;
     this.feed.userImg = this.user.userImg;
     this.feed.userName = this.user.userName;
+    http
+    .get(`/api/exhibit/name`)
+    .then((response)=>{
+      console.log(response);
+    })
+    .catch((error)=>{
+      console.error(error);
+    })
   },
   methods: {
     goBack() {
@@ -223,6 +233,10 @@ label {
 .input__exhibition {
   color: #A593DF;
   font-weight: 700;
+}
+.input__exhibition,
+.input__location {
+  width:90%;
 }
 .input__location::placeholder,
 .input__date::placeholder,
