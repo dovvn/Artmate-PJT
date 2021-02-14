@@ -108,12 +108,47 @@ export default {
       })
     })
     
+     //피드 테마받아서 해당 피드 테마번호 true로
+    http
+    .get(`/api/feed/theme/${this.user.userId}`)
+    .then((response) => {
+      const nowTheme = response.data;
+      this.choosed__themes[nowTheme] = true; 
+      console.log(this.choosed__themes);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    
     // 테마는 여기에 저장한다. 한 5개하자.
   },
   computed: {
 		...mapState(["user"])
 	},
   methods: {
+    chooseTheme(theme,idx) {
+      if(!this.choosed__themes[idx]) {
+        
+        http
+        .put(`api/feed/theme/${this.user.userId}/${theme}`)
+        .then((response)=>{
+          //전체 다 false로 만들고
+          const len = this.choosed__themes.length;
+          for(let i = 0; i < len; i++) {
+            this.$set(this.choosed__themes,i,false);
+          }
+          this.$set(this.choosed__themes,idx,true);
+          
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .then(()=>{
+          console.log(this.choosed__themes);
+        })
+      }
+    },
     goMyfeed() {
       this.$bvModal.hide('pos-check-modal')
       this.$router.push({
