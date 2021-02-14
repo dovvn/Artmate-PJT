@@ -71,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .fiddiv {
   width: 760px;
   height: 100%;
@@ -90,7 +90,7 @@ export default {
   border-bottom-left-radius: 15px;
 }
 .detail__navi{
-  position: sticky;
+  position: sticky!important;
   /* background-color: white; */
 }
 /* ------------------------------- nav css ------------------------------- */
@@ -107,7 +107,6 @@ export default {
   font-size: 35px;
   font-weight: bold;
   margin-left: 50px;
-  margin-top: 10px;
   padding-bottom: 30px;
 }
 .nav{
