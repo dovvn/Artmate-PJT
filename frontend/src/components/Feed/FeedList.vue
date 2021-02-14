@@ -2,23 +2,20 @@
   <div id="newsfeed">
       <div class="feedLine">
         <div id="post"  v-for="nf in newsfeed" :key="nf.id" > 
+          <div class="pro"> 
+            <img class="profile_img" :src="nf.userImg" alt="">
+            <span id="nick">{{nf.userName}}</span>
+          </div>
+
           <div id="picture">
-            <img class="feed_img" :src="nf.feedImg" alt=""  @click="postDetail(nf.id)">
+            <img class="feed_img" :src="nf.feedImg" alt="">
           </div>
           <div id="contents">
-            <div class="pro" > 
-              <img class="profile_img" :src="nf.userImg" alt="">
-              <p id="nick">{{nf.userName}}</p>
-              <p id="date" >{{timeForToday(nf.writeDate)}}</p>
-            </div>
-            <div class="feedtext">
-               {{nf.feedText}}
-            </div>
-
-            <div id="icons1">
-              <font-awesome-icon v-if="nf.likemark == 0" @click="addHeart(nf.likemark,nf.id)"  :icon="['far', 'heart']" /> 
-              <font-awesome-icon v-if="nf.likemark == 1" @click="addHeart(nf.likemark,nf.id)"  :icon="['fas', 'heart']" :style="{ color: 'red' }"/> 
-              {{nf.likeCnt}}
+            <div class="icon">
+              <div id="icons1">
+                <font-awesome-icon v-if="nf.likemark == 0" @click="addHeart(nf.likemark,nf.id)"  :icon="['far', 'heart']" :style="{ color: 'red' }"/> 
+                <font-awesome-icon v-if="nf.likemark == 1" @click="addHeart(nf.likemark,nf.id)"  :icon="['fas', 'heart']" :style="{ color: 'red' }"/> 
+                {{nf.likeCnt}}
             </div>
     
             <div id="icons2">
@@ -28,8 +25,20 @@
           /> {{nf.commentCnt}}
             </div>
             <div id="mark">
-              <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.bookmark, nf.id)" :icon="['far', 'bookmark']" size="sm" />
-              <font-awesome-icon v-if="nf.bookmark == 1" @click="addBookmark(nf.bookmark, nf.id)" :icon="['fas', 'bookmark']" size="sm" />
+              <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.bookmark, nf.id)" :icon="['far', 'bookmark']" />
+              <font-awesome-icon v-if="nf.bookmark == 1" @click="addBookmark(nf.bookmark, nf.id)" :icon="['fas', 'bookmark']" />
+              <font-awesome-icon class="share" :icon="['fas', 'share-alt']" size="sm" />
+            </div>
+            </div>
+            <div class="con">
+              <span id="nicks">{{nf.userName}}</span>
+              <div class="feedtext">{{nf.feedText}}</div>
+            </div> 
+            <div class="date">
+              {{timeForToday(nf.writeDate)}}
+            </div>
+            <div class="go">
+              <span class="detail"  @click="postDetail(nf.id)">상세보기 ▶ </span>
             </div>
           </div>
         </div>
@@ -175,137 +184,103 @@ export default {
 
 <style>
 .feedLine {
-  width: 700px;
+  width: 370px;
   height: 100%;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 80px;
 }
 #post{
-  width: 100%;
-  height: 500px;
-  box-shadow: 0px 0px 7px #00000029;
-  border-radius: 25px;
-  margin-top: 20px;
+  margin-bottom: 30px;
 }
-#post>#picture{
-  height: 250px;
+.pro{
+  display: inline-block;
+  float: left;
+  padding-left: 10px;
+  padding-bottom: 7px;
+}
+.profile_img{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+#nick{
+  font-size: 16px;
+  font-weight: bold;
+}
+.picture{
   width: 100%;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  height: 370px;
   overflow: hidden;
-  width: 100%;
 }
 .feed_img{
   width: 100%;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  object-fit:fill;
+  height: 370px;
+  object-fit:cover;
+  margin-bottom: 7px;
 }
-#post>#contents{
-  height: 250px;
-  padding: 20px;
-}
-.profile_img{
-  width: 78px;
-  height: 78px;
-  float: left;
-  border-radius: 50%;
-}
-.pro{
-  display: block;
-  width: 650px;
-  height: 80px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-#nick{
-  float: left;
-  padding-left: 10px;
-  padding-top:3.5%;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0 auto;
-}
-#date{
-  float: right;
-  padding-top: 4%;
-  font-size: 12px;
-  color: #999999;
-  font-size: 14px;
-}
-.feedtext{
-  display: inline-block;
-  width: 650px;
-  padding: 5px;
-  text-align: left;
-  font-size: 16px;
-  margin-bottom: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal; 
-  line-height: 1.25; 
-  height: 5.8em; 
-  text-align: left; 
-  word-wrap: break-word; 
-  display: -webkit-box; 
-  -webkit-line-clamp: 3; 
-  -webkit-box-orient: vertical;
-
+.icon{
+  width: 100%;
+  height: 24px;
 }
 #icons1{
-  padding-left: 10px;
+  padding-left: 5px;
   float: left;
-  font-size: 12px;
 }
 #icons2{
-  margin-left: 20px;
+  margin-left: 14px;
   float: left;
-  font-size: 12px;
 }
 #mark{
   float: right;
   margin-right: 5px;
 }
-/* ------------------------------ 반응형 ------------------------------ */
-@media screen and (max-width: 1024px) {
+.share{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+#nicks{
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 5px;
+  float: left;
+}
+.con{
+  width: 250px;
+}
+.feedtext{
+  font-size: 14px;
+  text-align: left;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  line-height: 1.25; 
+  height: 17.5px; 
+  word-wrap: normal; 
+}
+.detail{
+  clear: both;
+  font-size: 14px;
+  color: #A593DF;
+  float: right;
+}
+.go{
+  height: 22px;
+}
+.date{
+  clear: both;
+   height: 18px; 
+   font-size: 12px;
+   text-align: left;
+   margin-right: 300px;
+}
+
+/* ------------------------------ 커질때반응형 ------------------------------ */
+@media screen and (min-width: 1024px) {
   .feedLine {
-    width: 340px;
-  }
-  #post{
-    height: 300px;
-  }
-  #post>#picture{
-   height: 150px;
-  }
-  #post>#contents{
-    height: 150px;
-    padding: 8px;
-  }
-  .profile_img{
-    width: 50px;
-    height: 50px;
-  }
-  .pro{
-    width: 320px;
-    height: 50px;
-    margin-bottom: 7px;
-  }
-  #nick{
-    padding-left: 6px;
-    font-size: 18px;
-  }
-  #date{
-    font-size: 12px;
-  }
-  .feedtext{
-    width: 320px;
-    padding: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 12px;
-    line-height: 1.25; 
-    height: 4em; 
+    width: 760px;
   }
 }
 </style>
