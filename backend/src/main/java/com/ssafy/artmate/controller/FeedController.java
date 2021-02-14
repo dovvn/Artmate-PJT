@@ -196,9 +196,9 @@ public class FeedController {
 		return feedService.deleteFeedExhibit(userId, feedId);
 	}
 	
-	//전시할 피드 중에서 삭제
+	//전시할 피드 목록 가져오기
 	@ApiOperation(value = "3D 전시할 피드 목록 가져오기", notes = "전시할 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
-	@DeleteMapping(value = "/feed/exhibit/{userId}", produces = "text/json; charset=utf8")
+	@GetMapping(value = "/feed/exhibit/{userId}", produces = "text/json; charset=utf8")
 	public String selecteFeedExhibit(@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectFeedExhibit(userId));
