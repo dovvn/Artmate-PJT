@@ -102,4 +102,14 @@ public class ExhibitServiceImpl implements ExhibitService{
 	public List<ExhibitDto> selectAllOnlineExhibit() {
 		return sqlSession.getMapper(ExhibitMapper.class).selectAllOnlineExhibit();
 	}
+
+	@Override
+	public boolean checkNaverExhibit(ExhibitDto dto) {
+		return sqlSession.getMapper(ExhibitMapper.class).checkNaverExhibit(dto)==0;
+	}
+
+	@Override
+	public boolean deleteExhibition(String endDate) {
+		return sqlSession.getMapper(ExhibitMapper.class).deleteExhibition(endDate);
+	}
 }
