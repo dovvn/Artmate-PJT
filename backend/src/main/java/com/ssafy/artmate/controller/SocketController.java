@@ -112,4 +112,12 @@ public class SocketController {
     	}
 //		System.out.println(currentDate+" : 알림!");
     }
+    //로그인 시 확인 안한 새 알림이 있는지 확인
+    @MessageMapping("/send/login/{userId}")
+    public void signalCheckNew(@DestinationVariable String userId) {
+    	if(signalService.countNewSignal(userId)>0) {
+    		SignalDto message = new SignalDto();
+    		simpm.convertAndSend("/get/login/"+userId, message);
+    	}
+    }
 }
