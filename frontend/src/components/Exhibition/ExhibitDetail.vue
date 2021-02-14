@@ -19,6 +19,12 @@
                     <font-awesome-icon v-if="exhibit.scrapmark == 1" @click="addScrap(exhibit.scrapmark,exhibit.id)"  :icon="['fas', 'star']" style="color:white"/>
                     {{exhibit.scrapCnt}}</span>
               </div>
+              <div class="tag">
+                  <span class="tags" v-for="tag in exhibit.tagList" :key="tag" >
+                {{tag}}
+              </span>
+              </div>
+              
               <div class="exInfo">
                   <div class="ex__date">
                     <div class="day"> 날짜 : </div>
@@ -74,7 +80,7 @@
                     disableArrowsOnEdges=true 
                     :bullets = "false" >
                      <vueper-slide
-                     class="feed_img"
+                        class="feed_img"
                         v-for="f in feed" :key="f.id"
                         :image="f.feedImg">
                     </vueper-slide>
@@ -136,7 +142,8 @@ export default {
                 location:"",
                 name:"",
                 scrapCnt:0,
-                scrapmark:0
+                scrapmark:0,
+                tagList:[]
             },
             userInfo:{
                 userId:"",
@@ -154,7 +161,7 @@ export default {
         console.log(this.userInfo,this.id);
 
         http
-        .get(`api/exhibit/feed/3`) 
+        .get(`api/exhibit/feed/${this.id}`) 
         .then(res => {
             this.feed = res.data;
             console.log("이미지: "+res.data.feedImg);
@@ -165,9 +172,9 @@ export default {
         });
 
         http
-        .get(`api/exhibit/${this.userInfo.userId}/3`) //${this.id}
+        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
         .then(res => {
-            console.log("데이터야 : "+res.data.exImg);
+            console.log("데이터야 : "+res.data.tagList);
             this.exhibit = res.data;
         })
         .catch(err => {
@@ -311,7 +318,7 @@ export default {
         text-align: left;
         font-size: 20px;
     }
-    .exName, .exFeeds{
+    .exFeeds{
         padding-bottom: 15px;
     }
     .ex__name{
@@ -386,8 +393,22 @@ export default {
         color : #A593DF
     }
     .vueperslides__arrow svg {
-    padding: 25px;
-}
+        padding: 25px;
+    }
+    .tag{
+        margin-bottom: 10px;
+    }
+    .tags{
+        font-size: 12px;
+        color: #B9B9B9;
+        border:1px solid #B9B9B9;
+        margin-right: 10px;
+        border-radius: 15px;
+        padding: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        text-align: center;
+    }
     .feed_img{
         width: 80px;
         height: 80px;
