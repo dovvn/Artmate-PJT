@@ -26,4 +26,6 @@ public interface FeedService{
 	boolean deleteFeedExhibit(String userId, int feedId); //전시에서 피드 삭제
 	List<FeedDto> selectFeedExhibit(String userId); //전시한 피드 정보 가져오기
 	boolean checkFeedExhibit(String userId, int feedId); //전시할 피드에 저장되어 있는지 확인
+	boolean modifyFeedTheme(String userId, int theme); //유저 피드테마 번호 업데이트
+	int selectFeedTheme(String userId); //유저 피드테마 번호 가져오기
 }

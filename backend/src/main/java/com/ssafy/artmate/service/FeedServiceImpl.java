@@ -138,4 +138,14 @@ public class FeedServiceImpl implements FeedService{
 	public boolean checkFeedExhibit(String userId, int feedId) {
 		return sqlSession.getMapper(FeedMapper.class).checkFeedExhibit(userId, feedId)==0;
 	}
+
+	@Override
+	public boolean modifyFeedTheme(String userId, int num) {
+		return sqlSession.getMapper(FeedMapper.class).modifyFeedTheme(userId, num)==1;
+	}
+
+	@Override
+	public int selectFeedTheme(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectFeedTheme(userId);
+	}
 }

@@ -29,4 +29,6 @@ public interface FeedMapper {
 	int deleteFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시에서 피드 삭제
 	List<FeedDto> selectFeedExhibit(String userId); //전시한 피드 정보 가져오기
 	int checkFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시할 피드에 저장했는지 확인
+	int modifyFeedTheme(@Param("userId")String userId, @Param("theme") int theme); //유저 피드테마 번호 업데이트
+	int selectFeedTheme(@Param("userId") String userId); //유저 피드테마 번호 가져오기
 }
