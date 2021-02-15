@@ -110,25 +110,27 @@
         </button>
       </div>
       <div class="home_around_message">
-        <span>덕명동 주변 리스트입니다 </span>
+        <span>{{location}} 주변 리스트입니다 </span>
         <font-awesome-icon class="home_around_message_icon" icon="pallet"/>
       </div>
       <div class="home_around_list">
-        <div 
+        <div
+          @click="onClickAround"
           class="home_around_exhibition"
-          v-for="(item,idx) in aroundList"
+          v-for="(item,idx) in aroundEx"
           :key="idx"
+          :data-id="item.id"
         >
-          <img :src="item.img" alt="" class="home_around_exhibition_img">
-          <div class="home_around_exhibition_info">
-            <p class="home_around_exhibition_tlt">
-              <font-awesome-icon class="home_around_message_icon" icon="leaf"/>{{item.title}}
-            </p>
-            <p class="around_exhibition_place">
-              <font-awesome-icon class="home_around_message_icon" icon="map-marker-alt"/>
-              {{item.place}}
-            </p>
-            <p class="home_around_exhibition_duration">{{item.duration}}</p>
+          <img :src="item.exImg" alt="" class="home_around_exhibition_img" :data-id="item.id">
+          <div class="home_around_exhibition_info" :data-id="item.id">
+            <div class="home_around_exhibition_tlt" :data-id="item.id">
+              <font-awesome-icon class="home_around_message_icon" icon="leaf" :data-id="item.id"/>{{item.name}}
+            </div>
+            <div class="home_around_exhibition_place">
+              <font-awesome-icon class="home_around_message_icon" icon="map-marker-alt" :data-id="item.id"/>
+              {{item.location}}
+            </div>
+            <div class="home_around_exhibition_duration" :data-id="item.id">{{item.startDate}} ~ {{item.endDate}}</div>
           </div>
         </div>
       </div>
@@ -153,11 +155,18 @@ import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 import {getFeedList} from '@/api/home.js';
-import {getExhibitRecommend} from '@/api/exhibit.js';
+import {getExhibitRecommend,getListForMap} from '@/api/exhibit.js';
 export default {
   name: 'Home',
+  components: {
+    carousel,
+    Navi,
+    Carousel3d,
+    Slide
+  },
   data() {
     return{
+      location:"",
       recommend_tag:"",
       user:null,
       onlineCarouselClass:"",
@@ -188,35 +197,31 @@ export default {
       recommendList:[],
       filteredRecList:[],
       popularList:[],
-      aroundList:[
-        {
-          img:require('../../assets/main/slide1_1.jpg'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_3.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-      ]
+      aroundList:[]
     }
   },
   created(){
+    // let place = "";
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(function(position) {
+    //     var lat = position.coords.latitude, // 위도
+    //         lon = position.coords.longitude; // 경도
+    //     var geocoder = new kakao.maps.services.Geocoder();
+    //     geocoder.coord2Address(lon,lat, (res)=>{
+    //       place=res[0].address.region_1depth_name + ' ' + res[0].address.region_2depth_name;
+    //     });
+    //   });
+    //   setTimeout(()=>{
+    //     this.$store.commit("setCurrentLocation",place);
+    //     this.location=this.$store.getters.getCurrentPosition;
+    //     // console.log(this.currentPlace);
+    //   },600);
+    // }
+    // else{
+    //   this.$store.commit("setCurrentLocation","서울");
+    // }
+    this.$store.commit("setCurrentLocation", "서울");
+    this.location=this.$store.getters.getCurrentLocation;
     this.user=this.$store.getters.getUser;
     this.recommend_tag=this.user.myTag[0];
     getExhibitRecommend(
@@ -227,9 +232,11 @@ export default {
         console.log(this.filteredRecList);
         document.querySelector(`#${this.recommend_tag}`).classList.add('active');
         document.addEventListener('scroll',this.handleNavi);
-        console.log(1231,this.$refs.mycarousel);
-        this.$refs.mycarousel.$children[0].$slots.default[0].elm.classList.remove('a');
-        this.$refs.mycarousel.$children[0].$slots.default[1].elm.classList.remove('b');
+        console.log(this.$refs.mycarousel);
+        console.log(document.querySelector('.carousel-3d-slider').childNodes);
+        // const carousel = document.querySelector('.carousel-3d-slider').childNodes;
+        // this.$refs.mycarousel.$children[this.filteredRecList.length-1].$slots.default[0].elm.classList.remove('a');
+        // this.$refs.mycarousel.$children[this.filteredRecList.length-1].$slots.default[1].elm.classList.remove('b');
         if(window.innerWidth<=1024){
           this.carouselWidth=120;
           this.carouselHeight=270;
@@ -270,18 +277,22 @@ export default {
         console.error(err);
       }
     )
+    getListForMap(
+      (res)=>{
+        this.aroundList=res.data;
+      },
+      (err)=>{
+        console.error(err);
+      }
+    )
   },
   destroyed(){
     document.removeEventListener('scroll',this.handleNavi);
   },
-  mounted(){
-
-  },
-  components: {
-    carousel,
-    Navi,
-    Carousel3d,
-    Slide
+  computed:{
+    aroundEx(){
+      return this.aroundList.slice(0,4);
+    }
   },
   methods:{
     handleNavi() {
@@ -320,6 +331,14 @@ export default {
         name: "UserFeedDetail",
         params: {feedno: feedno}
       });
+    },
+    onClickAround(e){
+      this.$router.replace({
+        name:"ExhibitionDetail",
+        params:{
+          id:e.target.dataset.id,
+        }
+      })
     },
     onClickMoreFeed(){
       this.$router.replace({

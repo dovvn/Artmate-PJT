@@ -110,7 +110,7 @@
 .recommend_exhibition_poster {
   width: 200px;
   height: 260px;
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-sm);
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
 .recommend_exhibition_info {
@@ -169,7 +169,7 @@
   width: 220px;
   height: 220px;
   padding: 10px;
-  border-radius: calc(var(--border-radius-xl) * 2);
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
 }
 .home_around_box {
@@ -208,7 +208,7 @@
 }
 .home_around_exhibition {
   display: flex;
-  border-radius: calc(var(--border-radius-xl) * 2);
+  border-radius: calc(var(--border-radius-sm));
   /* border: 1px solid var(--color-medium-grey); */
   box-shadow: 3px 3px 4px var(--color-grey);
   width: 100%;
@@ -219,8 +219,8 @@
 .home_around_exhibition_img {
   width: 40%;
   height: 100%;
-  border-top-left-radius: calc(var(--border-radius-xl) * 2);
-  border-bottom-left-radius: calc(var(--border-radius-xl) * 2);
+  border-top-left-radius: calc(var(--border-radius-sm));
+  border-bottom-left-radius: calc(var(--border-radius-sm));
 }
 .home_around_exhibition_info {
   display: flex;
@@ -229,7 +229,7 @@
   padding: 20px;
 }
 .home_around_exhibition_tlt {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-medium-purple);
   margin: 0;
@@ -241,7 +241,7 @@
   margin: 0;
 }
 .home_around_exhibition_duration {
-  font-size: var(--font-tlt-sm);
+  font-size: var(--font-tlt-xs);
   font-weight: var(--weight-bold);
   color: var(--color-medium-grey);
   margin: 0;
@@ -363,7 +363,6 @@
     width: 115px;
     height: 115px;
     padding: 5px;
-    border-radius: var(--border-radius-xl);
     cursor: pointer;
   }
   .home_around_box {
@@ -389,25 +388,23 @@
   }
   .home_around_exhibition {
     display: flex;
-    border-radius: var(--border-radius-xl);
     height: 100px;
     margin: 5px 0 5px 0;
+    cursor: pointer;
   }
   .home_around_exhibition_img {
     width: 45%;
-    border-top-left-radius: var(--border-radius-xl);
-    border-bottom-left-radius: var(--border-radius-xl);
   }
   .home_around_exhibition_info {
     padding: 10px;
   }
   .home_around_exhibition_tlt {
-    font-size: var(--font-txt-md);
+    font-size: var(--font-txt-sm);
   }
   .home_around_exhibition_place {
     font-size: var(--font-txt-sm);
   }
   .home_around_exhibition_duration {
-    font-size: var(--font-txt-sm);
+    font-size: var(--font-txt-xs);
   }
 }
