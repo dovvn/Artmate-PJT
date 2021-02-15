@@ -47,8 +47,8 @@ public class SocketController {
     	/*Follow 알림*/
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentDate = dateFormat.format(new Date());
-		//받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x, 이미지, 날짜, 닉네임
-		SignalDto message = new SignalDto(getUserId, sendUserId,1,0,0, sendUser.getUserImg(), currentDate, sendUser.getUserName());
+		//String getUserId, String sendUserId,String sigDate, int sigType, int subType, int read
+		SignalDto message = new SignalDto(getUserId, sendUserId,currentDate,1,0,0);
 		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
     }
@@ -64,9 +64,8 @@ public class SocketController {
 		String currentDate = dateFormat.format(new Date());
     	for(UserDto user : followers) {
     		/*feed 알림*/
-    		//받는 아이디, 보내는 아이디, 피드 알림, 피드 알림, 읽기x, 이미지, 날짜, 닉네임
-    		message = new SignalDto(user.getUserId(), sendUserId,1,1,0, feed.getFeedImg(), currentDate, sendUser.getUserName());
-    		message.setMessageId(feed.getId());
+    		//String getUserId, String sendUserId, int messageId,String sigDate, int sigType, int subType, int read
+    		message = new SignalDto(user.getUserId(), sendUserId,feed.getId(), currentDate,1,1,0);
     		signalService.insertSignal(message); //알림 추가
     		simpm.convertAndSend("/get/feed/"+user.getUserId(),message);
     	}
@@ -84,9 +83,8 @@ public class SocketController {
     	/*좋아요 알림*/
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentDate = dateFormat.format(new Date());
-    	//받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x, 이미지, 날짜, 닉네임
-    	SignalDto message = new SignalDto(getUserId, sendUserId,1,2,0, feed.getFeedImg(), currentDate, sendUser.getUserImg());
-    	message.setMessageId(feed.getId());
+    	//String getUserId, String sendUserId, int messageId,String sigDate, int sigType, int subType, int read
+    	SignalDto message = new SignalDto(getUserId, sendUserId,feed.getId(),currentDate,1,2,0);
 		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
     }
@@ -108,8 +106,8 @@ public class SocketController {
     			getIdx = (int)(Math.random()*recomExhibits.size());
     			sendExhibit = recomExhibits.get(getIdx);    			
     		}
-    		//받는 아이디, 전시회 아이디, 전시회 알림, 읽기x, 이미지, 날짜, 전시회 이름
-    		SignalDto message = new SignalDto(u.getUserId(),sendExhibit.getId(),0,0, sendExhibit.getExImg(), currentDate, sendExhibit.getName());
+    		//String getUserId, int messageId,String sigDate, int sigType, int subType, int read
+    		SignalDto message = new SignalDto(u.getUserId(),sendExhibit.getId(),currentDate,0,0,0);
     		message.setDescription(sendExhibit.getDescription());
     		if(signalService.insertSignal(message)) simpm.convertAndSend("/get/exhibit/"+u.getUserId(), message);
     	}
