@@ -126,13 +126,13 @@
           <img :src="item.exImg" alt="" class="home_around_exhibition_img" :data-id="item.id">
           <div class="home_around_exhibition_info" :data-id="item.id">
             <div class="home_around_exhibition_tlt" :data-id="item.id">
-              <font-awesome-icon class="home_around_message_icon" icon="leaf" :data-id="item.id"/>{{item.name}}
+              <font-awesome-icon class="home_around_message_icon" :icon="['fab', 'envira']" :data-id="item.id"/> {{item.name}}
             </div>
             <div class="home_around_exhibition_place">
               <font-awesome-icon class="home_around_message_icon" icon="map-marker-alt" :data-id="item.id"/>
               {{item.location}}
             </div>
-            <div class="home_around_exhibition_duration" :data-id="item.id">{{item.startDate}} ~ {{item.endDate}}</div>
+            <div class="home_around_exhibition_duration" :data-id="item.id">{{$moment(item.startDate).format('YYYY-MM-DD')}} ~ {{$moment(item.endDate).format('YYYY-MM-DD')}}</div>
           </div>
         </div>
       </div>
@@ -304,6 +304,7 @@ export default {
       }
     )
     getOnlineExhibit(
+      this.user.userId,
       (res)=>{
         for(const ex of res.data){
           if(ex.id<360 || ex.id>364) continue;
