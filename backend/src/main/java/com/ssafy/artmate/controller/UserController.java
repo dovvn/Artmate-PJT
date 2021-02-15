@@ -139,7 +139,7 @@ public class UserController {
 		}
 		if (uservice.modifyUserInfo(user)) { //유저 정보 변경(이미지 빼고)
 			if(uservice.selectMyTag(user.getUserId()).size()!=0) { //태그가 이전에 하나라도 있었으면
-				if(!uservice.deleteMyTag(user.getUserId())) return "fail"; //저장되어 있는 태그들 삭제 시도 (실패하면 fail)
+				uservice.deleteMyTag(user.getUserId());
 			}
 			if(user.getMyTag() != null) {
 				for(String tag:user.getMyTag()) {//입력으로 들어온 태그들 저장 시도 (실패하면 fail)
