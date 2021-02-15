@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.artmate.mapper.SignalMapper">
 	<insert id="insertSignal" parameterType="SignalDto">
-		INSERT INTO artmateDB.Signal (getUserId, sendUserId, exId, sendUserName, img, sigDate, sigType, subType, artmateDB.Signal.read)
-		VALUES (#{getUserId}, #{sendUserId},#{exId},#{sendUserName},#{img},#{sigDate},#{sigType},#{subType},#{read})
+		INSERT INTO artmateDB.Signal (getUserId, sendUserId, messageId, sendUserName, img, sigDate, sigType, subType, artmateDB.Signal.read)
+		VALUES (#{getUserId}, #{sendUserId},#{messageId},#{sendUserName},#{img},#{sigDate},#{sigType},#{subType},#{read})
 	</insert>
 	<delete id="deleteSignal" parameterType="int">
 		DELETE FROM artmateDB.Signal
