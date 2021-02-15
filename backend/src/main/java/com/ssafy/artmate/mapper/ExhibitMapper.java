@@ -27,7 +27,7 @@ public interface ExhibitMapper {
 	List<FeedDto> selectFeeds(int id);
 	ExhibitDto selectExhibitByVrLink(String vrLink);
 	int insertOnlineExhibit(ExhibitDto dto);
-	List<ExhibitDto> selectAllOnlineExhibit();
+	List<ExhibitDto> selectAllOnlineExhibit(String userId);
 	int checkNaverExhibit(ExhibitDto dto);
 	boolean deleteExhibition(String endDate);
 }
