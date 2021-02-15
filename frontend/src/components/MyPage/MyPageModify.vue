@@ -211,7 +211,7 @@ export default {
       // console.log("file : "+this.file);
       // console.log("userImg : "+this.userInfo.userImg);
 
-      if(this.nickname != this.userInfo.userName){ // 변경을 하려면 중복체크 하도록 
+      if(this.nickname != this.userInfo.userName){ // 닉 변경을 하려면 중복체크 하도록 
         if(!this.idCheck){
          alert("닉네임 중복확인 후 진행해주세요.")
         }else{
@@ -222,39 +222,39 @@ export default {
                     }
                   })
             .then(({data}) => {
-            if(data != 'fail'){
-              // alert("수정이 완료되었습니다.");
-              // console.log("store: "+this.$store);
-              this.userInfo.userImg = data; // 리턴받은 url 넣기 
-              this.$store.commit('setUserInfo',this.userInfo);
-              this.$router.push("/home")
-            }else{
-              alert("회원정보 수정에 실패하였습니다.");
-            }
-          }).catch((err) => {
-            console.log(err);
-          });
+                if(data != 'fail'){
+                  // alert("수정이 완료되었습니다.");
+                  // console.log("store: "+this.$store);
+                  this.userInfo.userImg = data; // 리턴받은 url 넣기 
+                  this.$store.commit('setUserInfo',this.userInfo);
+                  this.$router.push("/home")
+                }else{
+                  alert("회원정보 수정에 실패하였습니다.");
+                }
+              }).catch((err) => {
+                console.log(err);
+              });
         }
-      }else{ // 변경안하고 싶으면 그냥 통과
+      }else{ // 닉 변경안하고 싶으면 그냥 통과
         http.
-        put(`/api/user`, formData,{
+          put(`/api/user`, formData,{
                 headers: {
                     "Content-Type": `multipart/form-data`,
                 }
               })
-        .then(({data}) => {
-         if(data != 'fail'){
-          // alert("수정이 완료되었습니다.");
-          // console.log("store: "+this.$store);
-          this.userInfo.userImg = data;
-          this.$store.commit('setUserInfo',this.userInfo);
-          this.$router.push("/home")
-         }else{
-           alert("회원정보 수정에 실패하였습니다.");
-         }
-       }).catch((err) => {
-         console.log(err);
-       });
+          .then(({data}) => {
+            if(data != 'fail'){
+              // alert("수정이 완료되었습니다.");
+              // console.log("store: "+this.$store);
+              this.userInfo.userImg = data;
+              this.$store.commit('setUserInfo',this.userInfo);
+              this.$router.push("/home")
+            }else{
+              alert("회원정보 수정에 실패하였습니다!!!.");
+            }
+          }).catch((err) => {
+            console.log(err);
+          });
       }
       
     },
