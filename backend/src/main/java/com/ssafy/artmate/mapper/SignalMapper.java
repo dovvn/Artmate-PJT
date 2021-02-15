@@ -12,4 +12,6 @@ public interface SignalMapper {
 	int modifySignal(int id);// 알림 확인
 	List<SignalDto> selectAllSignal(String getUserId);// 알림 목록 가져오기
 	int countNewSignal(String userId); //확인 안한 알림 갯수 반환
+	List<SignalDto> selectExhibitSignal(String getUserId);// 전시회 알림 목록 가져오기
+	List<SignalDto> selectFeedSignal(String getUserId);// 피드 알림 목록 가져오기
 }
