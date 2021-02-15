@@ -91,7 +91,7 @@ public class SocketController {
 		return message;
     }
     //전시회 알림
-    @Scheduled(cron="0 0/3 10-19 * * ?") //10시부터 18시까지 10분간격으로
+    @Scheduled(cron="0 0/3 0-23 * * ?") //10시부터 18시까지 10분간격으로
     public void signalExhibit() {
     	List<UserDto> users = userService.selectAllUser();
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -111,10 +111,8 @@ public class SocketController {
     		//받는 아이디, 전시회 아이디, 전시회 알림, 읽기x, 이미지, 날짜, 전시회 이름
     		SignalDto message = new SignalDto(u.getUserId(),sendExhibit.getId(),0,0, sendExhibit.getExImg(), currentDate, sendExhibit.getName());
     		message.setDescription(sendExhibit.getDescription());
-    		System.out.println(message);
     		if(signalService.insertSignal(message)) simpm.convertAndSend("/get/exhibit/"+u.getUserId(), message);
     	}
-//		System.out.println(currentDate+" : 알림!");
     }
     //로그인 시 확인 안한 새 알림이 있는지 확인
     @MessageMapping("/send/login/{userId}")
