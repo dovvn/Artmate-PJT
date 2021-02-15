@@ -145,9 +145,24 @@ export default {
     },
     destroyed(){
         document.removeEventListener('scroll',handleNavi);
+        this.observer.disconnect();
     },
     mounted(){
         document.addEventListener('scroll',handleNavi);
+        const target=document.querySelector(".bm-menu");
+        // console.log(target);
+        this.observer = new MutationObserver((mutations)=>{
+            mutations.forEach((mutation)=>{
+                if(mutation.target.classList.contains('moveRight')){
+                document.querySelector('.goBack__button').style.display = 'none';          
+                } else {
+                document.querySelector('.goBack__button').style.display = 'block';
+                }
+
+            })
+        })
+        const config = {attributes: true, childList: true, characterData: true};
+    this.observer.observe(target,config);
     },
     data() {
         return {
