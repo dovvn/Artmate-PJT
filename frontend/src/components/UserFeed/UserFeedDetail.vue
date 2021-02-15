@@ -638,7 +638,7 @@ export default {
     margin-left:0px;
     /* padding-top:55px; */
     padding-bottom:70px;
-    min-height:200px;
+    min-height:300px;
   }
 
   .feed__memo__items {
