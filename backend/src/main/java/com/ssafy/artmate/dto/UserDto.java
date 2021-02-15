@@ -32,6 +32,8 @@ public class UserDto implements Serializable{
 	private int followerCnt;
 	@ApiModelProperty(value="팔로잉 수 : 내가 팔로우한 사람 수")
 	private int followingCnt;
+	@ApiModelProperty(value="3D 피드테마 번호(deafult 0)")
+	private int theme;
 
 	
 	public UserDto() {}
@@ -64,6 +66,25 @@ public class UserDto implements Serializable{
 		this.feedCnt = feedCnt;
 		this.followerCnt = followerCnt;
 		this.followingCnt = followingCnt;
+	}
+	
+	
+
+	public UserDto(String userId, String userPw, String userName, String feedName, String introduction, String userImg,
+			String accesskey, List<String> myTag, int feedCnt, int followerCnt, int followingCnt, int theme) {
+		super();
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userName = userName;
+		this.feedName = feedName;
+		this.introduction = introduction;
+		this.userImg = userImg;
+		this.accesskey = accesskey;
+		this.myTag = myTag;
+		this.feedCnt = feedCnt;
+		this.followerCnt = followerCnt;
+		this.followingCnt = followingCnt;
+		this.theme = theme;
 	}
 
 	public String getUserId() {
@@ -153,12 +174,22 @@ public class UserDto implements Serializable{
 	public void setFollowingCnt(int followingCnt) {
 		this.followingCnt = followingCnt;
 	}
+	
+	
+
+	public int getTheme() {
+		return theme;
+	}
+
+	public void setTheme(int theme) {
+		this.theme = theme;
+	}
 
 	@Override
 	public String toString() {
 		return "UserDto [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", feedName=" + feedName
 				+ ", introduction=" + introduction + ", userImg=" + userImg + ", accesskey=" + accesskey + ", myTag="
 				+ myTag + ", feedCnt=" + feedCnt + ", followerCnt=" + followerCnt + ", followingCnt=" + followingCnt
-				+ "]";
+				+ ", theme=" + theme + "]";
 	}
 }

@@ -61,6 +61,8 @@
 import { PointerLockControls } from './PointerLockControls.js';
 import * as THREE from './three.module.js';
 import http from "@/util/http-common";
+import {mapState} from "vuex";
+
 
 const loader = new THREE.TextureLoader();
 loader.setCrossOrigin('anonymous')
@@ -85,10 +87,14 @@ const woods = new THREE.MeshLambertMaterial({
 const white = new THREE.MeshLambertMaterial(
   {color: 0xffffff,}
 );
+const black = new THREE.MeshLambertMaterial(
+  {color: 0x000000,}
+);
 
 //box 정해줌
-const box = white;
 
+
+const box = white;
 //
 
 let camera, scene, renderer, controls;
@@ -162,16 +168,7 @@ function animate() {
   const time = performance.now();
 	if(screen.availWidth > 900) {
 		if ( controls.isLocked === true) {
-			
-			raycaster.ray.origin.copy( controls.getObject().position );
-			raycaster.ray.origin.y -= 10;
-
-			const intersections = raycaster.intersectObjects( objects );
-
-			const onObject = intersections.length > 0;
-			
 			const delta = ( time - prevTime ) / 1000;
-
 			velocity.x -= velocity.x * 10.0 * delta;
 			velocity.z -= velocity.z * 10.0 * delta;
 
@@ -184,12 +181,6 @@ function animate() {
 			if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
 			if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
-			if ( onObject === true ) {
-
-				velocity.y = Math.max( 0, velocity.y );
-				canJump = true;
-
-			}
 
 			controls.moveRight( - velocity.x * delta );
 			controls.moveForward( - velocity.z * delta );
@@ -215,7 +206,6 @@ function animate() {
 		mobileMoveCameraUp();
 	}
   prevTime = time;
-
   renderer.render( scene, camera );
 
 }
@@ -228,6 +218,7 @@ function onWindowResize() {
 
   }
 function init(feeds,theme) {
+				
       	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.y = 10;
 
@@ -418,9 +409,14 @@ function init(feeds,theme) {
 				document.addEventListener( 'keyup', onKeyUp );
 
 				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-				// pick
 				
-				//
+				
+				
+				
+				
+				
+				
+				
 
 				// floor
 
@@ -430,8 +426,10 @@ function init(feeds,theme) {
 				// 바닥 건설
 
 				floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-				const floor = new THREE.Mesh( floorGeometry, concreteWhite );
+				const floorTexture = new THREE.MeshLambertMaterial({
+							map:loader.load(`../../test3D/${theme}_floor.jpg`),
+				});
+				const floor = new THREE.Mesh( floorGeometry, floorTexture );
 				scene.add( floor );
 
 				
@@ -472,7 +470,10 @@ function init(feeds,theme) {
 				// const color1 = new THREE.Color('skyblue');
 				// 천장 건설
 				const ceilGeometry = new THREE.BoxGeometry( 200, 20, 200 ).toNonIndexed();
-				const ceil = new THREE.Mesh( ceilGeometry, concreteWhite );
+				const ceilTexture = new THREE.MeshLambertMaterial({
+							map:loader.load(`../../test3D/${theme}_ceil.jpg`),
+				});
+				const ceil = new THREE.Mesh( ceilGeometry, ceilTexture );
 				ceil.position.x = 0;
 				ceil.position.y = 60;
 				ceil.position.z = 0;
@@ -589,8 +590,9 @@ function init(feeds,theme) {
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				
 				document.body.appendChild( renderer.domElement );
-
+				const canvas = renderer.domElement;
 
 				window.addEventListener( 'resize', onWindowResize );
     }
@@ -599,37 +601,66 @@ export default {
 		return {
 			userId: 'jhw1234527@gmail.com',
 			feeds: [],
-			theme: {
-				ceil: '',
-				wall: '',
-				floor: '',
-			},
+			theme: 0,
 		};
 	},
+	computed: {
+		...mapState(["user"])
+	},
 	created() {
-		
+		this.userId = this.$route.params.userId;
 	},
   mounted() {
 		// 해당 유저의 전시회피드들을 가져온다.
 		http
-		.get(`/api/feed/allList/{this.userId}`)
+		.get(`/api/feed/exhibit/${this.userId}`)
 		.then((response) => {
+			console.log(response.data);
 			this.feeds = response.data;
 		})
 		.catch((error) => {
 			console.error(error);
 		})
-		.then(()=> {
-			init(this.feeds,this.theme);
+		.then(()=>{
+			http
+			.get(`/api/feed/theme/${this.user.userId}`)
+			.then((response)=>{
+				console.log(response.data);
+				this.theme = response.data;
+			})
+			.catch((error)=> {
+				console.error(error);
+			})
+			.then(()=> {
+				// console.log(this.feeds);
+				console.log(this.theme);
+				init(this.feeds,this.theme);
+			})
+			.then(()=> {
+				animate();
+			})
 		})
-		.then(()=> {
-			animate();
-		})
+		
   },
   methods: {
 		goBack() {
-			//해당 유저피드로 이동
-			console.log('뒤로가!');
+			// console.log(renderer.domElement);
+			document.body.removeChild(renderer.domElement);
+			if(this.$route.params.userId === this.user.userId) {
+				//마이피드로이동
+				this.$router.push({
+					name: "MyFeedList",
+				})
+			} else {
+				//해당 유저피드로 이동
+				this.$router.push({
+					name: "UserFeedList",
+					params: {
+						userId: this.$route.params.userId, 
+					}
+				})
+			}
+
 		},
 		isMobile() {
 			// console.log(screen.availWidth);

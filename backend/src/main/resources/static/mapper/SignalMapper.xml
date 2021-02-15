@@ -18,4 +18,9 @@
 		WHERE getUserId=#{getUserId}
 		ORDER BY sigDate DESC, id DESC
 	</select>
+	<select id="countNewSignal" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM artmateDB.Signal
+		WHERE getUserId=#{userId} and artmateDB.Signal.read=0
+	</select>
 </mapper>

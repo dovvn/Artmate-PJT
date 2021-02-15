@@ -25,4 +25,10 @@ public interface FeedMapper {
 	int modifyLikeCnt(FeedDto feed); //피드 좋아요 수 수정
 	int modifyFeedImg(FeedDto feed); //피드 이미지 변경
 	List<FeedDto> selectAllFeed(String userId); //전체 피드목록 반환
+	int insertFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시할 피드 저장
+	int deleteFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시에서 피드 삭제
+	List<FeedDto> selectFeedExhibit(String userId); //전시한 피드 정보 가져오기
+	int checkFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시할 피드에 저장했는지 확인
+	int modifyFeedTheme(@Param("userId")String userId, @Param("theme") int theme); //유저 피드테마 번호 업데이트
+	int selectFeedTheme(@Param("userId") String userId); //유저 피드테마 번호 가져오기
 }

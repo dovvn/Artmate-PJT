@@ -105,4 +105,12 @@ public class ExhibitController {
 		String result = gs.toJson(exhibitService.selectFeeds(id));
 		return result;
 	}
+	//온라인 전시회 목록만 가져오기
+	@ApiOperation(value = "온라인 전시회 목록만 가져오기", notes = "전시회 리스트 반환(제목,설명,주소,작가,vr링크)", response = ExhibitDto.class, responseContainer="List")
+	@GetMapping(value="/exhibit/online", produces = "text/json; charset=utf8")
+	public String selectAllOnlineExhibit() {
+		Gson gs = new Gson();
+		String result = gs.toJson(exhibitService.selectAllOnlineExhibit());
+		return result;
+	}
 }

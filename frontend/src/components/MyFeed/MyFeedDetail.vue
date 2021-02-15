@@ -106,10 +106,7 @@
             >
           </button>
         </div>
-        
       </div>
-      
-      
     </div>
     <!-- PC -->
     <div class="feed" v-else>
@@ -281,7 +278,6 @@ export default {
       console.log(memoId);
       console.log(this.delete_memoId);
       this.$bvModal.show('pos-check-modal');
-      
     },
     addMemo() {
       console.log(this.memoInput.content,'등록');

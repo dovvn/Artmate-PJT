@@ -19,6 +19,12 @@
                     <font-awesome-icon v-if="exhibit.scrapmark == 1" @click="addScrap(exhibit.scrapmark,exhibit.id)"  :icon="['fas', 'star']" style="color:white"/>
                     {{exhibit.scrapCnt}}</span>
               </div>
+              <div class="tag">
+                  <span class="tags" v-for="tag in exhibit.tagList" :key="tag" >
+                {{tag}}
+              </span>
+              </div>
+              
               <div class="exInfo">
                   <div class="ex__date">
                     <div class="day"> 날짜 : </div>
@@ -33,7 +39,7 @@
                     <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
                     <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn" v-if="exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
+                    <div class="btn" v-if="exhibit.artist != null && exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
@@ -43,7 +49,7 @@
                     <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
                     <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn" v-if="exhibit.description.length > 61" >
+                    <div class="btn" v-if="exhibit.description != null && exhibit.description.length > 61 " >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
@@ -53,19 +59,29 @@
           <div class="bar"></div>
           <!-- 함께 즐겨요 -->
           <div class="exReview">
-              <div class="exFeeds">
+            <div class="exFeeds">
                 <font-awesome-icon :icon="['fas', 'globe-americas']" class="earth__icon" style="color:#5F9EA0"/>
                 <span class="ex__name"> 함께 즐겨요 </span>
                 <div class="mention">
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
-                
-                </div>
-                <div class="img">
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                    <img class="feed_img" src="../../assets/sample.jpg" alt="" >
-                </div>
+            </div>
+                <vueper-slides
+                    class="no-shadow img"
+                    :visible-slides="3"
+                    slide-multiple
+                    :gap="3"
+                    :dragging-distance="200"
+                    :breakpoints="{ 800: { visibleSlides: 3, slideMultiple: 2 } }"
+                    disableArrowsOnEdges=true 
+                    :bullets = "false" >
+                     <vueper-slide
+                        class="feed_img"
+                        v-for="f in feed" :key="f.id"
+                        :image="f.feedImg"
+                        @click.native ="goUserFeedDetail(f.id)">
+                    </vueper-slide>
+                </vueper-slides>
                 
               </div>
           </div>
@@ -74,8 +90,8 @@
           <div class="exRode">
             <font-awesome-icon icon="map-marker-alt" class="location__icon" style="color:gray"/>
             <span class="ex__name"> 오시는 길 </span>
-            <div>
-                 <img class="rode_img" src="../../assets/test_rode.jpg" alt="" >
+            <div class="rode">
+                 <!-- <div id="map" style="width:270px;height:220px;"></div> -->
             </div>
            
           </div>
@@ -86,7 +102,8 @@
 <script>
 import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
-
+import { VueperSlides, VueperSlide } from 'vueperslides'
+import 'vueperslides/dist/vueperslides.css'
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -101,6 +118,7 @@ export default {
     name: "ExhibitDetail",
     components: {
         Navi,
+        VueperSlides, VueperSlide
     },
     destroyed(){
         document.removeEventListener('scroll',handleNavi);
@@ -121,29 +139,59 @@ export default {
                 location:"",
                 name:"",
                 scrapCnt:0,
-                scrapmark:0
+                scrapmark:0,
+                tagList:[]
             },
             userInfo:{
                 userId:"",
             },
+            feed:[],
             showArtist: false,
             showDes: false,
+            slides: [
+            ]
         };
     },
     created() {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
-        console.log(this.userInfo,this.id);
+        console.log("처음! : "+this.userInfo, this.id);
+
         http
-        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) 
+        .get(`api/exhibit/feed/1`) 
         .then(res => {
-            // console.log("데이터야 : "+res.data.exImg);
+            this.feed = res.data;
+            console.log("이미지: "+res.data.feedImg);
+        })
+        .catch(err => {
+            console.error(err);
+            console.log("에러!!!");
+        });
+
+        http
+        .get(`api/exhibit/${this.userInfo.userId}/1`) //${this.id}
+        .then(res => {
+            console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
+            console.log("솔묭ㅋㅋ"+this.exhibit.description);
         })
         .catch(err => {
             console.error(err);
         });
+
+        
     },
+    //  mounted() {
+        // if (window.kakao && window.kakao.maps) {
+        //     this.initMap();
+        // } else {
+        //     const script = document.createElement('script');
+        //     /* global kakao */
+        //     script.onload = () => kakao.maps.load(this.initMap);
+        //     script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8c64ae9266e5ca128223c03d5686eed0';
+        //     document.head.appendChild(script);
+        // }
+    // },
     methods:{
         toggleArtistShow(){
             this.showArtist = !this.showArtist;
@@ -156,7 +204,7 @@ export default {
             if(scrap == 0){ // 스크랩 안눌린 상태 
                 this.exhibit.scrapCnt ++;
                 http
-                .put(`api/scrapbook/${this.user.userId}/${exid}`)
+                .put(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
                     console.log(data); 
                     if (data) {
@@ -169,7 +217,7 @@ export default {
             }else if(scrap == 1){ // 스크랩 눌린 상태 
                 this.exhibit.scrapCnt --;
                 http
-                .delete(`api/scrapbook/${this.user.userId}/${exid}`)
+                .delete(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
                     console.log(data); 
                     if (data) {
@@ -181,6 +229,52 @@ export default {
                     .catch((err) => console.log(err));
             }
         },
+        goUserFeedDetail(feedno){ // 피드 게시물로 이동
+            console.log(feedno);
+            this.$router.replace({
+                name: "UserFeedDetail",
+                params: {feedno: feedno}
+            });
+        },
+//         initMap() {
+//         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+//         mapOption = {
+//             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+//             level: 3 // 지도의 확대 레벨
+//                 };  
+
+//             // 지도를 생성합니다    
+//             var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+//             // 주소-좌표 변환 객체를 생성합니다
+//             var geocoder = new kakao.maps.services.Geocoder();
+
+//             // 주소로 좌표를 검색합니다
+//             geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+//             // 정상적으로 검색이 완료됐으면 
+//             if (status ===    kakao.maps.services.Status.OK) {
+
+//             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+//             // 결과값으로 받은 위치를 마커로 표시합니다
+//             var marker = new kakao.maps.Marker({
+//                 map: map,
+//                 position: coords
+//             });
+
+//             // 인포윈도우로 장소에 대한 설명을 표시합니다
+//             var infowindow = new kakao.maps.InfoWindow({
+//                 content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+//             });
+//             infowindow.open(map, marker);
+
+//             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+//             map.setCenter(coords);
+//         } 
+// });    
+
+//         }
     }
 }
 </script>
@@ -229,8 +323,8 @@ export default {
         text-align: left;
         font-size: 20px;
     }
-    .exName, .exFeeds{
-        padding-bottom: 15px;
+    .exFeeds{
+        padding-bottom: 30px;
     }
     .ex__name{
         font-size: 20px;
@@ -296,16 +390,39 @@ export default {
         line-height: 100px;
     }
     .img{
-        margin-top: 20px;
+        padding-top: 20px;
+        margin: 0 auto;
+        width: 270px;
+        height: 80px;
+    }
+    .vueperslides__arrow {
+        color : #A593DF
+    }
+    .vueperslides__arrow svg {
+        padding: 25px;
+    }
+    .tag{
+        margin-bottom: 10px;
+    }
+    .tags{
+        font-size: 12px;
+        color: #B9B9B9;
+        border:1px solid #B9B9B9;
+        margin-right: 10px;
+        border-radius: 15px;
+        padding: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        text-align: center;
     }
     .feed_img{
         width: 80px;
         height: 80px;
-        border-radius: 10px;
+        border-radius: 5px;
         vertical-align: middle;
         margin-right: 13px;
     }
-    .rode_img{
+    .rode{
         display: block;
         width: 270px;
         text-align: center;
