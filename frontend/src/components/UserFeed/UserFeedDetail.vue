@@ -201,6 +201,7 @@ export default {
   },
   data() {
     return {
+      observer:null,
       feed: {
         bookmark: 0,
         commentCnt: 0,
@@ -434,7 +435,25 @@ export default {
     });
     
   },
+  destroyed() {
+    this.observer.disconnect();
+  },
   mounted() {
+    const target=document.querySelector(".bm-menu");
+    // console.log(target);
+    this.observer = new MutationObserver((mutations)=>{
+      mutations.forEach((mutation)=>{
+        if(mutation.target.classList.contains('moveRight')){
+          document.querySelector('.goBack__button').style.display = 'none';          
+        } else {
+          document.querySelector('.goBack__button').style.display = 'block';
+        }
+
+      })
+    })
+    const config = {attributes: true, childList: true, characterData: true};
+    this.observer.observe(target,config);
+
     console.log(this.$route.params.feedno);
     // document.documentElement.style.overflowY = "hidden"; 
     const img = document.querySelector('.feed__img');

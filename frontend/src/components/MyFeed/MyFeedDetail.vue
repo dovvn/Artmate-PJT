@@ -2,6 +2,9 @@
     <!-- 모바일 -->
     <div class="feed" v-if="isMobile()">
       <Navi class="detail__navi"/>
+       <button class="goBack__button" @click="goBack()">
+            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          </button>
       <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
         <div class="pos-check-modal-body">
           <div class="pos-check-title">
@@ -11,9 +14,7 @@
           <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
         </div>
       </b-modal>
-      <button class="goBack__button" @click="goBack()">
-            <font-awesome-icon :icon="['fas', 'chevron-left']" />
-          </button>
+     
       <div class="sticky-top">
         
         <div class="white">
@@ -235,6 +236,7 @@ export default {
   },
   data() {
     return {
+      observer: null,
       feed: {
         bookmark: 0,
         commentCnt: 0,
@@ -447,7 +449,25 @@ export default {
     });
     
   },
+  destroyed() {
+    this.observer.disconnect();
+  },
   mounted() {
+    const target=document.querySelector(".bm-menu");
+    // console.log(target);
+    this.observer = new MutationObserver((mutations)=>{
+      mutations.forEach((mutation)=>{
+        if(mutation.target.classList.contains('moveRight')){
+          document.querySelector('.goBack__button').style.display = 'none';          
+        } else {
+          document.querySelector('.goBack__button').style.display = 'block';
+        }
+
+      })
+    })
+    const config = {attributes: true, childList: true, characterData: true};
+    this.observer.observe(target,config);
+    
     console.log(this.$route.params.feedno);
     // document.documentElement.style.overflowY = "hidden"; 
     const img = document.querySelector('.feed__img');
@@ -482,7 +502,8 @@ export default {
     })
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user"]),
+    
   },
   directives: {
     focus: {
