@@ -66,6 +66,7 @@ public class SocketController {
     		/*feed 알림*/
     		//받는 아이디, 보내는 아이디, 피드 알림, 피드 알림, 읽기x, 이미지, 날짜, 닉네임
     		message = new SignalDto(user.getUserId(), sendUserId,1,1,0, feed.getFeedImg(), currentDate, sendUser.getUserName());
+    		message.setMessageId(feed.getId());
     		signalService.insertSignal(message); //알림 추가
     		simpm.convertAndSend("/get/feed/"+user.getUserId(),message);
     	}
@@ -85,6 +86,7 @@ public class SocketController {
 		String currentDate = dateFormat.format(new Date());
     	//받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x, 이미지, 날짜, 닉네임
     	SignalDto message = new SignalDto(getUserId, sendUserId,1,2,0, feed.getFeedImg(), currentDate, sendUser.getUserImg());
+    	message.setMessageId(feed.getId());
 		if(!signalService.insertSignal(message)) return null; //알림 추가
 		return message;
     }
