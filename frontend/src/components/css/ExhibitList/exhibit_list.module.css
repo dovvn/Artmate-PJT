@@ -97,8 +97,8 @@
   cursor: pointer;
 }
 .exhibit_duration {
-  font-size: var(--font-txt-lg);
-  font-weight: var(--weight-bold);
+  font-size: var(--font-txt-sm);
+  font-weight: var(--weight-regular);
   color: var(--color-white);
 }
 .exhibit_poster {
@@ -122,10 +122,12 @@
   font-weight: var(--weight-bold);
   color: var(--color-white);
   padding: 10px 0;
+  margin-bottom: 30px;
+  margin-right: 10px;
 }
 .exhibit_scrap {
   width: 10%;
-  font-size: var(--font-txt-md);
+  font-size: var(--font-txt-xs);
   color: var(--color-light-grey2);
   display: flex;
   padding: 10px 0;
