@@ -285,7 +285,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../components/css/style.css";
     .exDetial__navi{
         width: 380px;
@@ -304,10 +304,10 @@ export default {
         text-align: center;
         margin: 0 auto;
     }
-    .bm-burger-bars {
+    .exDetial__navi >>> .bm-burger-bars {
         background-color: white;
     }
-    .navi_item{
+    .exDetial__navi >>> .navi_item{
         color: white;
     }
     .exPoster{
