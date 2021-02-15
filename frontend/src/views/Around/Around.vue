@@ -15,7 +15,7 @@
         <span>현재 우리 지역의 전시회</span>
       </div>
       <div class="around_header_place">
-        <span><font-awesome-icon :icon="['far', 'flag']"/> {{currentPlace}}</span>
+        <span><font-awesome-icon :icon="['far', 'flag']"/> {{locationInfo.location}}</span>
       </div>
     </div>
 
@@ -60,7 +60,7 @@ export default {
   name: "Around",
   data(){
     return{
-      currentPlace:"",
+      locationInfo:{},
       isToggled:false,
       idx:0,
       selectedLocation:"",
@@ -71,7 +71,6 @@ export default {
     aroundEx(){
       if(!this.isToggled){
         if(this.selectedLocation==="") return [];
-        // console.log(this.selectedLocation);
         let tmp=[];
         let a = this.aroundList.filter(item=>item.location===this.selectedLocation);
         tmp.push(a[0]);
@@ -83,21 +82,31 @@ export default {
     }
   },
   created(){
+    this.locationInfo = this.$store.getters.getCurrentLocation;
     getListForMap(
       (res)=>{
         this.aroundList=res.data;
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-              center: new kakao.maps.LatLng(37.49887, 127.026581), // 지도의 중심좌표
-              level: 3, // 지도의 확대 레벨
+              center: new kakao.maps.LatLng(this.locationInfo.lat, this.locationInfo.lon), // 지도의 중심좌표
+              level: 8, // 지도의 확대 레벨
             };
 
         var map = new kakao.maps.Map(mapContainer, mapOption);
         var geocoder = new kakao.maps.services.Geocoder();
         // 주소로 좌표를 검색합니다
         let ps = new kakao.maps.services.Places();
-        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+        var imageSrc = require("../../assets/marker.png");
+        var imageSize = new kakao.maps.Size(35, 35);
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        var myMarker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: new kakao.maps.LatLng(this.locationInfo.lat, this.locationInfo.lon), // 마커를 표시할 위치
+            title : "내 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+            image : markerImage // 마커 이미지 
+        });
         let obj= new Object();
+        const tmp=this.locationInfo.location.split(" ");
         for(let i=0; i<this.aroundList.length; i++){
           if(obj[this.aroundList[i].location]===undefined){
             obj[this.aroundList[i].location]=[this.aroundList[i]]
@@ -110,15 +119,15 @@ export default {
         for(let key in obj){
           ps.keywordSearch(key,(data)=>{
             for(let arr of data){
-              if(arr.category_group_name==="문화시설"){
+              if(arr.address_name.includes(tmp[0]) && arr.category_group_name==="문화시설"){
                 var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
-                var imageSize = new kakao.maps.Size(24, 35);
-                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                // var imageSize = new kakao.maps.Size(24, 35);
+                // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
                 var marker = new kakao.maps.Marker({
                     map: map, // 마커를 표시할 지도
                     position: new kakao.maps.LatLng(Number(arr.y), Number(arr.x)), // 마커를 표시할 위치
                     title : key, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-                    image : markerImage // 마커 이미지 
+                    // image : markerImage // 마커 이미지 
                 });
                 var infowindow = new kakao.maps.InfoWindow({
                     content: key, // 인포윈도우에 표시할 내용
@@ -130,15 +139,10 @@ export default {
                   kakao.maps.event.addListener(marker, 'mouseout', function() {
                     infowindow.close();
                   });
-                  // kakao.maps.event.addListener(marker, 'click', function() {
-                  //   this.selectedLocation=marker.Fb;
-                  //   console.log(this.selectedLocation,marker.Fb);
-                  // });
                 })(marker, infowindow);
                 if(!flag){
-                  this.selectedLocation=key;
-                  map.setCenter(coords);
-                  flag=true;
+                    this.selectedLocation=key;
+                    flag=true;
                 }
                 break;
               }
@@ -152,7 +156,6 @@ export default {
     )
   },
   mounted(){
-    this.initMap();
     document.addEventListener('click',this.handleToggle);
   },
   destroyed(){
@@ -160,7 +163,6 @@ export default {
   },
   methods:{
     handleToggle(e){
-      // console.log(e);
       if(this.isToggled){
         if(typeof e.target.className == 'object' || 
         typeof e.target.className == 'string' && 
@@ -168,9 +170,8 @@ export default {
           this.onToggle();
       }
       else{
-        if(e.target.tagName==="IMG" && e.target.src==="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"){
-          this.selectedLocation=e.target.title;
-          // console.log(this.selectedLocation);
+        if(e.target.tagName==="AREA"){
+          this.selectedLocation=e.target.attributes[4].value;
         }
       }
     },
@@ -198,38 +199,7 @@ export default {
       }
       
     },
-    initMap() {
-      let place = "";
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var lat = position.coords.latitude, // 위도
-              lon = position.coords.longitude; // 경도
-          var geocoder = new kakao.maps.services.Geocoder();
-          
-          geocoder.coord2Address(lon,lat, (res)=>{
-            place=res[0].address.region_1depth_name + ' ' + res[0].address.region_2depth_name;
-          });
-        });
-        setTimeout(()=>{
-          this.setCurrentPlace(place);
-          // console.log(this.currentPlace);
-        },500);
-      }
-      else{
-        this.setCurrentPlace("서울")
-      }
-
-      // var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
-      // var marker = new kakao.maps.Marker({
-      //     position: markerPosition
-      // });
-      // marker.setMap(map);
-    },
-    setCurrentPlace(place){
-      this.currentPlace=place;
-    },
     onClickEx(e){
-      // console.log(e.target.dataset.id);
       this.$router.replace({
         name:"ExhibitionDetail",
         params:{
