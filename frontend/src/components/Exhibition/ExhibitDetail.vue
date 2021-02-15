@@ -85,9 +85,12 @@
             <div class="exFeeds">
                 <font-awesome-icon :icon="['fas', 'globe-americas']" class="earth__icon" style="color:#5F9EA0"/>
                 <span class="ex__name"> 함께 즐겨요 </span>
-                <div class="mention">
+                <div class="mention" v-if="exhibit.feedCnt != 0">
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
+            </div>
+            <div class="mention" v-if="exhibit.feedCnt == 0">
+                    <span class="feeds">아직 다녀가신 회원님이 없습니다😥</span>
             </div>
                 <vueper-slides
                     class="no-shadow img"
