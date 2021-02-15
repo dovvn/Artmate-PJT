@@ -8,7 +8,7 @@
           </div>
 
           <div id="picture">
-            <img class="feed_img" :src="nf.feedImg" alt="">
+            <img class="feed_img" :src="nf.feedImg" alt="" @click="postDetail(nf.id)">
           </div>
           <div id="contents">
             <div class="icon">
@@ -36,9 +36,6 @@
             </div> 
             <div class="date">
               {{timeForToday(nf.writeDate)}}
-            </div>
-            <div class="go">
-              <span class="detail"  @click="postDetail(nf.id)">상세보기 ▶ </span>
             </div>
           </div>
         </div>
@@ -220,6 +217,12 @@ export default {
   object-fit:cover;
   margin-bottom: 7px;
 }
+.feed_img:hover{
+  cursor:pointer;
+}
+.profile_img:hover{
+  cursor:pointer;
+}
 .icon{
   width: 100%;
   height: 24px;
@@ -259,15 +262,6 @@ export default {
   line-height: 1.25; 
   height: 17.5px; 
   word-wrap: normal; 
-}
-.detail{
-  clear: both;
-  font-size: 11px;
-  color: #A593DF;
-  float: right;
-}
-.go{
-  height: 22px;
 }
 .date{
   clear: both;
