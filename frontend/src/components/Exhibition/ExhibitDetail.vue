@@ -29,36 +29,56 @@
               </div>
               
               <div class="exInfo">
-                  <div class="ex__date">
+                  <div class="ex__date" v-if="exhibit.vrLink == null">
                     <div class="day"> 날짜 : </div>
                     <div class="days"> {{$moment(exhibit.startDate).format('YYYY-MM-DD')}} ~ {{$moment(exhibit.endDate).format('YYYY-MM-DD')}} </div>
                   </div>
-                  <div class="ex__area">
+                  <div class="ex__area" v-if="exhibit.vrLink == null">
                     <div class="area"> 장소 : </div>
                     <div class="areas"> {{exhibit.location}}</div>
                   </div>
                   <div class="ex__artist">
                     <div class="artist"> 작가 : </div>
-                    <div class="artists"  v-if="exhibit.artist != null && !showArtist"> {{exhibit.artist}} </div>
-                    <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist"> {{exhibit.artist}} </div>
+                    <div class="artists"  v-if="exhibit.artist != null && !showArtist" v-html="exhibit.artist"> </div>
+                    <div class="artistTogle " id="info-box1" ref="infoBox1" v-if="exhibit.artist != null && showArtist" v-html="exhibit.artist"> </div>
                     <div class="artists" v-if="exhibit.artist == null"> 작가없음 </div>
-                    <div class="btn" v-if="exhibit.artist != null && exhibit.artist.length > 61"> <!--버튼 보일 때 조건-->
+                    <div class="btns" v-if="exhibit.artist != null && exhibit.artist.length > 78"> <!--버튼 보일 때 조건-->
                         <b-button class="more" pill variant="outline-secondary" v-if="!showArtist" @click="toggleArtistShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="showArtist" @click="toggleArtistShow">닫기 X</b-button>
                     </div>
                   </div>
                   <div class="ex__text">
                     <div class="text"> 소개 : </div>
-                    <div class="texts"  v-if="exhibit.description != null && !showDes">{{exhibit.description}} </div>
-                    <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes">{{exhibit.description}} </div>
+                    <div class="texts"  v-if="exhibit.description != null && !showDes" v-html="exhibit.description"> </div>
+                    <div class="textTogle" id="info-box2" ref="infoBox2" v-if="exhibit.description != null && showDes" v-html="exhibit.description" ></div>
                     <div class="texts" v-if="exhibit.description == null"> 소개없음 </div>
-                    <div class="btn" v-if="exhibit.description != null && exhibit.description.length > 61 " >
+                    <div class="btns" v-if="exhibit.description != null && exhibit.description.length > 61 " >
                         <b-button class="more" pill variant="outline-secondary" v-if="exhibit.description != null && !showDes" @click="toggleDesShow">더보기▼</b-button>
                         <b-button class="mores" pill variant="outline-secondary" v-if="exhibit.description != null && showDes" @click="toggleDesShow">닫기 X</b-button>
                     </div>
                   </div>
               </div>
           </div>
+          <!-- 새탭에서 열기방법 -->
+            <b-button class="vr" variant="outline-light" v-if="exhibit.vrLink != null"><a class="vrgo" :href="exhibit.vrLink" target="_blank" >VR 보러가기</a></b-button>
+
+        <!-- 모달로 보이기 -->
+        <!-- <div>
+        <b-button v-b-modal.modal-1 class="vr" variant="outline-light" v-if="exhibit.vrLink != null">VR 보러가기</b-button>
+
+        <b-modal id="modal-1" title="온라인 전시회">
+            <div class="modal-body">
+            <iframe
+              :src="exhibit.vrLink"
+              name="myIframe"
+              class="w-100 h-100"
+            ></iframe>
+          </div>
+        </b-modal>
+        </div> -->
+
+
+
           <div class="bar"></div>
           <!-- 함께 즐겨요 -->
           <div class="exReview">
@@ -143,7 +163,8 @@ export default {
                 name:"",
                 scrapCnt:0,
                 scrapmark:0,
-                tagList:[]
+                tagList:[],
+                vrLink:""
             },
             userInfo:{
                 userId:"",
@@ -151,6 +172,7 @@ export default {
             feed:[],
             showArtist: false,
             showDes: false,
+            vr:false,
             slides: [
             ]
         };
@@ -159,7 +181,7 @@ export default {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
         console.log("처음! : "+this.userInfo, this.id);
-
+        // 피드 가져오는 곳
         http
         .get(`api/exhibit/feed/${this.id}`) 
         .then(res => {
@@ -171,12 +193,13 @@ export default {
             console.log("에러!!!");
         });
 
+        // 상세 데이터 가져오는 곳
         http
-        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
+        .get(`api/exhibit/${this.userInfo.userId}/320`) //${this.id}
         .then(res => {
             console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
-            console.log("솔묭ㅋㅋ"+this.exhibit.description);
+            console.log("솔묭ㅋㅋ"+this.exhibit.vrLink);
         })
         .catch(err => {
             console.error(err);
@@ -239,7 +262,7 @@ export default {
                 params: {feedno: feedno, status:"ExhibitionDetail"}
             });
         },
-        goBack:function(){ // 전시회 리스트로
+        goBack:function(){ // 들어온 테마 전시회 리스트로
             
         }
 //         initMap() {
@@ -299,7 +322,7 @@ export default {
         background-color: #313030;
     }
     .detail{
-        padding-top: 70px;
+        padding-top: 40px;
         width: 340px;
         text-align: center;
         margin: 0 auto;
@@ -372,9 +395,6 @@ export default {
         -webkit-line-clamp: 3; 
         -webkit-box-orient: vertical;
     }
-    /* .areas{
-        clear: both;
-    } */
     .artistTogle, .textTogle{
         padding-left: 55px;
         color: #FFFFFF;
@@ -446,9 +466,9 @@ export default {
         border: 1px solid #A593DF;
         font-size: 11px;
         line-height: 13px;
-        margin-top: 2px;
+        margin-top: 7px;
         margin-bottom: 10px;
-        float: right;
+        margin-left: 130px;
     }
     .more:hover{
         background-color: #A593DF;
@@ -461,12 +481,11 @@ export default {
         line-height: 13px;
         margin-top: 2px;
         margin-bottom: 10px;
-        float: right;
     }
-    .btn > .mores{
+    .btns > .mores{
         margin-left: 126px;
     }
-    .btn{
+    .btns{
         height: auto;
         margin-left: 110px;
     }
@@ -474,6 +493,27 @@ export default {
         width: 320px;
         height: 100px;
     }
+    .goBack__button {
+        font-size:22px;
+        position:relative;
+        z-index:3;
+        top:24px;
+        margin-left:10px;
+        margin-right: 340px;
+        color: #FFFFFF;
+    }
+    .vr{
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .vrgo{
+        color: #FFFFFF;
+    }
+    .vrgo:hover{
+        color: black;
+        text-decoration:none;
+    }
+
 /* ------------------------------ 커질때반응형 ------------------------------ */
 @media screen and (min-width: 1024px) {
   .feedLine {
@@ -491,11 +531,17 @@ export default {
         text-align: center;
         margin: 0 auto;
     }
+    .goBack__button{
+        margin-right: 720px;
+    }
     .poster_img{
-        width: 300px;
+        width: 400px;
     }
     .exContent, .exReview, .exRode{
         width: 700px;
+    }
+    .ex__name{
+        width: 500px;
     }
     .rode{
         width: 600px;
@@ -511,5 +557,12 @@ export default {
         vertical-align: middle;
         margin-right: 13px;
     }
+    .more{
+        margin-left: 500px;
+    }
+    .btns > .mores{
+        margin-left: 500px;
+    }
+    
 }
 </style>
