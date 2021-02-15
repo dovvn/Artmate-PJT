@@ -525,6 +525,9 @@ export default {
     border-radius:100%;
     /* margin-left:9pt; */
   }
+   .creator__info__img:hover {
+    cursor:pointer;
+  }
   .creator__info__box {
     margin-left:7px;
     text-align:left;
