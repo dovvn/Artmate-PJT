@@ -27,6 +27,8 @@ public class SignalDto {
 	private String sendUserName;
 	@ApiModelProperty(value="전시회 이름")
 	private String exName;
+	@ApiModelProperty(value="전시회 설명")
+	private String description;
 	
 	
 	public SignalDto() {}
@@ -55,7 +57,7 @@ public class SignalDto {
 	}
 	//전체
 	public SignalDto(int id, String userId, String sendUserId, int messageId, String sigDate, int sigType, int subType,
-			int read, String img, String sendUserName, String exName) {
+			int read, String img, String sendUserName, String exName, String description) {
 		super();
 		this.id = id;
 		this.getUserId = userId;
@@ -68,6 +70,7 @@ public class SignalDto {
 		this.img = img;
 		this.sendUserName = sendUserName;
 		this.exName = exName;
+		this.description = description;
 	}
 	public int getId() {
 		return id;
@@ -137,12 +140,18 @@ public class SignalDto {
 	public void setExName(String exName) {
 		this.exName = exName;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	@Override
 	public String toString() {
-		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", messageId=" + messageId
-				+ ", sigDate=" + sigDate + ", sigType=" + sigType + ", subType=" + subType + ", read=" + read + ", img="
-				+ img + ", sendUserName=" + sendUserName + ", exName=" + exName + "]";
+		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", messageId="
+				+ messageId + ", sigDate=" + sigDate + ", sigType=" + sigType + ", subType=" + subType + ", read="
+				+ read + ", img=" + img + ", sendUserName=" + sendUserName + ", exName=" + exName + ", description="
+				+ description + "]";
 	}
-	
 	
 }
