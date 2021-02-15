@@ -285,6 +285,19 @@ function init(feeds,theme) {
 
 				//모바일
 				if(screen.availWidth < 900) {
+					const buttons = document.querySelectorAll(".button")
+					buttons.forEach((button)=>{
+						button.addEventListener("touchstart",(event)=> {
+						event.preventDefault();
+						button.classList.add("active")
+					})
+					})
+					buttons.forEach((button)=>{
+						button.addEventListener("touchend",(event)=> {
+						event.preventDefault();
+						button.classList.remove("active")
+					})
+					})
 					upButton.addEventListener("touchstart", (event) => {
 						event.preventDefault();
 						moveForward = true;
@@ -861,7 +874,7 @@ a, button, input, select {
 	line-height:45px;
 }
 
-.button:active {
+.button.active {
 	opacity:1;
 }
 
