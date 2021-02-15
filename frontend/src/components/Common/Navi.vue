@@ -214,7 +214,10 @@ export default {
       this.$router.push('/search');
     },
     onClickProfile(){
-      this.$router.push('/myfeed');
+      // console.log(this.$route.name);
+      if(this.$route.name != "MyFeedList") {
+        this.$router.push('/myfeed');
+      }
     },
     logout(){
       this.$store.dispatch('LOGOUT')
