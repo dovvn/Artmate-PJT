@@ -8,7 +8,7 @@
           </div>
 
           <div id="picture">
-            <img class="feed_img" :src="nf.feedImg" alt="">
+            <img class="feed_img" :src="nf.feedImg" alt=""  @click="postDetail(nf.id)">
           </div>
           <div id="contents">
             <div class="icon">
@@ -36,9 +36,6 @@
             </div> 
             <div class="date">
               {{timeForToday(nf.writeDate)}}
-            </div>
-            <div class="go">
-              <span class="detail"  @click="postDetail(nf.id)">상세보기 ▶ </span>
             </div>
           </div>
         </div>
@@ -266,14 +263,11 @@ export default {
   height: 17.5px; 
   word-wrap: normal; 
 }
-.detail{
-  clear: both;
-  font-size: 11px;
-  color: #A593DF;
-  float: right;
+.feed_img:hover{
+  cursor:pointer;
 }
-.go{
-  height: 22px;
+.profile_img:hover{
+  cursor:pointer;
 }
 .date{
   clear: both;

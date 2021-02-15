@@ -51,7 +51,7 @@
         <Kakao class="icon"/>
       </div>
       <div class="router">
-        <router-link :to="{name:'JoinUserInfo'}">회원가입</router-link> |
+        <router-link :to="{name:'JoinUserInfo'}">회원가입 | </router-link>
         <router-link :to="{name:'FindPwUserInfo'}">비밀번호 찾기</router-link>
       </div>
     </div>

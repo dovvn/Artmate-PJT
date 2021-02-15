@@ -526,6 +526,9 @@ export default {
       padding: 3px;
       font-size: 14px;
     }
+    #ptxx:hover{
+        cursor:pointer;
+      }
     .proContent{
       width: 160px;
        display: flex;

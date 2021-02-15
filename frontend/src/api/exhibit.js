@@ -36,5 +36,10 @@ function deleteScrapBook(userId, id, success, fail){
   .then(success)
   .catch(fail)
 }
-
-export {getExhibitList, getExhibitRecommend, getListForMap, getScrapBook, deleteScrapBook}
+function getOnlineExhibit(success,fail){
+  instance
+  .get('api/exhibit/online')
+  .then(success)
+  .catch(fail)
+}
+export {getExhibitList, getExhibitRecommend, getListForMap, getScrapBook, deleteScrapBook, getOnlineExhibit}
