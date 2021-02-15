@@ -1,9 +1,10 @@
 <template>
   <div class="around">
     <div class="around_nav">
-      <div @click="onBack" class="around_back_btn">
+      <button @click="onBack" class="around_back_btn">
         <font-awesome-icon icon="chevron-left"/>
-      </div>
+      </button>
+      <Navi id="navi"/>
       <div class="around_nav_tlt">
         <span>AROUND</span>
       </div>
@@ -55,8 +56,8 @@
 
 <script>
 import {getListForMap} from '@/api/exhibit.js'
+import Navi from '@/components/Common/Navi.vue';
 export default {
-
   name: "Around",
   data(){
     return{
@@ -66,6 +67,9 @@ export default {
       selectedLocation:"",
       aroundList:[]
     }
+  },
+  components: {
+    Navi,
   },
   computed:{
     aroundEx(){
@@ -176,7 +180,8 @@ export default {
       }
     },
     onBack(){
-      history.back();
+      console.log('back')
+      this.$router.push({name:"Home"});
     },
     onToggle(){
       let list = document.querySelector('.around_list');
