@@ -36,9 +36,9 @@ function deleteScrapBook(userId, id, success, fail){
   .then(success)
   .catch(fail)
 }
-function getOnlineExhibit(success,fail){
+function getOnlineExhibit(userId,success,fail){
   instance
-  .get('api/exhibit/online')
+  .get(`api/exhibit/online/${userId}`)
   .then(success)
   .catch(fail)
 }

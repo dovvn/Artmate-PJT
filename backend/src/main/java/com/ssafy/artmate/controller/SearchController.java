@@ -44,7 +44,7 @@ public class SearchController {
 		
 		//2. 유저 & 전시회 검색(★전시회 Sub3때 구현)
 		resutMap.put("userResult", service.selectKeywordUser("%"+keyword+"%"));
-		resutMap.put("exhibitResult", null);
+		resutMap.put("exhibitResult", service.selectKeywordExhibit("%"+keyword+"%"));
 		return resutMap;
 	}
 	

@@ -40,7 +40,7 @@
             <img :src="item.exImg" :data-id="item.id" alt="" class="around_list_item_img">
             <div class="around_list_item_info" :data-id="item.id" >
               <p class="around_list_item_tlt" :data-id="item.id" >
-                <font-awesome-icon class="feed_message_icon" icon="leaf" :data-id="item.id" />{{item.name}}
+                <font-awesome-icon class="feed_message_icon" :icon="['fab', 'envira']" :data-id="item.id" />{{item.name}}
               </p>
               <p class="around_list_item_place" :data-id="item.id" >
                 <font-awesome-icon class="feed_message_icon" icon="map-marker-alt" :data-id="item.id" />
