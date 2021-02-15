@@ -98,12 +98,12 @@
           v-for="(exhibition, idx) in exhibitions"
           :key="idx"
         >
-          <div class="search_exhibition">
-            <img :src="exhibition.poster" alt="">
-            <div class="search_exhibition_info">
-              <p class="search_exhibition_tlt">{{exhibition.title}}</p>
-              <p class="search_exhibition_place">{{exhibition.place}}</p>
-              <p class="search_exhibition_expiration">{{exhibition.expiration}}</p>
+          <div @click="onClickEx" class="search_exhibition" :data-id="exhibition.id">
+            <img :src="exhibition.exImg" alt="" :data-id="exhibition.id">
+            <div class="search_exhibition_info" :data-id="exhibition.id">
+              <p class="search_exhibition_tlt" :data-id="exhibition.id">{{exhibition.name}}</p>
+              <p v-if="exhibition.location" class="search_exhibition_place" :data-id="exhibition.id">{{exhibition.location}}</p>
+              <p v-if="exhibition.startDate && exhibition.endDate" class="search_exhibition_expiration" :data-id="exhibition.id">{{$moment(exhibition.startDate).format('YYYY-MM-DD')}} ~ {{$moment(exhibition.endDate).format('YYYY-MM-DD')}}</p>
             </div>
           </div>
         </li>
@@ -232,8 +232,10 @@ export default {
       }
       searchKeyword(this.keyword,
         (res)=>{
+          console.log(res);
           this.users=res.data.userResult;
-          // this.exhibitions=res.data.exhibitResult;
+          if(res.data.exhibitResult===null) this.exhibitions=[];
+          else this.exhibitions=res.data.exhibitResult;
         },
         (err)=>{
           console.error(err);
@@ -264,6 +266,17 @@ export default {
         name: "UserFeedList",
         params: {userId: userId}
       });
+    },
+    onClickEx(e){
+      console.log(e.target.dataset.id);
+      if(e.target.dataset.id){
+        this.$router.replace({
+          name:"ExhibitionDetail",
+          params:{
+            id:e.target.dataset.id,
+          }
+        })
+      }
     },
     onClickLatest(e){
       this.keyword=e.target.innerText;

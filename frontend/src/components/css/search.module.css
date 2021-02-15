@@ -172,7 +172,7 @@
   margin: 15px 0;
   /* border-top: 1px solid var(--color-light-grey); */
   /* border-radius: var(--border-radius-xl); */
-  padding: 10px;
+  /* padding: 10px; */
 }
 .search_user_list_tlt {
   font-size: var(--font-tlt-lg);
@@ -219,9 +219,10 @@
 .search_exhibition_list {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  margin-top: 20px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-light-grey);
-  padding: 10px;
+  /* padding: 10px; */
 }
 .search_exhibition_list_tlt {
   font-size: var(--font-tlt-lg);
@@ -250,8 +251,8 @@
   /* line-height: 100%; */
   align-items: center;
   border: 1px solid var(--color-light-grey);
-  box-shadow: 3px 3px 4px var(--color-grey);
-  border-radius: var(--border-radius-xl);
+  box-shadow: 0 0 2px #99979725;
+  border-radius: var(--border-radius-sm);
 }
 .search_exhibition img {
   width: 20%;
@@ -266,14 +267,14 @@
   margin: 0;
 }
 .search_exhibition_tlt {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-txt-md);
 }
 .search_exhibition_place {
-  font-size: var(--font-tlt-xs);
+  font-size: var(--font-txt-sm);
   color: var(--color-medium-grey);
 }
 .search_exhibition_expiration {
-  font-size: var(--font-tlt-xs);
+  font-size: var(--font-txt-sm);
   color: var(--color-medium-grey);
 }
 .search_owl_img {
@@ -297,11 +298,9 @@
   .search_user_img {
     width: 30px;
     height: 30px;
-    border-radius: var(--border-radius-circle);
   }
   .search_user_name {
     font-size: var(--font-txt-sm);
-    font-weight: var(--weight-bold);
   }
   .search_exhibition_list_tlt {
     font-size: var(--font-tlt-md);
