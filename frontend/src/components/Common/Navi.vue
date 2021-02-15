@@ -240,9 +240,10 @@ export default {
             this.$refs.sideNav.style.right = '0px';
           }
           this.$nextTick(function() {
-            this.$refs.sideNav.style.width = this.width
-              ? this.width + 'px'
-              : '300px';
+            this.$refs.sideNav.classList.add('moveRight')
+            // this.$refs.sideNav.style.width = this.width
+            //   ? this.width + 'px'
+            //   : '300px';
           });
         },
 
@@ -250,7 +251,9 @@ export default {
           this.$emit('closeMenu');
           this.isSideBarOpen = false;
           document.body.classList.remove('bm-overlay');
-          this.$refs.sideNav.style.width = '0px';
+          this.$refs.sideNav.classList.remove('moveRight')
+          this.$refs.sideNav.classList.add('moveLeft')
+          // this.$refs.sideNav.style.width = '0px';
         },
 
         closeMenuOnEsc(e) {
@@ -298,6 +301,16 @@ export default {
     ...mapState(['user', 'stompClient','isNewAlarm']),
   },
   mounted() {
+      //사이드메뉴 transitionend 처리
+      // const sidemenu = document.querySelector('.bm-menu')
+      // sidemenu.addEventListener('transitionend', (event) => {
+      //   if(event.target.classList.contains('moveLeft')){
+      //     event.target.classList.remove('moveLeft')
+      //   }
+      //   if(event.target.classList.contains('moveRight')){
+      //     event.target.classList.remove('moveRight')
+      //   }
+      // }, false)
       // 알림 통신
       console.log(this.stompClient);
       if (
@@ -399,7 +412,7 @@ export default {
       width: 20px;
       height: 17px;
       left: 36px;
-      top: 36px;
+      top: 32px;
       cursor: pointer;
     }
     .bm-burger-button.hidden {
@@ -434,23 +447,30 @@ export default {
     }
     .bm-menu {
       height: 100%; /* 100% Full-height */
-      width: 0; /* 0 width - change this with JavaScript */
+      width: 300px; /* 0 width - change this with JavaScript */
       position: fixed; /* Stay in place */
       z-index: 1000; /* Stay on top */
       top: 0;
-      left: 0;
+      left: -300px;
+      transition: all 0.6s;
       background-image : url(../../assets/menu_img.png); 
       background-repeat: no-repeat;
       background-position: fixed;
       background-size: cover;
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 45px; /* Place content 60px from the top */
-      transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
+      // transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
     }
     .bm-menu::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera*/
+    }
+    .bm-menu.moveLeft {
+      transform:translateX(-300px);
+    }
+    .bm-menu.moveRight {
+      transform:translateX(300px);
     }
     .bm-item-list {
       color: white;
