@@ -25,7 +25,7 @@ export default new Vuex.Store({
     message : '',
     stompClient: '',
     isNewAlarm: false,
-    currentLocation:"",
+    locationInfo:{},
   },
   getters: {
     getUser(state) {
@@ -41,7 +41,7 @@ export default new Vuex.Store({
       return state.isNewAlarm;
     },
     getCurrentLocation(state){
-      return state.currentLocation;
+      return state.locationInfo;
     }
   },
   mutations: {
@@ -63,8 +63,8 @@ export default new Vuex.Store({
     setNewAlarmFalse(state) {
       state.isNewAlarm = false;
     },
-    setCurrentLocation(state,location){
-      state.currentLocation=location;
+    setCurrentLocation(state,info){
+      state.locationInfo=info;
     },
   },
   actions: {

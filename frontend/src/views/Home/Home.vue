@@ -24,15 +24,17 @@
             v-for="(item,idx) in onlineList"
             :key="idx"
           >
-            <img 
+            <img
+              @click="onClickOnline"
               class="online_exhibition_poster"
-              :src="item.img"
+              :src="item.exImg"
+              :data-id="item.id"
               alt=""
             >
             <div class="online_exhibition_info">
               <div>
-                <p class="online_exhibition_tlt">{{item.title}}</p>
-                <p class="online_exhibition_place">{{item.place}}</p>
+                <p class="online_exhibition_tlt">{{item.name}}</p>
+                <!-- <p class="online_exhibition_place">{{item.place}}</p> -->
               </div>
             </div>
           </div>
@@ -59,6 +61,7 @@
           :border="0"
           :width="carouselWidth"
           :height="carouselHeight"
+          :count="filteredRecList.length"
           ref="mycarousel"
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
@@ -67,8 +70,8 @@
             <img @click="onClickRecEx" class="recommend_exhibition_poster a" :src="item.exImg" alt="" >
             <div class="recommend_exhibition_info b">
               <p class="recommend_exhibition_tlt">{{item.name}}</p>
-              <p class="recommend_exhibition_place">{{item.location}}</p>
-              <p class="recommend_exhibition_duration">{{item.startDate}} ~ {{item.endDate}}</p>
+              <!-- <p class="recommend_exhibition_place">{{item.location}}</p>
+              <p class="recommend_exhibition_duration">{{item.startDate}} ~ {{item.endDate}}</p> -->
             </div>
           </slide>
         </carousel-3d>
@@ -110,8 +113,7 @@
         </button>
       </div>
       <div class="home_around_message">
-        <span>{{location}} 주변 리스트입니다 </span>
-        <font-awesome-icon class="home_around_message_icon" icon="pallet"/>
+        <span>{{locationInfo.location}} 주변 리스트입니다 🎨</span>
       </div>
       <div class="home_around_list">
         <div
@@ -155,7 +157,7 @@ import Navi from '@/components/Common/Navi.vue';
 import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 import {getFeedList} from '@/api/home.js';
-import {getExhibitRecommend,getListForMap} from '@/api/exhibit.js';
+import {getExhibitRecommend,getListForMap,getOnlineExhibit} from '@/api/exhibit.js';
 export default {
   name: 'Home',
   components: {
@@ -166,7 +168,7 @@ export default {
   },
   data() {
     return{
-      location:"",
+      locationInfo:{},  
       recommend_tag:"",
       user:null,
       onlineCarouselClass:"",
@@ -174,54 +176,84 @@ export default {
       carouselHeight:0,
       carouselSpace:0,
       carouselStyle:"",
-      onlineList:[
-        {
-          img:require('../../assets/main/slide1_1.jpg'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_1.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-        {
-          img:require('../../assets/main/slide2_2.png'),
-          title: "간직해온 마음들",
-          place: "대전시립미술관",
-          duration: "21.01.13 ~ 21.02.28"
-        },
-      ],
+      onlineList:[{},{},{},{},{}],
       recommendList:[],
       filteredRecList:[],
       popularList:[],
-      aroundList:[]
+      aroundList:[],
+      filteredAroundList:[],
     }
   },
   created(){
-    // let place = "";
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(function(position) {
-    //     var lat = position.coords.latitude, // 위도
-    //         lon = position.coords.longitude; // 경도
-    //     var geocoder = new kakao.maps.services.Geocoder();
-    //     geocoder.coord2Address(lon,lat, (res)=>{
-    //       place=res[0].address.region_1depth_name + ' ' + res[0].address.region_2depth_name;
-    //     });
-    //   });
-    //   setTimeout(()=>{
-    //     this.$store.commit("setCurrentLocation",place);
-    //     this.location=this.$store.getters.getCurrentPosition;
-    //     // console.log(this.currentPlace);
-    //   },600);
-    // }
-    // else{
-    //   this.$store.commit("setCurrentLocation","서울");
-    // }
-    this.$store.commit("setCurrentLocation", "서울");
-    this.location=this.$store.getters.getCurrentLocation;
+    let place = "";
+    const vue = this;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position)=> {
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2Address(lon,lat, (res)=>{
+          place=res[0].address.region_1depth_name + ' ' + res[0].address.region_2depth_name;
+          const info={
+            location:place,
+            lat: lat,
+            lon: lon,
+          }
+          vue.$store.commit("setCurrentLocation",info);
+          vue.locationInfo=info;
+          getListForMap(
+            (res)=>{
+              vue.aroundList=res.data;
+              const tmp=vue.locationInfo.location.split(" ");
+              let ps = new kakao.maps.services.Places();
+              for(let i=0; i<vue.aroundList.length; i++){
+                if(vue.aroundList[i].location===undefined || vue.aroundList[i].location === "온라인") continue;
+                ps.keywordSearch(vue.aroundList[i].location,(data)=>{
+                  for(let j=0; j<data.length; j++){
+                    if(data[j].address_name.includes(tmp[0]) && data[j].category_group_name==="문화시설"){
+                      vue.filteredAroundList.push(vue.aroundList[i]);
+                    }
+                  }
+                })
+              }
+            },
+            (err)=>{
+              console.error(err);
+            }
+          );
+        });
+      });
+    }
+    else{
+      const info={
+        location:place,
+        lat: 37.56682420267543,
+        lon: 126.978652258823,
+      }
+      this.$store.commit("setCurrentLocation",info);
+      this.location=this.$store.getters.getCurrentPosition;
+      getListForMap(
+        (res)=>{
+          // console.log(this.location);
+          vue.aroundList=res.data;
+          const tmp=vue.locationInfo.location.split(" ");
+          let ps = new kakao.maps.services.Places();
+          for(let i=0; i<vue.aroundList.length; i++){
+            if(vue.aroundList[i].location===undefined || vue.aroundList[i].location === "온라인") continue;
+            ps.keywordSearch(vue.aroundList[i].location,(data)=>{
+              for(let j=0; j<data.length; j++){
+                if(data[j].address_name.includes(tmp[0]) && data[j].category_group_name==="문화시설"){
+                  vue.filteredAroundList.push(vue.aroundList[i]);
+                }
+              }
+            })
+          }
+        },
+        (err)=>{
+          console.error(err);
+        }
+      );
+    }
     this.user=this.$store.getters.getUser;
     this.recommend_tag=this.user.myTag[0];
     getExhibitRecommend(
@@ -229,14 +261,8 @@ export default {
       (res)=>{
         this.recommendList=res.data;
         this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
-        console.log(this.filteredRecList);
         document.querySelector(`#${this.recommend_tag}`).classList.add('active');
         document.addEventListener('scroll',this.handleNavi);
-        console.log(this.$refs.mycarousel);
-        console.log(document.querySelector('.carousel-3d-slider').childNodes);
-        // const carousel = document.querySelector('.carousel-3d-slider').childNodes;
-        // this.$refs.mycarousel.$children[this.filteredRecList.length-1].$slots.default[0].elm.classList.remove('a');
-        // this.$refs.mycarousel.$children[this.filteredRecList.length-1].$slots.default[1].elm.classList.remove('b');
         if(window.innerWidth<=1024){
           this.carouselWidth=120;
           this.carouselHeight=270;
@@ -277,21 +303,35 @@ export default {
         console.error(err);
       }
     )
-    getListForMap(
+    getOnlineExhibit(
       (res)=>{
-        this.aroundList=res.data;
+        for(const ex of res.data){
+          if(ex.id<360 || ex.id>364) continue;
+          this.onlineList.push(ex);
+          this.onlineList.shift();
+        }
+        console.log(this.onlineList);
       },
       (err)=>{
         console.error(err);
       }
     )
   },
+  mounted(){
+      console.log(this.$refs.mycarousel.$children[0]);
+      console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
+      console.log(this.$refs.mycarousel.currentIndex);
+      this.$refs.mycarousel.currentIndex=0;
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.remove('a');
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.remove('b');
+  },
   destroyed(){
     document.removeEventListener('scroll',this.handleNavi);
   },
   computed:{
     aroundEx(){
-      return this.aroundList.slice(0,4);
+      if(this.filteredAroundList.length===0) return [];
+      else return this.filteredAroundList.slice(0,4);
     }
   },
   methods:{
@@ -305,17 +345,35 @@ export default {
         navbar.style.background="transparent";
       }
     },
+    onClickOnline(e){
+      this.$router.replace({
+        name:"ExhibitionDetail",
+        params:{
+          id:e.target.dataset.id,
+        }
+      })
+    },
     onClickTag(e){
+      console.log(this.recommend_tag);
       document.querySelector(`#${this.recommend_tag}`).classList.remove('active');
       this.recommend_tag = e.target.id;
       this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
+      console.log(this.filteredRecList);
+      console.log(this.recommend_tag);
+      console.log(this.$refs.mycarousel.currentIndex);
+      console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.add('a');
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.add('b');
+      this.$refs.mycarousel.currentIndex=0;
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.remove('a');
+      this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.remove('b');
+      console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
+      console.log(this.$refs.mycarousel.currentIndex);
       document.querySelector(`#${this.recommend_tag}`).classList.add('active');
     },
     onClickRecEx(e){
       const slide = e.path[1];
       const ex_no = slide.dataset.id;
-      // console.log(slide.dataset.id);
-      // console.log(slide.className);
       if(slide.className.includes('current')){
         this.$router.replace({
           name:"ExhibitionDetail",
@@ -323,7 +381,7 @@ export default {
             id:ex_no,
           }
         })
-      }    
+      }
     },
     onClickFeed(e){
       const feedno = e.target.dataset.feedno;

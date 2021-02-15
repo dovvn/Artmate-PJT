@@ -114,8 +114,9 @@
   box-shadow: 3px 3px 5px 0 #0000007a;
 }
 .recommend_exhibition_info {
+  margin-top: 10px;
   font-weight: var(--weight-bold);
-  text-align: right;
+  text-align: center;
 }
 .recommend_exhibition_tlt {
   font-size: var(--font-tlt-lg);
@@ -175,7 +176,7 @@
 .home_around_box {
   background: left/cover no-repeat
     url("../../../assets/main/main_background4.jpg");
-  padding: 30px 30px 0 30px;
+  padding: 50px 30px;
 }
 .home_around_header {
   display: flex;
@@ -204,23 +205,22 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  padding: 30px 0 30px 0;
 }
 .home_around_exhibition {
   display: flex;
   border-radius: calc(var(--border-radius-sm));
   /* border: 1px solid var(--color-medium-grey); */
-  box-shadow: 3px 3px 4px var(--color-grey);
+  box-shadow: 3px 3px 4px #99979725;
   width: 100%;
   height: 150px;
-  margin: 20px 0 20px 0;
+  margin: 30px 0;
   background-color: var(--color-white);
 }
 .home_around_exhibition_img {
   width: 40%;
   height: 100%;
-  border-top-left-radius: calc(var(--border-radius-sm));
-  border-bottom-left-radius: calc(var(--border-radius-sm));
+  border-top-left-radius: var(--border-radius-sm);
+  border-bottom-left-radius: var(--border-radius-sm);
 }
 .home_around_exhibition_info {
   display: flex;
@@ -278,7 +278,7 @@
 /* 미디어 쿼리 */
 @media screen and (max-width: 1024px) {
   .online_bg {
-    padding-bottom: 70px;
+    padding-bottom: 0;
   }
   .online_box {
     width: 304px;
@@ -366,7 +366,7 @@
     cursor: pointer;
   }
   .home_around_box {
-    padding: 15px 15px 0 15px;
+    padding: 30px 15px;
   }
   .home_around_header {
     margin-right: 10px;
@@ -384,12 +384,11 @@
     font-size: var(--font-tlt-sm);
   }
   .home_around_list {
-    padding: 15px 0 15px 0;
   }
   .home_around_exhibition {
     display: flex;
     height: 100px;
-    margin: 5px 0 5px 0;
+    margin: 15px 0;
     cursor: pointer;
   }
   .home_around_exhibition_img {
