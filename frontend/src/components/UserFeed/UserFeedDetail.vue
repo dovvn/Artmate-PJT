@@ -26,11 +26,11 @@
               <span class="feed__exhibition__name"> 간직해온 마음들</span>
             </div>
           </div>
-          <img class="feed__img" :src="feed.feedImg" alt="">
+          <img class="feed__img" :src="feed.feedImg" >
           <div class="creator__info">
             <div class="creator__info__left">
-              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" src="../../assets/person.jpg"/>
-              <img class="creator__info__img" v-else :src="feed.userImg" alt="">
+              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" @click="goFeedList(feed.userId)" src="../../assets/person.jpg"/>
+              <img class="creator__info__img" v-else :src="feed.userImg" @click="goFeedList(feed.userId)">
               <div class="creator__info__box">
                 <div class="creator__info__name">{{feed.userName}}</div>
                 <div class="creator__info__date">{{feed.writeDate}}</div>
@@ -201,6 +201,7 @@ export default {
   },
   data() {
     return {
+      observer:null,
       feed: {
         bookmark: 0,
         commentCnt: 0,
@@ -226,6 +227,12 @@ export default {
     };
   },
   methods: {
+    goFeedList(userId) {
+      this.$router.replace({
+        name: "UserFeedList",
+        params:{userId:userId}
+      })
+    },
     isMobile() {
       return window.innerWidth < 1024;
     },
@@ -252,7 +259,7 @@ export default {
       }else if(this.$route.params.status == "ExhibitionDetail") {
         this.$router.replace({
         name: "ExhibitionDetail",
-        params: {feedno: this.feed.id }
+        params: {id: this.feed.exId }
         });
       }else if(this.$route.params.status == "Alarm") {
         this.$router.replace({
@@ -428,7 +435,25 @@ export default {
     });
     
   },
+  destroyed() {
+    this.observer.disconnect();
+  },
   mounted() {
+    const target=document.querySelector(".bm-menu");
+    // console.log(target);
+    this.observer = new MutationObserver((mutations)=>{
+      mutations.forEach((mutation)=>{
+        if(mutation.target.classList.contains('moveRight')){
+          document.querySelector('.goBack__button').style.display = 'none';          
+        } else {
+          document.querySelector('.goBack__button').style.display = 'block';
+        }
+
+      })
+    })
+    const config = {attributes: true, childList: true, characterData: true};
+    this.observer.observe(target,config);
+
     console.log(this.$route.params.feedno);
     // document.documentElement.style.overflowY = "hidden"; 
     const img = document.querySelector('.feed__img');
@@ -518,6 +543,9 @@ export default {
     height:40px;
     border-radius:100%;
     /* margin-left:9pt; */
+  }
+   .creator__info__img:hover {
+    cursor:pointer;
   }
   .creator__info__box {
     margin-left:7px;

@@ -107,10 +107,10 @@ public class ExhibitController {
 	}
 	//온라인 전시회 목록만 가져오기
 	@ApiOperation(value = "온라인 전시회 목록만 가져오기", notes = "전시회 리스트 반환(제목,설명,주소,작가,vr링크)", response = ExhibitDto.class, responseContainer="List")
-	@GetMapping(value="/exhibit/online", produces = "text/json; charset=utf8")
-	public String selectAllOnlineExhibit() {
+	@GetMapping(value="/exhibit/online/{userId}", produces = "text/json; charset=utf8")
+	public String selectAllOnlineExhibit(@ApiParam(value="사용자 아이디", required = true, example="unni2@naver.com")@PathVariable String userId) {
 		Gson gs = new Gson();
-		String result = gs.toJson(exhibitService.selectAllOnlineExhibit());
+		String result = gs.toJson(exhibitService.selectAllOnlineExhibit(userId));
 		return result;
 	}
 }

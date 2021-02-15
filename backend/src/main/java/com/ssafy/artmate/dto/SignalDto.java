@@ -29,38 +29,51 @@ public class SignalDto {
 	private String exName;
 	@ApiModelProperty(value="전시회 설명")
 	private String description;
+	@ApiModelProperty(value="전시회 시작 날짜")
+	private String startDate;
+	@ApiModelProperty(value="전시회 끝나는 날짜")
+	private String endDate;
 	
 	
 	public SignalDto() {}
-	//전시회 알림
-	public SignalDto(String getUserId, int messageId, int sigType, int read, String img, String sigDate, String exName) {
+	//팔로우 알림
+	public SignalDto(String getUserId, String sendUserId,String sigDate, int sigType, int subType, int read) {
 		super();
 		this.getUserId = getUserId;
+		this.sendUserId = sendUserId;
+		this.sigType=sigType;
+		this.read = read;
+		this.sigDate = sigDate;
+		this.subType = subType;
+	}
+	//피드 관련 알림
+	public SignalDto(String getUserId, String sendUserId, int messageId,String sigDate, int sigType, int subType, int read) {
+		super();
+		this.getUserId = getUserId;
+		this.sendUserId = sendUserId;
 		this.messageId = messageId;
 		this.sigType=sigType;
 		this.read = read;
-		this.img = img;
 		this.sigDate = sigDate;
-		this.exName = exName;
-	}
-	//피드관련 알림
-	public SignalDto(String getUserId, String sendUserId, int sigType, int subType, int read, String img, String sigDate, String sendUserName) {
-		super();
-		this.getUserId=getUserId;
-		this.sendUserId = sendUserId;
-		this.sigType=sigType;
 		this.subType = subType;
-		this.read = read;
-		this.img = img;
-		this.sigDate = sigDate;
-		this.sendUserName = sendUserName;
 	}
+	//전시회 알림
+		public SignalDto(String getUserId, int messageId,String sigDate, int sigType, int subType, int read) {
+			super();
+			this.getUserId = getUserId;
+			this.messageId = messageId;
+			this.sigType=sigType;
+			this.read = read;
+			this.sigDate = sigDate;
+			this.subType = subType;
+		}
 	//전체
-	public SignalDto(int id, String userId, String sendUserId, int messageId, String sigDate, int sigType, int subType,
-			int read, String img, String sendUserName, String exName, String description) {
+	public SignalDto(int id, String getUserId, String sendUserId, int messageId, String sigDate, int sigType,
+			int subType, int read, String img, String sendUserName, String exName, String description, String startDate,
+			String endDate) {
 		super();
 		this.id = id;
-		this.getUserId = userId;
+		this.getUserId = getUserId;
 		this.sendUserId = sendUserId;
 		this.messageId = messageId;
 		this.sigDate = sigDate;
@@ -71,10 +84,13 @@ public class SignalDto {
 		this.sendUserName = sendUserName;
 		this.exName = exName;
 		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -146,12 +162,25 @@ public class SignalDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	@Override
 	public String toString() {
 		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", messageId="
 				+ messageId + ", sigDate=" + sigDate + ", sigType=" + sigType + ", subType=" + subType + ", read="
 				+ read + ", img=" + img + ", sendUserName=" + sendUserName + ", exName=" + exName + ", description="
-				+ description + "]";
+				+ description + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
+	
 	
 }

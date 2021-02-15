@@ -40,6 +40,22 @@ public class SignalController {
 		return result;
 	}
 	
+	@ApiOperation(value="전시회 알림 목록 반환", notes="전시회 알림 리스트 반환",  response = SignalDto.class, responseContainer="List")
+	@GetMapping(value="/signal/exhibit/{getUserId}", produces = "text/json; charset=utf8")
+	public String seletctExhibitSignal(@ApiParam(value="회원 아이디", required=true, example="aaaa@naver.com")@PathVariable("getUserId") String getUserId) {
+		Gson gs = new Gson();
+		String result = gs.toJson(signalService.selectExhibitSignal(getUserId));
+		return result;
+	}
+	
+	@ApiOperation(value="피드 알림 목록 반환", notes="피드 알림 리스트 반환",  response = SignalDto.class, responseContainer="List")
+	@GetMapping(value="/signal/feed/{getUserId}", produces = "text/json; charset=utf8")
+	public String seletctFeedSignal(@ApiParam(value="회원 아이디", required=true, example="aaaa@naver.com")@PathVariable("getUserId") String getUserId) {
+		Gson gs = new Gson();
+		String result = gs.toJson(signalService.selectFeedSignal(getUserId));
+		return result;
+	}
+	
 	@ApiOperation(value="알림 확인 (read 값 변경)", notes="알림 확인 성공시 true, 알림 확인 실패시 false 반환", response = Boolean.class)
 	@PutMapping(value="/signal/{id}")
 	public boolean checkSignal(@ApiParam(value="알림 아이디", required=true, example="1")@PathVariable("id") int id) {

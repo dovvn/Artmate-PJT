@@ -99,8 +99,8 @@ public class ExhibitServiceImpl implements ExhibitService{
 	}
 
 	@Override
-	public List<ExhibitDto> selectAllOnlineExhibit() {
-		return sqlSession.getMapper(ExhibitMapper.class).selectAllOnlineExhibit();
+	public List<ExhibitDto> selectAllOnlineExhibit(String userId) {
+		return sqlSession.getMapper(ExhibitMapper.class).selectAllOnlineExhibit(userId);
 	}
 
 	@Override
