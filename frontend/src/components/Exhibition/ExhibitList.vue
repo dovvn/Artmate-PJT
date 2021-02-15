@@ -30,21 +30,22 @@
         <button @click="onClickBest" id="best" class="exhibit_nav_item">Best</button>
         <button @click="onClickOnline" id="online" class="exhibit_nav_item">Online</button>
         <button @click="onClickArea" id="area" class="exhibit_nav_item">Area</button>
-        
       </div>
       <div class="exhibit_items">
         <div @click="onClickEx" class="exhibit_item" v-for="(item,idx) in filteredList" :key="idx" :data-id="item.id">
-          <div class="exhibit_duration" :data-id="item.id">{{item.startDate}} ~ {{item.endDate}}</div>
+          <div v-if="item.startDate && item.endDate" class="exhibit_duration" :data-id="item.id">{{$moment(item.startDate).format('YYYY-MM-DD')}} ~ {{$moment(item.endDate).format('YYYY-MM-DD')}}</div>
           <img :src="item.exImg" alt="" class="exhibit_poster" :data-id="item.id">
           <div class="exhibit_box" :data-id="item.id">
             <div class="exhibit_tlt" :data-id="item.id">
-              <font-awesome-icon class="exhibit_tlt_icon" icon="leaf" :data-id="item.id"/>
+              <font-awesome-icon class="exhibit_tlt_icon" :icon="['fab', 'envira']" :data-id="item.id"/>
               {{item.name}}
             </div>
             <div class="exhibit_scrap">
-              <div class="exhibit_scrap_cnt">{{item.scrapCnt}}</div>
-              <button class="exhibit_scrap_btn">
-              </button>
+              <span>
+                <font-awesome-icon v-if="item.scrapmark == 0" @click="addScrap(item.scrapmark,item.id)" :icon="['far', 'star']" style="color:white"/> 
+                <font-awesome-icon v-if="item.scrapmark == 1" @click="addScrap(item.scrapmark,item.id)"  :icon="['fas', 'star']" style="color:white"/> 
+                {{item.scrapCnt}}
+              </span>
             </div>
           </div>
         </div>
@@ -54,16 +55,19 @@
 </template>
 
 <script>
-import {getExhibitList} from '@/api/exhibit.js';
+import http from "@/util/http-common";
+import {getExhibitList,getOnlineExhibit} from '@/api/exhibit.js';
 import Navi from '@/components/Common/Navi.vue';
 export default {
   name: "ExhibitList",
   data(){
     return{
-      currentPlace:"서울",
+      locationInfo:{},
       target:"all",
       around_list:[],
-      ex_list:[]
+      ex_list:[],
+      online_list:[],
+      userInfo:{},
     }
   },
   components:{
@@ -71,11 +75,22 @@ export default {
   },
   created(){
     const user =  this.$store.getters.getUser;
+    this.userInfo=user;
+    this.locationInfo = this.$store.getters.getCurrentLocation;
     getExhibitList(
       user.userId,
       (res)=>{
         this.ex_list=res.data;
         this.initMap();
+      },
+      (err)=>{
+        console.error(err);
+      }
+    );
+    getOnlineExhibit(
+      this.userInfo.userId,
+      (res)=>{
+        this.online_list=res.data;
       },
       (err)=>{
         console.error(err);
@@ -91,7 +106,7 @@ export default {
         return tmp.slice(0,10);
       }
       else if(this.target==="online"){
-        return this.ex_list.slice(0,10);
+        return this.online_list.slice(0,10);
       }
       else{
         return this.around_list;
@@ -107,34 +122,19 @@ export default {
   },
   methods:{
     initMap(){
-      // if (navigator.geolocation) {
-      //   navigator.geolocation.getCurrentPosition(function(position) {
-      //     var lat = position.coords.latitude, // 위도
-      //         lon = position.coords.longitude; // 경도
-      //     var geocoder = new kakao.maps.services.Geocoder();
-      //     geocoder.coord2Address(lon,lat, (res)=>{
-      //       // console.log(res[0].address.region_1depth_name);
-      //       // this.currentPlace="서울";
-      //       this.currentPlace=res[0].address.region_1depth_name;
-      //     });
-      //   });
-      // }
-      // else{
-      //   this.currentPlace="서울";
-      // }
       let ps = new kakao.maps.services.Places();
-      // console.log(this.ex_list);
+      const tmp = this.locationInfo.location.split(" ");
       for(let i=0; i<this.ex_list.length; i++){
+        if(this.ex_list[i].location===undefined || this.ex_list[i].location === "온라인") continue;
         ps.keywordSearch(this.ex_list[i].location,(data)=>{
           for(let j=0; j<data.length; j++){
-            // console.log(this.ex_list[i]);
-            if(data[j].address_name.includes(this.currentPlace) && data[j].category_group_name==="문화시설"){
+            if(data[j].address_name.includes(tmp[0]) && data[j].category_group_name==="문화시설"){
               this.around_list.push(this.ex_list[i]);
+              break;
             }
           }
         })
       }
-      // console.log(this.around_list);
     },
     onClickAll(){
       document.querySelector(`#${this.target}`).classList.remove('active');
@@ -161,20 +161,104 @@ export default {
       list.scrollIntoView({behavior:'smooth'});
     },
     onClickEx(e){
-      // console.log(e.target.dataset.id);
-      this.$router.replace({
-        name:"ExhibitionDetail",
-        params:{
-          id:e.target.dataset.id,
+      if(e.target.dataset.id){
+        this.$router.replace({
+          name:"ExhibitionDetail",
+          params:{
+            id:e.target.dataset.id,
+          }
+        })
+      }
+    },
+    addScrap:function(scrap, exid){
+      if(scrap == 0){ // 스크랩 안눌린 상태
+        if(this.target==="online"){
+          for(let i=0; i<this.online_list.length; i++){
+            if(this.online_list[i].id===exid){
+              this.online_list[i].scrapCnt++;
+              this.online_list[i].scrapmark = 1;
+              break;
+            }
+          }
         }
-      })
+        else if(this.target==="area"){
+          for(let i=0; i<this.around_list.length; i++){
+            if(this.around_list[i].id===exid){
+              this.around_list[i].scrapCnt++;
+              this.around_list[i].scrapmark = 1;
+              break;
+            }
+          }
+        }
+        else{
+          for(let i=0; i<this.ex_list.length; i++){
+            if(this.ex_list[i].id===exid){
+              this.ex_list[i].scrapCnt++;
+              this.ex_list[i].scrapmark = 1;
+              break;
+            }
+          }
+        }
+        http
+        .put(`api/scrapbook/${this.userInfo.userId}/${exid}`)
+        .then((data) => {
+            if (data) {
+                // alert('스크랩');
+            } else {
+                alert('오류가 발생하였습니다.');
+            }
+        })
+        .catch((err) => console.log(err));
+      }else if(scrap == 1){ // 스크랩 눌린 상태 
+        if(this.target==="online"){
+          for(let i=0; i<this.online_list.length; i++){
+            if(this.online_list[i].id===exid){
+              this.online_list[i].scrapCnt--;
+              this.online_list[i].scrapmark = 0;
+              break;
+            }
+          }
+        }
+        else if(this.target==="area"){
+          for(let i=0; i<this.around_list.length; i++){
+            if(this.around_list[i].id===exid){
+              this.around_list[i].scrapCnt--;
+              this.around_list[i].scrapmark = 0;
+              break;
+            }
+          }
+        }
+        else{
+          for(let i=0; i<this.ex_list.length; i++){
+            if(this.ex_list[i].id===exid){
+              this.ex_list[i].scrapCnt--;
+              this.ex_list[i].scrapmark = 0;
+              break;
+            }
+          }
+        }
+        http
+        .delete(`api/scrapbook/${this.userInfo.userId}/${exid}`)
+        .then((data) => {
+            if (data) {
+                // alert('스크랩 취소..');
+            } else {
+                alert('오류가 발생하였습니다.');
+            }
+        })
+        .catch((err) => console.log(err));
+      }
     },
     // handleScroll(){
     //   const main = document.querySelector('.exhibit_main');
     //   const mainRect = main.getBoundingClientRect();
     //   const list = document.querySelector('.exhibit_list');
-    //   main.style.opacity = (mainRect.height-window.scrollY) / mainRect.height;
-    //   list.style.opacity = window.scrollY / mainRect.height;
+    //   const mainB = (mainRect.height-window.scrollY) / mainRect.height;
+    //   const listB = window.scrollY / mainRect.height;
+    //   main.style.filter = `brightness(${mainB})`;
+    //   list.style.filter = `brightness(${listB})`;
+    //   main.style.opacity = mainB;
+    //   list.style.opacity = listB;
     // }
   },
 }
