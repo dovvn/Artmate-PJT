@@ -20,19 +20,36 @@
     </div>
     <div class="line"></div> -->
     <div class="input__container">
+      <label class="label__exhibition" for="exhibition">
+        <font-awesome-icon :icon="['fab', 'envira']" class="exhibition__icon"/>
+      </label>
+      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text" autocomplete="off" @input="onInput" v-model="keyword">
+      <ul
+      v-if="isShowAuto" 
+      class="keyword_list"
+      >
+      <li
+        class="keyword_item"
+        v-for="(item,idx) in autocomplete"
+        :key="idx"
+        @click="onClickAuto"
+        :data-keyword="item.name"
+        :data-location="item.location"
+        :data-id="item.id"
+      >
+        <span class="auto_search_text" :data-keyword="item.name" :data-location="item.location" :data-id="item.id">{{item.name}}</span> 
+      </li>
+    </ul>
+    </div>
+    <div class="line"></div>
+    <div class="input__container" v-if="isSetExhibit">
       <label class="label__location" for="location">
         <font-awesome-icon icon="map-marker-alt" class="location__icon"/>
       </label>
       <input v-model="feed.location" class="input__location" id="location" placeholder="위치" type="text" autocomplete="off">
     </div>
-    <div class="line"></div>
-    <div class="input__container">
-      <label class="label__exhibition" for="exhibition">
-        <font-awesome-icon :icon="['fab', 'envira']" class="exhibition__icon"/>
-      </label>
-      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text" autocomplete="off">
-    </div>
-    <div class="line"></div>
+    <div class="line" v-if="isSetExhibit"></div>
+
     <textarea v-model="feed.feedText" class="input__content"></textarea>
     <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">등록</button>
     <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
@@ -51,26 +68,45 @@
 import {mapState} from "vuex";
 import {addFeed} from '@/api/myfeed.js';
 import http from "@/util/http-common";
+import * as Hangul from 'hangul-js';
 
 export default {
   data() {
     return {
+      isSetExhibit:false,
+      isShowAuto:false,
+      keyword: "",
       imageUrl: null,
       imageFile: null,
       feed: {
         location: '',
         feedText: '',
-
+        exhibitId: 0,
         userId: '',
         userImg: '',
         userName: '',
       },
-      exhibitions: []
+      keywordList: [],
         
     }
   },
   computed: {
-    ...mapState(["user", 'stompClient'])
+    ...mapState(["user", 'stompClient']),
+    autocomplete(){
+      const search = this.keyword;
+      const search1 = Hangul.disassemble(search).join("");
+      // console.log(search1)
+      let arr=[];
+      this.keywordList
+      .filter(function (item) {
+          return item.name.includes(search)|| item.diassembled.includes(search1);
+      })
+      .forEach(function (item) {
+        arr.push(item);
+      });
+      // console.log(arr);
+      return arr.slice(0,10);
+    }
   },
   created() {
     this.feed.userId = this.user.userId;
@@ -80,6 +116,15 @@ export default {
     .get(`/api/exhibit/name`)
     .then((response)=>{
       console.log(response);
+      this.keywordList=response.data;
+      this.keywordList.forEach(function (item) {
+            var dis = Hangul.disassemble(item.name, true);
+            var cho = dis.reduce(function (prev, elem) {
+                elem = elem[0] ? elem[0] : elem;
+                return prev + elem;
+            }, "");
+            item.diassembled = cho;
+        });
     })
     .catch((error)=>{
       console.error(error);
@@ -132,7 +177,32 @@ export default {
       const file = e.target.files[0];
       this.imageFile = file;
       this.imageUrl = URL.createObjectURL(file);
-    }
+    },
+    handleAuto(e){
+      const x=['keyword_list','keyword_item','auto_search_icon','auto_search_text']
+      if(!x.includes(e.target.className)){
+        this.isShowAuto=false;
+      }
+    },
+    onClickAuto(e){
+        this.keyword=e.target.dataset.keyword;
+        console.log(e.target.dataset.location);
+        this.feed.location = e.target.dataset.location;
+        this.feed.exhibitId = e.target.dataset.id;
+        this.isSetExhibit = true;
+        // this.search();
+        
+        this.isShowAuto=false;
+      },
+    onInput(e){
+        this.keyword=e.target.value;
+        this.isSubmit=false;
+        if(this.keyword.length===0) {
+          this.isShowAuto=false;
+          this.isSetExhibit = false;
+          }
+        else this.isShowAuto=true;
+    },
   },
 }
 </script>
@@ -220,6 +290,7 @@ label {
   margin-bottom:5px;
   align-items: flex-start;
   font-size:16px;
+  position: relative;
 }
 .label__date,
 .input__date,
@@ -297,6 +368,20 @@ label {
 .pos-check-modal-body {
   text-align:center;
   
+}
+
+.keyword_list {
+  width: 100%;
+  z-index: 100;
+  border: 1px solid var(--color-light-purple);
+  list-style: none;
+  position:absolute;
+  top:37px;
+  background-color: white;
+}
+
+.keyword_item:hover {
+  cursor:pointer;
 }
 /* 반응형 */
 @media screen and (min-width: 1024px) {
