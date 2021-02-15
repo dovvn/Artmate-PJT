@@ -3,7 +3,7 @@
       <div class="feedLine">
         <div id="post"  v-for="nf in newsfeed" :key="nf.id" > 
           <div class="pro"> 
-            <img class="profile_img" :src="nf.userImg" alt="">
+            <img class="profile_img" :src="nf.userImg" @click="goUserFeed(nf.userId)">
             <span id="nick">{{nf.userName}}</span>
           </div>
 
@@ -67,6 +67,12 @@ export default {
 
   },
   methods:{
+    goUserFeed(userId) {
+      this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
+    },
     addBookmark:function(bookmark, feedid){
       // conosole.log(this.newf)
       for (let i = 0; i<this.newsfeed.length; i++){

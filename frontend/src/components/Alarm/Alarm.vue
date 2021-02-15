@@ -153,40 +153,44 @@
     </div>
     
     <div class="exhibition__alarms" v-if="this.choosed === 'exhibition'">
-      <div class="exhibition__alarm">
-        <div class="alarm__left">
-          <img src="../../assets/test_alarm/ex1.png"  class="exhibition__alarm__img" alt="">
-        </div>
-        <div class="alarm__middle">
-          <div class="alarm__body">
-            <div class="exhibition__alarm__title">OOO 전시회</div>
-            <div class="alarm__info">
-              <div class="exhibition__alarm__content">당신의 **** 취향에 맞는 전시회 놓치지마세요!!</div>
-              <div class="exhibition__alarm__term">2021.04.01~04.23</div>
-            </div>
-            
+      <div class="exhibition__alarm__container" v-for="(alarm,idx) in ex10" :key="idx">
+        <div class="exhibition__alarm" v-if="!alarm.read">
+          <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left">
+            <img :src="alarm.img"  class="exhibition__alarm__img"  @click="goExhibit(alarm.messageId, alarm.id)">
           </div>
-        </div>
-        <div class="alarm__right">
-          <div class="exhibition__alarm__date">6시간 전</div>
-        </div>
-        
-      </div>
-       <div class="exhibition__alarm read">
-        <div class="alarm__left">
-          <img src="../../assets/test_alarm/ex2.png"  class="exhibition__alarm__img" alt="">
-        </div>
-        <div class="alarm__middle">
-          <div class="alarm__body">
-            <div class="exhibition__alarm__title">Enjoy Every</div>
-            <div class="alarm__info">
-              <div class="exhibition__alarm__content">언택트 시대에도 즐기는 문화생활</div>
-              <div class="exhibition__alarm__term">2021.03.03~03.10</div>
+          <div class="alarm__middle">
+            <div class="alarm__body">
+              <div class="exhibition__alarm__title">{{alarm.exName}}</div>
+              <div class="alarm__info">
+                <!-- <div class="exhibition__alarm__content">{{alarm.description}}</div> -->
+                <div class="exhibition__alarm__term">{{alarm.startDate}}~{{alarm.endDate}}</div>
+              </div>
+              
             </div>
           </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+          </div>
+          
         </div>
-        <div class="alarm__right">
-          <div class="exhibition__alarm__date">3일 전</div>
+        <div class="exhibition__alarm read" v-if="alarm.read">
+          <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
+          <div class="alarm__left">
+            <img :src="alarm.img"  class="exhibition__alarm__img"  @click="goExhibit(alarm.messageId, alarm.id)">
+          </div>
+          <div class="alarm__middle">
+            <div class="alarm__body">
+              <div class="exhibition__alarm__title">{{alarm.exName}}</div>
+              <div class="alarm__info">
+                <!-- <div class="exhibition__alarm__content">{{alarm.description}}</div> -->
+                <div class="exhibition__alarm__term">{{alarm.startDate}}~{{alarm.endDate}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="alarm__right">
+            <div class="exhibition__alarm__date">3일 전</div>
+          </div>
         </div>
       </div>
     </div>
@@ -212,7 +216,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user"]),
+    ex10() {
+      return this.exhibitions.slice(0,10);
+    }
   },
   created() {
     // vuex로 유저정보 가져와서 걔의 알림 백에서 가져온다음 data에 담아준다.
@@ -234,6 +241,23 @@ export default {
       }, (error) => {
         console.error(error);
       })
+    },
+    goExhibit(messageId,id) {
+      //읽음처리후 걔 피드목록으로 감
+      http
+      .put(`/api/signal/${id}`)
+      .then((response) => {
+        console.log(response);
+        this.$router.replace({
+        name: "ExhibitionDetail",
+        params: {id: messageId,
+        status: 'Alarm'}
+      });
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+      
     },
     goFeedList(userId,id) {
       //읽음처리후 걔 피드목록으로 감
@@ -446,7 +470,8 @@ export default {
   margin-left:20px;
   margin-right:20px;
 }
-.feed__alarm {
+.feed__alarm,
+.exhibition__alarm {
   position:relative;
 }
 .feed__alarms,
@@ -507,7 +532,7 @@ export default {
 }
 .alarm__info {
   width:137px;
-  height:73px;
+  /* height:73px; */
   display:flex;
   flex-direction: column;
   justify-content: space-between;
@@ -539,7 +564,7 @@ export default {
   color: #FFFFFF;
 }
 .exhibition__alarm__title {
-  font-size:20px;
+  font-size:16px;
   margin-bottom:12px;
 }
 .follow__yes__button {
