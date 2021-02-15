@@ -555,9 +555,9 @@ export default {
       display: inline-block;
       margin-right: 10px;
       border: 1px solid white;
-      border-radius: 30%;
+      border-radius: 15px;
       font-size: 14px;
-      padding: 5px;
+      padding: 5px 10px 5px 10px;
     }
     #modifyicon{
       margin-right: 5px;
