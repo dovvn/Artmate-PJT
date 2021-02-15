@@ -258,7 +258,7 @@ export default {
       }else if(this.$route.params.status == "ExhibitionDetail") {
         this.$router.replace({
         name: "ExhibitionDetail",
-        params: {feedno: this.feed.id }
+        params: {id: this.feed.exId }
         });
       }else if(this.$route.params.status == "Alarm") {
         this.$router.replace({
