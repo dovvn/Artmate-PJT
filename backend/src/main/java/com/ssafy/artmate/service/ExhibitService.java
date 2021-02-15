@@ -24,7 +24,7 @@ public interface ExhibitService {
 	List<FeedDto> selectFeeds(int id); //전시회 관련 피드 리스트 가져오기
 	ExhibitDto selectExhibitByVrLink(String vrLink); //온라인전시회 db에 겹치는거 있는지 확인
 	boolean insertOnlineExhibit(ExhibitDto dto); //온라인 전시회 넣기
-	List<ExhibitDto> selectAllOnlineExhibit(); //온라인 전시회만 가져오기
+	List<ExhibitDto> selectAllOnlineExhibit(String userId); //온라인 전시회만 가져오기
 	boolean checkNaverExhibit(ExhibitDto dto); //네이버 전시회 겹치는거 있는지 확인
 	boolean deleteExhibition(String endDate); //기간 지난 전시회 삭제
 }

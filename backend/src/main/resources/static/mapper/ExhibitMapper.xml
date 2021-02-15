@@ -80,9 +80,11 @@
 		INSERT INTO Exhibition (name, description, exImg, artist, vrLink)
 		VALUES (#{name}, #{description}, #{exImg}, #{artist}, #{vrLink})
 	</insert>
-	<select id="selectAllOnlineExhibit" resultType="ExhibitDto">
-		SELECT *
-		FROM Exhibition
+	<select id="selectAllOnlineExhibit" resultType="ExhibitDto" parameterType="String">
+		SELECT e.*, (SELECT COUNT(*) FROM Scrapbook s WHERE s.exId=e.id) AS scrapCnt,
+		IF(e.id IN (SELECT exId FROM Scrapbook WHERE userId=#{userId}), 1, 0) AS scrapmark,
+		(SELECT COUNT(*) FROM Feed f WHERE f.exId = e.id) AS feedCnt
+		FROM Exhibition e
 		WHERE vrLink is not null
 	</select>
 	<select id="checkNaverExhibit" parameterType="ExhibitDto" resultType="int">
