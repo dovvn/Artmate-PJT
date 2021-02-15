@@ -805,7 +805,7 @@ export default {
   font-size:22px;
   position:fixed;
   z-index:3;
-  top:30px;
+  top:27px;
   margin-left:10px;
 }
 /* 반응형 */
