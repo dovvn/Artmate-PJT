@@ -254,6 +254,11 @@ export default {
         name: "ExhibitionDetail",
         params: {feedno: this.feed.id }
         });
+      }else if(this.$route.params.status == "Alarm") {
+        this.$router.replace({
+        name: "AlarmAll",
+        params: {feedno: this.feed.id }
+        });
       }else {
         this.$router.replace({
         name: "UserFeedList",

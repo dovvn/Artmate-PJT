@@ -259,7 +259,8 @@ export default {
         console.log(response);
         this.$router.replace({
         name: "UserFeedDetail",
-        params: {feedno: messageId}
+        params: {feedno: messageId,
+        status: 'Alarm'}
       });
       })
       .catch((error)=>{
