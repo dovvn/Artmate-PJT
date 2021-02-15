@@ -245,12 +245,21 @@ export default {
         this.$router.replace({
         name: "BookmarkList"
         });
-      } else {
+      }else if(this.$route.params.status == "alllist") {
+        this.$router.replace({
+        name: "FeedAll"
+        });
+      }else if(this.$route.params.status == "ExhibitionDetail") {
+        this.$router.replace({
+        name: "ExhibitionDetail",
+        params: {feedno: this.feed.id }
+        });
+      }else {
         this.$router.replace({
         name: "UserFeedList",
         params: {userId: this.feed.userId}
       });
-      }
+    }
       
     },
     showCheckmodal(memoId) {
