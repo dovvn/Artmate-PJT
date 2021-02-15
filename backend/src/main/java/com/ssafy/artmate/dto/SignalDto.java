@@ -11,8 +11,8 @@ public class SignalDto {
 	private String getUserId;
 	@ApiModelProperty(value="피드 알림에서 보내는 사람 아이디(ex. 'ooo'님이 팔로우합니다)")
 	private String sendUserId;
-	@ApiModelProperty(value="전시회 번호")
-	private int exId;
+	@ApiModelProperty(value="메세지에 참조된 번호(피드번호, 전시회번호)")
+	private int messageId;
 	@ApiModelProperty(value="알림 받은 날짜")
 	private String sigDate;
 	@ApiModelProperty(value="알림 타입(0:전시회 알림, 1:피드 알림)")
@@ -31,10 +31,10 @@ public class SignalDto {
 	
 	public SignalDto() {}
 	//전시회 알림
-	public SignalDto(String getUserId, int exId, int sigType, int read, String img, String sigDate, String exName) {
+	public SignalDto(String getUserId, int messageId, int sigType, int read, String img, String sigDate, String exName) {
 		super();
 		this.getUserId = getUserId;
-		this.exId = exId;
+		this.messageId = messageId;
 		this.sigType=sigType;
 		this.read = read;
 		this.img = img;
@@ -54,13 +54,13 @@ public class SignalDto {
 		this.sendUserName = sendUserName;
 	}
 	//전체
-	public SignalDto(int id, String userId, String sendUserId, int exId, String sigDate, int sigType, int subType,
+	public SignalDto(int id, String userId, String sendUserId, int messageId, String sigDate, int sigType, int subType,
 			int read, String img, String sendUserName, String exName) {
 		super();
 		this.id = id;
 		this.getUserId = userId;
 		this.sendUserId = sendUserId;
-		this.exId = exId;
+		this.messageId = messageId;
 		this.sigDate = sigDate;
 		this.sigType = sigType;
 		this.subType = subType;
@@ -87,11 +87,11 @@ public class SignalDto {
 	public void setSendUserId(String sendUserId) {
 		this.sendUserId = sendUserId;
 	}
-	public int getExId() {
-		return exId;
+	public int getMessageId() {
+		return messageId;
 	}
-	public void setExId(int exId) {
-		this.exId = exId;
+	public void setMessageId(int exId) {
+		this.messageId = exId;
 	}
 	public String getSigDate() {
 		return sigDate;
@@ -139,7 +139,7 @@ public class SignalDto {
 	}
 	@Override
 	public String toString() {
-		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", exId=" + exId
+		return "SignalDto [id=" + id + ", getUserId=" + getUserId + ", sendUserId=" + sendUserId + ", messageId=" + messageId
 				+ ", sigDate=" + sigDate + ", sigType=" + sigType + ", subType=" + subType + ", read=" + read + ", img="
 				+ img + ", sendUserName=" + sendUserName + ", exName=" + exName + "]";
 	}
