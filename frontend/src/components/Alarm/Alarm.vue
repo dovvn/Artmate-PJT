@@ -83,7 +83,7 @@
 
         <div class="like__alarm" v-if="alarm.subType === 2 && alarm.read === 0">
           <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
-          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+          <div class="alarm__left" @click="goFeedList(alarm.sendUserId, alarm.id)">
             <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
             <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
@@ -100,7 +100,7 @@
 
         <div class="like__alarm read" v-if="alarm.subType === 2 && alarm.read === 1">
           <button class="alarm__delete__button__read" @click="removeAlarm(alarm.id)">x</button>
-          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+          <div class="alarm__left" @click="goFeedList(alarm.sendUserId, alarm.id)">
             <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
             <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
@@ -117,7 +117,7 @@
 
         <div class="post__alarm" v-if="alarm.subType === 1 && alarm.read === 0">
           <button class="alarm__delete__button" @click="removeAlarm(alarm.id)">x</button>
-          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+          <div class="alarm__left" @click="goFeed(alarm.messageId, alarm.id)">
             <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
             <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
@@ -134,7 +134,7 @@
 
         <div class="post__alarm read" v-if="alarm.subType === 1 && alarm.read === 1">
           <button class="alarm__delete__button__read" @click="removeAlarm(alarm.id)">x</button>
-          <div class="alarm__left" @click="goFeed(alarm.sendUserId, alarm.id)">
+          <div class="alarm__left" @click="goFeed(alarm.messageId, alarm.id)">
             <img v-if="alarm.img=='' || alarm.img==null" src="../../assets/person.jpg" class="like__alarm__img" alt="">
             <img v-else :src="alarm.img"  class="like__alarm__img" alt="">
           </div>
@@ -235,7 +235,7 @@ export default {
         console.error(error);
       })
     },
-    goFeed(userId,id) {
+    goFeedList(userId,id) {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
@@ -244,6 +244,22 @@ export default {
         this.$router.replace({
         name: "UserFeedList",
         params: {userId: userId}
+      });
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+      
+    },
+    goFeed(messageId,id) {
+      //읽음처리후 걔 피드목록으로 감
+      http
+      .put(`/api/signal/${id}`)
+      .then((response) => {
+        console.log(response);
+        this.$router.replace({
+        name: "UserFeedDetail",
+        params: {feedno: messageId}
       });
       })
       .catch((error)=>{
