@@ -162,7 +162,17 @@ export default {
             })
         })
         const config = {attributes: true, childList: true, characterData: true};
-    this.observer.observe(target,config);
+        this.observer.observe(target,config);
+
+        // if (window.kakao && window.kakao.maps) {
+        //     this.initMap();
+        // } else {
+        //     const script = document.createElement('script');
+        //     /* global kakao */
+        //     script.onload = () => kakao.maps.load(this.initMap);
+        //     script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8c64ae9266e5ca128223c03d5686eed0';
+        //     document.head.appendChild(script);
+        // }
     },
     data() {
         return {
@@ -210,7 +220,7 @@ export default {
 
         // 상세 데이터 가져오는 곳
         http
-        .get(`api/exhibit/${this.userInfo.userId}/320`) //${this.id}
+        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
         .then(res => {
             console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
@@ -222,17 +232,6 @@ export default {
 
         
     },
-    //  mounted() {
-        // if (window.kakao && window.kakao.maps) {
-        //     this.initMap();
-        // } else {
-        //     const script = document.createElement('script');
-        //     /* global kakao */
-        //     script.onload = () => kakao.maps.load(this.initMap);
-        //     script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8c64ae9266e5ca128223c03d5686eed0';
-        //     document.head.appendChild(script);
-        // }
-    // },
     methods:{
         toggleArtistShow(){
             this.showArtist = !this.showArtist;
@@ -278,47 +277,47 @@ export default {
             });
         },
         goBack:function(){ // 들어온 테마 전시회 리스트로
-            
+            this.$router.push('/exhibit');
+        },
+        initMap() {
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+                };  
+
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면 
+            if (status ===    kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        } 
+});    
+
         }
-//         initMap() {
-//         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-//         mapOption = {
-//             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-//             level: 3 // 지도의 확대 레벨
-//                 };  
-
-//             // 지도를 생성합니다    
-//             var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-//             // 주소-좌표 변환 객체를 생성합니다
-//             var geocoder = new kakao.maps.services.Geocoder();
-
-//             // 주소로 좌표를 검색합니다
-//             geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-//             // 정상적으로 검색이 완료됐으면 
-//             if (status ===    kakao.maps.services.Status.OK) {
-
-//             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-//             // 결과값으로 받은 위치를 마커로 표시합니다
-//             var marker = new kakao.maps.Marker({
-//                 map: map,
-//                 position: coords
-//             });
-
-//             // 인포윈도우로 장소에 대한 설명을 표시합니다
-//             var infowindow = new kakao.maps.InfoWindow({
-//                 content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-//             });
-//             infowindow.open(map, marker);
-
-//             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-//             map.setCenter(coords);
-//         } 
-// });    
-
-//         }
     }
 }
 </script>
