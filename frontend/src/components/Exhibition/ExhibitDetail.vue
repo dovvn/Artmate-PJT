@@ -2,6 +2,9 @@
   <div class="exdiv_detail">
       <div>
         <Navi class="exDetial__navi"/>
+        <button class="goBack__button" @click="goBack(id)">
+        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+      </button>
       </div>
       <div class="detail">
           <!-- 전시회 포스터  -->
@@ -91,7 +94,7 @@
             <font-awesome-icon icon="map-marker-alt" class="location__icon" style="color:gray"/>
             <span class="ex__name"> 오시는 길 </span>
             <div class="rode">
-                 <!-- <div id="map" style="width:270px;height:220px;"></div> -->
+                 <div id="map" style="width:270px;height:220px;"></div>
             </div>
            
           </div>
@@ -158,7 +161,7 @@ export default {
         console.log("처음! : "+this.userInfo, this.id);
 
         http
-        .get(`api/exhibit/feed/1`) 
+        .get(`api/exhibit/feed/${this.id}`) 
         .then(res => {
             this.feed = res.data;
             console.log("이미지: "+res.data.feedImg);
@@ -169,7 +172,7 @@ export default {
         });
 
         http
-        .get(`api/exhibit/${this.userInfo.userId}/1`) //${this.id}
+        .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
         .then(res => {
             console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
@@ -233,9 +236,12 @@ export default {
             console.log(feedno);
             this.$router.replace({
                 name: "UserFeedDetail",
-                params: {feedno: feedno}
+                params: {feedno: feedno, status:"ExhibitionDetail"}
             });
         },
+        goBack:function(){ // 전시회 리스트로
+            
+        }
 //         initMap() {
 //         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 //         mapOption = {
@@ -468,4 +474,42 @@ export default {
         width: 320px;
         height: 100px;
     }
+/* ------------------------------ 커질때반응형 ------------------------------ */
+@media screen and (min-width: 1024px) {
+  .feedLine {
+    width: 760px;
+  }
+  .exDetial__navi{
+        width: 760px;
+    }
+    .exdiv_detail{
+        width: 760px;
+    }
+    .detail{
+        padding-top: 70px;
+        width: 720px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .poster_img{
+        width: 300px;
+    }
+    .exContent, .exReview, .exRode{
+        width: 700px;
+    }
+    .rode{
+        width: 600px;
+    }
+    .img{
+        width: 680px;
+        height: 200px;
+    }
+    .feed_img{
+        width: 200px;
+        height: 200px;
+        border-radius: 5px;
+        vertical-align: middle;
+        margin-right: 13px;
+    }
+}
 </style>

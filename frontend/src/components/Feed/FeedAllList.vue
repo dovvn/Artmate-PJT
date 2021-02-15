@@ -174,7 +174,7 @@ export default {
     postDetail:function(feedno){ 
       this.$router.replace({
         name: "UserFeedDetail",
-        params: {feedno: feedno, status:"feedlist"}
+        params: {feedno: feedno, status:"alllist"}
       });
     }
   }
