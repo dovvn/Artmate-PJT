@@ -26,11 +26,11 @@
               <span class="feed__exhibition__name"> 간직해온 마음들</span>
             </div>
           </div>
-          <img class="feed__img" :src="feed.feedImg" alt="">
+          <img class="feed__img" :src="feed.feedImg" >
           <div class="creator__info">
             <div class="creator__info__left">
-              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" src="../../assets/person.jpg"/>
-              <img class="creator__info__img" v-else :src="feed.userImg" alt="">
+              <img class="creator__info__img" v-if="feed.userImg==''||feed.userImg==null" @click="goFeedList(feed.userId)" src="../../assets/person.jpg"/>
+              <img class="creator__info__img" v-else :src="feed.userImg" @click="goFeedList(feed.userId)">
               <div class="creator__info__box">
                 <div class="creator__info__name">{{feed.userName}}</div>
                 <div class="creator__info__date">{{feed.writeDate}}</div>
@@ -226,6 +226,12 @@ export default {
     };
   },
   methods: {
+    goFeedList(userId) {
+      this.$router.replace({
+        name: "UserFeedList",
+        params:{userId:userId}
+      })
+    },
     isMobile() {
       return window.innerWidth < 1024;
     },
