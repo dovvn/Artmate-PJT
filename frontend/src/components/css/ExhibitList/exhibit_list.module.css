@@ -15,7 +15,7 @@
 }
 .exhibit_main_down_btn {
   position: absolute;
-  top: 5px;
+  top: 10px;
   left: 10px;
   cursor: pointer;
 }
@@ -31,7 +31,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10%;
+  padding-top: 15%;
   padding-right: 5%;
 }
 .exhibit_main_poster {
@@ -49,7 +49,7 @@
   color: var(--color-light-grey);
 }
 .exhibit_bottom_tlt {
-  font-size: 68px;
+  font-size: 80px;
   font-weight: var(--weight-exbold);
 }
 .exhibit_bottom_text {
@@ -61,7 +61,7 @@
   padding: 0 10px 10px 10px;
 }
 .exhibit_bottom_text div {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   color: var(--color-medium-grey);
   margin: 0;
 }
@@ -80,7 +80,7 @@
 }
 .exhibit_nav {
   display: flex;
-  padding: 24px 20px;
+  padding: 10px 5px 3px 20px;
 }
 .exhibit_nav_item {
   font-size: var(--font-tlt-md);
@@ -106,17 +106,21 @@
   font-size: var(--font-txt-sm);
   font-weight: var(--weight-regular);
   color: var(--color-white);
+  color: rgb(233, 232, 230);
+  margin-left: 8px;
 }
 .exhibit_poster {
-  width: 720px;
+  width: 700px;
   height: 300px;
-  object-fit: contain;
+  text-align: center;
+  margin: 0 auto;
+  /* object-fit: contain; */
 }
 .exhibit_box {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  height: auto;
 }
 .exhibit_tlt_icon {
   color: var(--color-light-purple);
@@ -127,9 +131,10 @@
   font-size: var(--font-txt-lg);
   font-weight: var(--weight-bold);
   color: var(--color-white);
-  padding: 10px 0;
-  margin-bottom: 30px;
+  padding-top: 10px;
   margin-right: 10px;
+  margin-left: 8px;
+  margin-bottom: 50px;
 }
 .exhibit_scrap {
   width: 10%;
@@ -149,7 +154,7 @@
     height: 310px;
   }
   .exhibit_poster {
-    width: 340px;
+    width: 320px;
     min-height: 300px;
   }
   .exhibit_footer_box {
