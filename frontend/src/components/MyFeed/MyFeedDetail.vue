@@ -45,8 +45,36 @@
               <span class="feed__like__cnt">{{feed.likeCnt}}</span>
               <font-awesome-icon v-if="feed.bookmark == 0" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['far','bookmark']"/>
               <font-awesome-icon v-if="feed.bookmark == 1" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['fas','bookmark']"/>
-
-              <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
+              <b-modal id="pos-share-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+              <div class="pos-check-modal-body">
+                <div class="pos-check-title">SNS 공유하기</div>
+                <div class="pos-check-body">
+                  <div class="link-share-btn">
+                    <a id="naver-link-btn" @click="naverShare">
+                      <img src="../../assets/naver_square_30x30.png" />
+                    </a>
+                  </div>
+                  <div class="link-share-btn">
+                    <a id="kakao-link-btn" @click="kakaoShare">
+                      <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" height="30px" width="30px"/>
+                    </a>
+                  </div>
+                  <div class="link-share-text">
+                    <a type="button" @click="urlCopy">
+                      <font-awesome-icon :icon="['far', 'copy']"/>
+                    <input id="urlText" v-model="share.url" style="margin:5px">
+                    </a>
+                  </div>
+                  <div><p v-if="copy">복사되었습니다.</p></div>
+                </div>
+                <div class="pos-check-bottom">
+                  <button class="pos-check-no-button"  @click="$bvModal.hide('pos-share-modal');copy=false;" style="margin-left: 0;">
+                    취소
+                  </button>
+                </div>
+              </div>
+            </b-modal>
+              <font-awesome-icon class="feed__interactions__share" icon="share-alt" @click="$bvModal.show('pos-share-modal')"/>
             </div>
           </div>
           <div class="feed__content">
@@ -144,8 +172,36 @@
               <span class="feed__like__cnt">{{feed.likeCnt}}</span>
               <font-awesome-icon v-if="feed.bookmark == 0" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['far','bookmark']"/>
               <font-awesome-icon v-if="feed.bookmark == 1" class="feed__interactions__bookmark" @click="addBookmark(feed.bookmark,feed.id)" :icon="['fas','bookmark']"/>
-
-              <font-awesome-icon class="feed__interactions__share" icon="share-alt" />
+              <b-modal id="pos-share-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+                <div class="pos-check-modal-body">
+                  <div class="pos-check-title">SNS 공유하기</div>
+                  <div class="pos-check-body">
+                    <div class="link-share-btn">
+                      <a id="naver-link-btn" @click="naverShare">
+                        <img src="../../assets/naver_square_30x30.png" />
+                      </a>
+                    </div>
+                    <div class="link-share-btn">
+                      <a id="kakao-link-btn" @click="kakaoShare">
+                        <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" height="30px" width="30px"/>
+                      </a>
+                    </div>
+                    <div class="link-share-text">
+                      <a type="button" @click="urlCopy">
+                        <font-awesome-icon :icon="['far', 'copy']"/>
+                      <input id="urlText" v-model="share.url" style="margin:5px">
+                      </a>
+                    </div>
+                    <div><p v-if="copy">복사되었습니다.</p></div>
+                  </div>
+                  <div class="pos-check-bottom">
+                    <button class="pos-check-no-button"  @click="$bvModal.hide('pos-share-modal');copy=false;" style="margin-left: 0;">
+                      취소
+                    </button>
+                  </div>
+                </div>
+              </b-modal>
+              <font-awesome-icon class="feed__interactions__share" icon="share-alt" @click="$bvModal.show('pos-share-modal')"/>
             </div>
           </div>
           <div class="feed__info">
@@ -259,6 +315,10 @@ export default {
         userId: '',
         userName: '',
       },
+      share:{
+        url :''
+      },
+      copy : false,
     };
   },
   methods: {
@@ -432,6 +492,53 @@ export default {
       }
       
     },
+    urlCopy(){
+      document.getElementById("urlText").select();
+      document.execCommand('copy');
+      this.copy = true;
+    },
+    naverShare() {
+      var url = encodeURI(encodeURIComponent(this.share.url));
+      var title = encodeURI(this.share.title);
+      var shareURL =
+        "https://share.naver.com/web/shareView.nhn?url=" +
+        url +
+        "&title=" +
+        title;
+      window.open(
+        shareURL,
+        "naversharedialog",
+        "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=500"
+      );
+    },
+    kakaoShare() {
+      window.Kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: this.feed.userName,
+          description: this.feed.feedText,
+          imageUrl: this.feed.feedImg,
+          link: {
+            mobileWebUrl: this.share.url,
+            webUrl: this.share.url,
+          },
+        },
+        social: {
+          likeCount: this.feed.likeCnt,
+          commentCount: this.memos.length,
+          sharedCount: 0,
+        },
+        buttons: [
+          {
+            title: "웹으로 보기",
+            link: {
+              mobileWebUrl: this.share.url,
+              webUrl: this.share.url,
+            },
+          },
+        ],
+      });
+    },
   },
   created() {
     this.memoInput.feedId = this.$route.params.feedno;
@@ -447,7 +554,7 @@ export default {
     }, (error) => {
       console.error(error);
     });
-    
+    this.share.url = document.location.href;
   },
   destroyed() {
     this.observer.disconnect();
@@ -948,5 +1055,11 @@ export default {
 }
 
 /* 반응형 */
-
+.link-share-btn{
+  display: inline-block;
+  margin : 5px;
+}
+.link-share-text{
+  margin: 5px;
+}
 </style>

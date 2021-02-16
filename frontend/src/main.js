@@ -13,7 +13,7 @@ Vue.use(Carousel3d)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit ,faGlobeAmericas, faStar as fasStar} from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag, faStar as farStar} from '@fortawesome/free-regular-svg-icons'
+import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag, faStar as farStar,faCopy as farCopy} from '@fortawesome/free-regular-svg-icons'
 import { faEnvira } from '@fortawesome/free-brands-svg-icons'
 import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -22,7 +22,7 @@ import { faAngleUp, faAngleLeft,faAngleDown, faAngleRight, faWalking} from '@for
 //구글 로그인
 import GAuth from 'vue-google-oauth2'
 
-library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit,faGlobeAmericas, fasStar, farStar)
+library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit,faGlobeAmericas, fasStar, farStar,farCopy)
 library.add(faCamera,faPenFancy, faTrashAlt)
 library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag,faChevronDown)
 library.add(faAngleUp,faAngleRight,faAngleLeft,faAngleDown,faWalking);
