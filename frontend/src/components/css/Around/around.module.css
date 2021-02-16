@@ -28,7 +28,7 @@
 }
 .around_nav_tlt {
   /* margin-left: 80px; */
-  font-size: var(--font-tlt-xl);
+  font-size: var(--font-tlt-lg);
   font-weight: var(--weight-bold);
 }
 .around_header {
@@ -38,11 +38,11 @@
   padding: 20px 12px;
 }
 .around_header_tlt {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
 }
 .around_header_place {
-  font-size: var(--font-tlt-md);
+  font-size: var(--font-tlt-sm);
   font-weight: var(--weight-bold);
   color: var(--color-light-grey2);
 }
@@ -56,8 +56,8 @@
   flex-direction: column;
   background-color: var(--color-white);
   border: 1px solid var(--color-light-grey2);
-  border-top-left-radius: var(--border-radius-xl);
-  border-top-right-radius: var(--border-radius-xl);
+  border-top-left-radius: var(--border-radius-sm);
+  border-top-right-radius: var(--border-radius-sm);
   padding-top: 0;
   padding-bottom: 0;
   position: absolute;
@@ -76,13 +76,13 @@
   padding: 10px 10px 10px 10px;
 }
 .around_list_nav_tlt {
-  font-size: var(--font-tlt-lg);
+  font-size: var(--font-tlt-md);
   font-weight: var(--weight-bold);
   color: var(--color-black);
 }
 .around_list_toggle_btn {
-  font-size: var(--font-txt-sm);
-  font-weight: var(--weight-bold);
+  font-size: var(--font-txt-xs);
+  font-weight: var(--weight-regular);
   border: 1px solid var(--color-medium-grey);
   color: var(--color-medium-grey);
   padding: 3px;
@@ -103,9 +103,10 @@
 }
 .around_list_item_img {
   width: 40%;
-  max-height: 100px;
+  max-height: 130px;
   object-fit: cover;
   margin-right: 30px;
+  margin-left: 50px;
 }
 .around_list_item_info {
   display: flex;
@@ -117,11 +118,12 @@
   font-size: var(--font-txt-md);
   font-weight: var(--weight-bold);
   margin: 0;
+  margin-bottom: 5px;
 }
 .around_list_item_place {
   color: var(--color-light-grey2);
-  font-size: var(--font-txt-md);
-  font-weight: var(--weight-bold);
+  font-size: var(--font-txt-sm);
+  font-weight: var(--weight-regular);
   margin: 0;
 }
 @media screen and (max-width: 1024px) {
@@ -134,6 +136,11 @@
     padding-bottom: 0;
     position: absolute;
     bottom: 0;
-    width: 374px;
+    width: 380px;
+  }
+  .around_list_item_img {
+    max-height: 110px;
+    margin-right: 20px;
+    margin-left: 25px;
   }
 }

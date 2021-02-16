@@ -16,7 +16,7 @@
         <span>현재 우리 지역의 전시회</span>
       </div>
       <div class="around_header_place">
-        <span><font-awesome-icon :icon="['far', 'flag']"/> {{locationInfo.location}}</span>
+        <span>🚩 {{locationInfo.location}}</span>
       </div>
     </div>
 
