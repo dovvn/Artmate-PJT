@@ -63,7 +63,7 @@
   position: absolute;
   bottom: 0;
   width: 760px;
-  z-index: 100;
+  z-index: 2;
   transition: all 300ms ease-in;
 }
 .around_list.active {
@@ -135,6 +135,5 @@
     position: absolute;
     bottom: 0;
     width: 374px;
-    z-index: 100;
   }
 }
