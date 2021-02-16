@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
+.main_nav>>>.bm-burger-bars {
+  background-color: white;
+}
 
+.main_nav>>>.navi_item  {
+  color: white;
+}
 .exhibit_main {
   position: relative;
   font-family: "Nanum Myeongjo", serif;

@@ -152,11 +152,11 @@ export default {
   background-color: #313030;
 }
 
-.bm-burger-bars {
+.scrap_nav>>>.bm-burger-bars {
   background-color: white;
 }
 
-.navi_item  {
+.scrap_nav>>>.navi_item  {
   color: white;
 }
 

@@ -3,13 +3,13 @@
       <div>
         <Navi class="exDetial__navi"/>
         <button class="goBack__button" @click="goBack(id)">
-        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+        <font-awesome-icon :icon="['fas', 'chevron-left']" class="goBack__button"/>
       </button>
       </div>
       <div class="detail">
           <!-- 전시회 포스터  -->
-          <div class="exPoster">
-              <img class="poster_img" :src="exhibit.exImg" alt="" >
+            <div class="exPoster">
+                <img class="poster_img" :src="exhibit.exImg" alt="" >
           </div>
           <div class="bar"></div>
           <!-- 전시회내용 -->
@@ -85,12 +85,9 @@
             <div class="exFeeds">
                 <font-awesome-icon :icon="['fas', 'globe-americas']" class="earth__icon" style="color:#5F9EA0"/>
                 <span class="ex__name"> 함께 즐겨요 </span>
-                <div class="mention" v-if="exhibit.feedCnt != 0">
+                <div class="mention">
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
                 <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
-            </div>
-            <div class="mention" v-if="exhibit.feedCnt == 0">
-                    <span class="feeds">아직 다녀가신 회원님이 없습니다😥</span>
             </div>
                 <vueper-slides
                     class="no-shadow img"
@@ -339,7 +336,7 @@ export default {
         background-color: #313030;
     }
     .detail{
-        padding-top: 40px;
+        padding-top: 70px;
         width: 340px;
         text-align: center;
         margin: 0 auto;
@@ -512,11 +509,10 @@ export default {
     }
     .goBack__button {
         font-size:22px;
-        position:relative;
+        position:fixed;
         z-index:3;
-        top:24px;
-        margin-left:10px;
-        margin-right: 340px;
+        top:30px;
+        right: in;
         color: #FFFFFF;
     }
     .vr{
