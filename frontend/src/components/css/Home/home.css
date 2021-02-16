@@ -111,7 +111,8 @@
 .recommend_exhibition_poster {
   width: 200px;
   height: 260px;
-  border-radius: var(--border-radius-sm);
+  border-radius: 5px;
+  /* border-radius: var(--border-radius-sm); */
   box-shadow: 3px 3px 5px 0 #88878725;
 }
 .recommend_exhibition_info {
@@ -209,7 +210,8 @@
 }
 .home_around_exhibition {
   display: flex;
-  border-radius: calc(var(--border-radius-sm));
+  border-radius: 5px;
+  /* border-radius: calc(var(--border-radius-sm)); */
   /* border: 1px solid var(--color-medium-grey); */
   box-shadow: 3px 3px 4px #99979725;
   width: 100%;
@@ -220,8 +222,8 @@
 .home_around_exhibition_img {
   width: 40%;
   height: 100%;
-  border-top-left-radius: var(--border-radius-sm);
-  border-bottom-left-radius: var(--border-radius-sm);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   object-fit: cover;
 }
 .home_around_exhibition_info {
