@@ -7,9 +7,7 @@
             <!-- 누르면 나올 리스트  -->
             <nav class="bm-item-list">
               <div class="r_list">
-                <p class="r_keyword">영화</p>
-                <p class="r_keyword">현대예술</p>
-                <p class="r_keyword">유화</p>
+                <p class="r_keyword" v-for="(tag,idx) in userInfo.myTag" :key="idx">{{tag}}</p>
               </div>
               <div class="proContent">
                 <p class="nickname">{{userInfo.userName}}</p>
@@ -24,7 +22,6 @@
                   <ul id="mlist">
                   <!-- <li><a class="ml" id="Home"  href="/home">Home</a></li> -->
                   <li><router-link class="ml" id="Home" to="/home">HOME</router-link></li>
-                  <li><router-link class="ml" id="about"  to="/about">ABOUT</router-link></li>
                   <li><router-link class="ml" id="exhibition"  to="/exhibit">EXHIBITION</router-link></li>
                   <li><router-link class="ml" id="search" to="/search">SEARCH</router-link></li>
                   <li><router-link class="ml" id="around"  to="/around">AROUND</router-link></li>
