@@ -579,7 +579,8 @@ export default {
 ::v-deep .FollowInfo > .modal-dialog {
   position:absolute;
   bottom:0;
-  width:95%;
+  width:100%;
+  margin: 0;
   /* margin:auto; */
 }
 
