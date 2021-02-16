@@ -2,7 +2,7 @@
   <div class="myfeed">
     
     
-    <Navi class="list__navi"/>
+    <Navi class="list__navi" @seeFeedList = "seeFeedList"/>
     <div class="writer__info">
       
       <div class="writer__info__header">
@@ -12,10 +12,10 @@
         <button @click="Follow" v-if="following==-1 && this.user.userId != this.userInfo.userId" class="writer__follow__button">
           팔로우
         </button>
-        <button v-if="following==0" class="writer__followed__button">
+        <button v-if="following==0 && this.user.userId != this.userInfo.userId" class="writer__followed__button">
           요청됨
         </button>
-        <button @click="unFollow" v-if="following==1" class="writer__followed__button">
+        <button @click="unFollow" v-if="following==1 && this.user.userId != this.userInfo.userId" class="writer__followed__button">
           팔로잉
         </button>
       </div>
@@ -30,6 +30,7 @@
           <div class="writer__info__nickname">{{userInfo.userName}}</div>
           <div class="writer__info__intro">{{userInfo.introduction}}</div>
           <div class="writer__3d__buttons">
+            <button class="edit3D__button" @click="goEdit()" v-if="user.userId == userInfo.userId">3D 전시회 편집</button>
             <button class="view3D__button" @click="goView()">3D 전시회 보기</button>
           </div>
           <div class="writer__info__cntboxes">
@@ -48,6 +49,9 @@
           </div>
         </div>
       </div>
+      <button class="feed__writebutton" @click="goWrite" v-if="this.user.userId == this.userInfo.userId">
+        <font-awesome-icon icon="pen-fancy"/>
+      </button>
       <!-- 반응형 -->  
      
       <!-- <div class="writer__info__tags">
@@ -74,6 +78,23 @@
       x
       </button>
       <FollowInfo :clicked="clicked" :userId="userInfo.userId" @seeFeedList = "seeFeedList"/>
+    </b-modal>
+    <b-modal id="pos-added-modal" modal-class="pos-added-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-added-modal-body">
+        <div class="pos-added-title">
+          피드 등록이 완료되었습니다.
+        </div>
+        <button class="pos-added-check-button" @click="$bvModal.hide('pos-added-modal')">확인</button>
+      </div>
+    </b-modal>
+    <b-modal id="pos-modified-modal" modal-class="pos-modified-modal" hide-header hide-footer centered size="sm">
+      <div class="pos-modified-modal-body">
+        <div class="pos-modified-title">
+          피드 수정이 완료되었습니다.
+        </div>
+        <div class="modal-line"></div>
+        <button class="pos-modified-check-button" @click="$bvModal.hide('pos-modified-modal')">확인</button>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -113,6 +134,16 @@ export default {
     ...mapState(["user","stompClient"])
   },
   methods: {
+    goWrite(){
+      this.$router.replace({
+        name: "MyFeedAdd"
+      });
+    },
+    goEdit() {
+      this.$router.push({
+        name: "3dCustomize"
+      });
+    },
     goView() {
       this.$router.replace({
         name: "3dWatch",
@@ -300,6 +331,7 @@ export default {
     //유저 정보(피드 소개, 프로필 이미지, 닉네임,소개글, 관심 태그 )
     //userInfo에 담는다.
     // console.log(this.user);
+    this.updateUserInfo(this.$route.params.userId);
     this.updateFeedList(this.$route.params.userId);
     //팔로우 정보 확인
     this.updateFollow(this.user.userId,this.$route.params.userId);
@@ -307,7 +339,14 @@ export default {
   },
   
   mounted() {
+    if(this.$route.params.status == "added") {
+      this.$bvModal.show('pos-added-modal')
+    }
+    if(this.$route.params.status == "modified") {
+      this.$bvModal.show('pos-modified-modal')
+    }
     // 반응형
+    
     let prev_size = window.innerWidth;
     window.addEventListener('resize', () => {
       let now_size = window.innerWidth;
@@ -323,6 +362,7 @@ export default {
     // const imgs = document.querySelectorAll(".feed__image__container");
         // console.log(this.feeds);
         // console.log(imgs);
+    // console.log('왜안대ㅐㅐ')
     this.imgLocate();
   }
 }
@@ -539,7 +579,8 @@ export default {
 ::v-deep .FollowInfo > .modal-dialog {
   position:absolute;
   bottom:0;
-  width:95%;
+  width:100%;
+  margin: 0;
   /* margin:auto; */
 }
 
@@ -553,6 +594,67 @@ export default {
   min-height:498px;
 }
 
+.modal-line {
+  width: 100%;
+  margin:auto;
+  height: 1px;
+  border: 1px solid #707070;
+  opacity:0.2;
+}
+
+::v-deep .pos-added-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:16px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+  box-shadow: #00000096 20px 20px 40px;
+}
+
+
+.pos-added-modal-body {
+  text-align:center;
+}
+
+.pos-added-title {
+  height:60px;
+  line-height:60px;
+  font-weight:500;
+  /* text-align:center; */
+}
+
+.pos-added-check-button {
+  color: #6D44FD;
+  margin-top: 15px;
+}
+
+::v-deep .pos-modified-modal > .modal-dialog >.modal-content{
+  background-color: #E8E8E8;
+  border: 1px solid #707070;
+  border-radius:16px;
+  font-size:14px;
+  width:310px;
+  margin:auto;
+  box-shadow: #00000096 20px 20px 40px;
+}
+
+.pos-modified-modal-body {
+  text-align:center;
+}
+
+.pos-modified-title {
+  height:60px;
+  line-height:60px;
+  font-weight:500;
+  /* text-align:center; */
+}
+
+.pos-modified-check-button {
+  color: #6D44FD;
+  margin-top: 15px;
+}
+
 /* 3d buttons */
 .writer__3d__buttons {
   display:flex;
@@ -560,7 +662,8 @@ export default {
   margin-top: 5px;
 }
 
-.view3D__button {
+.view3D__button,
+.edit3D__button {
   border-radius:15px;
   background: linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF);
   color:white;

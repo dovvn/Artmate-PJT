@@ -77,7 +77,21 @@
           <div class="feed__content">
             {{feed.feedText}}
           </div>
-          
+          <div class="feed__btns" v-if="user.userId==feed.userId">
+              <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
+
+                <span @click="$bvModal.show('pos-check-modal2')" class="feed__delete__button">[삭제]</span>
+                <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+                  <div class="pos-check-modal-body">
+                    <div class="pos-check-title">
+                      글을 삭제하시겠습니까?
+                    </div>
+                    <button class="pos-check-yes-button" @click="deleteFeed">예</button>
+                    <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+                  </div>
+                </b-modal>
+
+          </div>
           <div class="dotLine"></div>
           <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
         </div>
@@ -199,7 +213,20 @@
           <div class="feed__content">
             {{feed.feedText}}
           </div>
-          
+          <div class="feed__btns" v-if="user.userId==feed.userId">
+            <span @click="modifyFeed" class="feed__modify__button">[수정]</span>
+
+              <span @click="$bvModal.show('pos-check-modal2')" class="feed__delete__button">[삭제]</span>
+              <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+                <div class="pos-check-modal-body">
+                  <div class="pos-check-title">
+                    글을 삭제하시겠습니까?
+                  </div>
+                  <button class="pos-check-yes-button" @click="deleteFeed">예</button>
+                  <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal2')">아니오</button>
+                </div>
+              </b-modal>
+          </div>
           <div class="dotLine"></div>
           <div class="feed__memo__cnt">Comment ({{memos.length}})</div>
             
@@ -245,7 +272,7 @@
 
 <script>
 import Navi from '@/components/Common/Navi.vue';
-import {detailFeed} from '@/api/myfeed.js';
+import {detailFeed, deleteFeed} from '@/api/myfeed.js';
 import {listMemo, addMemo, modifyMemo, deleteMemo} from '@/api/memo.js';
 import {mapState} from "vuex";
 import http from "@/util/http-common";
@@ -340,6 +367,27 @@ export default {
       console.log(this.delete_memoId);
       this.$bvModal.show('pos-check-modal');
       
+    },
+    modifyFeed() {
+      this.$router.replace({
+        name: "MyFeedModify",
+        params: {feed: this.feed}
+      });
+    },
+    deleteFeed() {
+      //먼저 알림창 띄우고 동의하면
+      //axios활용해서 백에 삭제요청 보냄
+      deleteFeed(this.$route.params.feedno, (response) => {
+        console.log(response);
+        this.$router.push({
+          name:"UserFeedList",
+          params: {
+            userId: this.feed.userId,
+          },
+        })
+      }, (error) => {
+        console.error(error);
+      })
     },
     addMemo() {
       console.log(this.memoInput.content,'등록');
@@ -625,7 +673,7 @@ export default {
   .feed::-webkit-scrollbar{ display:none; }
   .feed {
     width: 380px;
-    /* height: 100%; */
+    height: 100%;
     box-sizing: border-box;
     /* max-width:380px; */
     margin:auto;
@@ -834,7 +882,7 @@ export default {
     position:fixed;
     background-color: white;
     width:380px;
-    bottom:0px;
+    bottom:10px;
     padding-top:10px;
     padding-bottom:10px;
   }
@@ -909,6 +957,7 @@ export default {
 }
 .white {
   background: white;
+  padding-bottom:8px;
 }
 .goBack__button {
   font-size:22px;

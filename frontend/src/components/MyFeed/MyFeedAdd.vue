@@ -133,8 +133,8 @@ export default {
   methods: {
     goBack() {
       this.$router.replace({
-        name: "MyFeedList",
-        // params: {status: "added"}
+        name: "UserFeedList",
+        params: {userId: this.user.userId}
       });
     },
     addFeed() {
@@ -155,9 +155,9 @@ export default {
         }
         // const feedno = response.data.id;
         this.$router.replace({
-          name:"MyFeedList",
+          name:"UserFeedList",
           // name: "MyFeedView",
-          params: {status: "added"},
+          params: {status: "added",userId:this.user.userId},
         });
       }, (error) => {
         console.error(error);
