@@ -565,7 +565,7 @@ export default {
       margin-right: 10px;
       border: 1px solid white;
       border-radius: 15px;
-      font-size: 14px;
+      font-size: 10px;
       padding: 5px 10px 5px 10px;
     }
     #modifyicon{

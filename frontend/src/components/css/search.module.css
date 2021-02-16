@@ -252,7 +252,7 @@
   align-items: center;
   border: 1px solid var(--color-light-grey);
   box-shadow: 0 0 2px #99979725;
-  border-radius: var(--border-radius-sm);
+  border-radius: 7px;
 }
 .search_exhibition img {
   width: 20%;
@@ -267,7 +267,7 @@
   margin: 0;
 }
 .search_exhibition_tlt {
-  font-size: var(--font-txt-md);
+  font-size: var(--font-txt-lg);
 }
 .search_exhibition_place {
   font-size: var(--font-txt-sm);
@@ -300,12 +300,21 @@
     height: 30px;
   }
   .search_user_name {
-    font-size: var(--font-txt-sm);
+    font-size: var(--font-txt-md);
   }
   .search_exhibition_list_tlt {
     font-size: var(--font-tlt-md);
   }
   .search_exhibition_list_txt {
     font-size: var(--font-tlt-sm);
+  }
+  .search_exhibition_tlt {
+    font-size: var(--font-txt-sm);
+  }
+  .search_exhibition_place {
+    font-size: var(--font-txt-xs);
+  }
+  .search_exhibition_expiration {
+    font-size: var(--font-txt-xs);
   }
 }
