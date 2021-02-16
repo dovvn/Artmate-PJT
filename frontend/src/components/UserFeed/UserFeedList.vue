@@ -711,7 +711,7 @@ export default {
     justify-content:initial;
   }
   ::v-deep .FollowInfo > .modal-dialog >.modal-content {
-    border-radius:20px;
+    border-radius: 10px 10px 0px 0px;
   }
   ::v-deep .FollowInfo > .modal-dialog {
     margin-top:200px;
