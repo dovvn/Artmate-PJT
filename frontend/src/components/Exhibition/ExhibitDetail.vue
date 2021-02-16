@@ -79,6 +79,7 @@
                     <span class="feeds">아직 다녀간 회원님이 없습니다.😥</span>
                 </div>
                 <vueper-slides
+                    id="slider"
                     v-if="exhibit.feedCnt != 0"
                     class="no-shadow img"
                     :visible-slides="3"
@@ -145,8 +146,20 @@ export default {
             mutations.forEach((mutation)=>{
                 if(mutation.target.classList.contains('moveRight')){
                 document.querySelector('.goBack__button').style.display = 'none';          
+                // document.querySelector('.rode').style.visibility = "hidden";
+                // document.querySelector('#slider').style.visibility = "hidden";
+                if(window.innerWidth < 1342) {
+                    document.querySelector('.rode').style.opacity = 0;
+                    document.querySelector('#slider').style.opacity = 0;
+                }
                 } else {
                 document.querySelector('.goBack__button').style.display = 'block';
+                // document.querySelector('.rode').style.visibility = "visible";
+                // document.querySelector('#slider').style.visibility = "visible";
+                if(window.innerWidth < 1342) {
+                    document.querySelector('.rode').style.opacity = 1;
+                    document.querySelector('#slider').style.opacity = 1;
+                }    
                 }
 
             })
@@ -493,6 +506,7 @@ export default {
         float: left;
         font-size:21px;
         position: relative;
+        width:20px;
         top: 3px;
         left: 5px;
         color: #FFFFFF;
@@ -512,6 +526,10 @@ export default {
         width:280px;
         height:220px;
         z-index: 1;
+    }
+    .rode,
+    #slider {
+        transition:opacity ease-out 500ms;
     }
 
 /* ------------------------------ 커질때반응형 ------------------------------ */
