@@ -480,7 +480,7 @@ export default {
   border: 1px solid #F5F5F5;
   margin-top:20px;
   /* margin-bottom:25px; */
-  box-shadow: 0 1px 2px #00000029;
+  box-shadow: 0 1px 2px #d4d4d425;
 }
 .writer__info__cntbox {
   /* margin:10pt; */
@@ -553,7 +553,7 @@ export default {
   display:flex;
   width: 100%;
   height:100%;
-  border-radius:10px;
+  border-radius:5px;
   object-fit:cover;
   /* padding:2px; */
 }
@@ -587,7 +587,7 @@ export default {
 ::v-deep .FollowInfo > .modal-dialog >.modal-content {
   /* margin-top:200px; */
   bottom:0px;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
   /* min-height:490px; */
 }
 ::v-deep .FollowInfo > .modal-dialog > .modal-content> .modal-body {
@@ -658,17 +658,24 @@ export default {
 /* 3d buttons */
 .writer__3d__buttons {
   display:flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   margin-top: 5px;
+  margin-left: 100px;
 }
 
 .view3D__button,
 .edit3D__button {
+  display: inline-block;
   border-radius:15px;
-  background: linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF);
-  color:white;
+  border: 1px solid #9275F2;
+  /* background: linear-gradient(270deg,#B8A4FD,#9275F2,#7953FF); */
+  color:#9275F2;
   font-size:13px;
-  padding:3px;
+  padding:5px;
+  margin-right: 5px;
+  line-height: 14px;
+  
+  
 }
 
 /*  */
