@@ -1,6 +1,9 @@
 <template>
   <div class="exdiv_detail">
-      <div>
+      <div style="position:fixed; display: flex;
+        justify-content: space-between;
+        height: 70px;
+        align-items: center;">
         <Navi class="exDetial__navi"/>
         <button class="goBack__button" @click="goBack(id)">
         <font-awesome-icon :icon="['fas', 'chevron-left']" class="goBack__button"/>
@@ -62,34 +65,21 @@
           <!-- 새탭에서 열기방법 -->
             <b-button class="vr" variant="outline-light" v-if="exhibit.vrLink != null"><a class="vrgo" :href="exhibit.vrLink" target="_blank" >VR 보러가기</a></b-button>
 
-        <!-- 모달로 보이기 -->
-        <!-- <div>
-        <b-button v-b-modal.modal-1 class="vr" variant="outline-light" v-if="exhibit.vrLink != null">VR 보러가기</b-button>
-
-        <b-modal id="modal-1" title="온라인 전시회">
-            <div class="modal-body">
-            <iframe
-              :src="exhibit.vrLink"
-              name="myIframe"
-              class="w-100 h-100"
-            ></iframe>
-          </div>
-        </b-modal>
-        </div> -->
-
-
-
           <div class="bar"></div>
           <!-- 함께 즐겨요 -->
           <div class="exReview">
             <div class="exFeeds">
                 <font-awesome-icon :icon="['fas', 'globe-americas']" class="earth__icon" style="color:#5F9EA0"/>
                 <span class="ex__name"> 함께 즐겨요 </span>
-                <div class="mention">
+                <div class="mention" v-if="exhibit.feedCnt != 0">
                     <span class="feeds">{{exhibit.feedCnt}}</span><span class="feeds">명의 회원님이 </span>
-                <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
-            </div>
+                    <span class="feeds">"{{exhibit.name}}"</span><span class="feeds"> 을 먼저 다녀가셨어요 😃</span>
+                </div>
+                <div class="mention" v-if="exhibit.feedCnt == 0">
+                    <span class="feeds">아직 다녀간 회원님이 없습니다.😥</span>
+                </div>
                 <vueper-slides
+                    v-if="exhibit.feedCnt != 0"
                     class="no-shadow img"
                     :visible-slides="3"
                     slide-multiple
@@ -108,13 +98,13 @@
                 
               </div>
           </div>
-          <div class="bar"></div>
+          <div class="bar" v-if="exhibit.location != null"></div>
           <!-- 오시는 길 -->
           <div class="exRode">
-            <font-awesome-icon icon="map-marker-alt" class="location__icon" style="color:gray"/>
-            <span class="ex__name"> 오시는 길 </span>
-            <div class="rode">
-                 <div id="map" style="width:270px;height:220px;"></div>
+            <font-awesome-icon icon="map-marker-alt" class="location__icon" style="color:gray" v-if="exhibit.location != null"/>
+            <span class="ex__name" v-if="exhibit.location != null"> 오시는 길 </span>
+            <div class="rode" v-if="exhibit.location != null">
+                 <div id="map" ></div>
             </div>
            
           </div>
@@ -129,8 +119,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
 import 'vueperslides/dist/vueperslides.css'
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
-  const navbarHeight = navbar.getBoundingClientRect().height;
-  if(window.scrollY > navbarHeight){
+//   const navbarHeight = navbar.getBoundingClientRect().height;
+  if(window.scrollY > 10){
     navbar.style.background="#272626";
   }
   else{
@@ -163,16 +153,6 @@ export default {
         })
         const config = {attributes: true, childList: true, characterData: true};
         this.observer.observe(target,config);
-
-        // if (window.kakao && window.kakao.maps) {
-        //     this.initMap();
-        // } else {
-        //     const script = document.createElement('script');
-        //     /* global kakao */
-        //     script.onload = () => kakao.maps.load(this.initMap);
-        //     script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8c64ae9266e5ca128223c03d5686eed0';
-        //     document.head.appendChild(script);
-        // }
     },
     data() {
         return {
@@ -225,6 +205,10 @@ export default {
             console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
             console.log("솔묭ㅋㅋ"+this.exhibit.vrLink);
+            if(this.exhibit.location != null){
+                this.initMap();
+            }
+            
         })
         .catch(err => {
             console.error(err);
@@ -280,43 +264,37 @@ export default {
             this.$router.push('/exhibit');
         },
         initMap() {
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-                };  
+            const vue = this;
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        
+            mapOption = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };  
 
             // 지도를 생성합니다    
             var map = new kakao.maps.Map(mapContainer, mapOption); 
 
             // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
+            let ps = new kakao.maps.services.Places();
+            ps.keywordSearch(vue.exhibit.location, (data)=>{
+                console.log(data);
 
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+                for(let arr of data){
+                    if(arr.category_group_name==="문화시설"){
+                        var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
 
-            // 정상적으로 검색이 완료됐으면 
-            if (status ===    kakao.maps.services.Status.OK) {
-
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
+                        var marker = new kakao.maps.Marker({
+                            map: map, // 마커를 표시할 지도
+                            position: new kakao.maps.LatLng(Number(arr.y), Number(arr.x)), // 마커를 표시할 위치
+                            title : vue.exhibit.location, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                            // image : markerImage // 마커 이미지 
+                        });
+                        break;
+                    }
+                }
+                map.setCenter(coords);
             });
-
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-            });
-            infowindow.open(map, marker);
-
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            map.setCenter(coords);
-        } 
-});    
-
         }
     }
 }
@@ -324,9 +302,6 @@ export default {
 
 <style scoped>
 @import "../../components/css/style.css";
-    .exDetial__navi{
-        width: 380px;
-    }
     .exdiv_detail{
         width: 380px;
         height: 100%;
@@ -508,11 +483,12 @@ export default {
         height: 100px;
     }
     .goBack__button {
-        font-size:22px;
-        position:fixed;
-        z-index:3;
-        top:30px;
-        right: in;
+        z-index: 3;
+        float: left;
+        font-size:21px;
+        position: relative;
+        top: 3px;
+        left: 5px;
         color: #FFFFFF;
     }
     .vr{
@@ -526,15 +502,16 @@ export default {
         color: black;
         text-decoration:none;
     }
+    #map{
+        width:280px;
+        height:220px;
+    }
 
 /* ------------------------------ 커질때반응형 ------------------------------ */
 @media screen and (min-width: 1024px) {
   .feedLine {
     width: 760px;
   }
-  .exDetial__navi{
-        width: 760px;
-    }
     .exdiv_detail{
         width: 760px;
     }
@@ -575,6 +552,12 @@ export default {
     }
     .btns > .mores{
         margin-left: 500px;
+    }
+    #map{
+        text-align: center;
+        margin: 0 auto;
+        width: 600px;
+        height:400px;
     }
     
 }
