@@ -261,7 +261,13 @@ export default {
             });
         },
         goBack:function(){ // 들어온 테마 전시회 리스트로
-            this.$router.push('/exhibit');
+            if(this.$route.params.status=="Alarm") {
+                this.$router.replace({
+                name: "AlarmAll",
+            });
+            } else {
+                this.$router.push('/exhibit');
+            }
         },
         initMap() {
             const vue = this;

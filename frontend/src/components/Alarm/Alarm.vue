@@ -164,7 +164,7 @@
               <div class="exhibition__alarm__title">{{alarm.exName}}</div>
               <div class="alarm__info">
                 <!-- <div class="exhibition__alarm__content">{{alarm.description}}</div> -->
-                <div class="exhibition__alarm__term">{{alarm.startDate}}~{{alarm.endDate}}</div>
+                <div class="exhibition__alarm__term" v-if="alarm.startDate">{{simpleDate(alarm.startDate)}}~<br>{{simpleDate(alarm.endDate)}}</div>
               </div>
               
             </div>
@@ -184,12 +184,12 @@
               <div class="exhibition__alarm__title">{{alarm.exName}}</div>
               <div class="alarm__info">
                 <!-- <div class="exhibition__alarm__content">{{alarm.description}}</div> -->
-                <div class="exhibition__alarm__term">{{alarm.startDate}}~{{alarm.endDate}}</div>
+                <div class="exhibition__alarm__term" v-if="alarm.startDate">{{simpleDate(alarm.startDate)}}~<br>{{simpleDate(alarm.endDate)}}</div>
               </div>
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">3일 전</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
           </div>
         </div>
       </div>
@@ -231,6 +231,13 @@ export default {
     
   },
   methods: {
+    simpleDate(startDate){
+      const items = startDate.split('-');
+      const tp = items.join('.');
+      // console.log(tp);
+      // console.log(items);
+      return tp.slice(0,10);
+    },
     allowDrop(event) {
       event.preventDefault();
     },
@@ -383,23 +390,24 @@ export default {
     },
     updateAlarms() {
       http
-      .get(`/api/signal/${this.user.userId}`)
+      .get(`/api/signal/feed/${this.user.userId}`)
       .then((response) => {
-        // console.log(response.data);
-        let temp_feeds = [];
-        let temp_exhibitions = [];
-        response.data.forEach(element => {
-          if(element.sigType == 0) {
-            temp_exhibitions.push(element);
-          } else {
-            temp_feeds.push(element);
-          }
-        });
-        this.feeds = temp_feeds;
-        this.exhibitions = temp_exhibitions;
+        this.feeds = response.data;
       })
       .then(() => {
-        console.log(this.feeds, this.exhibitions);
+        console.log(this.feeds);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+
+      http
+      .get(`/api/signal/exhibit/${this.user.userId}`)
+      .then((response) => {
+        this.exhibitions = response.data;
+      })
+      .then(() => {
+        console.log(this.exhibitions);
       })
       .catch((error) => {
         console.error(error);
@@ -506,6 +514,7 @@ export default {
   margin: 13px;
   width:87px;
   height:123px;
+  object-fit:cover;
 }
 .follow__alarm__img {
   margin:15px;
@@ -539,7 +548,7 @@ export default {
 }
 .exhibition__alarm__content,
 .exhibition__alarm__term {
-  font-size:14px;
+  font-size:12px;
 }
 .follow__alarm__content {
   font-size: 14px;
