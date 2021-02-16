@@ -87,8 +87,7 @@
         </button>
       </div>
       <div class="feed_message">
-        <span>인기있는 피드를 만나보세요 </span>
-        <font-awesome-icon class="feed_message_icon" icon="camera"/>
+        <span>인기있는 피드를 만나보세요 📸</span>
       </div>
       <div class="feed_list">
         <img
