@@ -34,7 +34,7 @@
     </div>
     <div class="line"></div>
     <textarea v-model="feed.feedText" class="input__content"></textarea>
-    <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">등록</button>
+    <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">수정</button>
     <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
       <div class="pos-check-modal-body">
         <div class="pos-check-title">
@@ -84,7 +84,7 @@ export default {
     goBack() {
       // console.log('눌러');
       this.$router.replace({
-        name: "MyFeedView",
+        name: "UserFeedDetail",
         params: {feedno: this.feed.id}
       });
     },
@@ -101,9 +101,9 @@ export default {
         console.log(response);
         // const feedno = response.data.id;
         this.$router.replace({
-          name:"MyFeedList",
+          name:"UserFeedList",
           // name: "MyFeedView",
-          params: {status: "modified"}
+          params: {status: "modified",userId:this.user.userId}
         });
       }, (error) => {
         console.error(error);

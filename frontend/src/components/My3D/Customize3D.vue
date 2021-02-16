@@ -152,7 +152,10 @@ export default {
     goMyfeed() {
       this.$bvModal.hide('pos-check-modal')
       this.$router.push({
-					name: "MyFeedList",
+					name: "UserFeedList",
+          params: {
+            userId: this.user.userId,
+          },
 				})
     },
     save() {
@@ -160,7 +163,10 @@ export default {
     },
     goBack() {
       this.$router.push({
-					name: "MyFeedList",
+					name: "UserFeedList",
+          params: {
+            userId: this.user.userId,
+          },
 				})
     },
     choose(feed,idx) {

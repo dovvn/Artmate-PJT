@@ -212,8 +212,17 @@ export default {
     },
     onClickProfile(){
       // console.log(this.$route.name);
-      if(this.$route.name != "MyFeedList") {
-        this.$router.push('/myfeed');
+      if(this.$route.name == "UserFeedList") {
+        if(this.$route.params.userId != this.user.userId)
+        this.$emit(
+          'seeFeedList', this.user.userId
+        )
+      } else {
+        // console.log(this.user.userId)
+        this.$router.replace({
+          name:"UserFeedList",
+          params:{userId: this.user.userId},
+        })
       }
     },
     logout(){

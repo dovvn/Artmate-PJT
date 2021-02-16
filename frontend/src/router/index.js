@@ -106,21 +106,6 @@ const routes = [
         name:"MyFeedModify",
         component: ()=> import("@/components/MyFeed/MyFeedModify.vue")
       },
-      {
-        path:"detail/:feedno",
-        name:"MyFeedView",
-        component: ()=> import("@/components/MyFeed/MyFeedDetail.vue")
-      },
-      {
-        path:"",
-        name:"MyFeedList",
-        component: ()=> import("@/components/MyFeed/MyFeedList.vue")
-      },
-      {
-        path:"follow",
-        name:"MyFollow",
-        component: ()=> import("@/components/MyFeed/MyPageFollower_ing_List.vue")
-      },
     ]
   },
   {

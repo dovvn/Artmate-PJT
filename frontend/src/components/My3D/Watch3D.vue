@@ -659,21 +659,13 @@ export default {
 		goBack() {
 			// console.log(renderer.domElement);
 			document.body.removeChild(renderer.domElement);
-			if(this.$route.params.userId === this.user.userId) {
-				//마이피드로이동
-				this.$router.push({
-					name: "MyFeedList",
-				})
-			} else {
-				//해당 유저피드로 이동
-				this.$router.push({
-					name: "UserFeedList",
-					params: {
-						userId: this.$route.params.userId, 
-					}
-				})
-			}
-
+			//해당 유저피드로 이동
+			this.$router.push({
+				name: "UserFeedList",
+				params: {
+					userId: this.$route.params.userId, 
+				}
+			})
 		},
 		isMobile() {
 			// console.log(screen.availWidth);
