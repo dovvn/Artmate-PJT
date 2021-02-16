@@ -221,6 +221,7 @@
   height: 100%;
   border-top-left-radius: var(--border-radius-sm);
   border-bottom-left-radius: var(--border-radius-sm);
+  object-fit: cover;
 }
 .home_around_exhibition_info {
   display: flex;

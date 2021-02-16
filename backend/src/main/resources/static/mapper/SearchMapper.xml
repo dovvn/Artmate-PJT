@@ -34,7 +34,7 @@
 	</select>
 	
 	<select id="selectKeywordExhibit" parameterType="String" resultType="ExhibitDto">
-		SELECT id, name, exImg
+		SELECT *
 		FROM Exhibition
 		WHERE name like #{keyword}
 	</select>

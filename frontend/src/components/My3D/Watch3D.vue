@@ -450,14 +450,14 @@ function init(feeds,theme) {
 				let imgUrls = ['../../test3D/feed_1.png','../../test3D/feed_2.png','../../test3D/feed_3.png',
 				'../../test3D/feed_4.png','../../test3D/feed_5.png','../../test3D/feed_6.png',
 				'../../test3D/feed_7.png','../../test3D/feed_8.png','../../test3D/feed_9.png','../../test3D/feed34.JFIF',]
-				if(feeds.length > 0) {
-					// console.log('feeds:',feeds);
-					imgUrls = feeds.map((feed) => {
-						// console.log(feed)
-						return feed.feedImg+'?timestamp=2';
-					})
-					// console.log('이미지주소',imgUrls);
-				}
+				// if(feeds.length > 0) {
+				// 	// console.log('feeds:',feeds);
+				// 	imgUrls = feeds.map((feed) => {
+				// 		// console.log(feed)
+				// 		return feed.feedImg+'?timestamp=2';
+				// 	})
+				// 	// console.log('이미지주소',imgUrls);
+				// }
 
         let imgCnt = 0;
 				const imgContainer_left = (imgUrl) => { 
