@@ -4,7 +4,7 @@
   padding-bottom: 200px;
 }
 .home_logo {
-  margin-top: 80px;
+  margin-top: 70px;
   position: sticky;
   display: flex;
   flex-direction: column;
@@ -15,8 +15,8 @@
 }
 .home_logo_img {
   cursor: pointer;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
 }
 .home_logo_text {
   color: var(--color-medium-grey);
@@ -29,9 +29,10 @@
   margin-right: auto;
 }
 .online_tlt {
-  font-size: var(--font-tlt-lg);
-  font-weight: var(--weight-bold);
+  font-size: var(--font-tlt-md);
+  font-weight: var(--weight-regular);
   padding: 1em 0;
+  color: rgb(46, 45, 45);
 }
 .online_exhibition {
   display: flex;
@@ -47,7 +48,7 @@
   margin: auto;
   max-height: 340px;
   max-width: 700px;
-  box-shadow: 3px 3px 5px 0 #0000007a;
+  box-shadow: 3px 3px 5px 0 #88878725;
 }
 .online_exhibition_info {
   display: flex;
@@ -59,9 +60,9 @@
 }
 .online_exhibition_tlt {
   font-size: var(--font-tlt-lg);
-  color: var(--color-black);
   margin: 0;
   padding: 5px 0;
+  color: rgb(65, 65, 65);
 }
 .online_exhibition_place {
   font-size: var(--font-tlt-md);
@@ -111,7 +112,7 @@
   width: 200px;
   height: 260px;
   border-radius: var(--border-radius-sm);
-  box-shadow: 3px 3px 5px 0 #0000007a;
+  box-shadow: 3px 3px 5px 0 #88878725;
 }
 .recommend_exhibition_info {
   margin-top: 10px;
@@ -170,7 +171,7 @@
   width: 220px;
   height: 220px;
   padding: 10px;
-  border-radius: var(--border-radius-sm);
+  border-radius: 7px;
   cursor: pointer;
 }
 .home_around_box {
@@ -213,7 +214,7 @@
   box-shadow: 3px 3px 4px #99979725;
   width: 100%;
   height: 150px;
-  margin: 30px 0;
+  margin: 20px 0;
   background-color: var(--color-white);
 }
 .home_around_exhibition_img {
@@ -286,25 +287,27 @@
     min-height: 350px;
   }
   .online_tlt {
-    font-size: var(--font-txt-lg);
+    font-size: var(--font-txt-md);
+    color: rgb(46, 45, 45);
   }
   .home_logo {
-    margin-top: 70px;
+    margin-top: 40px;
   }
   .home_logo_text {
-    font-size: var(--font-txt-md);
+    font-size: var(--font-txt-sm);
   }
   .home_logo_img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
   .online_exhibition_poster {
     max-height: 200px;
     max-width: 300px;
   }
   .online_exhibition_tlt {
-    font-size: var(--font-txt-md);
+    font-size: var(--font-txt-sm);
     padding: 3px 0;
+    color: rgb(65, 65, 65);
   }
   .online_exhibition_place {
     font-size: var(--font-txt-sm);
@@ -317,7 +320,7 @@
   }
   .recommend_keyword {
     padding: 3px 10px;
-    font-size: var(--font-txt-sm);
+    font-size: var(--font-txt-xs);
     margin: 5px 5px 0 0;
   }
   .recommend_exhibition {
@@ -328,7 +331,7 @@
     height: 150px;
   }
   .recommend_exhibition_tlt {
-    font-size: var(--font-txt-sm);
+    font-size: var(--font-txt-xs);
   }
   .recommend_exhibition_place {
     font-size: var(--font-txt-xs);
@@ -352,7 +355,7 @@
     cursor: pointer;
   }
   .feed_message {
-    font-size: var(--font-tlt-sm);
+    font-size: var(--font-tlt-xs);
   }
   .feed_list {
     display: flex;
@@ -364,6 +367,7 @@
     width: 115px;
     height: 115px;
     padding: 5px;
+    border-radius: 7px;
     cursor: pointer;
   }
   .home_around_box {
@@ -382,14 +386,14 @@
     cursor: pointer;
   }
   .home_around_message {
-    font-size: var(--font-tlt-sm);
+    font-size: var(--font-tlt-xs);
   }
   .home_around_list {
   }
   .home_around_exhibition {
     display: flex;
     height: 100px;
-    margin: 15px 0;
+    margin: 10px 0;
     cursor: pointer;
   }
   .home_around_exhibition_img {
