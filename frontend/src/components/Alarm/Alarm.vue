@@ -491,9 +491,9 @@ export default {
 .post__alarm,
 .exhibition__alarm {
   background-color:#FFFFFF;
-  border: 1px solid #D3D3D3;
-  border-radius:10px;
-  box-shadow: 0 3px 6px #00000029;
+  border: 1px solid #f3f2f2;
+  border-radius:7px;
+  box-shadow: 0 3px 4px #00000005;
   margin-bottom:20px;
   color: #666666;
   display:flex;
