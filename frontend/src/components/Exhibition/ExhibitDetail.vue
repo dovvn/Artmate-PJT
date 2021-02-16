@@ -511,6 +511,7 @@ export default {
     #map{
         width:280px;
         height:220px;
+        z-index: 1;
     }
 
 /* ------------------------------ 커질때반응형 ------------------------------ */
@@ -564,6 +565,7 @@ export default {
         margin: 0 auto;
         width: 600px;
         height:400px;
+        z-index: 1;
     }
     
 }
