@@ -422,7 +422,7 @@ export default {
 /* -------------------------모달 css ----------------------------- */
 .pos-check-yes-button {
   color: white;
-  background-color: #a593df;
+  background-color: #cb3e47;
   border-radius: 10px;
   font-size: 14px;
   width: 100px;
