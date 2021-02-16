@@ -36,7 +36,7 @@
       <p class="txt">당신만의 '아트 스크랩북'을 만들어보세요😉</p>
 
       <!--스크랩북 리스트-->
-      <ul id="bookList" class="list-inline">
+      <ul id="bookList" class="list-inline" v-if="scrap_list.length>0" >
         <li class="book" v-for="(item, idx) in scrap_list" :key="idx">
           <font-awesome-icon
             :icon="['fas', 'bookmark']"
@@ -49,6 +49,7 @@
           </div>
         </li>
       </ul>
+      <div v-else class="scrap_text">스크랩 된 내역이 없습니다</div>
       <!--스크랩북 리스트-->
     </div>
   </div>
@@ -97,10 +98,17 @@ export default {
       this.dropping.pause();
     },
     seeDetail(exno) {
-      this.$router.replace({
+      const vue=this;
+      setTimeout(function(){
+        vue.$router.replace({
         name: "ExhibitionDetail",
-        params: { exno: exno },
+        params: { id: exno },
       });
+      },500);
+      // this.$router.replace({
+      //   name: "ExhibitionDetail",
+      //   params: { exno: exno },
+      // });
     },
     showCheckmodal(id) {
       this.deleteId = id;
@@ -164,7 +172,7 @@ export default {
   float: left;
   margin-top: 70px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #313030;
 }
 
@@ -401,6 +409,14 @@ export default {
   text-align: left;
   margin: 0 auto;
   background-color: #313030;
+}
+
+.scrap_text {
+  text-align: center;
+  font-size: var(--font-txt-lg);
+  font-weight: var(--weight-bold);
+  color: #fff;
+  opacity: 0.7;
 }
 
 /* -------------------------모달 css ----------------------------- */
