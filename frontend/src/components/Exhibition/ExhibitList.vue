@@ -33,13 +33,14 @@
       </div>
       <div class="exhibit_items">
         <div @click="onClickEx" class="exhibit_item" v-for="(item,idx) in filteredList" :key="idx" :data-id="item.id">
-          <div v-if="item.startDate && item.endDate" class="exhibit_duration" :data-id="item.id">{{$moment(item.startDate).format('YYYY-MM-DD')}} ~ {{$moment(item.endDate).format('YYYY-MM-DD')}}</div>
+          <div v-if="item.startDate && item.endDate" class="exhibit_duration" :data-id="item.id"> {{$moment(item.startDate).format('YYYY-MM-DD')}} ~ {{$moment(item.endDate).format('YYYY-MM-DD')}} </div>
           <img :src="item.exImg" alt="" class="exhibit_poster" :data-id="item.id">
           <div class="exhibit_box" :data-id="item.id">
             <div class="exhibit_tlt" :data-id="item.id">
               <font-awesome-icon class="exhibit_tlt_icon" :icon="['fab', 'envira']" :data-id="item.id"/>
               {{item.name}}
             </div>
+            
             <div class="exhibit_scrap">
               <span>
                 <font-awesome-icon v-if="item.scrapmark == 0" @click="addScrap(item.scrapmark,item.id)" :icon="['far', 'star']" style="color:white"/> 
@@ -47,7 +48,9 @@
                 {{item.scrapCnt}}
               </span>
             </div>
+            
           </div>
+          
         </div>
       </div>
     </div>
