@@ -294,7 +294,6 @@ export default {
       }
     );
     getFeedList(
-      this.user.userId,
       (res)=>{
         this.popularList=res.data.sort((a,b)=>{b.likeCnt-a.likeCnt}).slice(0,9);
       },
