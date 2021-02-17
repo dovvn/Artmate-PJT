@@ -180,4 +180,10 @@
 		FROM User
 		WHERE userId=#{userId}
 	</select>
+	<select id="selectPopularFeed" resultType="FeedDto">
+		SELECT *
+		FROM Feed
+		ORDER BY likeCnt DESC
+		LIMIT 9
+	</select>
 </mapper>

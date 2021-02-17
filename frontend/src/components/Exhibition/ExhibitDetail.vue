@@ -296,11 +296,12 @@ export default {
 
             // 주소-좌표 변환 객체를 생성합니다
             let ps = new kakao.maps.services.Places();
+            console.log(vue.exhibit.location);
             ps.keywordSearch(vue.exhibit.location, (data)=>{
                 console.log(data);
 
                 for(let arr of data){
-                    if(arr.category_group_name==="문화시설"){
+                    if(arr.category_name.includes("문화")){
                         var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
 
                         var marker = new kakao.maps.Marker({

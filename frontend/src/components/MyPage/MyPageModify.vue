@@ -70,7 +70,7 @@
         <!-- 수정완료 후 메인 -->
         <div id="btn">
             <button id="changeFinish" @click="$bvModal.show('pos-check-modal2')">완료</button>
-            <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+            <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm" >
               <div class="pos-check-modal-body">
                 <div class="pos-check-title">
                   수정을 완료하시겠습니까?
@@ -94,7 +94,7 @@
     <!-- 유저 데이터 삭제 후 로그인 페이지 -->
       <div class="example">
         <p id="out" @click="$bvModal.show('pos-check-modal')">탈퇴하기</p>
-        <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+        <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm" >
           <div class="pos-check-modal-body">
             <div class="pos-check-title">
               탈퇴하시겠습니까?
@@ -103,6 +103,8 @@
             <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
           </div>
         </b-modal>
+
+        
       </div>
   </div>
 </template>
@@ -145,7 +147,11 @@ export default {
 
     // console.log(this.userInfo);
     // console.log("img:"+this.imageUrl);
-
+            console.log("nickname : "+this.nickname);
+            console.log('----------------------------')
+            console.log("userInfo : "+this.userInfo.userName);
+            console.log('----------------------------')
+            console.log("getters : "+this.$store.getters.getUser.userName);
     this.component = this;
     this.passwordSchema
       .is()
@@ -170,9 +176,15 @@ export default {
         .then(({ data }) => {
           if (!data) { // db에 닉네임이 있으면 false
             alert('중복되는 닉네임 입니다. 다른 닉네임을 입력해주세요!');
+            this.idCheck = false;
           } else if (data) { // 없으면 true
             alert('사용가능한 닉네임 입니다.');
             this.idCheck = true;
+            console.log("nickname : "+this.nickname);
+            console.log('----------------------------')
+            console.log("userInfo : "+this.userInfo.userName);
+            console.log('----------------------------')
+            console.log("getters : "+this.$store.getters.getUser.userName);
           }
         })
         .catch((err) => {

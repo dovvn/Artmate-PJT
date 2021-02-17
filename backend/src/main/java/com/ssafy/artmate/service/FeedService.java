@@ -28,4 +28,5 @@ public interface FeedService{
 	boolean checkFeedExhibit(String userId, int feedId); //전시할 피드에 저장되어 있는지 확인
 	boolean modifyFeedTheme(String userId, int theme); //유저 피드테마 번호 업데이트
 	int selectFeedTheme(String userId); //유저 피드테마 번호 가져오기
+	List<FeedDto> selectPopularFeed(); //좋아요 순으로 피드
 }

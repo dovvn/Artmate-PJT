@@ -123,7 +123,7 @@ export default {
         for(let key in obj){
           ps.keywordSearch(key,(data)=>{
             for(let arr of data){
-              if(arr.address_name.includes(tmp[0]) && arr.category_group_name==="문화시설"){
+              if(arr.address_name.includes(tmp[0]) && arr.category_name.includes("문화")){
                 var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
                 // var imageSize = new kakao.maps.Size(24, 35);
                 // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);

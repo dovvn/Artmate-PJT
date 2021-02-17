@@ -2,10 +2,10 @@ import {createInstance} from './index.js';
 
 const instance = createInstance();
 
-function getFeedList(userId,success,fail){
+function getFeedList(success,fail){
   instance
-  .get(`api/feed/allList/${userId}`)
-  .then(success)
+  .get(`/api/feed/popular`)
+  .then(success, console.log("들어가냐"))
   .catch(fail)
 }
 
