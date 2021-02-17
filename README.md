@@ -1,10 +1,10 @@
-# 🎨 �SUBPJT3 : SNS 웹 큐레이팅 서비스    
+# 🎨 SUBPJT3 : SNS 웹 큐레이팅 서비스    
 > 주제: 전시회 큐레이팅 SNS  
 > 팀명: 2조(B202)  
 
 ### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
 
-## 팀원 역할
+## 👩‍💻 팀원 역할
 | 팀원   | 역할 | 비고                        |
 | ------ | ---- | --------------------------- |
 | 정다운 | 팀장 | 백엔드 개발, UI디자인        |
@@ -13,10 +13,10 @@
 | 정현우 | 팀원 | 프론트엔드 개발, QA(Jira관리), 화면정의서            |
 | 정혜지 | 팀원 | 백엔드 테크리더, 화면정의서           |
 
-## 기술 스택
+## 💻 기술 스택
 ![Javascript](https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript) ![VueJS](https://img.shields.io/badge/Vue.js-v4.5.10-green?logo=vue.js) ![Vuetify](https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify) ![Java](https://img.shields.io/badge/Java-v1.8-blue?logo=java) ![Spring Boot](https://img.shields.io/badge/spring-v3.9.15-blue?logo=spring) ![AWS RDS](https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws) ![MySQL](https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql)   
 
-## Gantt Chat
+## 👁‍🗨 Gantt Chat
 > 매일 오전 미팅 후 업데이트  
 ```mermaid  
 gantt
@@ -65,7 +65,7 @@ gantt
     jsonup/네이버 검색 크롤링     :done, 2021-02-13,2d
 ```
 
-## 기능
+## 💻 기능
 - 전시회 SNS 커뮤니티
     - 실시간 뉴스피드 목록
     - 피드 좋아요,팔로우,SNS공유 기능
@@ -79,18 +79,18 @@ gantt
     - 키워드 검색 기능(인기 키워드/최근 키워드)
     - 사용자 후기 피드와 연결
 
-## 커밋 메시지
+## ✔ 커밋 메시지
 ```bash
 FE(BE)_날짜:완성한 기능(작업 부분-폴더명)
 ```
 * [참고한 커밋 메시지 작성법](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)
 
-## Branch 규칙  
+## ✔ Branch 규칙  
 ```bash
 develop/feature/기능명  
 ```
 
-## Code Style
+## ✔ Code Style
 | FrontEnd   | BackEnd |
 | ------ | ---- |
 | 1. 폴더명: 첫글자 대문자<br/>→ ex) Feed/Add.vue <br/><br/>2. 파일명: 첫글자 대문자 <br/> → ex) Add.vue <br/><br/>3. 경로명: 소문자 → ex) /add | 1. 클래스명:  첫글자 대문자 + camel case <br/> ex) MainController.java <br/><br/> 2. 함수, 변수: 첫글자 소문자 + camel case <br/> ex) public void setUserName(); |
@@ -115,16 +115,16 @@ develop/feature/기능명
     - /**/ 설명 여러줄 필요할 때 코드 위에 작성
     - // 간단한 주석 코드 옆에 작성
 
-## ER 다이어그램
+## 💻 ER 다이어그램
 ![artmate_erd](/uploads/188933c16471be41c1a72bc04d27ac1f/artmate_erd.png)  
 
 
 
-## � 화면 정의서
+## 🖌 화면 정의서
 
 
 
-## 🎨 와이어프레임  
+## 🖌 와이어프레임  
 
 ![슬라이드1](/uploads/c47d726d30989088e274a29e7fce35e0/슬라이드1.PNG)
 
