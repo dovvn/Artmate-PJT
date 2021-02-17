@@ -81,7 +81,8 @@ export default {
       feed: {
         location: '',
         feedText: '',
-        exhibitId: 0,
+        exName: '',
+        exId: 0,
         userId: '',
         userImg: '',
         userName: '',
@@ -140,9 +141,8 @@ export default {
     addFeed() {
       // 먼저 알림창 함 띄우고 동의하면
       // axios로 백에 요청
-      console.log(this.imageFile);
-      console.log(this.feed.location);
-      console.log(this.feed.feedText);
+      
+      console.log(this.feed);
       const formData = new FormData();
       formData.append("file", this.imageFile)
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
@@ -186,9 +186,10 @@ export default {
     },
     onClickAuto(e){
         this.keyword=e.target.dataset.keyword;
-        console.log(e.target.dataset.location);
+        console.log(e.target.dataset);
         this.feed.location = e.target.dataset.location;
-        this.feed.exhibitId = e.target.dataset.id;
+        this.feed.exId = e.target.dataset.id;
+        this.feed.exName = e.target.dataset.keyword;
         this.isSetExhibit = true;
         // this.search();
         

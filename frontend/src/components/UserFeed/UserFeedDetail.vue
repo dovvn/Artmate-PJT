@@ -23,7 +23,7 @@
             </div>
             <div class="feed__right">
               <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
-              <span class="feed__exhibition__name"> 간직해온 마음들</span>
+              <span class="feed__exhibition__name"> {{feed.exName}}</span>
             </div>
           </div>
           <img class="feed__img" :src="feed.feedImg" >
@@ -207,7 +207,7 @@
             </div>
             <div class="feed__right">
               <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
-              <span class="feed__exhibition__name"> 간직해온 마음들</span>
+              <span class="feed__exhibition__name"> {{feed.exName}}</span>
             </div>
           </div>
           <div class="feed__content">
@@ -446,9 +446,10 @@ export default {
     timeForToday(value) {
       const today=new Date();
       const timeValue = new Date(value);
-      // console.log(today,timeValue);
-      const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
-      //배포에서는 betweenTime -= 480;
+      console.log(today,timeValue);
+      let betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      //배포에서는 
+      betweenTime -= 540;
       if(betweenTime < 1) return '방금전';
       if(betweenTime < 60) {
         return `${betweenTime}분전`;

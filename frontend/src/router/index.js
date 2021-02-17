@@ -128,11 +128,6 @@ const routes = [
         name:"BookmarkList",
         component: ()=> import("@/components/Feed/BookmarkList.vue")
       },
-      {
-        path:"detail/:feedId",
-        name:"FeedDetail",
-        component: ()=> import("@/components/Feed/FeedDetail.vue")
-      },
     ],
     redirect: () => {
       return "/feed";
