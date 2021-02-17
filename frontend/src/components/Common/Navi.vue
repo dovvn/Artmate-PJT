@@ -225,9 +225,7 @@ export default {
             `/get/follow/${this.user.userId}`, //팔로우 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('메세지 : ', signal.body);
-              /* 여기서 새 알림이 왔다는 표시 아이콘을 추가하던가 무언가 작업*/
-              // alert('팔로우 요청 옴'); //임시로 알림창 띄움
+              console.log('팔로우 알림!!');
               this.showNew();
             }
           );
@@ -236,9 +234,7 @@ export default {
             `/get/feed/${this.user.userId}`, //새 피드 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('메세지 : ', signal.body);
-              let message = JSON.parse(signal.body);
-              console.log(message.sendUserId);
+              console.log('새 피드 알림!!');
               this.showNew();
             }
           );
@@ -247,12 +243,8 @@ export default {
             `/get/like/${this.user.userId}`, //좋아요 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('메세지 : ', signal.body);
-              if (signal.body != null) {
-                // alert('새 좋아요 요청 옴'); //임시로 알림창 띄움
-                console.log('좋아요!');
-                this.showNew();
-              }
+              console.log('좋아요 알림!!');
+              this.showNew();
             }
           );
           //
@@ -260,9 +252,17 @@ export default {
             //신호 받기를 기다림
             `/get/login/${this.user.userId}`, //로그인 신호가 오는 주소
             (signal) => {
-              //신호를 받으면 - 확인 안 한 알림이 있는 것
-              console.log('메세지 : ', signal.body);
-              console.log('로그인 알림 표시!');
+              //신호를 받으면
+              console.log('로그인 새 알림!!');
+              this.showNew();
+            }
+          );
+          this.stompClient.subscribe(
+            //신호 받기를 기다림
+            `/get/exhibit/${this.user.userId}`, //로그인 신호가 오는 주소
+            (signal) => {
+              //신호를 받으면
+              console.log('전시회 알림!!');
               this.showNew();
             }
           );
