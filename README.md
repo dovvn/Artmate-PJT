@@ -4,7 +4,7 @@
 
 ### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
 
-## 👨🏻‍🤝‍👨🏻 팀원 역할
+## 🖌 팀원 역할
 | 팀원   | 역할 | 비고                        |
 | ------ | ---- | --------------------------- |
 | 정다운 | 팀장 | 백엔드 개발, UI디자인        |
@@ -13,10 +13,10 @@
 | 정현우 | 팀원 | 프론트엔드 개발, QA(Jira관리), 화면정의서            |
 | 정혜지 | 팀원 | 백엔드 테크리더, 화면정의서           |
 
-## 💻 기술 스택
+## 🖌 기술 스택
 ![Javascript](https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript) ![VueJS](https://img.shields.io/badge/Vue.js-v4.5.10-green?logo=vue.js) ![Vuetify](https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify) ![Java](https://img.shields.io/badge/Java-v1.8-blue?logo=java) ![Spring Boot](https://img.shields.io/badge/spring-v3.9.15-blue?logo=spring) ![AWS RDS](https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws) ![MySQL](https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql)   
 
-## 👁‍🗨 Gantt Chat
+## 🖌 Gantt Chat
 > 매일 오전 미팅 후 업데이트  
 ```mermaid  
 gantt
@@ -65,7 +65,7 @@ gantt
     jsonup/네이버 검색 크롤링     :done, 2021-02-13,2d
 ```
 
-## 💻 기능
+## 🖌 기능
 - 전시회 SNS 커뮤니티
     - 실시간 뉴스피드 목록
     - 피드 좋아요,팔로우,SNS공유 기능
@@ -115,7 +115,7 @@ develop/feature/기능명
     - /**/ 설명 여러줄 필요할 때 코드 위에 작성
     - // 간단한 주석 코드 옆에 작성
 
-## 💻 ER 다이어그램
+## 🖌 ER 다이어그램
 ![artmate_erd](/uploads/188933c16471be41c1a72bc04d27ac1f/artmate_erd.png)  
 
 
