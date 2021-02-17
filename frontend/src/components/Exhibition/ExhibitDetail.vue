@@ -296,6 +296,7 @@ export default {
 
             // 주소-좌표 변환 객체를 생성합니다
             let ps = new kakao.maps.services.Places();
+            console.log(vue.exhibit.location);
             ps.keywordSearch(vue.exhibit.location, (data)=>{
                 console.log(data);
 
