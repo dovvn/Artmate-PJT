@@ -133,7 +133,12 @@ export default {
     }
   },
   created(){
-    this.userInfo =  this.$store.getters.getUser;
+    const tempinfo =  this.$store.getters.getUser;
+    this.userInfo.userName =  tempinfo.userName;
+    this.userInfo.userImg =  tempinfo.userImg;
+    this.userInfo.userPw =  tempinfo.userPw;
+    this.userInfo.feedName =  tempinfo.feedName;
+    this.userInfo.introduction =  tempinfo.introduction;
     this.password = this.userInfo.userPw;
     this.imageUrl = this.userInfo.userImg;
     this.nickname = this.userInfo.userName;
