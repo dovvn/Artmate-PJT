@@ -4,7 +4,7 @@ const instance = createInstance();
 
 function getFeedList(success,fail){
   instance
-  .get(`/api/feed/popular`)
+  .get(`api/feed/popular`)
   .then(success)
   .catch(fail)
 }
