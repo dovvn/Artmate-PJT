@@ -30,7 +30,7 @@
       <label class="label__exhibition" for="exhibition">
         <font-awesome-icon :icon="['fab', 'envira']" class="exhibition__icon"/>
       </label>
-      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text">
+      <input v-model="feed.exName" class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text">
     </div>
     <div class="line"></div>
     <textarea v-model="feed.feedText" class="input__content"></textarea>
@@ -60,6 +60,8 @@ export default {
         location: '',
         feedText: '',
         id: '',
+        exName: '',
+        exId: '',
         userId: '',
         userImg: '',
         userName: '',
@@ -71,14 +73,15 @@ export default {
     ...mapState(["user"])
   },
   created() {
-    this.feed.userId = this.user.userId;
-    this.feed.userImg = this.user.userImg;
-    this.feed.userName = this.user.userName;
+    // this.feed.userId = this.user.userId;
+    // this.feed.userImg = this.user.userImg;
+    // this.feed.userName = this.user.userName;
     console.log(this.$route.params.feed);
-    this.feed.location = this.$route.params.feed.location;
-    this.feed.feedText = this.$route.params.feed.feedText;
+    // this.feed.location = this.$route.params.feed.location;
+    // this.feed.feedText = this.$route.params.feed.feedText;
     this.imageUrl = this.$route.params.feed.feedImg;
-    this.feed.id = this.$route.params.feed.id;
+    // this.feed.id = this.$route.params.feed.id;
+    this.feed= this.$route.params.feed;
   },
   methods: {
     goBack() {
