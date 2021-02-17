@@ -295,6 +295,7 @@ export default {
     );
     getFeedList(
       (res)=>{
+        console.log(res);
         this.popularList=res.data.sort((a,b)=>{b.likeCnt-a.likeCnt}).slice(0,9);
       },
       (err)=>{
