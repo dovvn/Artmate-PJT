@@ -188,19 +188,24 @@ export default {
       let nav = document.querySelector('.around_nav');
       let header = document.querySelector('.around_header');
       let map = document.querySelector('.around_map');
+      let sideMenu = document.querySelector('.bm-menu')
       if (!this.isToggled){
+        sideMenu.style.display="none";
         this.isToggled=true;
         list.classList.add('active');
         nav.classList.add('inactive');
         header.classList.add('inactive');
         map.classList.add('inactive');
+        
       }
       else{
+        sideMenu.style.display="inherit";
         this.isToggled=false;
         list.classList.remove('active');
         nav.classList.remove('inactive');
         header.classList.remove('inactive');
         map.classList.remove('inactive');
+        
       }
       
     },

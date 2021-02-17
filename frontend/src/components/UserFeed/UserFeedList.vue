@@ -658,9 +658,9 @@ export default {
 /* 3d buttons */
 .writer__3d__buttons {
   display:flex;
-  /* justify-content: space-around; */
+  justify-content: center;
   margin-top: 5px;
-  margin-left: 100px;
+  /* margin-left: 100px; */
 }
 
 .view3D__button,
@@ -714,6 +714,7 @@ export default {
     border-radius: 10px 10px 0px 0px;
   }
   ::v-deep .FollowInfo > .modal-dialog {
+    margin:auto;
     margin-top:200px;
     position:static;
   }
