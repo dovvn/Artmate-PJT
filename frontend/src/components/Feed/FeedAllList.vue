@@ -27,7 +27,7 @@
             <div id="mark">
               <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.bookmark, nf.id)" :icon="['far', 'bookmark']" />
               <font-awesome-icon v-if="nf.bookmark == 1" @click="addBookmark(nf.bookmark, nf.id)" :icon="['fas', 'bookmark']" />
-              <font-awesome-icon class="share" :icon="['fas', 'share-alt']" size="sm" />
+              <ShareLinkModal v-bind:nf="nf"/>
             </div>
             </div>
             <div class="con">
@@ -45,7 +45,11 @@
 
 <script>
 import http from "@/util/http-common";
+import ShareLinkModal from "@/components/Common/ShareLinkModal.vue";
 export default {
+  components:{
+    ShareLinkModal,
+  },
   data() {
     return {
       userInfo:{
