@@ -167,9 +167,13 @@ export default {
         .then(({ data }) => {
           if (!data) { // db에 닉네임이 있으면 false
             alert('중복되는 닉네임 입니다. 다른 닉네임을 입력해주세요!');
+            this.idCheck = false;
           } else if (data) { // 없으면 true
             alert('사용가능한 닉네임 입니다.');
             this.idCheck = true;
+            console.log("userInfo : "+this.userInfo);
+            console.log('----------------------------')
+            console.log("getters : "+this.$store.getters.getUser);
           }
         })
         .catch((err) => {
