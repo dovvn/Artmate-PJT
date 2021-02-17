@@ -70,7 +70,7 @@
         <!-- 수정완료 후 메인 -->
         <div id="btn">
             <button id="changeFinish" @click="$bvModal.show('pos-check-modal2')">완료</button>
-            <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm">
+            <b-modal id="pos-check-modal2" modal-class="pos-check-modal2" hide-header hide-footer centered size="sm" >
               <div class="pos-check-modal-body">
                 <div class="pos-check-title">
                   수정을 완료하시겠습니까?
@@ -94,7 +94,7 @@
     <!-- 유저 데이터 삭제 후 로그인 페이지 -->
       <div class="example">
         <p id="out" @click="$bvModal.show('pos-check-modal')">탈퇴하기</p>
-        <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
+        <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm" >
           <div class="pos-check-modal-body">
             <div class="pos-check-title">
               탈퇴하시겠습니까?
@@ -103,6 +103,8 @@
             <button class="pos-check-no-button" @click="$bvModal.hide('pos-check-modal')">아니오</button>
           </div>
         </b-modal>
+
+        
       </div>
   </div>
 </template>
