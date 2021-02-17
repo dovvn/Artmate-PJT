@@ -188,12 +188,14 @@ export default {
       let nav = document.querySelector('.around_nav');
       let header = document.querySelector('.around_header');
       let map = document.querySelector('.around_map');
+      let sideMenu = document.querySelector('.bm-menu')
       if (!this.isToggled){
         this.isToggled=true;
         list.classList.add('active');
         nav.classList.add('inactive');
         header.classList.add('inactive');
         map.classList.add('inactive');
+        sideMenu.style.visibility="hidden";
       }
       else{
         this.isToggled=false;
@@ -201,6 +203,7 @@ export default {
         nav.classList.remove('inactive');
         header.classList.remove('inactive');
         map.classList.remove('inactive');
+        sideMenu.style.visibility="visible";
       }
       
     },
