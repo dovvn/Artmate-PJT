@@ -186,7 +186,7 @@ export default {
     },
     onClickAuto(e){
         this.keyword=e.target.dataset.keyword;
-        // console.log(e.target.dataset.location);
+        console.log(e.target.dataset);
         this.feed.location = e.target.dataset.location;
         this.feed.exId = e.target.dataset.id;
         this.feed.exName = e.target.dataset.keyword;
