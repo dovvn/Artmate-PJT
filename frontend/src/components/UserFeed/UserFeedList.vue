@@ -714,6 +714,7 @@ export default {
     border-radius: 10px 10px 0px 0px;
   }
   ::v-deep .FollowInfo > .modal-dialog {
+    margin:auto;
     margin-top:200px;
     position:static;
   }
