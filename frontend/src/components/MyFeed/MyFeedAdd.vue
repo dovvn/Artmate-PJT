@@ -189,7 +189,7 @@ export default {
         // console.log(e.target.dataset.location);
         this.feed.location = e.target.dataset.location;
         this.feed.exId = e.target.dataset.id;
-        this.feed.exName = e.target.dataset.name;
+        this.feed.exName = e.target.dataset.keyword;
         this.isSetExhibit = true;
         // this.search();
         
