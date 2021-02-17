@@ -190,7 +190,7 @@ export default {
       let map = document.querySelector('.around_map');
       let sideMenu = document.querySelector('.bm-menu')
       if (!this.isToggled){
-        sideMenu.style.visibility="hidden";
+        sideMenu.style.display="none";
         this.isToggled=true;
         list.classList.add('active');
         nav.classList.add('inactive');
@@ -199,7 +199,7 @@ export default {
         
       }
       else{
-        sideMenu.style.visibility="visible";
+        sideMenu.style.display="inherit";
         this.isToggled=false;
         list.classList.remove('active');
         nav.classList.remove('inactive');
