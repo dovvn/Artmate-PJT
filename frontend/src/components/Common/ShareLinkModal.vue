@@ -29,7 +29,7 @@
         </div>
         </div>
     </b-modal>
-    <font-awesome-icon class="feed__interactions__share" icon="share-alt" @click="$bvModal.show('pos-share-modal'+nf.id)"/>
+    <font-awesome-icon class="feed__interactions__share" icon="share-alt" @click="setShare();$bvModal.show('pos-share-modal'+nf.id);"/>
     </div>
 </template>
 <script>
@@ -45,10 +45,6 @@ export default {
             },
             copy : false,
         }
-    },
-    created() {
-        this.share.url = "https://i4b202.p.ssafy.io/userfeed/detail/"+this.nf.id;
-        this.share.title = this.nf.userName;
     },
     methods: {
         urlCopy(){
@@ -98,6 +94,10 @@ export default {
                 ],
             });
         },
+        setShare(){
+            this.share.url = "https://i4b202.p.ssafy.io/userfeed/detail/"+this.nf.id;
+            this.share.title = this.nf.userName;
+        }
     },
 }
 </script>
