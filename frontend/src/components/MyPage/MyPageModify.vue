@@ -147,11 +147,12 @@ export default {
 
     // console.log(this.userInfo);
     // console.log("img:"+this.imageUrl);
-            console.log("nickname : "+this.nickname);
-            console.log('----------------------------')
-            console.log("userInfo : "+this.userInfo.userName);
-            console.log('----------------------------')
-            console.log("getters : "+this.$store.getters.getUser.userName);
+    console.log("nickname : "+this.nickname);
+    console.log('----------------------------')
+    console.log("userInfo : "+this.userInfo.userName);
+    console.log('----------------------------')
+    console.log("getters : "+this.$store.getters.getUser.userName);
+    
     this.component = this;
     this.passwordSchema
       .is()

@@ -211,6 +211,7 @@ export default {
                   for(let j=0; j<data.length; j++){
                     if(data[j].address_name.includes(tmp[0]) && data[j].category_group_name==="문화시설"){
                       vue.filteredAroundList.push(vue.aroundList[i]);
+                      break;
                     }
                   }
                 })
@@ -243,6 +244,7 @@ export default {
               for(let j=0; j<data.length; j++){
                 if(data[j].address_name.includes(tmp[0]) && data[j].category_group_name==="문화시설"){
                   vue.filteredAroundList.push(vue.aroundList[i]);
+                  break;
                 }
               }
             })
