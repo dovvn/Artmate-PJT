@@ -207,7 +207,6 @@ export default {
       this.$store.commit('setNewAlarmTrue');
     },
     connect() {
-      // const serverURL = 'https://i4b202.p.ssafy.io:7777/socket'; //소켓 연결 주소
       const serverURL = 'https://i4b202.p.ssafy.io:7777/socket'; //소켓 연결 주소
       let socket = new SockJS(serverURL);
       let stompClient = Stomp.over(socket);
