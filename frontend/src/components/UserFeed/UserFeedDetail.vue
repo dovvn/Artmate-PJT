@@ -23,7 +23,7 @@
             </div>
             <div class="feed__right">
               <font-awesome-icon :icon="['fab', 'envira']" class="feed__exhibition__icon"/>
-              <span class="feed__exhibition__name"> 간직해온 마음들</span>
+              <span class="feed__exhibition__name"> {{feed.exName}}</span>
             </div>
           </div>
           <img class="feed__img" :src="feed.feedImg" >
