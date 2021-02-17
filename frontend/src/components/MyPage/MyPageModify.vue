@@ -171,9 +171,9 @@ export default {
           } else if (data) { // 없으면 true
             alert('사용가능한 닉네임 입니다.');
             this.idCheck = true;
-            console.log("userInfo : "+this.userInfo);
+            console.log("userInfo : "+this.userInfo.userName);
             console.log('----------------------------')
-            console.log("getters : "+this.$store.getters.getUser);
+            console.log("getters : "+this.$store.getters.getUser.userName);
           }
         })
         .catch((err) => {
