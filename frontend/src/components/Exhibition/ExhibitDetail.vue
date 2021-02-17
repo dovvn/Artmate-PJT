@@ -301,7 +301,7 @@ export default {
                 console.log(data);
 
                 for(let arr of data){
-                    if(arr.category_group_name==="문화시설"){
+                    if(arr.category_name.includes("문화")){
                         var coords = new kakao.maps.LatLng(Number(arr.y), Number(arr.x));
 
                         var marker = new kakao.maps.Marker({

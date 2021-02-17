@@ -142,8 +142,7 @@ export default {
 
     // console.log(this.userInfo);
     // console.log("img:"+this.imageUrl);
-    console.log("왜");
-console.log("nickname : "+this.nickname);
+            console.log("nickname : "+this.nickname);
             console.log('----------------------------')
             console.log("userInfo : "+this.userInfo.userName);
             console.log('----------------------------')
