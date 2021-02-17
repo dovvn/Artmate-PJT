@@ -335,7 +335,15 @@ export default {
     this.updateFeedList(this.$route.params.userId);
     //팔로우 정보 확인
     this.updateFollow(this.user.userId,this.$route.params.userId);
-    
+    window.addEventListener('resize', ()=>{
+      if(window.innerWIdth < 1024) {
+        const followModal = document.querySelector(".modal-dialog");
+        if(followModal != null) {
+          const right = followModal.style.right;
+          console.log(right);
+        }
+      }
+    })
   },
   
   mounted() {
