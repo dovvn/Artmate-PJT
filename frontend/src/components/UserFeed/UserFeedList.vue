@@ -211,7 +211,9 @@ export default {
       //   name: "MyFollow",
       //   params: {choosed: choosed}
       // });
-      this.$bvModal.show('FollowInfo');
+      this.$bvModal.show('FollowInfo')
+      
+      
     },
     seeDetail(feedno){
       console.log(feedno);
@@ -237,7 +239,7 @@ export default {
 
           // imgs[i].style.width=`${widths[width_cnt%4]}%`
           imgs[i].style.height = `125px`
-          console.log(imgs[i].style.width,imgs[i].style.height);
+          // console.log(imgs[i].style.width,imgs[i].style.height);
           // width_cnt += 1;
           // if(width_cnt%4 == 0) {
           //   imgs[i].style.left="0";
@@ -335,7 +337,18 @@ export default {
     this.updateFeedList(this.$route.params.userId);
     //팔로우 정보 확인
     this.updateFollow(this.user.userId,this.$route.params.userId);
-    
+    // window.addEventListener('resize', ()=>{
+    //   // console.log(typeof(window.innerWidth));
+    //   if(window.innerWidth < 1024) {
+    //     // console.log('아좀');
+    //     const followModal = document.querySelector(".modal-dialog");
+    //     // console.log(followModal)
+    //     if(followModal) {
+    //       const width = followModal.getBoundingClientRect().width;
+    //       followModal.style.left = (window.innerWidth-width)/2+"px";
+    //     }
+    //   }
+    // })
   },
   
   mounted() {
@@ -574,6 +587,12 @@ export default {
 
 .feed__writebutton > font-awesome-icon {
   line-height:64px;
+}
+
+::v-deep .FollowInfo {
+  /* padding-right:0!important; */
+  display:flex!important;
+  justify-content: center!important;
 }
 
 ::v-deep .FollowInfo > .modal-dialog {
