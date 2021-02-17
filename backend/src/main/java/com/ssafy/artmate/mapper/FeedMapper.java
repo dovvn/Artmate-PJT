@@ -31,4 +31,5 @@ public interface FeedMapper {
 	int checkFeedExhibit(@Param("userId")String userId, @Param("feedId")int feedId); //전시할 피드에 저장했는지 확인
 	int modifyFeedTheme(@Param("userId")String userId, @Param("theme") int theme); //유저 피드테마 번호 업데이트
 	int selectFeedTheme(@Param("userId") String userId); //유저 피드테마 번호 가져오기
+	List<FeedDto> selectPopularFeed();//인기 순으로 피드 가져오기
 }
