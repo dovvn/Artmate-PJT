@@ -190,20 +190,22 @@ export default {
       let map = document.querySelector('.around_map');
       let sideMenu = document.querySelector('.bm-menu')
       if (!this.isToggled){
+        sideMenu.style.visibility="hidden";
         this.isToggled=true;
         list.classList.add('active');
         nav.classList.add('inactive');
         header.classList.add('inactive');
         map.classList.add('inactive');
-        sideMenu.style.visibility="hidden";
+        
       }
       else{
+        sideMenu.style.visibility="visible";
         this.isToggled=false;
         list.classList.remove('active');
         nav.classList.remove('inactive');
         header.classList.remove('inactive');
         map.classList.remove('inactive');
-        sideMenu.style.visibility="visible";
+        
       }
       
     },
