@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -77,7 +77,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -94,7 +94,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -111,7 +111,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -128,7 +128,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -145,7 +145,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -170,7 +170,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Exhibit")}}</div>
           </div>
           
         </div>
@@ -189,7 +189,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Exhibit")}}</div>
           </div>
         </div>
       </div>
@@ -342,11 +342,17 @@ export default {
         console.error(error);
       })
     },
-    timeForToday(value) {
+    timeForToday(value,type) {
       const today=new Date();
       const timeValue = new Date(value);
       // console.log(today,timeValue);
-      const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      let betweenTime;
+      if(type=="Exhibit") {
+        betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      } else if(type=="Feed") {
+        betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+        betweenTime -= 540;
+      }
       if(betweenTime < 1) return '방금전';
       if(betweenTime < 60) {
         return `${betweenTime}분전`;
