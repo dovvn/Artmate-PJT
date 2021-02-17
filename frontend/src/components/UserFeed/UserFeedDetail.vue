@@ -446,9 +446,10 @@ export default {
     timeForToday(value) {
       const today=new Date();
       const timeValue = new Date(value);
-      // console.log(today,timeValue);
+      console.log(today,timeValue);
       const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
-      //배포에서는 betweenTime -= 480;
+      //배포에서는 
+      betweenTime -= 480;
       if(betweenTime < 1) return '방금전';
       if(betweenTime < 60) {
         return `${betweenTime}분전`;
