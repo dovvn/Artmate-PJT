@@ -45,11 +45,11 @@
                 >EXHIBITION</router-link
               >
             </li>
-            <li>
+            <!--<li>
               <router-link class="ml" id="search" to="/search"
                 >SEARCH</router-link
               >
-            </li>
+            </li>-->
             <li>
               <router-link class="ml" id="around" to="/around"
                 >AROUND</router-link
