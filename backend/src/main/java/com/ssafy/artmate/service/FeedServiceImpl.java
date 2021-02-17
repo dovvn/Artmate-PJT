@@ -148,4 +148,9 @@ public class FeedServiceImpl implements FeedService{
 	public int selectFeedTheme(String userId) {
 		return sqlSession.getMapper(FeedMapper.class).selectFeedTheme(userId);
 	}
+
+	@Override
+	public List<FeedDto> selectPopularFeed() {
+		return sqlSession.getMapper(FeedMapper.class).selectPopularFeed();
+	}
 }

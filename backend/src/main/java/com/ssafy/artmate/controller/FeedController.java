@@ -204,7 +204,7 @@ public class FeedController {
 
 	// 전시할 피드 목록 가져오기
 	@ApiOperation(value = "3D 전시할 피드 목록 가져오기", notes = "전시할 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
-	@GetMapping(value = "/feed/exhibit/{userId}")
+	@GetMapping(value = "/feed/exhibit/{userId}", produces = "text/json; charset=utf8")
 	public String selecteFeedExhibit(
 			@ApiParam(value = "회원 아이디", required = true, example = "unni2@naver.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
@@ -229,6 +229,15 @@ public class FeedController {
 			@ApiParam(value = "회원 아이디", required = true, example = "jhw1234527@gmail.com") @PathVariable("userId") String userId) {
 		Gson gs = new Gson();
 		String result = gs.toJson(feedService.selectFeedTheme(userId));
+		return result;
+	}
+	
+	// 전시할 피드 목록 가져오기
+	@ApiOperation(value = "인기순으로 피드 목록 가져오기", notes = "인기순 피드 리스트 반환", response = FeedDto.class, responseContainer = "List")
+	@GetMapping(value = "/feed/popular", produces = "text/json; charset=utf8")
+	public String selectePopularFeed() {
+		Gson gs = new Gson();
+		String result = gs.toJson(feedService.selectPopularFeed());
 		return result;
 	}
 }
