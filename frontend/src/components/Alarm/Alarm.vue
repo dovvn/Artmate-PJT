@@ -227,15 +227,13 @@ export default {
   },
   updated() {
     const alarms = document.querySelectorAll(".feed__alarm");
-    console.log(alarms);
+    
     
   },
   methods: {
     simpleDate(startDate){
       const items = startDate.split('-');
       const tp = items.join('.');
-      // console.log(tp);
-      // console.log(items);
       return tp.slice(0,10);
     },
     allowDrop(event) {
@@ -243,7 +241,6 @@ export default {
     },
     removeAlarm(id) {
       deleteAlarm(id, (response) => {
-        console.log(response);
         this.updateAlarms();
       }, (error) => {
         console.error(error);
@@ -253,8 +250,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "ExhibitionDetail",
         params: {id: messageId,
@@ -270,8 +266,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "UserFeedList",
         params: {userId: userId}
@@ -286,8 +281,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "UserFeedDetail",
         params: {feedno: messageId,
@@ -305,14 +299,12 @@ export default {
       this.$bvModal.show('pos-check-modal');
     },
     acceptFollow(sendUserId,deleteId) {
-      deleteAlarm(deleteId, (response) => {
-        console.log(response);
+      deleteAlarm(deleteId, () => {
         this.updateAlarms();
         //팔로우
         http
         .put(`/api/user/follow/accept/${sendUserId}/${this.user.userId}`)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           //팔로우등록됐다 모달 띄우기
           this.$bvModal.show('pos-added-modal');
         })
@@ -326,13 +318,12 @@ export default {
     rejectFollow() {
       //알림 걍 지우고
       //전체 알람 업뎃
-      deleteAlarm(this.deleteId, (response) => {
-        console.log(response);
+      deleteAlarm(this.deleteId, () => {
         this.updateAlarms();
         http
         .delete(`/api/user/follow/${this.sendFollowUserId}/${this.user.userId}`)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
+        
         })
         .catch((error) => {
           console.error(error);
@@ -345,7 +336,6 @@ export default {
     timeForToday(value,type) {
       const today=new Date();
       const timeValue = new Date(value);
-      // console.log(today,timeValue);
       let betweenTime;
       if(type=="Exhibit") {
         betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
@@ -401,7 +391,7 @@ export default {
         this.feeds = response.data;
       })
       .then(() => {
-        console.log(this.feeds);
+        
       })
       .catch((error) => {
         console.error(error);
@@ -413,7 +403,7 @@ export default {
         this.exhibitions = response.data;
       })
       .then(() => {
-        console.log(this.exhibitions);
+       
       })
       .catch((error) => {
         console.error(error);
