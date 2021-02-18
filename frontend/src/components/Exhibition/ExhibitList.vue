@@ -88,8 +88,8 @@ export default {
       user.userId,
       (res)=>{
         this.ex_list=res.data;
-        for(var i=0; i<ex_list.length; i++){
-          console.log("사진주소 "+ex_list[i].exImg);
+        for(var i=0; i<this.ex_list.length; i++){
+          console.log("사진주소 "+this.ex_list[i].exImg);
         }
         this.initMap();
       },
