@@ -92,7 +92,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user", 'stompClient']),
+    ...mapState(["user", 'stompClient', "isLogin"]),
     autocomplete(){
       const search = this.keyword;
       const search1 = Hangul.disassemble(search).join("");
@@ -110,6 +110,9 @@ export default {
     }
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.feed.userId = this.user.userId;
     this.feed.userImg = this.user.userImg;
     this.feed.userName = this.user.userName;

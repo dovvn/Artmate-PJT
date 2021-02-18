@@ -75,6 +75,9 @@ export default {
     }
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // 내 피드들을 다 가져온다.
     // 그다음에 게시할 피드 선택 란에 쭈욱 게시한다.
     // console.log(this.user.userId);
@@ -123,7 +126,7 @@ export default {
     // 테마는 여기에 저장한다. 한 5개하자.
   },
   computed: {
-		...mapState(["user"])
+		...mapState(["user","isLogin"])
 	},
   methods: {
     chooseTheme(theme,idx) {

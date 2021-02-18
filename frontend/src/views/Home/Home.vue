@@ -157,6 +157,7 @@ import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 import {getFeedList} from '@/api/home.js';
 import {getExhibitRecommend,getListForMap,getOnlineExhibit} from '@/api/exhibit.js';
+import {mapState} from "vuex";
 export default {
   name: 'Home',
   components: {
@@ -184,6 +185,9 @@ export default {
     }
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     let place = "";
     const vue = this;
     if (navigator.geolocation) {
@@ -331,6 +335,7 @@ export default {
     document.removeEventListener('scroll',this.handleNavi);
   },
   computed:{
+    ...mapState(["isLogin"]),
     aroundEx(){
       if(this.filteredAroundList.length===0) return [];
       else return this.filteredAroundList.slice(0,4);

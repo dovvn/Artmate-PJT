@@ -618,9 +618,12 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(["user"])
+		...mapState(["user","isLogin"])
 	},
 	created() {
+		if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
 		this.userId = this.$route.params.userId;
 	},
   mounted() {

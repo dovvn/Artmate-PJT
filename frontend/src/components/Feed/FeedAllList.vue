@@ -46,6 +46,7 @@
 <script>
 import http from "@/util/http-common";
 import ShareLinkModal from "@/components/Common/ShareLinkModal.vue";
+import {mapState} from "vuex";
 export default {
   components:{
     ShareLinkModal,
@@ -58,7 +59,13 @@ export default {
       newsfeed:[],
     };
   },
+  computed: {
+	  ...mapState(["isLogin"]),
+  },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.userInfo =  this.$store.getters.getUser;
     // this.changeDate = this.timeForToday(this.newsfeed.writeDate);
     // console.log(this.userInfo.userId);

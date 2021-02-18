@@ -110,7 +110,8 @@
 </template>
 
 <script scope>
- import http from "@/util/http-common";
+import {mapState} from "vuex";
+import http from "@/util/http-common";
 import PV from "password-validator";
 export default {
   name: "MyPageModify",
@@ -134,7 +135,13 @@ export default {
       file:""
     }
   },
+  computed: {
+	  ...mapState(["isLogin"]),
+  },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // const tempinfo =  this.$store.getters.getUser;
     // this.userInfo.userName =  tempinfo.userName;
     // this.userInfo.userImg =  tempinfo.userImg;

@@ -61,6 +61,7 @@
 import http from "@/util/http-common";
 import {getExhibitList,getOnlineExhibit} from '@/api/exhibit.js';
 import Navi from '@/components/Common/Navi.vue';
+import {mapState} from "vuex";
 export default {
   name: "ExhibitList",
   data(){
@@ -77,6 +78,9 @@ export default {
     Navi,
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     const user =  this.$store.getters.getUser;
     this.userInfo=user;
     this.locationInfo = this.$store.getters.getCurrentLocation;
@@ -101,6 +105,7 @@ export default {
     )
   },
   computed:{
+    ...mapState(["isLogin"]),
     filteredList(){
       if(this.target==="all")  return this.ex_list.slice(0,10);
       else if(this.target==="best"){

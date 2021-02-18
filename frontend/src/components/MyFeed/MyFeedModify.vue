@@ -70,9 +70,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user","isLogin"])
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // this.feed.userId = this.user.userId;
     // this.feed.userImg = this.user.userImg;
     // this.feed.userName = this.user.userName;

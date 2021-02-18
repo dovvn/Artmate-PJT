@@ -58,6 +58,7 @@
 <script>
 import { getScrapBook } from "@/api/exhibit.js";
 import { deleteScrapBook } from "@/api/exhibit.js";
+import {mapState} from "vuex";
 import Navi from "@/components/Common/Navi.vue";
 import anime from "animejs";
 
@@ -72,7 +73,13 @@ export default {
       deleteId: "",
     };
   },
+  computed: {
+    ...mapState(["isLogin"]),
+  },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.getScrapBook();
     document.getElementsByClassName(".navi_item").style.color="#FFF";
   },

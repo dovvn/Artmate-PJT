@@ -469,6 +469,9 @@ export default {
     },
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.memoInput.feedId = this.$route.params.feedno;
     this.memoInput.userId = this.user.userId;
     this.memoInput.userName = this.user.userName;
@@ -536,7 +539,7 @@ export default {
     })
   },
   computed: {
-    ...mapState(["user", "stompClient"]),
+    ...mapState(["user", "stompClient", "isLogin"]),
   },
   directives: {
     focus: {

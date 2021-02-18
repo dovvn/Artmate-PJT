@@ -118,6 +118,7 @@ import Navi from '@/components/Common/Navi.vue';
 import http from "@/util/http-common";
 import { VueperSlides, VueperSlide } from 'vueperslides'
 import 'vueperslides/dist/vueperslides.css'
+import {mapState} from "vuex";
 function handleNavi() {
   const navbar = document.querySelector('.exDetial__navi');
 //   const navbarHeight = navbar.getBoundingClientRect().height;
@@ -133,6 +134,9 @@ export default {
     components: {
         Navi,
         VueperSlides, VueperSlide
+    },
+    computed: {
+	...mapState(["isLogin"]),
     },
     destroyed(){
         document.removeEventListener('scroll',handleNavi);
@@ -196,6 +200,9 @@ export default {
         };
     },
     created() {
+        if(!this.isLogin) {
+            this.$router.push({name:'Login'});
+        }
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
         // console.log("처음! : "+this.userInfo, this.id);

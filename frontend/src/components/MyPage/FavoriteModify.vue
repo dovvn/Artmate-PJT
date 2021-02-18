@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
    name: "FavoriteModify",
   data: () => {
@@ -39,6 +40,9 @@ export default {
     }
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // myTag[] 정보 가져오기 -> 표시 🎈
     this.userInfo =  this.$store.getters.getUser;
     // console.log(this.userInfo);  
@@ -53,6 +57,7 @@ export default {
     }
   },
   computed:{
+    ...mapState(["isLogin"]),
     act: function(){ 
       if(this.userInfo.myTag.length===0)
         return "act inactive"

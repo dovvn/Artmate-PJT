@@ -131,7 +131,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user","stompClient"])
+    ...mapState(["user","stompClient","isLogin"])
   },
   methods: {
     goWrite(){
@@ -329,6 +329,9 @@ export default {
       }
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     //axios요청으로 유저가 쓴 피드들 받아와서 feeds에 담아놓는다. 
     //유저 정보(피드 소개, 프로필 이미지, 닉네임,소개글, 관심 태그 )
     //userInfo에 담는다.

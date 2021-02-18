@@ -123,6 +123,7 @@
 <script>
 import { searchPopularity, searchList, searchKeyword} from '@/api/search.js';
 import * as Hangul from 'hangul-js';
+import {mapState} from "vuex";
 export default {
   name: "SearchMain",
   data: () => {
@@ -144,6 +145,9 @@ export default {
     document.removeEventListener('click',this.handleAuto);
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     for(let i=0; i<localStorage.length; i++){
       const key=localStorage.key(i);
       if(key!==null && key!=='access-token' && key!=='loglevel:webpack-dev-server')
@@ -177,6 +181,7 @@ export default {
     )
   },
   computed:{
+    ...mapState(["isLogin"]),
     keywordLatest(){
       let sortedList = this.latestList.slice(0,);
       sortedList.sort((a,b) => b*1-a*1)
