@@ -213,6 +213,8 @@ export default {
     },
     onBack(){
       history.back();
+      window.scrollY = 0;
+      document.documentElement.scrollTop =0;
     },
     onDeleteItem(e){
       const key=e.target.dataset.key;
