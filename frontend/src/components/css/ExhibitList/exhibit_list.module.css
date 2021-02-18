@@ -22,6 +22,16 @@
 .exhibit_main_down_btn:hover {
   transform: scale(1.2);
 }
+.bounce { 
+  animation: bounce_frames 0.5s;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(.5, 0.05, 1, .5);
+  animation-iteration-count: infinite;
+}
+@keyframes bounce_frames {
+    from {transform: translate3d(0, 0, 0);}
+    to {transform: translate3d(0, 11px, 0);}
+  }
 .exhibit_main_header {
   background-color: var(--color-light-grey2);
   max-height: 70%;
