@@ -127,6 +127,8 @@ export default {
   mounted(){
     // document.addEventListener('scroll',this.handleScroll);
     document.querySelector('#all').classList.add('active');
+    window.scrollY = 0;
+    document.documentElement.scrollTop =0;
   },
   destroyed(){
     // document.removeEventListener('scroll',this.handleScroll);

@@ -185,6 +185,7 @@ export default {
     }
   },
   created(){
+
     if(!this.isLogin) {
       this.$router.push({name:'Login'})
     }
@@ -323,14 +324,16 @@ export default {
       }
     )
   },
-  // mounted(){
+  mounted(){
+    window.scrollY = 0;
+    document.documentElement.scrollTop =0;
   //     console.log(this.$refs.mycarousel.$children[0]);
   //     console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
   //     console.log(this.$refs.mycarousel.currentIndex);
   //     this.$refs.mycarousel.currentIndex=0;
   //     this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.remove('a');
   //     this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.remove('b');
-  // },
+  },
   destroyed(){
     document.removeEventListener('scroll',this.handleNavi);
   },
