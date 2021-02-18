@@ -223,9 +223,9 @@ export default {
   },
   created() {
     //로그인 안할시 로그인 페이지로 보냄
-    if(!this.user.isLogin) {
-      this.$router.push({name:'Login'})
-    }
+    // if(!this.user.isLogin) {
+    //   this.$router.push({name:'Login'})
+    // }
     // vuex로 유저정보 가져와서 걔의 알림 백에서 가져온다음 data에 담아준다.
     this.updateAlarms();
   },
