@@ -2,7 +2,7 @@
   <div>
     <div class="exhibit_main">
       <div class="exhibit_main_header">
-      <font-awesome-icon @click="onClickDown" class="exhibit_main_down_btn" icon="chevron-down" size="2x"/>
+      <font-awesome-icon @click="onClickDown" class="exhibit_main_down_btn bounce" icon="chevron-down" size="2x"/>
         <div class="exhibit_main_box">
           <img src="../../assets/exhibitions/exhibit_main1.jpg" alt="" class="exhibit_main_poster">
           <div class="exhibit_side_box">
@@ -278,4 +278,6 @@ export default {
 </script>
 
 <style scoped src="../css/ExhibitList/exhibit_list.module.css">
+
+
 </style>
