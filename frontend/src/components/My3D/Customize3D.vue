@@ -75,9 +75,12 @@ export default {
     }
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // 내 피드들을 다 가져온다.
     // 그다음에 게시할 피드 선택 란에 쭈욱 게시한다.
-    console.log(this.user.userId);
+    // console.log(this.user.userId);
     http
 		.get(`/api/feed/list/${this.user.userId}`)
 		.then((response) => {
@@ -114,7 +117,7 @@ export default {
     .then((response) => {
       const nowTheme = response.data;
       this.choosed__themes[nowTheme] = true; 
-      console.log(this.choosed__themes);
+      // console.log(this.choosed__themes);
     })
     .catch((error) => {
       console.error(error);
@@ -123,7 +126,7 @@ export default {
     // 테마는 여기에 저장한다. 한 5개하자.
   },
   computed: {
-		...mapState(["user"])
+		...mapState(["user","isLogin"])
 	},
   methods: {
     chooseTheme(theme,idx) {
@@ -131,7 +134,7 @@ export default {
         
         http
         .put(`api/feed/theme/${this.user.userId}/${theme}`)
-        .then((response)=>{
+        .then(()=>{
           //전체 다 false로 만들고
           const len = this.choosed__themes.length;
           for(let i = 0; i < len; i++) {
@@ -139,14 +142,12 @@ export default {
           }
           this.$set(this.choosed__themes,idx,true);
           
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           console.error(error);
         })
-        .then(()=>{
-          console.log(this.choosed__themes);
-        })
+        
       }
     },
     goMyfeed() {
@@ -173,8 +174,8 @@ export default {
       if(this.choosed__feeds[idx]) {
         http
         .delete(`/api/feed/exhibit/${this.user.userId}/${feed.id}`)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          // console.log(response);
         })
         .catch((error) => {
           console.error(error);
@@ -182,8 +183,8 @@ export default {
       } else {
         http
         .put(`/api/feed/exhibit/${this.user.userId}/${feed.id}`)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          // console.log(response);
         })
         .catch((error) => {
           console.error(error);

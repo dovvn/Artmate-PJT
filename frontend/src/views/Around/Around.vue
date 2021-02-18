@@ -57,6 +57,7 @@
 <script>
 import {getListForMap} from '@/api/exhibit.js'
 import Navi from '@/components/Common/Navi.vue';
+import {mapState} from "vuex";
 export default {
   name: "Around",
   data(){
@@ -72,6 +73,7 @@ export default {
     Navi,
   },
   computed:{
+    ...mapState(["isLogin"]),
     aroundEx(){
       if(!this.isToggled){
         if(this.selectedLocation==="") return [];
@@ -86,6 +88,9 @@ export default {
     }
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.locationInfo = this.$store.getters.getCurrentLocation;
     getListForMap(
       (res)=>{
@@ -180,7 +185,7 @@ export default {
       }
     },
     onBack(){
-      console.log('back')
+      // console.log('back')
       this.$router.push({name:"Home"});
     },
     onToggle(){

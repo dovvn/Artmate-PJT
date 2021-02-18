@@ -155,7 +155,7 @@ export default {
       login(
         user,
         (res)=>{
-          console.log(res.data.user);
+          // console.log(res.data.user);
 
           const token = res.data['auth-token'];
           if(token){

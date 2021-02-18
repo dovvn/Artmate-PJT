@@ -61,6 +61,7 @@
 import http from "@/util/http-common";
 import {getExhibitList,getOnlineExhibit} from '@/api/exhibit.js';
 import Navi from '@/components/Common/Navi.vue';
+import {mapState} from "vuex";
 export default {
   name: "ExhibitList",
   data(){
@@ -77,6 +78,9 @@ export default {
     Navi,
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     const user =  this.$store.getters.getUser;
     this.userInfo=user;
     this.locationInfo = this.$store.getters.getCurrentLocation;
@@ -101,6 +105,7 @@ export default {
     )
   },
   computed:{
+    ...mapState(["isLogin"]),
     filteredList(){
       if(this.target==="all")  return this.ex_list;
       else if(this.target==="best"){
@@ -211,7 +216,7 @@ export default {
                 alert('오류가 발생하였습니다.');
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }else if(scrap == 1){ // 스크랩 눌린 상태 
         if(this.target==="online"){
           for(let i=0; i<this.online_list.length; i++){
@@ -249,7 +254,7 @@ export default {
                 alert('오류가 발생하였습니다.');
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }
     },
     // handleScroll(){

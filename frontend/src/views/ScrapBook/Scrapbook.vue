@@ -58,6 +58,7 @@
 <script>
 import { getScrapBook } from "@/api/exhibit.js";
 import { deleteScrapBook } from "@/api/exhibit.js";
+import {mapState} from "vuex";
 import Navi from "@/components/Common/Navi.vue";
 import anime from "animejs";
 
@@ -72,7 +73,13 @@ export default {
       deleteId: "",
     };
   },
+  computed: {
+    ...mapState(["isLogin"]),
+  },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.getScrapBook();
     document.getElementsByClassName(".navi_item").style.color="#FFF";
   },
@@ -121,8 +128,8 @@ export default {
       deleteScrapBook(
         user.userId,
         this.deleteId,
-        (res) => {
-          console.log("북마크 삭제 완료" + res.data);
+        () => {
+          // console.log("북마크 삭제 완료" + res.data);
           this.getScrapBook();
           this.$bvModal.hide("pos-check-modal");
         },

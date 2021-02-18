@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -77,7 +77,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -94,7 +94,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -111,7 +111,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -128,7 +128,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -145,7 +145,7 @@
             
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Feed")}}</div>
           </div>
         </div>
 
@@ -170,7 +170,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Exhibit")}}</div>
           </div>
           
         </div>
@@ -189,7 +189,7 @@
             </div>
           </div>
           <div class="alarm__right">
-            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate)}}</div>
+            <div class="exhibition__alarm__date">{{timeForToday(alarm.sigDate,"Exhibit")}}</div>
           </div>
         </div>
       </div>
@@ -216,26 +216,29 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user","isLogin"]),
     ex10() {
       return this.exhibitions.slice(0,10);
     }
   },
   created() {
+    //로그인 안할시 로그인 페이지로 보냄
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // vuex로 유저정보 가져와서 걔의 알림 백에서 가져온다음 data에 담아준다.
+    
     this.updateAlarms();
   },
   updated() {
     const alarms = document.querySelectorAll(".feed__alarm");
-    console.log(alarms);
+    
     
   },
   methods: {
     simpleDate(startDate){
       const items = startDate.split('-');
       const tp = items.join('.');
-      // console.log(tp);
-      // console.log(items);
       return tp.slice(0,10);
     },
     allowDrop(event) {
@@ -243,7 +246,6 @@ export default {
     },
     removeAlarm(id) {
       deleteAlarm(id, (response) => {
-        console.log(response);
         this.updateAlarms();
       }, (error) => {
         console.error(error);
@@ -253,8 +255,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "ExhibitionDetail",
         params: {id: messageId,
@@ -270,8 +271,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "UserFeedList",
         params: {userId: userId}
@@ -286,8 +286,7 @@ export default {
       //읽음처리후 걔 피드목록으로 감
       http
       .put(`/api/signal/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.$router.replace({
         name: "UserFeedDetail",
         params: {feedno: messageId,
@@ -305,14 +304,12 @@ export default {
       this.$bvModal.show('pos-check-modal');
     },
     acceptFollow(sendUserId,deleteId) {
-      deleteAlarm(deleteId, (response) => {
-        console.log(response);
+      deleteAlarm(deleteId, () => {
         this.updateAlarms();
         //팔로우
         http
         .put(`/api/user/follow/accept/${sendUserId}/${this.user.userId}`)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           //팔로우등록됐다 모달 띄우기
           this.$bvModal.show('pos-added-modal');
         })
@@ -326,13 +323,12 @@ export default {
     rejectFollow() {
       //알림 걍 지우고
       //전체 알람 업뎃
-      deleteAlarm(this.deleteId, (response) => {
-        console.log(response);
+      deleteAlarm(this.deleteId, () => {
         this.updateAlarms();
         http
         .delete(`/api/user/follow/${this.sendFollowUserId}/${this.user.userId}`)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
+        
         })
         .catch((error) => {
           console.error(error);
@@ -342,11 +338,16 @@ export default {
         console.error(error);
       })
     },
-    timeForToday(value) {
+    timeForToday(value,type) {
       const today=new Date();
       const timeValue = new Date(value);
-      // console.log(today,timeValue);
-      const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      let betweenTime;
+      if(type=="Exhibit") {
+        betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+      } else if(type=="Feed") {
+        betweenTime = Math.floor((today.getTime() - timeValue.getTime())/ 1000/ 60);
+        betweenTime -= 540;
+      }
       if(betweenTime < 1) return '방금전';
       if(betweenTime < 60) {
         return `${betweenTime}분전`;
@@ -395,7 +396,7 @@ export default {
         this.feeds = response.data;
       })
       .then(() => {
-        console.log(this.feeds);
+        
       })
       .catch((error) => {
         console.error(error);
@@ -407,7 +408,7 @@ export default {
         this.exhibitions = response.data;
       })
       .then(() => {
-        console.log(this.exhibitions);
+       
       })
       .catch((error) => {
         console.error(error);

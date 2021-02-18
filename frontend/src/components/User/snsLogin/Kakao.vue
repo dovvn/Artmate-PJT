@@ -34,7 +34,7 @@
                 });
             },
             GetMe(authObj){
-                console.log(authObj);
+                // console.log(authObj);
                 window.Kakao.API.request({
                     url:'/v2/user/me',
                     success : res => {
@@ -51,7 +51,7 @@
                              userName : userInfo.nickname
                          })
                          .then(res => {
-                             console.log(res.data);
+                            //  console.log(res.data);
                              //token 저장
                              const token = res.data['auth-token'];
                               if(token){ //로그인 성공
@@ -64,11 +64,11 @@
                               }
                          })
                          .catch(err => {
-                             console.log(err);
+                             console.error(err);
                          })
                     },
                     fail : error => {
-                        console.log(error);
+                        console.error(error);
                     }
                 })
             }

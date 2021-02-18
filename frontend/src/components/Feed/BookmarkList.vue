@@ -27,7 +27,7 @@
             <div id="mark">
               <font-awesome-icon v-if="nf.bookmark == 0" @click="addBookmark(nf.bookmark, nf.id)" :icon="['far', 'bookmark']" />
               <font-awesome-icon v-if="nf.bookmark == 1" @click="addBookmark(nf.bookmark, nf.id)" :icon="['fas', 'bookmark']" />
-              <font-awesome-icon class="share" :icon="['fas', 'share-alt']" size="sm" />
+              <ShareLinkModal v-bind:nf="nf"/>
             </div>
             </div>
             <div class="con">
@@ -45,7 +45,12 @@
 
 <script>
 import http from "@/util/http-common";
+import ShareLinkModal from "@/components/Common/ShareLinkModal.vue";
+import {mapState} from "vuex";
 export default {
+  components:{
+    ShareLinkModal,
+  },
   data() {
     return {
       userInfo:{
@@ -54,16 +59,22 @@ export default {
       newsfeed:[],
     };
   },
+  computed: {
+	  ...mapState(["isLogin"]),
+  },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.userInfo =  this.$store.getters.getUser;
   
     http
       .get(`/api/bookmark/list/${this.userInfo.userId}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.newsfeed = res.data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
 
   },
   methods:{
@@ -96,7 +107,7 @@ export default {
             alert('추가하는데 오류가 발생했습니다.');
           }
          })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       } else if(bookmark == 1){ // 북마크 눌려있음
         http
         .delete(`api/bookmark/${this.userInfo.userId}/${feedid}`)
@@ -107,7 +118,7 @@ export default {
           alert('삭제하는데 오류가 발생했습니다.');
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
       }
       
     },
@@ -123,7 +134,7 @@ export default {
             this.newsfeed[i].likemark=0;
             this.newsfeed[i].likeCnt--;
           }
-          console.log(this.newsfeed[i].likemark,this.newsfeed[i].likeCnt)
+          // console.log(this.newsfeed[i].likemark,this.newsfeed[i].likeCnt)
           break;
         }
       }
@@ -131,26 +142,26 @@ export default {
         http
         .put(`api/likemark/${this.userInfo.userId}/${feedid}`)
         .then((data) => {
-          console.log(data); 
+          // console.log(data); 
           if (data) {
             // alert('좋아요!❤');
           } else {
             alert('오류가 발생하였습니다.');
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }else if(like == 1){ // 좋아요 눌린 상태 
         http
         .delete(`api/likemark/${this.userInfo.userId}/${feedid}`)
         .then((data) => {
-          console.log(data); 
+          // console.log(data); 
           if (data) {
             // alert('좋아요 취소..😢');
           } else {
             alert('오류가 발생하였습니다.');
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }
     },
     timeForToday(value){

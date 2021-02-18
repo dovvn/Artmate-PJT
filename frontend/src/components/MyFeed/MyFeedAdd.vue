@@ -92,7 +92,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user", 'stompClient']),
+    ...mapState(["user", 'stompClient', "isLogin"]),
     autocomplete(){
       const search = this.keyword;
       const search1 = Hangul.disassemble(search).join("");
@@ -110,13 +110,16 @@ export default {
     }
   },
   created() {
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     this.feed.userId = this.user.userId;
     this.feed.userImg = this.user.userImg;
     this.feed.userName = this.user.userName;
     http
     .get(`/api/exhibit/name`)
     .then((response)=>{
-      console.log(response);
+      // console.log(response);
       this.keywordList=response.data;
       this.keywordList.forEach(function (item) {
             var dis = Hangul.disassemble(item.name, true);
@@ -142,15 +145,15 @@ export default {
       // 먼저 알림창 함 띄우고 동의하면
       // axios로 백에 요청
       
-      console.log(this.feed);
+      // console.log(this.feed);
       const formData = new FormData();
       formData.append("file", this.imageFile)
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
-      addFeed(formData, (response) => {
-        console.log(response);
+      addFeed(formData, () => {
+        // console.log(response);
         if (this.stompClient && this.stompClient.connected) {
           //소켓이 연결되어있을 때만 알림 전송
-          console.log('피드 알림보냄~~')
+          // console.log('피드 알림보냄~~')
           this.stompClient.send(`/send/feed/${this.user.userId}`, {});
         }
         // const feedno = response.data.id;
@@ -173,7 +176,7 @@ export default {
       this.imageUrl = null;
     },
     onChangeImages(e) {
-      console.log(e.target.files);
+      // console.log(e.target.files);
       const file = e.target.files[0];
       this.imageFile = file;
       this.imageUrl = URL.createObjectURL(file);
@@ -186,7 +189,7 @@ export default {
     },
     onClickAuto(e){
         this.keyword=e.target.dataset.keyword;
-        console.log(e.target.dataset);
+        // console.log(e.target.dataset);
         this.feed.location = e.target.dataset.location;
         this.feed.exId = e.target.dataset.id;
         this.feed.exName = e.target.dataset.keyword;
