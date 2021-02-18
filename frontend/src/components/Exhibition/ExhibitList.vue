@@ -88,7 +88,7 @@ export default {
       user.userId,
       (res)=>{
         this.ex_list=res.data;
-        console.llog(this.ex_list);
+        console.log("전시회데이터 "+this.ex_list);
         this.initMap();
       },
       (err)=>{
