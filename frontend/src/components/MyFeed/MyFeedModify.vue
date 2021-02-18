@@ -76,7 +76,7 @@ export default {
     // this.feed.userId = this.user.userId;
     // this.feed.userImg = this.user.userImg;
     // this.feed.userName = this.user.userName;
-    console.log(this.$route.params.feed);
+    // console.log(this.$route.params.feed);
     // this.feed.location = this.$route.params.feed.location;
     // this.feed.feedText = this.$route.params.feed.feedText;
     this.imageUrl = this.$route.params.feed.feedImg;
@@ -94,14 +94,14 @@ export default {
     modifyFeed() {
       // 먼저 알림창 함 띄우고 동의하면
       // axios로 백에 요청
-      console.log(this.imageFile);
-      console.log(this.feed.location);
-      console.log(this.feed.feedText);
+      // console.log(this.imageFile);
+      // console.log(this.feed.location);
+      // console.log(this.feed.feedText);
       const formData = new FormData();
       formData.append("file", this.imageFile)
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
-      modifyFeed(formData, (response) => {
-        console.log(response);
+      modifyFeed(formData, () => {
+        // console.log(response);
         // const feedno = response.data.id;
         this.$router.replace({
           name:"UserFeedList",
@@ -122,7 +122,7 @@ export default {
       this.imageUrl = null;
     },
     onChangeImages(e) {
-      console.log(e.target.files);
+      // console.log(e.target.files);
       const file = e.target.files[0];
       this.imageFile = file;
       this.imageUrl = URL.createObjectURL(file);

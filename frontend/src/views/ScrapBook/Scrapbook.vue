@@ -121,8 +121,8 @@ export default {
       deleteScrapBook(
         user.userId,
         this.deleteId,
-        (res) => {
-          console.log("북마크 삭제 완료" + res.data);
+        () => {
+          // console.log("북마크 삭제 완료" + res.data);
           this.getScrapBook();
           this.$bvModal.hide("pos-check-modal");
         },

@@ -158,7 +158,7 @@ export default {
         sendUserId: this.user.userId,
         getUserId:this.$route.params.userId, 
       }
-      console.log(params);
+      // console.log(params);
       http
       .put(`/api/user/follow/${params.sendUserId}/${params.getUserId}`)
       .then((response) => {
@@ -166,7 +166,7 @@ export default {
         if(response) {
           if (this.stompClient && this.stompClient.connected) {
               //소켓이 연결되어있을 때만 알림 전송
-              console.log('팔로요청 보냄')
+              // console.log('팔로요청 보냄')
               this.stompClient.send(
                 `/send/follow/${params.sendUserId}/${params.getUserId}`, //서버로 팔로우 알림을 보내야한다고 요청
                 {}
@@ -187,8 +187,8 @@ export default {
       }
       http
       .delete(`/api/user/follow/${params.sendUserId}/${params.getUserId}`)
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -216,7 +216,7 @@ export default {
       
     },
     seeDetail(feedno){
-      console.log(feedno);
+      // console.log(feedno);
       // detail페이지로 이동하면서 라우터 안에 피드id를 같이 보냄
       this.$router.replace({
         name: "UserFeedDetail",
@@ -289,7 +289,7 @@ export default {
       })
       .then(() => {
         this.imageUrl = this.userInfo.userImg;
-        console.log(this.userInfo.userId);
+        // console.log(this.userInfo.userId);
         listMyfeed(this.userInfo.userId,
           (response) => {
             this.feeds=response.data;
@@ -308,7 +308,7 @@ export default {
         http
         .get(`/api/user/follow/${me}/${you}`)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           
           this.following = response.data;
           

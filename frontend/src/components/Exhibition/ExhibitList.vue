@@ -211,7 +211,7 @@ export default {
                 alert('오류가 발생하였습니다.');
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }else if(scrap == 1){ // 스크랩 눌린 상태 
         if(this.target==="online"){
           for(let i=0; i<this.online_list.length; i++){
@@ -249,7 +249,7 @@ export default {
                 alert('오류가 발생하였습니다.');
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
       }
     },
     // handleScroll(){

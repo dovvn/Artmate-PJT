@@ -211,21 +211,21 @@ export default {
       let socket = new SockJS(serverURL);
       let stompClient = Stomp.over(socket);
       this.$store.commit('setStompClient', stompClient); //store에 있는 stompClient에게 소켓 등록
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
-      console.log(this.stompClient);
+      // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+      // console.log(this.stompClient);
       this.stompClient.connect(
         //소켓 연결
         {},
         (frame) => {
           this.connected = true;
           // console.log(this.stompClient);
-          console.log('소켓 연결 성공', frame);
+          // console.log('소켓 연결 성공', frame);
           this.stompClient.subscribe(
             //신호 받기를 기다림
             `/get/follow/${this.user.userId}`, //팔로우 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('팔로우 알림!!');
+              // console.log('팔로우 알림!!');
               this.showNew();
             }
           );
@@ -234,7 +234,7 @@ export default {
             `/get/feed/${this.user.userId}`, //새 피드 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('새 피드 알림!!');
+              // console.log('새 피드 알림!!');
               this.showNew();
             }
           );
@@ -243,7 +243,7 @@ export default {
             `/get/like/${this.user.userId}`, //좋아요 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('좋아요 알림!!');
+              // console.log('좋아요 알림!!');
               this.showNew();
             }
           );
@@ -253,7 +253,7 @@ export default {
             `/get/login/${this.user.userId}`, //로그인 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('로그인 새 알림!!');
+              // console.log('로그인 새 알림!!');
               this.showNew();
             }
           );
@@ -262,7 +262,7 @@ export default {
             `/get/exhibit/${this.user.userId}`, //로그인 신호가 오는 주소
             (signal) => {
               //신호를 받으면
-              console.log('전시회 알림!!');
+              // console.log('전시회 알림!!');
               this.showNew();
             }
           );
@@ -270,7 +270,7 @@ export default {
           //
         },
         (error) => {
-          console.log(error);
+          console.error(error);
         }
       );
     },
@@ -278,8 +278,8 @@ export default {
       this.$router.push('/mypage');
     },
     onClickBack() {
-      console.log(window.history);
-      console.log();
+      // console.log(window.history);
+      // console.log();
       history.back();
     },
     // onClickMenu(){
@@ -399,7 +399,7 @@ export default {
     //   }
     // }, false)
     // 알림 통신
-    console.log(this.stompClient);
+    // console.log(this.stompClient);
     if (
       !this.stompClient ||
       this.stompClient == '' ||

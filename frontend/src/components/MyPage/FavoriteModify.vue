@@ -41,10 +41,10 @@ export default {
   created(){
     // myTag[] 정보 가져오기 -> 표시 🎈
     this.userInfo =  this.$store.getters.getUser;
-    console.log(this.userInfo);  
+    // console.log(this.userInfo);  
   },
   mounted(){
-    console.log(this.userInfo.myTag);
+    // console.log(this.userInfo.myTag);
     const list=document.querySelector('.favorite_list');
     for(let i=0; i<list.childNodes.length; i++){
       if(this.userInfo.myTag.includes(list.childNodes[i].dataset.keyword)){

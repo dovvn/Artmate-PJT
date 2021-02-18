@@ -43,7 +43,7 @@ export default {
   },
   created(){
     // params 비어있으면 유저정보 입력페이지로 푸시
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
     this.user.userName=this.$route.params.userName;
     this.user.userId=this.$route.params.userId;
     this.user.userPw=this.$route.params.userPw;
@@ -79,7 +79,7 @@ export default {
       join(
         this.user,
         (res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data===true){
             alert("입력하신 이메일 주소로\n본인 인증 메일을 전송하였습니다.\n본인 인증 후 로그인 해주시기 바랍니다.");
             this.$router.push({
@@ -90,7 +90,7 @@ export default {
             })
           }
           else{
-            console.log(res.data)
+            // console.log(res.data)
           }
         },
         (err)=>{

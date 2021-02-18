@@ -50,7 +50,7 @@ export default {
     // 보여주는애를 정해준다.
     // console.log(this.props.clicked);
     // console.log(this.props);
-    console.log(this.userId);
+    // console.log(this.userId);
     listFollower(this.userId,(response) => {
       this.followers = response.data;
     }, (error) => {
@@ -80,7 +80,7 @@ export default {
   methods: {
     seeFeedList(person) {
     //  this.$router.go(this.$router.currentRoute);
-      console.log(person.userId);
+      // console.log(person.userId);
       this.$emit('seeFeedList',person.userId)
     },
     showFollower() {

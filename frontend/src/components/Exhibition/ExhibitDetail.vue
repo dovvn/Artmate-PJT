@@ -198,26 +198,26 @@ export default {
     created() {
         this.userInfo =  this.$store.getters.getUser;
         this.id = this.$route.params.id;
-        console.log("처음! : "+this.userInfo, this.id);
+        // console.log("처음! : "+this.userInfo, this.id);
         // 피드 가져오는 곳
         http
         .get(`api/exhibit/feed/${this.id}`) 
         .then(res => {
             this.feed = res.data;
-            console.log("이미지: "+res.data.feedImg);
+            // console.log("이미지: "+res.data.feedImg);
         })
         .catch(err => {
             console.error(err);
-            console.log("에러!!!");
+            // console.log("에러!!!");
         });
 
         // 상세 데이터 가져오는 곳
         http
         .get(`api/exhibit/${this.userInfo.userId}/${this.id}`) //${this.id}
         .then(res => {
-            console.log("데이터야 : "+res.data.name);
+            // console.log("데이터야 : "+res.data.name);
             this.exhibit = res.data;
-            console.log("솔묭ㅋㅋ"+this.exhibit.vrLink);
+            // console.log("솔묭ㅋㅋ"+this.exhibit.vrLink);
             if(this.exhibit.location != null){
                 this.initMap();
             }
@@ -243,31 +243,31 @@ export default {
                 http
                 .put(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
-                    console.log(data); 
+                    // console.log(data); 
                     if (data) {
                         // alert('스크랩');
                     } else {
                         alert('오류가 발생하였습니다.');
                     }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => console.error(err));
             }else if(scrap == 1){ // 스크랩 눌린 상태 
                 this.exhibit.scrapCnt --;
                 http
                 .delete(`api/scrapbook/${this.userInfo.userId}/${exid}`)
                 .then((data) => {
-                    console.log(data); 
+                    // console.log(data); 
                     if (data) {
                         // alert('스크랩 취소..');
                     } else {
                         alert('오류가 발생하였습니다.');
                     }
                 })
-                    .catch((err) => console.log(err));
+                    .catch((err) => console.error(err));
             }
         },
         goUserFeedDetail(feedno){ // 피드 게시물로 이동
-            console.log(feedno);
+            // console.log(feedno);
             this.$router.replace({
                 name: "UserFeedDetail",
                 params: {feedno: feedno, status:"ExhibitionDetail"}
@@ -296,9 +296,9 @@ export default {
 
             // 주소-좌표 변환 객체를 생성합니다
             let ps = new kakao.maps.services.Places();
-            console.log(vue.exhibit.location);
+            // console.log(vue.exhibit.location);
             ps.keywordSearch(vue.exhibit.location, (data)=>{
-                console.log(data);
+                // console.log(data);
 
                 for(let arr of data){
                     if(arr.category_name.includes("문화")){

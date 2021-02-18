@@ -42,14 +42,14 @@
                 //on success do something
                 var userId = GoogleUser.Fs.lt;
                 var userName = GoogleUser.Fs.oT;
-                console.log(userId+" "+userName);
+                // console.log(userId+" "+userName);
 
                          axios.post(`https://i4b202.p.ssafy.io:7777/api/user/login/google`,{
                              userId : userId,
                              userName : userName
                          })
                          .then(res => {
-                             console.log(res.data);
+                            //  console.log(res.data);
                              //token 저장
                              const token = res.data['auth-token'];
                               if(token){ //로그인 성공
@@ -62,11 +62,11 @@
                               }
                          })
                          .catch(err => {
-                             console.log(err);
+                             console.error(err);
                          })
                 })
                 .catch(error  => {
-                    console.log(error);
+                    console.error(error);
                 })
             }
         }

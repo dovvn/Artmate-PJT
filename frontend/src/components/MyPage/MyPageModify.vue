@@ -148,11 +148,11 @@ export default {
 
     // console.log(this.userInfo);
     // console.log("img:"+this.imageUrl);
-    console.log("nickname : "+this.nickname);
-    console.log('----------------------------')
-    console.log("userInfo : "+this.userInfo.userName);
-    console.log('----------------------------')
-    console.log("getters : "+this.$store.getters.getUser.userName);
+    // console.log("nickname : "+this.nickname);
+    // console.log('----------------------------')
+    // console.log("userInfo : "+this.userInfo.userName);
+    // console.log('----------------------------')
+    // console.log("getters : "+this.$store.getters.getUser.userName);
     
     this.component = this;
     this.passwordSchema
@@ -182,15 +182,15 @@ export default {
           } else if (data) { // 없으면 true
             alert('사용가능한 닉네임 입니다.');
             this.idCheck = true;
-            console.log("nickname : "+this.nickname);
-            console.log('----------------------------')
-            console.log("userInfo : "+this.userInfo.userName);
-            console.log('----------------------------')
-            console.log("getters : "+this.$store.getters.getUser.userName);
+            // console.log("nickname : "+this.nickname);
+            // console.log('----------------------------')
+            // console.log("userInfo : "+this.userInfo.userName);
+            // console.log('----------------------------')
+            // console.log("getters : "+this.$store.getters.getUser.userName);
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
       
     },
@@ -213,7 +213,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     },
     onClickImageUpload() {
@@ -251,7 +251,7 @@ export default {
                   alert("회원정보 수정에 실패하였습니다.");
                 }
               }).catch((err) => {
-                console.log(err);
+                console.error(err);
               });
         }
       }else{ // 닉 변경안하고 싶으면 그냥 통과
@@ -272,7 +272,7 @@ export default {
               alert("회원정보 수정에 실패하였습니다!!!.");
             }
           }).catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       }
       
@@ -281,7 +281,7 @@ export default {
         this.file = this.$refs.file.files[0];
       },
        onChangeImages(e) {
-            console.log(e.target.files)
+            // console.log(e.target.files)
             const file = e.target.files[0];
             this.imageUrl = URL.createObjectURL(file);
         },
@@ -307,7 +307,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
   },

@@ -628,7 +628,7 @@ export default {
 		http
 		.get(`/api/feed/exhibit/${this.userId}`)
 		.then((response) => {
-			console.log(response.data);
+			// console.log(response.data);
 			this.feeds = response.data;
 		})
 		.catch((error) => {
@@ -638,7 +638,7 @@ export default {
 			http
 			.get(`/api/feed/theme/${this.user.userId}`)
 			.then((response)=>{
-				console.log(response.data);
+				// console.log(response.data);
 				this.theme = response.data;
 			})
 			.catch((error)=> {
@@ -646,7 +646,7 @@ export default {
 			})
 			.then(()=> {
 				// console.log(this.feeds);
-				console.log(this.theme);
+				// console.log(this.theme);
 				init(this.feeds,this.theme);
 			})
 			.then(()=> {

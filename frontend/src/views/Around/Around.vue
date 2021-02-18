@@ -180,7 +180,7 @@ export default {
       }
     },
     onBack(){
-      console.log('back')
+      // console.log('back')
       this.$router.push({name:"Home"});
     },
     onToggle(){

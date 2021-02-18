@@ -232,7 +232,7 @@ export default {
       }
       searchKeyword(this.keyword,
         (res)=>{
-          console.log(res);
+          // console.log(res);
           this.users=res.data.userResult;
           if(res.data.exhibitResult===null) this.exhibitions=[];
           else this.exhibitions=res.data.exhibitResult;
@@ -268,7 +268,7 @@ export default {
       });
     },
     onClickEx(e){
-      console.log(e.target.dataset.id);
+      // console.log(e.target.dataset.id);
       if(e.target.dataset.id){
         this.$router.replace({
           name:"ExhibitionDetail",
