@@ -102,14 +102,14 @@ export default {
   },
   computed:{
     filteredList(){
-      if(this.target==="all")  return this.ex_list.slice(0,10);
+      if(this.target==="all")  return this.ex_list;
       else if(this.target==="best"){
         let tmp = this.ex_list.slice(0,);
         tmp.sort((a,b) => b.scrapCnt-a.scrapCnt);
-        return tmp.slice(0,10);
+        return tmp;
       }
       else if(this.target==="online"){
-        return this.online_list.slice(0,10);
+        return this.online_list;
       }
       else{
         return this.around_list;
