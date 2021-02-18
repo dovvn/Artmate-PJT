@@ -88,6 +88,7 @@ export default {
       user.userId,
       (res)=>{
         this.ex_list=res.data;
+        console.llog(this.ex_list);
         this.initMap();
       },
       (err)=>{
