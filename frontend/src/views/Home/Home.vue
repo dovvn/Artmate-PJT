@@ -66,7 +66,7 @@
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
-        <div v-if="scrap_list.length>0">
+        <div v-if="filteredRecList.length>0">
           <slide style="background-color: transparent;cursor: pointer;" v-for="(item, i) in filteredRecList" :data-id="item.id" :key="i" :index="i">
             <img @click="onClickRecEx" class="recommend_exhibition_poster a" :src="item.exImg" alt="" >
             <div class="recommend_exhibition_info b">
