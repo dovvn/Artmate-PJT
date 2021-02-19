@@ -37,11 +37,10 @@ public class AwsS3Service {
 	@Value("${cloud.aws.credentials.accessKey}")
 	private String accessKey;
 
-	@Value("${cloud.aws.s3.bucket}")
-	private String bucketName;
+	private String bucketName="artmatebucket";
 	
-	@Value("${cloud.aws.region.static}")
-	private String region;
+	//@Value("${cloud.aws.region.static}")
+	private String region="ap-northeast-2";
 
 	public String uploadObject(MultipartFile multipartFile, String storedFileName, String folder) throws IOException {
 		System.out.println("서버에 이미지 업로드 하러 넘어옴");
@@ -52,7 +51,7 @@ public class AwsS3Service {
 		omd.setHeader("filename", multipartFile.getOriginalFilename());
 
 		// Copy file to the target location (Replacing existing file with the same name)
-		int random = (int) Math.floor(Math.random()*9999);
+		int random = (int) Math.floor(Math.random()*99999);
 		
 		AwsS3Client.putObject(new PutObjectRequest(bucketName+"/"+folder, random+storedFileName,
 				multipartFile.getInputStream(), omd));
