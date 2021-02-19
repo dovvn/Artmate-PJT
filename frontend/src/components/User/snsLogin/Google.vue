@@ -1,6 +1,6 @@
 <template>
     <div class="google-login">
-        <button >
+        <button @click="googleLogin">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55" height="55" viewBox="0 0 55 55">
                 <defs>
                     <clipPath id="clip-path">
@@ -28,11 +28,47 @@
                     </g>
                 </g>
             </svg>
-
         </button>
     </div>
 </template>
 
 <script>
-    export default {}
+ import axios from 'axios'
+    export default {
+        methods: {
+            googleLogin() {
+                this.$gAuth.signIn() //로그인 팝업 열림  
+                .then(GoogleUser => {
+                //on success do something
+                var userId = GoogleUser.Fs.lt;
+                var userName = GoogleUser.Fs.oT;
+                // console.log(userId+" "+userName);
+
+                         axios.post(`https://i4b202.p.ssafy.io:7777/api/user/login/google`,{
+                             userId : userId,
+                             userName : userName
+                         })
+                         .then(res => {
+                            //  console.log(res.data);
+                             //token 저장
+                             const token = res.data['auth-token'];
+                              if(token){ //로그인 성공
+                                 localStorage.setItem("access-token", token);
+                                 this.$store.commit("setUserInfo",res.data.user);
+                                 this.$router.push("/home");
+                              }
+                              else{
+                                alert(res.data['message']);
+                              }
+                         })
+                         .catch(err => {
+                             console.error(err);
+                         })
+                })
+                .catch(error  => {
+                    console.error(error);
+                })
+            }
+        }
+    }
 </script>

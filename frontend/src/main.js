@@ -10,20 +10,35 @@ Vue.config.productionTip = false
 import Carousel3d from 'vue-carousel-3d';
 Vue.use(Carousel3d)
 
+
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark} from '@fortawesome/free-regular-svg-icons'
+import { faMapMarkerAlt, faHeart as fasHeart, faBookmark as fasBookmark,faShareAlt,faPaperPlane, faChevronLeft, faUserCircle, faChevronCircleRight, faCommentAlt as fasCommentAlt, faCheckCircle, faEdit ,faGlobeAmericas, faStar as fasStar} from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart, faCommentAlt as farCommentAlt, faBookmark as farBookmark, faFlag as farFlag, faStar as farStar,faCopy as farCopy} from '@fortawesome/free-regular-svg-icons'
 import { faEnvira } from '@fortawesome/free-brands-svg-icons'
 import { faCamera , faPenFancy, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBars, faBell, faTimes, faCheck, faChevronRight,faPallet,faLeaf,faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleUp, faAngleLeft,faAngleDown, faAngleRight, faWalking} from '@fortawesome/free-solid-svg-icons'
+//구글 로그인
+import GAuth from 'vue-google-oauth2'
 
-library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit)
+library.add(faMapMarkerAlt,faEnvira,fasHeart,farHeart, fasBookmark, farBookmark, faShareAlt,faPaperPlane,faChevronLeft, faUserCircle, faChevronCircleRight, fasCommentAlt, farCommentAlt,faCheckCircle, faEdit,faGlobeAmericas, fasStar, farStar,farCopy)
 library.add(faCamera,faPenFancy, faTrashAlt)
-library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf)
+library.add(faSearch, faBars, faBell, faTimes, faCheck,faChevronRight,faPallet,faLeaf,farFlag,faChevronDown)
+library.add(faAngleUp,faAngleRight,faAngleLeft,faAngleDown,faWalking);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+// 날짜형식
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
+
+//구글 로그인
+Vue.use(GAuth, {clientId: '586176925871-o9lo1kb9m1rgft73q8n4sicrh4knvlr6.apps.googleusercontent.com', scope: 'profile email https://www.googleapis.com/auth/plus.login'})
+
+//카카오 로그인
+window.Kakao.init("8ddb98b2ba952c3a17143df31ebbc92d");
 
 new Vue({
   vuetify,
@@ -31,3 +46,4 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+

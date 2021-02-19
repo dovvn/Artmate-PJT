@@ -11,7 +11,5 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import '../../components/css/style.css';
-  
+<style>
 </style>

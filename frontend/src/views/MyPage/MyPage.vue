@@ -12,9 +12,15 @@ export default {
 
 <style>
 .div {
-  width: 380px;
+  width: 760px;
   height: 100%;
   text-align: center;
   margin: 0 auto;
+}
+/* ------------------------------ 반응형 ------------------------------ */
+@media screen and (max-width: 1024px) {
+  .div {
+    width: 380px;
+  }
 }
 </style>

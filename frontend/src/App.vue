@@ -14,6 +14,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './components/css/style.css';
+@import './components/css/common.css';
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
   // -webkit-font-smoothing: antialiased;
@@ -21,6 +23,7 @@ export default {
   // text-align: center;
   // color: #2c3e50;
   height: 100%;
+  // background-color: rgba(var(--b3f,250,250,250),1)
 }
 
 #nav {

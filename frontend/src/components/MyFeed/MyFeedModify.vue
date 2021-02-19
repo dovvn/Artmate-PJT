@@ -30,11 +30,11 @@
       <label class="label__exhibition" for="exhibition">
         <font-awesome-icon :icon="['fab', 'envira']" class="exhibition__icon"/>
       </label>
-      <input class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text">
+      <input v-model="feed.exName" class="input__exhibition" id="exhibition" placeholder="전시회 이름" type="text">
     </div>
     <div class="line"></div>
     <textarea v-model="feed.feedText" class="input__content"></textarea>
-    <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">등록</button>
+    <button @click="$bvModal.show('pos-check-modal')" class="addfeed__button">수정</button>
     <b-modal id="pos-check-modal" modal-class="pos-check-modal" hide-header hide-footer centered size="sm">
       <div class="pos-check-modal-body">
         <div class="pos-check-title">
@@ -60,6 +60,8 @@ export default {
         location: '',
         feedText: '',
         id: '',
+        exName: '',
+        exId: '',
         userId: '',
         userImg: '',
         userName: '',
@@ -68,42 +70,46 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user","isLogin"])
   },
   created() {
-    this.feed.userId = this.user.userId;
-    this.feed.userImg = this.user.userImg;
-    this.feed.userName = this.user.userName;
-    console.log(this.$route.params.feed);
-    this.feed.location = this.$route.params.feed.location;
-    this.feed.feedText = this.$route.params.feed.feedText;
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
+    // this.feed.userId = this.user.userId;
+    // this.feed.userImg = this.user.userImg;
+    // this.feed.userName = this.user.userName;
+    // console.log(this.$route.params.feed);
+    // this.feed.location = this.$route.params.feed.location;
+    // this.feed.feedText = this.$route.params.feed.feedText;
     this.imageUrl = this.$route.params.feed.feedImg;
-    this.feed.id = this.$route.params.feed.id;
+    // this.feed.id = this.$route.params.feed.id;
+    this.feed= this.$route.params.feed;
   },
   methods: {
     goBack() {
       // console.log('눌러');
       this.$router.replace({
-        name: "MyFeedView",
+        name: "UserFeedDetail",
         params: {feedno: this.feed.id}
       });
     },
     modifyFeed() {
       // 먼저 알림창 함 띄우고 동의하면
       // axios로 백에 요청
-      console.log(this.imageFile);
-      console.log(this.feed.location);
-      console.log(this.feed.feedText);
+      // console.log(this.imageFile);
+      // console.log(this.feed.location);
+      // console.log(this.feed.feedText);
       const formData = new FormData();
       formData.append("file", this.imageFile)
       formData.append("feed", new Blob([JSON.stringify(this.feed)], { type: "application/json" }));
-      modifyFeed(formData, (response) => {
-        console.log(response);
+      modifyFeed(formData, () => {
+        // console.log(response);
         // const feedno = response.data.id;
-        this.$router.push({
-          name:"MyFeedList",
+        this.$router.replace({
+          name:"UserFeedList",
           // name: "MyFeedView",
-          // params: {feedno: feedno}
+          params: {status: "modified",userId:this.user.userId}
         });
       }, (error) => {
         console.error(error);
@@ -119,7 +125,7 @@ export default {
       this.imageUrl = null;
     },
     onChangeImages(e) {
-      console.log(e.target.files);
+      // console.log(e.target.files);
       const file = e.target.files[0];
       this.imageFile = file;
       this.imageUrl = URL.createObjectURL(file);
@@ -140,7 +146,7 @@ export default {
 .feedadd {
   display:flex;
   flex-direction: column;
-  max-width:380px;
+  width:380px;
   margin:auto;
 }
 .line {
@@ -160,7 +166,7 @@ export default {
 .back__button {
   position:fixed;
   top:30px;
-  left:20px;
+  margin-left:20px;
   font-weight:700;
 }
 .title {
@@ -250,10 +256,10 @@ label {
   height:40px;
   align-self:center;
 }
-/* 긍정알림 */
+/* ------------------------------ 모달 css --------------------------------- */
 .pos-check-yes-button {
   color:white;
-  background-color:#CB3E47;
+  background-color:#9279e9;
   border-radius:10px;
   font-size:14px;
   width:100px;
@@ -268,7 +274,7 @@ label {
   height:30px;
   margin-left:15px;
 }
-/deep/ .pos-check-modal > .modal-dialog >.modal-content{
+::v-deep .pos-check-modal > .modal-dialog >.modal-content{
   background-color: #E8E8E8;
   border: 1px solid #707070;
   border-radius:15px;
@@ -285,4 +291,17 @@ label {
   text-align:center;
   
 }
+
+/* 반응형 */
+@media screen and (min-width: 1024px) {
+  .feedadd {
+    width:760px;
+  }
+  .img__upload,
+  .img__empty {
+    height:320px;
+  }
+}
+
+/* 반응형 */
 </style>

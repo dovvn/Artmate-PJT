@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.artmate.mapper.SignalMapper">
 	<insert id="insertSignal" parameterType="SignalDto">
-		INSERT INTO artmateDB.Signal (getUserId, sendUserId, exId, sendUserName, img, sigDate, sigType, subType, artmateDB.Signal.read)
-		VALUES (#{getUserId}, #{sendUserId},#{exId},#{sendUserName},#{img},NOW(),#{sigType},#{subType},#{read})
+		INSERT INTO artmateDB.Signal (getUserId, sendUserId, messageId, sigDate, sigType, subType, artmateDB.Signal.read)
+		VALUES (#{getUserId}, #{sendUserId},#{messageId}, #{sigDate},#{sigType},#{subType},#{read})
 	</insert>
 	<delete id="deleteSignal" parameterType="int">
 		DELETE FROM artmateDB.Signal
@@ -16,6 +16,25 @@
 	<select id="selectAllSignal" parameterType="String" resultType="SignalDto">
 		SELECT * FROM artmateDB.Signal
 		WHERE getUserId=#{getUserId}
+		ORDER BY sigDate DESC, id DESC
+	</select>
+	<select id="countNewSignal" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM artmateDB.Signal
+		WHERE getUserId=#{userId} and artmateDB.Signal.read=0
+	</select>
+	<select id="selectExhibitSignal" parameterType="String" resultType="SignalDto">
+		SELECT s.*, e.exImg as img, e.name as exName, e.description description, e.startDate as startDate, e.endDate as endDate
+		FROM artmateDB.Signal s INNER JOIN Exhibition e ON s.messageId = e.id
+		WHERE getUserId=#{userId} and sigType = 0
+		ORDER BY sigDate DESC, id DESC
+	</select>
+	<select id="selectFeedSignal" parameterType="String" resultType="SignalDto">
+		SELECT s.*, u.userName as sendUserName, CASE WHEN (subType=0) THEN u.userImg
+                                        ELSE (SELECT feedImg From Feed WHERE id = s.messageId)
+										END AS img
+		FROM artmateDB.Signal s INNER JOIN User u ON s.sendUserId = u.userId
+		WHERE getUserId=#{userId} and sigType = 1
 		ORDER BY sigDate DESC, id DESC
 	</select>
 </mapper>

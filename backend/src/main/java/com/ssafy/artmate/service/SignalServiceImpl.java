@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.SignalDto;
+import com.ssafy.artmate.dto.SignalDto;
 import com.ssafy.artmate.mapper.SignalMapper;
 
 @Service
@@ -42,6 +42,21 @@ public class SignalServiceImpl implements SignalService{
 	@Override
 	public List<SignalDto> selectAllSignal(String getUserId) {
 		return sqlSession.getMapper(SignalMapper.class).selectAllSignal(getUserId);
+	}
+
+	@Override
+	public int countNewSignal(String userId) {
+		return sqlSession.getMapper(SignalMapper.class).countNewSignal(userId);
+	}
+
+	@Override
+	public List<SignalDto> selectExhibitSignal(String getUserId) {
+		return sqlSession.getMapper(SignalMapper.class).selectExhibitSignal(getUserId);
+	}
+
+	@Override
+	public List<SignalDto> selectFeedSignal(String getUserId) {
+		return sqlSession.getMapper(SignalMapper.class).selectFeedSignal(getUserId);
 	} 
 	
 

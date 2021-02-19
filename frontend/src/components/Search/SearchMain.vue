@@ -1,5 +1,5 @@
 <template>
-  <div id="SearchMain" class="serarch_main wrap">
+  <div id="SearchMain" class="search_main">
     <nav class="search_nav">
       <div @click="onBack" class="search_back_btn">
         <font-awesome-icon icon="chevron-left"/>
@@ -8,22 +8,39 @@
         <span>검색</span>
       </div>
     </nav>
-    <form class="search_input_box">
+    <div class="search_header">무엇을 찾으시나요?</div>
+    <form @submit="onSubmit" class="search_input_box">
       <input
+        maxlength="15"
+        v-model="keyword"
+        @input="onInput"
         type="text"
         class="search_input"
         placeholder="검색어를 입력해주세요"
-        @click="onClickSearch"
       >
       <button class="search_btn">
         <font-awesome-icon icon="search"/>
       </button>
     </form>
-    <div class="full_bar"></div>
-    <section class="search_latest">
+    <div class="search_full_bar"></div>
+    <ul
+      v-if="isShowAuto" 
+      class="keyword_list"
+    >
+      <li
+        class="keyword_item"
+        v-for="(item,idx) in autocomplete"
+        :key="idx"
+        @click="onClickAuto"
+        :data-keyword="item"
+      >
+        <font-awesome-icon :data-keyword="item" class="auto_search_icon" size='sm' icon="search"/>
+        <span class="auto_search_text" :data-keyword="item">{{item}}</span> 
+      </li>
+    </ul>
+    <section class="search_latest" v-if="!isShowAuto && !isSubmit">
       <div class="search_latest_tlt">
         <span>최근 검색어</span>
-        <!-- <button class="search_latest_del_btn">검색기록 지우기</button> -->
       </div>
       <ul class="search_latest_list">
         <li
@@ -31,11 +48,12 @@
           v-for="(item,idx) in keywordLatest"
           :key="idx"
         >
-        {{item.value}} <button :data-key="item.key" @click="onDeleteItem">x</button>
+        <button @click="onClickLatest">{{item.value}}</button>&nbsp;
+        <button :data-key="item.key" @click="onDeleteItem">X</button>
         </li>
       </ul>
     </section>
-    <section class="search_popularity">
+    <section class="search_popularity" v-if="!isShowAuto && !isSubmit">
       <div class="search_popularity_tlt">
         <span>인기 검색어</span>
       </div>
@@ -47,24 +65,89 @@
         >
           <div v-if="idx<=2" class="search_popularity_rank purple">{{idx+1}}</div>
           <div v-else class="search_popularity_rank">{{idx+1}}</div>
-          <div class="search_popularity_keyword">{{item}}</div>
+          <div @click="onClickPopularity" class="search_popularity_keyword">{{item}}</div>
         </li>
       </ul>
     </section>
+    <section class="search_user_list" v-if="!isShowAuto && isSubmit">
+      <div class="search_user_list_tlt">
+        유저 검색 결과
+        <span class="search_user_list_txt">  '{{keyword}}' {{users.length}}건</span>
+      </div>
+      <ul class="search_users">
+        <li
+          @click="onClickUser"
+          v-for="(user,idx) in users"
+          :key="idx"
+          :data-idx=idx
+        >
+          <div :data-idx=idx class="search_user">
+            <img :data-idx=idx :src="user.userImg" alt="" class="search_user_img">
+            <p :data-idx=idx class="search_user_name">{{user.userName}}</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="search_exhibition_list" v-if="!isShowAuto && isSubmit">
+      <div class="search_exhibition_list_tlt">
+        전시회 검색 결과
+        <span class="search_exhibition_list_txt">  '{{keyword}}' {{exhibitions.length}}건</span>
+      </div>
+      <ul class="search_exhibitions">
+        <li
+          v-for="(exhibition, idx) in exhibitions"
+          :key="idx"
+        >
+          <div @click="onClickEx" class="search_exhibition" :data-id="exhibition.id">
+            <img :src="exhibition.exImg" alt="" :data-id="exhibition.id">
+            <div class="search_exhibition_info" :data-id="exhibition.id">
+              <p class="search_exhibition_tlt" :data-id="exhibition.id">{{exhibition.name}}</p>
+              <p v-if="exhibition.location" class="search_exhibition_place" :data-id="exhibition.id">{{exhibition.location}}</p>
+              <p v-if="exhibition.startDate && exhibition.endDate" class="search_exhibition_expiration" :data-id="exhibition.id">{{$moment(exhibition.startDate).format('YYYY-MM-DD')}} ~ {{$moment(exhibition.endDate).format('YYYY-MM-DD')}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <footer>
+      <img 
+        class="search_owl_img"
+        src="../../assets/searchPicture.png"
+        alt=""
+        v-if="!isShowAuto && !isSubmit"
+      >
+    </footer>
   </div>
 </template>
 
 <script>
-import { searchPopularity, searchList} from '@/api/search.js';
+import { searchPopularity, searchList, searchKeyword} from '@/api/search.js';
+import * as Hangul from 'hangul-js';
+import {mapState} from "vuex";
 export default {
   name: "SearchMain",
   data: () => {
     return {
+      isShowAuto:false,
+      isSubmit:false,
+      keyword:"",
       latestList:[],
       popularities:[],
+      keywordList:[],
+      users:[],
+      exhibitions:[],
     }
   },
+  mounted(){
+    document.addEventListener('click',this.handleAuto);
+  },
+  destroyed(){
+    document.removeEventListener('click',this.handleAuto);
+  },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     for(let i=0; i<localStorage.length; i++){
       const key=localStorage.key(i);
       if(key!==null && key!=='access-token' && key!=='loglevel:webpack-dev-server')
@@ -80,8 +163,17 @@ export default {
     )
     searchList(
       (res)=>{
-        this.keywordList=res.data;
-        // console.log(this.keywordList);
+        for(let i=0; i<res.data.length; i++){
+          this.keywordList.push({name:res.data[i]});
+        }
+        this.keywordList.forEach(function (item) {
+            var dis = Hangul.disassemble(item.name, true);
+            var cho = dis.reduce(function (prev, elem) {
+                elem = elem[0] ? elem[0] : elem;
+                return prev + elem;
+            }, "");
+            item.diassembled = cho;
+        });
       },
       (err)=>{
         console.error(err);
@@ -89,6 +181,7 @@ export default {
     )
   },
   computed:{
+    ...mapState(["isLogin"]),
     keywordLatest(){
       let sortedList = this.latestList.slice(0,);
       sortedList.sort((a,b) => b*1-a*1)
@@ -97,10 +190,31 @@ export default {
       }
       return sortedList;
     },
+    autocomplete(){
+      const search = this.keyword;
+      const search1 = Hangul.disassemble(search).join("");
+      let arr=[];
+      this.keywordList
+      .filter(function (item) {
+          return item.name.includes(search) || item.diassembled.includes(search1);
+      })
+      .forEach(function (item) {
+        arr.push(item.name);
+      });
+      return arr.slice(0,10);
+    }
   },
   methods:{
+    handleAuto(e){
+      const x=['keyword_list','keyword_item','auto_search_icon','auto_search_text']
+      if(!x.includes(e.target.className)){
+        this.isShowAuto=false;
+      }
+    },
     onBack(){
       history.back();
+      window.scrollY = 0;
+      document.documentElement.scrollTop =0;
     },
     onDeleteItem(e){
       const key=e.target.dataset.key;
@@ -108,13 +222,80 @@ export default {
       const idx=this.latestList.indexOf(key);
       this.latestList.splice(idx,1);
     },
-    onClickSearch(){
-      this.$router.push({name:"SearchList"});
-    }
+    search(){
+      const key=String(Date.now());
+      if(localStorage.length<=9){
+        localStorage.setItem(key,this.keyword);
+        this.latestList.unshift(key);
+      }
+      else{
+        let sortedList=this.latestList;
+        sortedList.sort((a,b) => b*1-a*1);
+        const delKey=sortedList[sortedList.length-1];
+        localStorage.removeItem(delKey);
+        const idx=this.latestList.indexOf(delKey);
+        this.latestList.splice(idx,1,key);
+        localStorage.setItem(key,this.keyword);
+      }
+      searchKeyword(this.keyword,
+        (res)=>{
+          // console.log(res);
+          this.users=res.data.userResult;
+          if(res.data.exhibitResult===null) this.exhibitions=[];
+          else this.exhibitions=res.data.exhibitResult;
+        },
+        (err)=>{
+          console.error(err);
+        }
+      );
+      this.isSubmit=true;
+      document.querySelector('.search_input').blur();
+    },
+    onClickAuto(e){
+      this.keyword=e.target.dataset.keyword;
+      this.search();
+      this.isShowAuto=false;
+    },
+    onInput(e){
+      this.keyword=e.target.value;
+      this.isSubmit=false;
+      if(this.keyword.length===0) this.isShowAuto=false;
+      else this.isShowAuto=true;
+    },
+    onSubmit(e){
+      e.preventDefault();
+      this.search();
+    },
+    onClickUser(e){
+      const user=this.users[e.target.dataset.idx];
+      const userId=user.userId;
+      this.$router.replace({
+        name: "UserFeedList",
+        params: {userId: userId}
+      });
+    },
+    onClickEx(e){
+      // console.log(e.target.dataset.id);
+      if(e.target.dataset.id){
+        this.$router.replace({
+          name:"ExhibitionDetail",
+          params:{
+            id:e.target.dataset.id,
+          }
+        })
+      }
+    },
+    onClickLatest(e){
+      this.keyword=e.target.innerText;
+      this.search();
+    },
+    onClickPopularity(e){
+      this.keyword=e.target.innerText;
+      this.search();
+    },
   }
 }
 </script>
 
-<style scoped>
-  @import '../../components/css/search.css';
+<style scoped src="../../components/css/search.module.css">
 </style>

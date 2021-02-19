@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.FeedDto;
+import com.ssafy.artmate.dto.FeedDto;
 import com.ssafy.artmate.mapper.FeedMapper;
 @Service
 public class FeedServiceImpl implements FeedService{
@@ -32,8 +32,8 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public FeedDto selectOneFeed(int id) {
-		return sqlSession.getMapper(FeedMapper.class).selectOneFeed(id);
+	public FeedDto selectOneFeed(String userId, int id) {
+		return sqlSession.getMapper(FeedMapper.class).selectOneFeed(userId, id);
 	}
 
 	@Override
@@ -112,5 +112,45 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public boolean modifyFeedImg(FeedDto feed) {
 		return sqlSession.getMapper(FeedMapper.class).modifyFeedImg(feed) == 1;
+	}
+
+	@Override
+	public List<FeedDto> selectAllFeed(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectAllFeed(userId);
+	}
+
+	@Override
+	public boolean insertFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).insertFeedExhibit(userId, feedId) == 1;
+	}
+
+	@Override
+	public boolean deleteFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).deleteFeedExhibit(userId, feedId) == 1;
+	}
+
+	@Override
+	public List<FeedDto> selectFeedExhibit(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectFeedExhibit(userId);
+	}
+
+	@Override
+	public boolean checkFeedExhibit(String userId, int feedId) {
+		return sqlSession.getMapper(FeedMapper.class).checkFeedExhibit(userId, feedId)==0;
+	}
+
+	@Override
+	public boolean modifyFeedTheme(String userId, int num) {
+		return sqlSession.getMapper(FeedMapper.class).modifyFeedTheme(userId, num)==1;
+	}
+
+	@Override
+	public int selectFeedTheme(String userId) {
+		return sqlSession.getMapper(FeedMapper.class).selectFeedTheme(userId);
+	}
+
+	@Override
+	public List<FeedDto> selectPopularFeed() {
+		return sqlSession.getMapper(FeedMapper.class).selectPopularFeed();
 	}
 }

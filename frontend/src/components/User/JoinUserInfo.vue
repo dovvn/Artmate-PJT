@@ -259,9 +259,8 @@ export default {
   }
 }
 // test
+// develop
 </script>
 
-<style scoped>
-@import '../../components/css/style.css';
-@import '../../components/css/User/join.css';
+<style scoped src="../../components/css/User/join.module.css">
 </style>

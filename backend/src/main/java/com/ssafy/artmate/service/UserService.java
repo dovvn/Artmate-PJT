@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.UserDto;
 
 public interface UserService {
 	boolean insertUser(UserDto user); //가입
@@ -24,9 +24,12 @@ public interface UserService {
 	boolean deleteFollow(String sendUserId, String getUserId); //언팔로우
 	String selectUserImg(String userId); //db에서 이미지 주소 가져오기
 	UserDto selectUser(String userId); //회원 정보 가져오기
-	boolean selectFollowState(@Param("sendUserId")String sendUserId, @Param("getUserId")String getUserId); //팔로우 상태 가져오기
+	int selectFollowState(@Param("sendUserId")String sendUserId, @Param("getUserId")String getUserId); //팔로우 상태 가져오기
 	boolean insertMyTag(String userId, String tag);//태그 추가하기
 	boolean deleteMyTag(String userId); //태그 삭제하기
 	List<String> selectMyTag(String userId); //태그 가져오기
 	boolean modifyUserImg(UserDto user); //프로필 이미지 수정하기
+	boolean insertKakao(UserDto user); //카카오로 회원가입
+	boolean modifyFollow(String sendUserId, String getUserId); //팔로우 상태 바꾸기
+	List<UserDto> selectAllUser(); //모든 유저의 정보 가져오기
 }

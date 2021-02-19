@@ -10,12 +10,12 @@
           <div class="favorite_text_txt">최대 3가지를 선택해주세요.</div>
         </div>
       <article class="favorite_list">
-        <img id="1" @click="onClick" data-keyword="현대예술" class="favorite_item" src="../../assets/taste_1.jpg" alt="">
-        <img id="2" @click="onClick" data-keyword="수묵화" class="favorite_item" src="../../assets/taste_2.jpg" alt="">
-        <img id="3" @click="onClick" data-keyword="풍경화" class="favorite_item" src="../../assets/taste_3.jpg" alt="">
-        <img id="4" @click="onClick" data-keyword="서양화" class="favorite_item" src="../../assets/taste_4.jpg" alt="">
-        <img id="5" @click="onClick" data-keyword="조각" class="favorite_item" src="../../assets/taste_5.jpg" alt="">
-        <img id="6" @click="onClick" data-keyword="디자인" class="favorite_item" src="../../assets/taste_6.jpg" alt="">
+        <img id="1" @click="onClick" data-keyword="비디오" class="favorite_item" src="../../assets/taste_1.jpg" alt="">
+        <img id="2" @click="onClick" data-keyword="드로잉" class="favorite_item" src="../../assets/taste_2.jpg" alt="">
+        <img id="3" @click="onClick" data-keyword="설치" class="favorite_item" src="../../assets/taste_3.jpg" alt="">
+        <img id="4" @click="onClick" data-keyword="조각" class="favorite_item" src="../../assets/taste_4.jpg" alt="">
+        <img id="5" @click="onClick" data-keyword="사진" class="favorite_item" src="../../assets/taste_5.jpg" alt="">
+        <img id="6" @click="onClick" data-keyword="회화" class="favorite_item" src="../../assets/taste_6.jpg" alt="">
       </article>
       <div id="finish">
       <font-awesome-icon @click="changeFinish" :class="act" :icon="['fas', 'check-circle']" size="3x" />
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
    name: "FavoriteModify",
   data: () => {
@@ -39,13 +40,25 @@ export default {
     }
   },
   created(){
+    if(!this.isLogin) {
+      this.$router.push({name:'Login'})
+    }
     // myTag[] 정보 가져오기 -> 표시 🎈
     this.userInfo =  this.$store.getters.getUser;
-    console.log(this.userInfo);  
-    
+    // console.log(this.userInfo);  
+  },
+  mounted(){
+    // console.log(this.userInfo.myTag);
+    const list=document.querySelector('.favorite_list');
+    for(let i=0; i<list.childNodes.length; i++){
+      if(this.userInfo.myTag.includes(list.childNodes[i].dataset.keyword)){
+        list.childNodes[i].classList.add('checked');
+      }
+    }
   },
   computed:{
-    act: function(){
+    ...mapState(["isLogin"]),
+    act: function(){ 
       if(this.userInfo.myTag.length===0)
         return "act inactive"
       return "act active"
@@ -86,8 +99,7 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../components/css/User/joinFavorite.css';
-  @import '../../components/css/common.css';
+  @import '../../components/css/User/join_favorite.module.css';
 #back2 {
   margin-top: 30px;
   padding-left: 25px;

@@ -11,7 +11,11 @@ import Login from '@/views/User/Login.vue'
 import FindPw from '@/views/User/FindPw.vue'
 import MyFeed from '@/views/MyFeed/MyFeed.vue'
 import MyPage from "@/views/MyPage/MyPage.vue"
-
+import UserFeed from '@/views/UserFeed/UserFeed.vue'
+import Around from '@/views/Around/Around.vue'
+import Exhibition from '@/views/Exhibition/Exhibit.vue'
+import ScrapBook from '@/views/ScrapBook/Scrapbook.vue'
+import My3D from '@/views/My3D/My3D.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -102,21 +106,6 @@ const routes = [
         name:"MyFeedModify",
         component: ()=> import("@/components/MyFeed/MyFeedModify.vue")
       },
-      {
-        path:"detail/:feedno",
-        name:"MyFeedView",
-        component: ()=> import("@/components/MyFeed/MyFeedDetail.vue")
-      },
-      {
-        path:"",
-        name:"MyFeedList",
-        component: ()=> import("@/components/MyFeed/MyFeedList.vue")
-      },
-      {
-        path:"follow",
-        name:"MyFollow",
-        component: ()=> import("@/components/MyFeed/MyPageFollower_ing_List.vue")
-      },
     ]
   },
   {
@@ -126,6 +115,11 @@ const routes = [
     children:[
       {
         path:"",
+        name:"FeedAll",
+        component: ()=> import("@/components/Feed/FeedAllList.vue")
+      },
+      {
+        path:"follow",
         name:"FeedList",
         component: ()=> import("@/components/Feed/FeedList.vue")
       },
@@ -133,11 +127,6 @@ const routes = [
         path:"bookmark",
         name:"BookmarkList",
         component: ()=> import("@/components/Feed/BookmarkList.vue")
-      },
-      {
-        path:"detail/:feedId",
-        name:"FeedDetail",
-        component: ()=> import("@/components/Feed/FeedDetail.vue")
       },
     ],
     redirect: () => {
@@ -166,11 +155,6 @@ const routes = [
         name: "SearchMain",
         component: ()=> import("@/components/Search/SearchMain.vue")
       },
-      {
-        path:"list",
-        name: "SearchList",
-        component: ()=> import("@/components/Search/SearchList.vue")
-      },
     ],
   },
   {
@@ -178,12 +162,76 @@ const routes = [
     name: "Error",
     component: Error
   },
+  {
+    path: "/userfeed",
+    name: "UserFeed",
+    component: UserFeed,
+    children: [
+      {
+        path:"list/:userId",
+        name:"UserFeedList",
+        component: ()=> import("@/components/UserFeed/UserFeedList.vue")
+      },
+      {
+        path:"detail/:feedno",
+        name:"UserFeedDetail",
+        component: ()=> import("@/components/UserFeed/UserFeedDetail.vue")
+      },
+    ],
+  },
+  {
+    path: "/around",
+    name: "Around",
+    component: Around
+  },
+  {
+    path: "/exhibit",
+    name: "Exhibition",
+    component: Exhibition,
+    children: [
+      {
+        path:"",
+        name:"ExhibitionList",
+        component: ()=> import("@/components/Exhibition/ExhibitList.vue")
+      },
+      {
+        path:"detail/:id",
+        name:"ExhibitionDetail",
+        component: ()=> import("@/components/Exhibition/ExhibitDetail.vue")
+      },
+    ],
+  },
+  {
+    path: "/scrap",
+    name: "ScrapBook",
+    component: ScrapBook
+  },
+  {
+    path: "/My3d",
+    name: "My3d",
+    component: My3D,
+    children: [
+      {
+        path:"watch/:userId",
+        name:"3dWatch",
+        component: ()=> import("@/components/My3D/Watch3D.vue")
+      },
+      {
+        path:"customize",
+        name:"3dCustomize",
+        component: ()=> import("@/components/My3D/Customize3D.vue")
+      },
+    ],
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition){
+    return {x:0, y:0}
+  }
 })
 
 

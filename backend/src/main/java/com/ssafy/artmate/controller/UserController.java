@@ -3,15 +3,12 @@ package com.ssafy.artmate.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,18 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.ssafy.artmate.Dto.FeedDto;
-import com.ssafy.artmate.Dto.MyFileDto;
-import com.ssafy.artmate.Dto.SignalDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.SignalDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.service.AwsS3Service;
 import com.ssafy.artmate.service.EmailService;
 import com.ssafy.artmate.service.SignalService;
@@ -59,8 +51,6 @@ public class UserController {
 	private UserService uservice;
 	@Autowired
 	private EmailService eservice;
-	@Autowired
-	private SignalService signalService;
 
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -102,7 +92,7 @@ public class UserController {
 				+ user.getUserName() + "님 안녕하세요.<br />" + "		ARTMATE에 가입해 주셔서 진심으로 감사드립니다.<br />"
 				+ "		아래 <b style=\"color: #A593DF\">'메일 인증'</b> 버튼을 클릭하여 회원가입을 완료해 주세요.<br />" + "		감사합니다."
 				+ "	</p>" + "	<a style=\"color: #FFF; text-decoration: none; text-align: center;\""
-				+ "	href=\"http://localhost:7777/api/user/verifyJoin?userId=" + user.getUserId() + "&accesskey="
+				+ "	href=\"https://i4b202.p.ssafy.io:7777/api/user/verifyJoin?userId=" + user.getUserId() + "&accesskey="
 				+ user.getAccesskey() + "\" target=\"_blank\">" + "		<p"
 				+ "			style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #A593DF; line-height: 45px; vertical-align: middle; font-size: 16px;\">"
 				+ "			메일 인증</p>" + "	</a>" + "	<div style=\"border-top: 1px solid #DDD; padding: 5px;\"></div>"
@@ -132,21 +122,31 @@ public class UserController {
 			@ApiParam(value = "사용자 객체(user)", required = true) @RequestPart(value = "user", required = true) UserDto user,
 			@ApiParam(value = "프로필사진(file)", required = true) @RequestPart(value = "file", required = false) MultipartFile file)
 			throws IOException {
-		String url="";
+		String url=null; 
+		System.out.println("file : "+ file);
+		System.out.println(user.getUserImg()+ " "+uservice.selectUserImg(user.getUserId()));
 		if(file != null) { //파일이 있을때만
 			url = awservice.uploadObject(file, file.getOriginalFilename(), "user"); // aws s3에 이미지 업로드 후 url리턴
 			user.setUserImg(url);// 주소 바꿈
 			uservice.modifyUserImg(user); //유저 이미지 변경
+		}else {
+			if(user.getUserImg().equals(uservice.selectUserImg(user.getUserId()))) {
+				url = user.getUserImg();
+			}else {
+				user.setUserImg(url);
+				uservice.modifyUserImg(user); //유저 이미지 변경
+			}
 		}
 		if (uservice.modifyUserInfo(user)) { //유저 정보 변경(이미지 빼고)
 			if(uservice.selectMyTag(user.getUserId()).size()!=0) { //태그가 이전에 하나라도 있었으면
-				if(!uservice.deleteMyTag(user.getUserId())) return "fail"; //저장되어 있는 태그들 삭제 시도 (실패하면 fail)
+				uservice.deleteMyTag(user.getUserId());
 			}
 			if(user.getMyTag() != null) {
 				for(String tag:user.getMyTag()) {//입력으로 들어온 태그들 저장 시도 (실패하면 fail)
 					if(!uservice.insertMyTag(user.getUserId(),tag)) return "fail";
 				}
 			}
+			System.out.println("url : "+ url);
 			return url; //db 업데이트  
 		}
 		return "fail";
@@ -227,32 +227,24 @@ public class UserController {
 	}
 
 	// 팔로우 하기
-	@ApiOperation(value = "팔로우(* 마이피드에서 사용)", notes = "팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
-	@PutMapping(value = "/user/follow")
+	@ApiOperation(value = "팔로우 요청(* 마이피드에서 사용) - 팔로우(요청)상황:sendUserId가 getUserId를 팔로우 요청 함.", notes = "팔로우 요청에 성공하면 true, 팔로우 요청에 실패하면 false 반환")
+	@PutMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean insertFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @RequestParam("sendUserId") String sendUserId,
-			@ApiParam(value = "팔로우 할 아이디", required = true) @RequestParam("getUserId") String getUserId) {
+			@ApiParam(value = "팔로우 요청을 보내는 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청을 받을 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(uservice.selectFollowState(sendUserId, getUserId)) return false; //이미 팔로우중이면 false리턴
-		/*팔로우 추가에 성공했으면 상대방한테 팔로우 알림 보내기*/
-		SignalDto signal = new SignalDto(getUserId, sendUserId,1,0,0); //받는 아이디, 보내는 아이디, 피드 알림, 팔로우 알림, 읽기x
-		UserDto sendUser = uservice.selectUser(sendUserId);
-		signal.setImg(sendUser.getUserImg()); //프로필 사진 설정
-		signal.setSendUserName(sendUser.getUserName()); //닉네임 설정
-		if(uservice.insertFollow(sendUserId, getUserId)) { //팔로우 추가
-			return signalService.insertSignal(signal);//알림 전송
-		}
-		return false; //팔로우 실패
+		if(uservice.selectFollowState(sendUserId, getUserId)!=-1) return false; //이미 팔로우 요청, 팔로우 중이면 false리턴
+		return uservice.insertFollow(sendUserId, getUserId); //팔로우 추가
 	}
 
 	// 언팔로우 하기
-	@ApiOperation(value = "언팔로우(* 마이피드에서 사용)", notes = "언팔로우에 성공하면 true, 팔로우에 실패하면 false 반환")
-	@DeleteMapping(value = "/user/follow")
+	@ApiOperation(value = "언팔로우 혹은 팔로우 요청 거절(* 마이피드에서 사용) - 팔로우(요청)상황:sendUserId가 getUserId를 팔로우(요청)함.", notes = "언팔로우(or 요청 거절)에 성공하면 true, 언팔로우(or 요청 거절)에 실패하면 false 반환")
+	@DeleteMapping(value = "/user/follow/{sendUserId}/{getUserId}")
 	public Boolean deleteFollow(
-			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @RequestParam("sendUserId") String sendUserId,
-			@ApiParam(value = "언팔로우 할 아이디", required = true) @RequestParam("getUserId") String getUserId) {
+			@ApiParam(value = "팔로우 요청을 한 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청을 받은 아이디", required = true) @PathVariable("getUserId") String getUserId) {
 		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
-		if(!uservice.selectFollowState(sendUserId, getUserId)) return false; //아직 팔로우하지 않았다면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)==-1) return false; //아직 팔로우하지 않았다면 false리턴
 		return uservice.deleteFollow(sendUserId, getUserId);
 	}
 
@@ -283,11 +275,31 @@ public class UserController {
 	}
 
 	// 팔로우했는지 상태 가져오기
-	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 true, 안했으면 false 반환", response = UserDto.class, responseContainer = "List")
+	@ApiOperation(value = "현재 로그인한 회원(sendUserId)이 이 회원(getUserId)을 팔로우했는지 상태 확인하기(* 마이피드에서 사용)", notes = "팔로우 중이면 1, 요청 중이면 0, 아무것도 아니면 -1 반환", response = Integer.class)
 	@GetMapping(value = "/user/follow/{sendUserId}/{getUserId}")
-	public boolean selectFollowState(
+	public int selectFollowState(
 			@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId, @ApiParam(value = "현재 피드의 사용자 아이디", required = true, example = "unni2@naver.com") @PathVariable("getUserId") String getUserId) {
-		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
+		if(sendUserId.equals(getUserId)) return -1; //둘다 같은 아이디가 왔다면 false리턴
 		return uservice.selectFollowState(sendUserId, getUserId);
 	}
+	
+	//회원 이미지 기본으로 변경하기
+	@ApiOperation(value = "회원 프로필 이미지 기본(null)으로 변경하기", notes = "프로필 이미지 변경(null)에 성공하면 true, 실패하면 false 반환", response = Boolean.class)
+	@PutMapping(value="/user/{userId}")
+	public boolean initUserImg(@ApiParam(value = "로그인 된 사용자 아이디", required = true, example = "aaaa@naver.com") @PathVariable("userId") String userId) {
+		UserDto user = uservice.selectUser(userId);
+		user.setUserImg(null); //이미지 null로 지정
+		return uservice.modifyUserImg(user);
+	}
+	//팔로우 승인
+	@ApiOperation(value = "팔로우 승인(* 알림에서 사용)- 팔로우(요청)상황:sendUserId가 getUserId를 팔로우 요청 함.", notes = "팔로우 승인 성공하면 true, 팔로우 승인 실패하면 false 반환")
+	@PutMapping(value = "/user/follow/accept/{sendUserId}/{getUserId}")
+	public Boolean acceptFollow(
+			@ApiParam(value = "팔로우 요청 보낸 아이디", required = true, example = "aaaa@naver.com") @PathVariable("sendUserId") String sendUserId,
+			@ApiParam(value = "팔로우 요청 받은 아이디", required = true) @PathVariable("getUserId") String getUserId) {
+		if(sendUserId.equals(getUserId)) return false; //둘다 같은 아이디가 왔다면 false리턴
+		if(uservice.selectFollowState(sendUserId, getUserId)==1) return false; //이미 팔로우중이면 false리턴
+		return uservice.modifyFollow(sendUserId, getUserId); //팔로우 추가
+	}
+	
 }

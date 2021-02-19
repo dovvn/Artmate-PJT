@@ -6,8 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.artmate.Dto.SearchDto;
-import com.ssafy.artmate.Dto.UserDto;
+import com.ssafy.artmate.dto.ExhibitDto;
+import com.ssafy.artmate.dto.SearchDto;
+import com.ssafy.artmate.dto.UserDto;
 import com.ssafy.artmate.mapper.SearchMapper;
 
 @Service
@@ -48,5 +49,10 @@ public class SearchServiceImpl implements SearchService{
 	public List<String> selectAllKeywords() {
 		return sqlSession.getMapper(SearchMapper.class).selectAllKeywords();
 
+	}
+
+	@Override
+	public List<ExhibitDto> selectKeywordExhibit(String keyword) {
+		return sqlSession.getMapper(SearchMapper.class).selectKeywordExhibit(keyword);
 	}
 }

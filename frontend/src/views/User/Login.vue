@@ -6,7 +6,7 @@
       </div>
       <form @submit="onSubmit" class="login-form">
         <div class="userid_input_box">
-          <label class="user-id_label" for="user-id">아이디(이메일)</label>
+          <label class="user-id_label" for="user-id">아이디(이메일)</label><br>
           <input 
             id="user-id"
             v-model="email"
@@ -21,7 +21,7 @@
         </div>
         <div class="full_bar"></div>
         <p :class="isEmailMessage">{{error.email}}</p>
-<br>
+
         <div class="userpw_input_box">
           <label class="user-pw_label" for="user-pw">비밀번호</label><br>
           <input 
@@ -51,7 +51,7 @@
         <Kakao class="icon"/>
       </div>
       <div class="router">
-        <router-link :to="{name:'JoinUserInfo'}">회원가입</router-link> |
+        <router-link :to="{name:'JoinUserInfo'}">회원가입 | </router-link>
         <router-link :to="{name:'FindPwUserInfo'}">비밀번호 찾기</router-link>
       </div>
     </div>
@@ -155,7 +155,7 @@ export default {
       login(
         user,
         (res)=>{
-          console.log(res.data.user);
+          // console.log(res.data.user);
 
           const token = res.data['auth-token'];
           if(token){
@@ -176,7 +176,5 @@ export default {
 }
 </script>
 
-<style scoped>
-@import '../../components/css/style.css';
-@import '../../components/css/User/login.css';
+<style scoped src="../../components/css/User/login.module.css">
 </style>

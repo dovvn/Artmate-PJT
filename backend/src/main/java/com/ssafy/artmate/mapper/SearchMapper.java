@@ -2,9 +2,12 @@ package com.ssafy.artmate.mapper;
 
 import java.util.List;
 
-import com.ssafy.artmate.Dto.SearchDto;
-import com.ssafy.artmate.Dto.UserDto;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.artmate.dto.ExhibitDto;
+import com.ssafy.artmate.dto.SearchDto;
+import com.ssafy.artmate.dto.UserDto;
+@Mapper
 public interface SearchMapper {
 
 	SearchDto selectKeyword(String keyword);
@@ -13,4 +16,5 @@ public interface SearchMapper {
 	List<UserDto> selectKeywordUser(String keyword);
 	List<String> selectPopular();
 	List<String> selectAllKeywords();
+	List<ExhibitDto> selectKeywordExhibit(String keyword);
 }

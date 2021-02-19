@@ -32,4 +32,10 @@
 		SELECT keyword
 		FROM Search;
 	</select>
+	
+	<select id="selectKeywordExhibit" parameterType="String" resultType="ExhibitDto">
+		SELECT *
+		FROM Exhibition
+		WHERE name like #{keyword}
+	</select>
 </mapper>
