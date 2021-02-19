@@ -66,7 +66,6 @@
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
-        <div v-if="filteredRecList.length>0">
           <slide style="background-color: transparent;cursor: pointer;" v-for="(item, i) in filteredRecList" :data-id="item.id" :key="i" :index="i">
             <img @click="onClickRecEx" class="recommend_exhibition_poster a" :src="item.exImg" alt="" >
             <div class="recommend_exhibition_info b">
@@ -75,8 +74,6 @@
               <p class="recommend_exhibition_duration">{{item.startDate}} ~ {{item.endDate}}</p> -->
             </div>
           </slide>
-          </div>
-          <div v-else>마이페이지에서 내 취향 태그를 선택해주세요 :)</div>
         </carousel-3d>
       </div>
     </div>
@@ -160,7 +157,6 @@ import carousel from 'vue-owl-carousel';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 import {getFeedList} from '@/api/home.js';
 import {getExhibitRecommend,getListForMap,getOnlineExhibit} from '@/api/exhibit.js';
-import {mapState} from "vuex";
 export default {
   name: 'Home',
   components: {
@@ -188,10 +184,6 @@ export default {
     }
   },
   created(){
-
-    if(!this.isLogin) {
-      this.$router.push({name:'Login'})
-    }
     let place = "";
     const vue = this;
     if (navigator.geolocation) {
@@ -305,7 +297,7 @@ export default {
     );
     getFeedList(
       (res)=>{
-        // console.log(res);
+        console.log(res);
         this.popularList=res.data.sort((a,b)=>{b.likeCnt-a.likeCnt}).slice(0,9);
       },
       (err)=>{
@@ -320,28 +312,25 @@ export default {
           this.onlineList.push(ex);
           this.onlineList.shift();
         }
-        // console.log(this.onlineList);
+        console.log(this.onlineList);
       },
       (err)=>{
         console.error(err);
       }
     )
   },
-  mounted(){
-    window.scrollY = 0;
-    document.documentElement.scrollTop =0;
+  // mounted(){
   //     console.log(this.$refs.mycarousel.$children[0]);
   //     console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
   //     console.log(this.$refs.mycarousel.currentIndex);
   //     this.$refs.mycarousel.currentIndex=0;
   //     this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.remove('a');
   //     this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.remove('b');
-  },
+  // },
   destroyed(){
     document.removeEventListener('scroll',this.handleNavi);
   },
   computed:{
-    ...mapState(["isLogin"]),
     aroundEx(){
       if(this.filteredAroundList.length===0) return [];
       else return this.filteredAroundList.slice(0,4);
@@ -367,21 +356,21 @@ export default {
       })
     },
     onClickTag(e){
-      // console.log(this.recommend_tag);
+      console.log(this.recommend_tag);
       document.querySelector(`#${this.recommend_tag}`).classList.remove('active');
       this.recommend_tag = e.target.id;
       this.filteredRecList=this.recommendList.filter((item) => item.tagList.includes(this.recommend_tag));
-      // console.log(this.filteredRecList);
-      // console.log(this.recommend_tag);
-      // console.log(this.$refs.mycarousel.currentIndex);
-      // console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
+      console.log(this.filteredRecList);
+      console.log(this.recommend_tag);
+      console.log(this.$refs.mycarousel.currentIndex);
+      console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
       this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.add('a');
       this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.add('b');
       this.$refs.mycarousel.currentIndex=0;
       this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList.remove('a');
       this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[1].elm.classList.remove('b');
-      // console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
-      // console.log(this.$refs.mycarousel.currentIndex);
+      console.log(this.$refs.mycarousel.$children[this.$refs.mycarousel.currentIndex].$slots.default[0].elm.classList);
+      console.log(this.$refs.mycarousel.currentIndex);
       document.querySelector(`#${this.recommend_tag}`).classList.add('active');
     },
     onClickRecEx(e){
