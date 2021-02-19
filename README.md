@@ -104,8 +104,6 @@ develop/feature/기능명
 
 ---   
  
-## 🖌 화면 정의서       
-[화면정의서 링크](산출물/2.화면정의서/화면정의서-최종.pdf)    
 
 ---    
 ## 🖌 기능
@@ -142,13 +140,22 @@ develop/feature/기능명
 ### 4. 전시회 페이지 및 스크랩북          
 ![전시회](/uploads/bfcf1d1e7dc40786d6254db18831ca47/전시회.gif)        ![전시회상세](/uploads/cde22a23aa50bb32efcd8b69ff423644/전시회상세.gif)    
 
----   
+---    
 
-## 🖌 ER 다이어그램
-![artmate-ERD](/uploads/d44b98d61fc5a6d8168686b6e38c9330/artmate-ERD.png)  
+
+
+# 📑산출물     
+
+##  🖌ER 다이어그램   
+![artmate-ERD](/uploads/d44b98d61fc5a6d8168686b6e38c9330/artmate-ERD.png)         
 
 
 ---    
+
+ 
+## 🖌 화면 정의서        
+[화면정의서 링크](산출물/2.화면정의서/화면정의서-최종.pdf)     
+ 
 
 
 ## 🖌 와이어프레임  
