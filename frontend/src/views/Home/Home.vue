@@ -66,6 +66,7 @@
           @after-slide-change="onAfterSlideChange"
           @before-slide-change="onBeforeSlideChange"
         >
+        <div v-if="scrap_list.length>0">
           <slide style="background-color: transparent;cursor: pointer;" v-for="(item, i) in filteredRecList" :data-id="item.id" :key="i" :index="i">
             <img @click="onClickRecEx" class="recommend_exhibition_poster a" :src="item.exImg" alt="" >
             <div class="recommend_exhibition_info b">
@@ -74,6 +75,8 @@
               <p class="recommend_exhibition_duration">{{item.startDate}} ~ {{item.endDate}}</p> -->
             </div>
           </slide>
+          </div>
+          <div v-else>마이페이지에서 내 취향 태그를 선택해주세요 :)</div>
         </carousel-3d>
       </div>
     </div>
