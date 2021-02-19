@@ -1,10 +1,15 @@
 package com.ssafy.artmate.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -58,6 +63,7 @@ public class ExhibitOnlineController implements ApplicationRunner{ //서버 실�
 			String artist = element.getElementsByTag("span").get(0).text(); //작가
 			String exImg = "http://www.savinamuseum.com/"+element.getElementsByTag("img").attr("src"); //이미지주소
 			
+			
 			ExhibitDto dto = new ExhibitDto(name, description, exImg, artist, vrLink);
 			
 			System.out.println("===============새로운 온라인 전시회 데이터: "+dto.toString());
@@ -92,5 +98,4 @@ public class ExhibitOnlineController implements ApplicationRunner{ //서버 실�
 			}
 		}
 	}
-
 }
