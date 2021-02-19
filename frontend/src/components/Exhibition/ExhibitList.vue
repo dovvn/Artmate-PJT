@@ -84,9 +84,6 @@ export default {
       user.userId,
       (res)=>{
         this.ex_list=res.data;
-        for(var i=0; i<this.ex_list.length; i++){
-          console.log("사진주소 "+this.ex_list[i].exImg);
-        }
         this.initMap();
       },
       (err)=>{
