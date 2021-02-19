@@ -57,8 +57,9 @@ public class AwsS3Service {
 				multipartFile.getInputStream(), omd));
 		
 		//return "https://"+ bucketName +".s3." + region + ".amazonaws.com/"+date.format(new Date())+ "/" + storedFileName; //이미지 url 리턴
-		return AwsS3Client.getResourceUrl(bucketName, folder+"/"+random+storedFileName); //서버에 저장된 이미지 url 리턴
-		
+		String url = AwsS3Client.getResourceUrl(bucketName, folder+"/"+random+storedFileName); //서버에 저장된 이미지 url 리턴
+		System.out.println(url);
+		return url;
 	}
 
 	public void deleteObject(String url, String folder) throws AmazonServiceException {
