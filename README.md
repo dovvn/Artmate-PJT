@@ -121,24 +121,27 @@ develop/feature/기능명
     - 키워드 검색 기능(인기 키워드/최근 키워드)
     - 사용자 후기 피드와 연결
 
-## 💻 기능 스크린 화면 미리보기
+
+## 💻 기능 스크린 화면 미리보기  
 ### 1. 메인 화면           
-![메인](/uploads/8ed8b674cb62cd7d0343e3eaaf55211a/메인.gif)      
+![메인](https://user-images.githubusercontent.com/59414210/108856980-f6bb2d80-762d-11eb-908e-3b38ca6940e1.gif)  
 
 
 
 ### 2. 유저검색 및 전시회 검색 화면
-![검색1](/uploads/8216262296cb57cee71873b73ec85ab2/검색1.gif)        ![검색2](/uploads/c0b50484e7421225ec6853f35eb5b99d/검색2.gif)    
+![검색1](https://user-images.githubusercontent.com/59414210/108856885-ddb27c80-762d-11eb-984b-72ca7d227589.gif) ![검색2](https://user-images.githubusercontent.com/59414210/108856878-dbe8b900-762d-11eb-9dd7-b926ed9cdfa9.gif)  
+
  
  
  
 ### 3. 3D 피드       
-![3d_피드](/uploads/ca9f18f3f642694702efdfc5b70b98d4/3d_피드.gif)        
+![3d_피드](https://user-images.githubusercontent.com/59414210/108856172-1d2c9900-762d-11eb-9b55-6d1ff3414ef6.gif)  
 
 
 
 ### 4. 전시회 페이지 및 스크랩북          
-![전시회](/uploads/bfcf1d1e7dc40786d6254db18831ca47/전시회.gif)        ![전시회상세](/uploads/cde22a23aa50bb32efcd8b69ff423644/전시회상세.gif)    
+![전시회상세](https://user-images.githubusercontent.com/59414210/108856782-bf4c8100-762d-11eb-86ed-596d2c1170c5.gif) 
+![전시회](https://user-images.githubusercontent.com/59414210/108856790-c1164480-762d-11eb-8913-bc8727d76ee2.gif)  
 
 ---    
 
@@ -147,49 +150,32 @@ develop/feature/기능명
 # 📑산출물     
 
 ##  🖌ER 다이어그램   
-![artmate-ERD](/uploads/d44b98d61fc5a6d8168686b6e38c9330/artmate-ERD.png)         
+![artmate-ERD](https://user-images.githubusercontent.com/59414210/108856347-51a05500-762d-11eb-972f-60e3168ec63d.png)  
 
 
 ---    
 
  
 ## 🖌 화면 정의서        
-[화면정의서 링크](산출물/2.화면정의서/화면정의서-최종.pdf)     
+[화면정의서 링크](https://github.com/dovvn/Artmate-PJT/blob/master/%EC%82%B0%EC%B6%9C%EB%AC%BC/2.%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C/%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C-%EC%B5%9C%EC%A2%85.pdf)     
  
 
 
 ## 🖌 와이어프레임  
-
-![슬라이드1](/uploads/c47d726d30989088e274a29e7fce35e0/슬라이드1.PNG)
-
-![슬라이드2](/uploads/b84e639fdd90913d18ef04f10d36979a/슬라이드2.PNG)
-
-![슬라이드3](/uploads/fba7b03e3b7ff39fe09eb0ed9bfa0226/슬라이드3.PNG)
-
-![슬라이드4](/uploads/eac1c35b7d60a0a43a44e5914243851f/슬라이드4.PNG)
-
-![슬라이드5](/uploads/75a1ce4bc31b29db0403c5d1f85df3e3/슬라이드5.PNG)
-
-![슬라이드6](/uploads/309f6782bd2a7032b31c51185311c0e9/슬라이드6.PNG)
-
-![슬라이드7](/uploads/ec0721657d508b72ef30de92af314d8f/슬라이드7.PNG)
-
-![슬라이드8](/uploads/0190e0bf435d798b113bb8a7f6805c1a/슬라이드8.PNG)
-
-![슬라이드9](/uploads/ddd5b44073cb25497c14dc3db0c5e0f6/슬라이드9.PNG)
-
-![슬라이드10](/uploads/27448e9bf10f6a56019a0da78d704ac7/슬라이드10.PNG)
-
-![슬라이드11](/uploads/827dedd8468d69090ba5c2f56a4856e9/슬라이드11.PNG)
-
-![슬라이드12](/uploads/8327416cfbbf951981ceab4ac2b15ae2/슬라이드12.PNG)
-
-![슬라이드13](/uploads/cec3703104332db305cc3d1ac7e301a9/슬라이드13.PNG)
-
-![슬라이드14](/uploads/a17e313d3ff8f60e263f4b606335341c/슬라이드14.PNG)
-
-![슬라이드15](/uploads/2b1d400b265bff1a519872cef868cc7a/슬라이드15.PNG)
-
-![슬라이드16](/uploads/4317c75565d922626efae2d070bf117e/슬라이드16.PNG)
-
-![슬라이드17](/uploads/4e6611f1541fceff5e1b0ff231925e7f/슬라이드17.PNG)
+![슬라이드1](https://user-images.githubusercontent.com/59414210/108857315-50235c80-762e-11eb-83d6-8cd66376b946.PNG)
+![슬라이드2](https://user-images.githubusercontent.com/59414210/108857320-51548980-762e-11eb-88de-474559a5d6fa.PNG)
+![슬라이드3](https://user-images.githubusercontent.com/59414210/108857322-51ed2000-762e-11eb-80eb-d20cd173bf46.PNG)
+![슬라이드4](https://user-images.githubusercontent.com/59414210/108857325-5285b680-762e-11eb-89d1-1be5958c6353.PNG)
+![슬라이드5](https://user-images.githubusercontent.com/59414210/108857326-5285b680-762e-11eb-893d-08deb536c58d.PNG)
+![슬라이드6](https://user-images.githubusercontent.com/59414210/108857332-531e4d00-762e-11eb-84c7-6f9a2174ef50.PNG)
+![슬라이드7](https://user-images.githubusercontent.com/59414210/108857335-531e4d00-762e-11eb-8846-d05d831b6925.PNG)
+![슬라이드8](https://user-images.githubusercontent.com/59414210/108857336-53b6e380-762e-11eb-993f-18eb869c45eb.PNG)
+![슬라이드9](https://user-images.githubusercontent.com/59414210/108857337-544f7a00-762e-11eb-9f70-7dc6221d4d99.PNG)
+![슬라이드10](https://user-images.githubusercontent.com/59414210/108857338-544f7a00-762e-11eb-864c-70b60bae6be0.PNG)
+![슬라이드11](https://user-images.githubusercontent.com/59414210/108857340-54e81080-762e-11eb-96da-45a661131a64.PNG)
+![슬라이드12](https://user-images.githubusercontent.com/59414210/108857341-54e81080-762e-11eb-9ec8-4a3143a67c3e.PNG)
+![슬라이드13](https://user-images.githubusercontent.com/59414210/108857345-5580a700-762e-11eb-8308-2927dfce1469.PNG)
+![슬라이드14](https://user-images.githubusercontent.com/59414210/108857348-5580a700-762e-11eb-9d1a-a9b9e969213c.PNG)
+![슬라이드15](https://user-images.githubusercontent.com/59414210/108857350-56193d80-762e-11eb-859f-e40e28d05751.PNG)
+![슬라이드16](https://user-images.githubusercontent.com/59414210/108857352-56b1d400-762e-11eb-9687-19380cd382c5.PNG)
+![슬라이드17](https://user-images.githubusercontent.com/59414210/108857353-56b1d400-762e-11eb-9bb0-b466dc7af045.PNG)
