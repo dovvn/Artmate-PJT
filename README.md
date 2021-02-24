@@ -2,7 +2,10 @@
 > 주제: 전시회 큐레이팅 SNS  
 > 팀명: 2조(B202)  
 
-### [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
+## 문서
+> [SubPJT1 노션 문서](https://www.notion.so/Sub-PJT1-e0891e06df84454da750b3c8f6f18109)    
+> [SubPJT2 노션 문서](https://www.notion.so/Sub-PJT2-28ab40acd8104c0585008a3fa24f8f22)    
+> [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
 
 ## 🖌 팀원 역할
 | 팀원   | 역할 | 비고                        |
