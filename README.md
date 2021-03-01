@@ -70,51 +70,10 @@
 
 
 
-## 🖌Gantt Chat
-> 매일 오전 미팅 후 업데이트  
-```mermaid  
-gantt
-    title Artmate 진행상황
-    dateFormat  YYYY-MM-DD
-    section 프로젝트 준비
-    SubⅢ Jira,Git 생성  :done, 2021-02-01, 6h
-    SubⅡ 회고          :done, p2,2021-02-01, 12h
-    UI/UX(전시회)   :done,2021-02-04,2d
-    [1차]UCC컨셉, 사전조사   :done,after p2,6h
-    [2차]UCC컨셉   :done,2021-02-07,1d
-    UCC 제작   :done,2021-02-15,3d
+## 🖌Gantt Chat  
+> 매일 오전 미팅 후 업데이트    
+![gantt_chart](https://user-images.githubusercontent.com/59414210/109515356-56ac4b00-7aea-11eb-91a0-11cb489323e8.png)    
 
-    Jira,Git,MM연동   :done,after p2,6h
-    NGinx&Jenkins 자동 배포 :done, 2021-02-03,5d
-    중간 발표PPT: done,2021-02-04,1d
-    최종 발표PPT: done,2021-02-15,3d
-    QA~테스트케이스 수행: done,2021-02-15,3d
-    최종 화면정의서, 와이어프레임 PDF, ERD: done,2021-02-17,2d
-    배포 https 적용:done,2021-02-15,2d
-    README 정리: done,2021-02-18,1d 
-
-    section Frontend
-    SubⅡ SNS 미완성 보완          :done, 2021-02-01, 4d
-    SubⅡ 반응형 보완          :done, 2021-02-01, 4d
-    피드 3D 전시 페이지   :done,2021-02-06,9d
-    지도페이지(카카오맵 API 적용):done,2021-02-07, 8d
-    전시회 상세페이지   :done,2021-02-07,4d
-    스크랩북 페이지   :done,2021-02-08,5d
-    전시회 메인페이지 :done, 2021-02-08, 7d
-
-    전체 디테일 디자인 수정   :done,2021-02-15,4d
-    
-    
-    section Backend
-    실시간 피드 알림 기능(웹소켓)          :done, 2021-02-01, 4d
-    SNS로그인 연동          :done, 2021-02-01, 2d
-    공공데이터API 가져오기/태그 분류          :done, p1, 2021-02-02, 1d
-    취향선택 기능:done,2021-02-06,1d
-    전시회 조회 기능:done,2021-02-05,6d
-    추가 공공데이터API 가져오기          :done, p1, 2021-02-09, 2d
-    실시간 전시회 알림 기능(웹소켓)          :done, 2021-02-08, 3d
-    jsonup/네이버 검색 크롤링     :done, 2021-02-13,2d
-```  
 
  
 
