@@ -1,17 +1,30 @@
+<p align="center">
+  <img width="250px;" src="https://user-images.githubusercontent.com/59414210/109496123-91ef4f80-7ad3-11eb-91f0-edeaeaadbdfe.png" />
+  <br/>전시회 큐레이팅 SNS🎨
+  <p align="center">
+ <img src="https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript">
+ <img src="https://img.shields.io/badge/Vue.js-v4.5.10-green?logo=vue.js">
+ <img src="https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify">
+ <img src="https://img.shields.io/badge/Java-v1.8-blue?logo=java">
+ <img src="https://img.shields.io/badge/spring-v3.9.15-blue?logo=spring">
+ <img src="https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws">
+ <img src="https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql">
+  </p>
+<br/>  
+<br/> 
+</p>  
 
-
-# 🎨 SUBPJT3 : SNS 웹 큐레이팅 서비스    
-> 주제: 전시회 큐레이팅 SNS  
-> 팀명: 2조(B202)  
+> 팀명: 다우니네(B202)  
 > 기간: 2021.01.11 ~ 2021.02.19 (약 7주)  
 
 ## 문서
-> [SubPJT1 노션 문서](https://www.notion.so/Sub-PJT1-e0891e06df84454da750b3c8f6f18109)    
-> [SubPJT2 노션 문서](https://www.notion.so/Sub-PJT2-28ab40acd8104c0585008a3fa24f8f22)    
-> [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)
+> [SubPJT1 노션 문서](https://www.notion.so/Sub-PJT1-e0891e06df84454da750b3c8f6f18109)     
+> [SubPJT2 노션 문서](https://www.notion.so/Sub-PJT2-28ab40acd8104c0585008a3fa24f8f22)     
+> [SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)  
 
-## 🖌 팀원 역할
-| 팀원   | 역할 | 비고                        |
+
+## 역할 분담  
+| 팀원   | 역할 | 내용                        |
 | ------ | ---- | --------------------------- |
 | 정다운 | 팀장 | 백엔드 개발, UI디자인        |
 | 김지형 | 팀원 | 프론트엔드 테크리더, GIT마스터, 화면정의서    |
@@ -19,10 +32,10 @@
 | 정현우 | 팀원 | 프론트엔드 개발, QA(Jira관리), 화면정의서            |
 | 정혜지 | 팀원 | 백엔드 테크리더, 화면정의서           |
 
-## 🖌 기술 스택
-![Javascript](https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript) ![VueJS](https://img.shields.io/badge/Vue.js-v4.5.10-green?logo=vue.js) ![Vuetify](https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify) ![Java](https://img.shields.io/badge/Java-v1.8-blue?logo=java) ![Spring Boot](https://img.shields.io/badge/spring-v3.9.15-blue?logo=spring) ![AWS RDS](https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws) ![MySQL](https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql)   
+## 서비스 개요
 
-## 🖌 Gantt Chat
+
+## Gantt Chat
 > 매일 오전 미팅 후 업데이트  
 ```mermaid  
 gantt
@@ -69,21 +82,23 @@ gantt
     추가 공공데이터API 가져오기          :done, p1, 2021-02-09, 2d
     실시간 전시회 알림 기능(웹소켓)          :done, 2021-02-08, 3d
     jsonup/네이버 검색 크롤링     :done, 2021-02-13,2d
-```
+```  
 
----    
-## ✔ 커밋 메시지
+ 
+
+## 커밋 메시지
 ```bash
 FE(BE)_날짜:완성한 기능(작업 부분-폴더명)
 ```
-* [참고한 커밋 메시지 작성법](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)
+* [참고한 커밋 메시지 작성법](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)  
 
-## ✔ Branch 규칙  
+
+## Branch 규칙  
 ```bash
 develop/feature/기능명  
-```
+```  
 
-## ✔ Code Style
+## Code Style
 | FrontEnd   | BackEnd |
 | ------ | ---- |
 | 1. 폴더명: 첫글자 대문자<br/>→ ex) Feed/Add.vue <br/><br/>2. 파일명: 첫글자 대문자 <br/> → ex) Add.vue <br/><br/>3. 경로명: 소문자 → ex) /add | 1. 클래스명:  첫글자 대문자 + camel case <br/> ex) MainController.java <br/><br/> 2. 함수, 변수: 첫글자 소문자 + camel case <br/> ex) public void setUserName(); |
@@ -108,24 +123,9 @@ develop/feature/기능명
     - /**/ 설명 여러줄 필요할 때 코드 위에 작성
     - // 간단한 주석 코드 옆에 작성
 
----   
  
 
----    
-## 🖌 기능
-- 전시회 SNS 커뮤니티
-    - 실시간 뉴스피드 목록
-    - 피드 좋아요,팔로우,SNS공유 기능
-    - 피드 목록 최신순으로 업데이트
-    - 팔로우, 전시회 등의 알림 센터 기능
-    - 내 게시글로 3D room 제작 및 공유 기능
-- 전시회 정보 공유
-    - 사용자 취향에 맞는 맞춤형 전시회 안내(해시태그 이용)
-    - 스크랩북 기능  
-    - 현재 내 지역 주변의 진행중인 전시회 안내
-    - 원하는 날짜에 진행중인 전시회 안내
-    - 키워드 검색 기능(인기 키워드/최근 키워드)
-    - 사용자 후기 피드와 연결
+
 
 
 ## 💻 기능 스크린 화면 미리보기  
@@ -149,7 +149,7 @@ develop/feature/기능명
 ![전시회상세](https://user-images.githubusercontent.com/59414210/108856782-bf4c8100-762d-11eb-86ed-596d2c1170c5.gif) 
 ![전시회](https://user-images.githubusercontent.com/59414210/108856790-c1164480-762d-11eb-8913-bc8727d76ee2.gif)  
 
----    
+
 
 
 
@@ -165,7 +165,6 @@ develop/feature/기능명
 ## 🖌 화면 정의서        
 [화면정의서 링크](https://github.com/dovvn/Artmate-PJT/blob/master/%EC%82%B0%EC%B6%9C%EB%AC%BC/2.%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C/%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C-%EC%B5%9C%EC%A2%85.pdf)     
  
-
 
 ## 🖌 와이어프레임  
 ![슬라이드1](https://user-images.githubusercontent.com/59414210/108857315-50235c80-762e-11eb-83d6-8cd66376b946.PNG)
