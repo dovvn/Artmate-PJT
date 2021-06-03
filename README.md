@@ -24,6 +24,10 @@
 > [1️⃣SubPJT1 노션 문서](https://www.notion.so/Sub-PJT1-e0891e06df84454da750b3c8f6f18109), [2️⃣SubPJT2 노션 문서](https://www.notion.so/Sub-PJT2-28ab40acd8104c0585008a3fa24f8f22), [3️⃣SubPJT3 노션 문서](https://www.notion.so/Sub-PJT3-2fad4b5e52bb4f3fba869bddfbeecc8f)   
 
 
+### 🎬UCC영상
+[ARTMATE UCC 바로가기](https://www.youtube.com/watch?v=JnqSVhhmnok)  
+
+
 ## 🖌서비스 개요  
 문화생활을 통해 즐거움을 얻고 싶은 사용자를 대상으로 전국의 전시회 정보를 지역별로 제공할뿐만 아니라 사용자 취향 기반의 전시 정보를 추천해줍니다. 또한, 개인 피드를 생성하여 다른 유저들과 SNS기능을 사용해 소통할 수 있으며 등록한 후기는 직접 3D 피드를 커스터마이징하여 집에서도 생생하게 나만의 3D 전시회를 즐길 수 있는 서비스입니다.   
 
